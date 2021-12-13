@@ -5,7 +5,6 @@ Exploration of strategies for migrating a JetStream-enabled NATS cluster or indi
 - [Replacing nodes in a cluster](#replacing-nodes-in-a-cluster)
 - Replacing a single node
 - Moving stream data to a different node
--
 
 ### Replacing nodes in a cluster
 
@@ -13,3 +12,4 @@ This was the driving use case of the repository. I had a cluster deployed on dis
 
 Check out the [replace-cluster-nodes](./replace-cluster-nodes) directory for the general steps and the set of scripts used to run this example locally.
 
+[Watch a demo](https://youtu.be/iFmJ0m1wjY8) of this migration.
