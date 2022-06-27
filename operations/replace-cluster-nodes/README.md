@@ -1,5 +1,7 @@
 # Replace cluster nodes
 
+This example shows an operational process of rotating nodes in and out. The original use case was to replace the underlying hardware of existing nodes in a cluster. The goal is to minimize or remove the need for downtime.
+
 [Watch a demo](https://youtu.be/iFmJ0m1wjY8) of this migration.
 
 The general algorithm works as follows:
@@ -27,7 +29,6 @@ This cycle is required so that the original connection URLs used by the clients 
 
 - The [`nats-sever`](https://github.com/nats-io/nats-server) binary
 - The [`nats`](https://github.com/nats-io/natscli) CLI
-  - This requires a build as [b8660338](https://github.com/nats-io/natscli/commit/b866033898c389136ed4a4c4e876869c9ec08a11) that includes a bug fix
 - The `watch` command
   - Native to Linux, use `brew install watch` on macOS
 
