@@ -25,3 +25,7 @@ Similarly, create a user by providing the account seed.
 ```sh
 go run main.go -account <seed> -name <user>
 ```
+
+## Additional Resources
+
+- [In-depth JWT Guide - Automated sign-up service example](https://docs.nats.io/running-a-nats-service/nats_admin/security/jwt#automated-sign-up-services-jwt-and-nkey-libraries)
