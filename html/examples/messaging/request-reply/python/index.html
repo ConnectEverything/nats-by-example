@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" href="/nats.svg" />
+	<link rel="stylesheet" href="/main.css">
+</head>
+<body>
+	<h1><a href="/">NATS by Example</a></h1>
+
+	<div><a href="/examples/messaging">Messaging</a></div>
+	<h2 class="title">Request-Reply</h2>
+
+	<div class="description">
+	
+	</div>
+
+	<div class="info">
+		<div class="language-tabs">
+		
+		
+		<span class="quiet" title="Not yet implemented">CLI</span>
+		
+		
+		
+		<span><a href="/examples/messaging/request-reply/go">Go</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/request-reply/python">Python</a></span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Deno</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Rust</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C#</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Java</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Ruby</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Elixir</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C</span>
+		
+		
+		</div>
+
+		<div class="source-run">
+			Run this example using
+			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
+			<pre>nbe run messaging/request-reply/python</pre>
+			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/request-reply/python" target=_blank>View source code</a></small>
+		</div>
+	</div>
+
+	<div class="example">
+	
+	
+		<div class="example-comment">
+		
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">asyncio</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">nats</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">nats.errors</span> <span class="kn">import</span> <span class="ne">TimeoutError</span><span class="p">,</span> <span class="n">NoRespondersError</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Get the list of servers.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="n">servers</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&#34;NATS_URL&#34;</span><span class="p">,</span> <span class="s2">&#34;nats://localhost:4222&#34;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">():</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create the connection to NATS which takes a list of servers.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">    <span class="n">nc</span> <span class="o">=</span> <span class="k">await</span> <span class="n">nats</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">servers</span><span class="o">=</span><span class="n">servers</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>In addition to vanilla publish-request, NATS supports request-reply
+interactions as well. Under the covers, this is just an optimized
+pair of publish-subscribe operations.
+The <em>request handler</em> is a subscription that <em>responds</em> to a message
+sent to it. This kind of subscription is called a <em>service</em>.
+We can use the <code>cb</code> argument for asynchronous handling.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">    <span class="k">async</span> <span class="k">def</span> <span class="nf">greet_handler</span><span class="p">(</span><span class="n">msg</span><span class="p">):</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Parse out the second token in the subject (everything after
+<code>greet.</code>) and use it as part of the response message.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">        <span class="n">name</span> <span class="o">=</span> <span class="n">msg</span><span class="o">.</span><span class="n">subject</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">        <span class="n">reply</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;hello, </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">        <span class="k">await</span> <span class="n">msg</span><span class="o">.</span><span class="n">respond</span><span class="p">(</span><span class="n">reply</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&#34;utf8&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">sub</span> <span class="o">=</span> <span class="k">await</span> <span class="n">nc</span><span class="o">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s2">&#34;greet.*&#34;</span><span class="p">,</span> <span class="n">cb</span><span class="o">=</span><span class="n">greet_handler</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Now we can use the built-in <code>request</code> method to do the service request.
+We simply pass a empty body since that is being used right now.
+In addition, we need to specify a timeout since with a request we
+are <em>waiting</em> for the reply and we likely don&rsquo;t want to wait forever.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">    <span class="n">rep</span> <span class="o">=</span> <span class="k">await</span> <span class="n">nc</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s2">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">rep</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">rep</span> <span class="o">=</span> <span class="k">await</span> <span class="n">nc</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s2">&#34;greet.sue&#34;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">rep</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="n">rep</span> <span class="o">=</span> <span class="k">await</span> <span class="n">nc</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s2">&#34;greet.bob&#34;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">rep</span><span class="o">.</span><span class="n">data</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>What happens if the service is <em>unavailable</em>? We can simulate this by
+unsubscribing our handler from above. Now if we make a request, we will
+expect an error.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">sub</span><span class="o">.</span><span class="n">drain</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">try</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="k">await</span> <span class="n">nc</span><span class="o">.</span><span class="n">request</span><span class="p">(</span><span class="s2">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">    <span class="k">except</span> <span class="n">NoRespondersError</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;no responders&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">nc</span><span class="o">.</span><span class="n">drain</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+</span></span><span class="line"><span class="cl">    <span class="n">asyncio</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">main</span><span class="p">())</span></span></span></code></pre>
+		</div>
+	
+	
+	</div>
+</body>
+</html>

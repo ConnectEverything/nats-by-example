@@ -1,0 +1,266 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" href="/nats.svg" />
+	<link rel="stylesheet" href="/main.css">
+</head>
+<body>
+	<h1><a href="/">NATS by Example</a></h1>
+
+	<div><a href="/examples/messaging">Messaging</a></div>
+	<h2 class="title">Pub-Sub</h2>
+
+	<div class="description">
+	
+	</div>
+
+	<div class="info">
+		<div class="language-tabs">
+		
+		
+		<span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/pub-sub/go">Go</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C#</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Java</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Ruby</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Elixir</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C</span>
+		
+		
+		</div>
+
+		<div class="source-run">
+			Run this example using
+			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
+			<pre>nbe run messaging/pub-sub/deno</pre>
+			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/deno" target=_blank>View source code</a></small>
+		</div>
+	</div>
+
+	<div class="example">
+	
+	
+		<div class="example-comment">
+		
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">import</span> <span class="o">*</span> <span class="kr">as</span> <span class="nx">nats</span> <span class="kr">from</span> <span class="s2">&#34;https://deno.land/x/nats@v1.7.1/src/mod.ts&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Get the passed NATS_URL or fallback to the default. This can be
+a comma-separated string.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">servers</span> <span class="o">=</span> <span class="nx">Deno</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="s2">&#34;NATS_URL&#34;</span><span class="p">)</span> <span class="o">||</span> <span class="s2">&#34;nats://localhost:4222&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create a client connection to an available NATS server.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">nc</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">nats</span><span class="p">.</span><span class="nx">connect</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">servers</span>: <span class="kt">servers.split</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>NATS message payloads are byte arrays, so we need to have a codec
+to serialize and deserialize payloads in order to work with them.
+Another built-in codec is JSONCodec or you can implement your own.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">sc</span> <span class="o">=</span> <span class="nx">nats</span><span class="p">.</span><span class="nx">StringCodec</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>To publish a message, simply provide the <em>subject</em> of the message
+and encode the message payload. NATS subjects are hierarchical using
+periods as token delimiters. <code>greet</code> and <code>joe</code> are two distinct tokens.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Now we are going to create a subscription and utilize a wildcard on
+the second token. The effect is that this subscription show <em>interest</em>
+in all messages published to a subject with two tokens where the first
+is <code>greet</code>.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">sub</span> <span class="o">=</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&#34;greet.*&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>We are going to try any get a message which will time out since the
+previously published message is now gone. Core NATS provides an
+at-most-once guarantee. In this context, this means if a subscription</p>
+
+<p>TODO: How can I only fetch one message with a timeout.. this (expectedly) just hangs.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">for</span> <span class="k">await</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">msg</span> <span class="k">of</span> <span class="nx">sub</span><span class="p">)</span> <span class="p">{}</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Let&rsquo;s publish three more messages which will result in the messages
+being forwarded to the local subscription we have.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.pam&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.sue&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Now we can receive these messages. Notice that each subject is different
+but they match the subscription wildcard.
+TODO: likewise.. a more elegant way to only get three messages?</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="k">for</span> <span class="k">await</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">msg</span> <span class="k">of</span> <span class="nx">sub</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">count</span><span class="o">++</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">sc</span><span class="p">.</span><span class="nx">decode</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="si">}</span><span class="sb"> from subject </span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">subject</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="k">if</span> <span class="p">(</span><span class="nx">count</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Process any pending messages and then unsubscribe.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">sub</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Drain the connection which waits for any pending messages (published
+or in a subscription) to be flushed.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">drain</span><span class="p">();</span></span></span></code></pre>
+		</div>
+	
+	
+	</div>
+</body>
+</html>

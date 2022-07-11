@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" href="/nats.svg" />
+	<link rel="stylesheet" href="/main.css">
+</head>
+<body>
+	<h1><a href="/">NATS by Example</a></h1>
+
+	<div><a href="/examples/messaging">Messaging</a></div>
+	<h2 class="title">Request-Reply</h2>
+
+	<div class="description">
+	
+	</div>
+
+	<div class="info">
+		<div class="language-tabs">
+		
+		
+		<span class="quiet" title="Not yet implemented">CLI</span>
+		
+		
+		
+		<span><a href="/examples/messaging/request-reply/go">Go</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/request-reply/python">Python</a></span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Deno</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Rust</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C#</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Java</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Ruby</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Elixir</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C</span>
+		
+		
+		</div>
+
+		<div class="source-run">
+			Run this example using
+			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
+			<pre>nbe run messaging/request-reply/go</pre>
+			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/request-reply/go" target=_blank>View source code</a></small>
+		</div>
+	</div>
+
+	<div class="example">
+	
+	
+		<div class="example-comment">
+		
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/nats-io/nats.go&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Use the env varibale if running in the container, otherwise use the default.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">url</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Getenv</span><span class="p">(</span><span class="s">&#34;NATS_URL&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">url</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">url</span> <span class="p">=</span> <span class="nx">nats</span><span class="p">.</span><span class="nx">DefaultURL</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create an unauthenticated connection to NATS.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nats</span><span class="p">.</span><span class="nf">Connect</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">Drain</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>In addition to vanilla publish-request, NATS supports request-reply
+interactions as well. Under the covers, this is just an optimized
+pair of publish-subscribe operations.
+The <em>request handler</em> is just a subscription that <em>responds</em> to a message
+sent to it. This kind of subscription is called a <em>service</em>.
+For this example, we can use the built-in asynchronous
+subscription in the Go SDK.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">sub</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">Subscribe</span><span class="p">(</span><span class="s">&#34;greet.*&#34;</span><span class="p">,</span> <span class="kd">func</span><span class="p">(</span><span class="nx">msg</span> <span class="o">*</span><span class="nx">nats</span><span class="p">.</span><span class="nx">Msg</span><span class="p">)</span> <span class="p">{</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Parse out the second token in the subject (everything after greet.)
+and use it as part of the response message.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">		<span class="nx">name</span> <span class="o">:=</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">Subject</span><span class="p">[</span><span class="mi">6</span><span class="p">:]</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">msg</span><span class="p">.</span><span class="nf">Respond</span><span class="p">([]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello, &#34;</span> <span class="o">+</span> <span class="nx">name</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="p">})</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Now we can use the built-in <code>Request</code> method to do the service request.
+We simply pass a nil body since that is being used right now. In addition,
+we need to specify a timeout since with a request we are <em>waiting</em> for the
+reply and we likely don&rsquo;t want to wait forever.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">rep</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">Request</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">rep</span><span class="p">.</span><span class="nx">Data</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">rep</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">Request</span><span class="p">(</span><span class="s">&#34;greet.sue&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">rep</span><span class="p">.</span><span class="nx">Data</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">rep</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">Request</span><span class="p">(</span><span class="s">&#34;greet.bob&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">rep</span><span class="p">.</span><span class="nx">Data</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>What happens if the service is <em>unavailable</em>? We can simulate this by
+unsubscribing our handler from above. Now if we make a request, we will
+expect an error.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">sub</span><span class="p">.</span><span class="nf">Unsubscribe</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">_</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">Request</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+		</div>
+	
+	
+	</div>
+</body>
+</html>

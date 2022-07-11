@@ -1,0 +1,334 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" href="/nats.svg" />
+	<link rel="stylesheet" href="/main.css">
+</head>
+<body>
+	<h1><a href="/">NATS by Example</a></h1>
+
+	<div><a href="/examples/auth">Authentication and Authorization</a></div>
+	<h2 class="title">Programmatic NKeys and JWTs</h2>
+
+	<div class="description">
+	<p>The primary (and recommended) way to create and manage accounts and users
+is using the <a href="https://nats-io.github.io/nsc/">nsc</a> command-line tool. However,
+in some applications and use cases, it may be desirable to programmatically
+create accounts or users on-demand as part of an application-level account/user
+workflow rather than out-of-band on the command line (however, shelling out
+to <code>nsc</code> from your program is another option).</p>
+
+<p>This example shows how to programmatically generate NKeys and JWTs.
+This can be used as an alternative or, more likely, in conjunction with the
+nsc tool for creating and managing accounts and users.</p>
+
+<p><em>Note, not all languages currently implement standalone NKeys or JWT libraries.</em></p>
+
+	</div>
+
+	<div class="info">
+		<div class="language-tabs">
+		
+		
+		<span class="quiet" title="Not yet implemented">CLI</span>
+		
+		
+		
+		<span><a href="/examples/auth/nkeys-jwts/go">Go</a></span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Python</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Deno</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Rust</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C#</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Java</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Ruby</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Elixir</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C</span>
+		
+		
+		</div>
+
+		<div class="source-run">
+			Run this example using
+			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
+			<pre>nbe run auth/nkeys-jwts/go</pre>
+			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/auth/nkeys-jwts/go" target=_blank>View source code</a></small>
+		</div>
+	</div>
+
+	<div class="example">
+	
+	
+		<div class="example-comment">
+		
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;log&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/nats-io/jwt/v2&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/nats-io/nkeys&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">log</span><span class="p">.</span><span class="nf">SetFlags</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create a one-off operator keypair for the purpose of this example.
+In practice, the operator needs to be created ahead of time to configure
+the resolver in the server config if you are deploying your own NATS server.
+This most commonly done using the &ldquo;nsc&rdquo; tool:</p>
+
+<pre><code>nsc add operator --generate-signing-key --sys --name local
+nsc edit operator --require-signing-keys --account-jwt-server-url nats://127.0.0.1:4222
+</code></pre>
+
+<p>Signing keys are technically optional, but a best practice.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">operatorKP</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nkeys</span><span class="p">.</span><span class="nf">CreateOperator</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>We can distinguish operators, accounts, and users by the first character
+of their public key: O, A, or U.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">operatorPub</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">operatorKP</span><span class="p">.</span><span class="nf">PublicKey</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;operator pubkey: %s\n&#34;</span><span class="p">,</span> <span class="nx">operatorPub</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Seed values (private key), are prefixed with S.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">operatorSeed</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">operatorKP</span><span class="p">.</span><span class="nf">Seed</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;operator seed: %s\n\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">operatorSeed</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>To create accounts on demand, we start with creatinng a new keypair which
+has a unique ID.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">accountKP</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nkeys</span><span class="p">.</span><span class="nf">CreateAccount</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">accountPub</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">accountKP</span><span class="p">.</span><span class="nf">PublicKey</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;account pubkey: %s\n&#34;</span><span class="p">,</span> <span class="nx">accountPub</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">accountSeed</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">accountKP</span><span class="p">.</span><span class="nf">Seed</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;account seed: %s\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">accountSeed</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create a new set of account claims and configure as desired including a
+readable name, JetStream limits, imports/exports, etc.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">accountClaims</span> <span class="o">:=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewAccountClaims</span><span class="p">(</span><span class="nx">accountPub</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">accountClaims</span><span class="p">.</span><span class="nx">Name</span> <span class="p">=</span> <span class="s">&#34;my-account&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>The only requirement to &ldquo;enable&rdquo; JetStream is setting the disk and memory
+limits to anything other than zero. -1 indicates &ldquo;unlimited&rdquo;.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">accountClaims</span><span class="p">.</span><span class="nx">Limits</span><span class="p">.</span><span class="nx">JetStreamLimits</span><span class="p">.</span><span class="nx">DiskStorage</span> <span class="p">=</span> <span class="o">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">accountClaims</span><span class="p">.</span><span class="nx">Limits</span><span class="p">.</span><span class="nx">JetStreamLimits</span><span class="p">.</span><span class="nx">MemoryStorage</span> <span class="p">=</span> <span class="o">-</span><span class="mi">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Inspecting the claims, you will notice the <code>sub</code> field is the public key
+of the account.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;account claims: %s\n&#34;</span><span class="p">,</span> <span class="nx">accountClaims</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Now we can sign the claims with the operator and encode it to a JWT string.
+To activate this account, it must be pushed up to the server using a client
+connection authenticated as the SYS account user:</p>
+
+<pre><code class="language-go">nc.Request(&quot;$SYS.REQ.CLAIMS.UPDATE&quot;, []byte(accountJWT))
+</code></pre>
+
+<p>If you copy the JWT output to <a href="https://jwt.io">https://jwt.io</a>, you will notice the <code>iss</code>
+field is set to the operator public key.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">accountJWT</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">accountClaims</span><span class="p">.</span><span class="nf">Encode</span><span class="p">(</span><span class="nx">operatorKP</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;account jwt: %s\n\n&#34;</span><span class="p">,</span> <span class="nx">accountJWT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>It is important to call out that the nsc tool handles storage and management
+of operators, accounts, users. It writes out each nkey and JWT to a file and
+organizes everything for you. If you opt to create accounts or users dynamically,
+keep in mind you need to store and manage the keypairs and JWTs yourself.</p>
+
+<p>If we want to create a user, the process is essentially the same as it was
+for the account.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">userKP</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nkeys</span><span class="p">.</span><span class="nf">CreateUser</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">userPub</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">userKP</span><span class="p">.</span><span class="nf">PublicKey</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;user pubkey: %s\n&#34;</span><span class="p">,</span> <span class="nx">userPub</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">userSeed</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">userKP</span><span class="p">.</span><span class="nf">Seed</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;user seed: %s\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">userSeed</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create the user claims, set the name, and configure permissions, expiry time,
+limits, etc.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">userClaims</span> <span class="o">:=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nf">NewUserClaims</span><span class="p">(</span><span class="nx">userPub</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">userClaims</span><span class="p">.</span><span class="nx">Name</span> <span class="p">=</span> <span class="s">&#34;my-user&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;userclaims: %s\n&#34;</span><span class="p">,</span> <span class="nx">userClaims</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Sign and encode the claims as a JWT.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">userJWT</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">userClaims</span><span class="p">.</span><span class="nf">Encode</span><span class="p">(</span><span class="nx">accountKP</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;user jwt: %s\n&#34;</span><span class="p">,</span> <span class="nx">userJWT</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+		</div>
+	
+	
+	</div>
+</body>
+</html>

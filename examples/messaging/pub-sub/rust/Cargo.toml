@@ -1,0 +1,11 @@
+[package]
+name = "app"
+version = "0.0.1"
+edition = "2021"
+
+[[bin]]
+name = "app"
+path = "main.rs"
+
+[dependencies]
+async-nats = "0.16.0"

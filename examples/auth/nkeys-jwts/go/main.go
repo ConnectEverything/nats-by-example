@@ -1,13 +1,3 @@
-// The primary (and recommended) way to create and manage accounts and users
-// is using the [nsc](https://nats-io.github.io/nsc/) command-line tool. However,
-// in some applications and use cases, it may be desirable to programmatically
-// create accounts or users on-demand as part of an application-level account/user
-// workflow rather than out-of-band on the command line (however, shelling out
-// to `nsc` from your program is another option).
-
-// This example shows how to programmatically generate NKeys and JWTs.
-// This can be used as an alternative or, more likely, in conjunction with the
-// nsc tool for creating and managing accounts and users.
 package main
 
 import (
@@ -61,15 +51,17 @@ func main() {
 	accountClaims.Limits.JetStreamLimits.DiskStorage = -1
 	accountClaims.Limits.JetStreamLimits.MemoryStorage = -1
 
-	// Inspecting the claims, you will notice the "sub" field is the public key
+	// Inspecting the claims, you will notice the `sub` field is the public key
 	// of the account.
 	fmt.Printf("account claims: %s\n", accountClaims)
 
 	// Now we can sign the claims with the operator and encode it to a JWT string.
 	// To activate this account, it must be pushed up to the server using a client
 	// connection authenticated as the SYS account user:
-	//		nc.Request("$SYS.REQ.CLAIMS.UPDATE", []byte(accountJWT))
-	// If you copy the JWT output to https://jwt.io, you will notice the "iss"
+	// ```go
+	// nc.Request("$SYS.REQ.CLAIMS.UPDATE", []byte(accountJWT))
+	// ```
+	// If you copy the JWT output to https://jwt.io, you will notice the `iss`
 	// field is set to the operator public key.
 	accountJWT, _ := accountClaims.Encode(operatorKP)
 	fmt.Printf("account jwt: %s\n\n", accountJWT)

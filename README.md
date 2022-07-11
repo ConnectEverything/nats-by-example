@@ -61,9 +61,9 @@ The directory is named after the NATS client they correspond to, either the lang
 
 The entrypoint file is expected to be named `main.[ext]` where the `ext` is language specific or `sh` for a shell script (including CLI usage). In addition to convention, the significance of this file is that the comments will be extracted out to be rendered more legibly alongside the source code.
 
-Each implementation should also include a custom `Dockerfile` to be able to build and run the example in a container acting as a controlled, reproducible environment. If not provided, the tooling will attempt generate one based on the language.
+Each implementation may include a custom `Dockerfile` to be able to build and run the example in a container acting as a controlled, reproducible environment. If not provided, the default one, by language, in the [`docker/`](./docker) directory will be used.
 
-Similiary, a `docker-compose.yaml` will be generated automatically so examples have a fresh NATS server to run against. Implementations should rely on the `NATS_URL` environment variable to when creating a client connection.
+Most examples require a NATS server, so there are two `docker-compose.yaml` files available to run the examples. These are located in the same directory.
 
 In both cases, the `Dockerfile` and `docker-compose.yaml` will have a comment at the top of file indicating if the file was generated and a timestamp. Only files with this comment will be regenerated in subsequent builds.
 
@@ -71,7 +71,17 @@ The final file of interest is the `output.txt` file is generated automatically f
 
 ### Command-line interface
 
-TODO
+This repo comes with a CLI called `nbe`, which is primarily used for building and managing the examples themselves.
+
+However, it has a convenience command called `run` which can any of the examples using Docker Compose. It handles uses the default `Dockerfile` and `docker-compose.yaml` if a custom one is not present for the implementation.
+
+Simply reference the path to the example you want to run.
+
+```
+$ nbe run messaging/pub-sub/go
+```
+
+This currently requies Docker being installed and the version 2 of Compose (which is built-in to the `docker` CLI). By request, other container runtimes may be added (such as [Podman](https://podman.io/)).
 
 ## Contributing
 

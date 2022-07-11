@@ -1,0 +1,204 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="icon" href="/nats.svg" />
+	<link rel="stylesheet" href="/main.css">
+</head>
+<body>
+	<h1><a href="/">NATS by Example</a></h1>
+
+	<div><a href="/examples/messaging">Messaging</a></div>
+	<h2 class="title">Pub-Sub</h2>
+
+	<div class="description">
+	
+	</div>
+
+	<div class="info">
+		<div class="language-tabs">
+		
+		
+		<span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/pub-sub/go">Go</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+		
+		
+		
+		<span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C#</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Java</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Ruby</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">Elixir</span>
+		
+		
+		
+		<span class="quiet" title="Not yet implemented">C</span>
+		
+		
+		</div>
+
+		<div class="source-run">
+			Run this example using
+			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
+			<pre>nbe run messaging/pub-sub/rust</pre>
+			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/rust" target=_blank>View source code</a></small>
+		</div>
+	</div>
+
+	<div class="example">
+	
+	
+		<div class="example-comment">
+		
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">env</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">futures</span>::<span class="n">StreamExt</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cp">#[tokio::main]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">async</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">async_nats</span>::<span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Use the environment variable provided by the container or fallback
+to the default URL.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">nats_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env</span>::<span class="n">var</span><span class="p">(</span><span class="s">&#34;NATS_URL&#34;</span><span class="p">).</span><span class="n">unwrap_or</span><span class="p">(</span><span class="s">&#34;nats://localhost:4222&#34;</span><span class="p">.</span><span class="n">to_string</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create the connection.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">nc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">async_nats</span>::<span class="n">connect</span><span class="p">(</span><span class="n">nats_url</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Publish a message on a subject. This will be discarded since
+there is no interest for the subject via a subscription.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="n">nc</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create a subscription to show interest. This uses a single token
+wildcard, <code>*</code>.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">sub</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nc</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&#34;greet.*&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Publish some messages with different tokens.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="n">nc</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">nc</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;greet.pam&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">nc</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;greet.sue&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Read the next three messages.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">msg1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sub</span><span class="p">.</span><span class="n">next</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Received: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">msg1</span><span class="p">.</span><span class="n">data</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">msg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sub</span><span class="p">.</span><span class="n">next</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Received: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">msg2</span><span class="p">.</span><span class="n">data</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">msg2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sub</span><span class="p">.</span><span class="n">next</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;Received: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">msg3</span><span class="p">.</span><span class="n">data</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">sub</span><span class="p">.</span><span class="n">unsubscribe</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">nc</span><span class="p">.</span><span class="n">flush</span><span class="p">().</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre>
+		</div>
+	
+	
+	</div>
+</body>
+</html>
