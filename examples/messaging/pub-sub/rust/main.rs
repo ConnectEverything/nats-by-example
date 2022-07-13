@@ -23,15 +23,11 @@ async fn main() -> Result<(), async_nats::Error> {
         .take(3);
 
     // Publish to three different subjects matching the wildcard.
-    client
-        .publish("greet.sue".to_string(), "hello".into())
-        .await?;
-    client
-        .publish("greet.bob".to_string(), "hello".into())
-        .await?;
-    client
-        .publish("greet.pam".to_string(), "hello".into())
-        .await?;
+    for subject in ["greet.sue", "greet.bob", "greet.pam"] {
+        client
+            .publish(subject.to_string(), "hello".into())
+            .await?;
+    }
 
     // Notice that the first message received is `greet.sue` and not
     // `greet.joe` which was the first message published. This is because

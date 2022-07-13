@@ -173,15 +173,11 @@ to be consumed for this interaction.</p>
 	
 	
 		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="n">client</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;greet.sue&#34;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">())</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">client</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;greet.bob&#34;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">())</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">client</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;greet.pam&#34;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">())</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">subject</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="p">[</span><span class="s">&#34;greet.sue&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;greet.bob&#34;</span><span class="p">,</span><span class="w"> </span><span class="s">&#34;greet.pam&#34;</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">client</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">subject</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;hello&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span></code></pre>
 		</div>
