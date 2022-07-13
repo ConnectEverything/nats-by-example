@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+	{{template "head"}}
+</head>
+<body>
+  {{template "logo"}}
+
+  <p class="lead">A collection of (runnable) reference examples for NATS.</p>
+
+	{{range .Categories}}
+		<h3>{{.Title}}</h3>
+		<ul>
+		{{range .Examples}}
+			<li><a href="/{{.Path}}">{{.Title}}</a></li>
+		{{end}}
+		</ul>
+	{{end}}
+</body>
+</html>

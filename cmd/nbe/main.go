@@ -51,11 +51,17 @@ the runtime.`,
 				Usage: "Explicit name of the run. This maps to the Compose project name and image tag.",
 				Value: "",
 			},
+			&cli.BoolFlag{
+				Name:  "keep-image",
+				Usage: "If true, the example image is not deleted after the run.",
+				Value: false,
+			},
 		},
 		Action: func(c *cli.Context) error {
 			cluster := c.Bool("cluster")
 			repo := c.String("repo")
 			name := c.String("name")
+			keep := c.Bool("keep-image")
 			example := c.Args().First()
 
 			repo, err := os.Getwd()
@@ -64,10 +70,11 @@ the runtime.`,
 			}
 
 			r := ExampleRunner{
-				Name:    name,
-				Repo:    repo,
-				Example: example,
-				Cluster: cluster,
+				Name:      name,
+				Repo:      repo,
+				Example:   example,
+				Cluster:   cluster,
+				KeepImage: keep,
 			}
 
 			return r.Run()
@@ -135,7 +142,7 @@ the runtime.`,
 			// Enumerate all the example implementations.
 			for _, c := range root.Categories {
 				for _, e := range c.Examples {
-					for _, i := range e.Implementations {
+					for _, i := range e.Clients {
 						if err := generateOutput(repo, i.Path, recreate); err != nil {
 							log.Printf("%s: %s", i.Path, err)
 						}
@@ -177,8 +184,21 @@ the runtime.`,
 				return err
 			}
 
-			os.RemoveAll(output)
-			os.MkdirAll(output, 0755)
+			if _, err := os.Stat(output); os.IsNotExist(err) {
+				if err := os.MkdirAll(output, 0755); err != nil {
+					return err
+				}
+			} else {
+				entries, err := os.ReadDir(output)
+				if err != nil {
+					return err
+				}
+				for _, e := range entries {
+					if err := os.RemoveAll(filepath.Join(output, e.Name())); err != nil {
+						return err
+					}
+				}
+			}
 
 			entries, err := fs.ReadDir(os.DirFS(static), ".")
 			if err != nil {

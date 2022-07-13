@@ -1,9 +1,35 @@
-* {
-  box-sizing: border-box;
+@font-face {
+  font-family: "Cookie";
+  src: url("/Cookie-Regular.ttf");
 }
 
-html, body {
+body {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+body, button, input, select, textarea {
+font-family: "Source Sans Pro",BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+pre {
+  background-color: inherit;
   margin: 0;
+}
+
+#header {
+  font-family: "Cookie";
+  margin-bottom: 20px;
+}
+
+#header a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#header img {
+  display: inline-block;
+  vertical-align: bottom;
+  height: 42px;
 }
 
 .quiet {
@@ -38,6 +64,7 @@ html, body {
   background-color: #ddd;
 }
 
+/*
 a:link, a:visited {
   text-decoration: none;
 }
@@ -45,22 +72,18 @@ a:link, a:visited {
 a:hover, a:active {
   text-decoration: underline;
 }
+*/
 
 .language-tabs span.current {
   background-color: inherit;
 }
 
-body {
-  width: 1000px;
-  margin: 0 auto;
-  font-family: sans-serif;
-  color: #222;
-}
-
+/*
 pre, code {
   font-family: 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace;
   font-size: 0.8rem;
 }
+*/
 
 .example {
   display: flex;

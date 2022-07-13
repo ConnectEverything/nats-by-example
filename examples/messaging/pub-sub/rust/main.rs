@@ -1,40 +1,47 @@
-use std::env;
 use futures::StreamExt;
+use std::{env, str::from_utf8};
 
 #[tokio::main]
 async fn main() -> Result<(), async_nats::Error> {
-    // Use the environment variable provided by the container or fallback
-    // to the default URL.
-    let nats_url = env::var("NATS_URL").unwrap_or("nats://localhost:4222".to_string());
+    // Use the NATS_URL env variable if defined, otherwise fallback
+    // to the default.
+    let nats_url = env::var("NATS_URL").unwrap_or_else(|_| "nats://localhost:4222".to_string());
 
-    // Create the connection.
-    let nc = async_nats::connect(nats_url).await?;
+    let client = async_nats::connect(nats_url).await?;
 
-    // Publish a message on a subject. This will be discarded since
-    // there is no interest for the subject via a subscription.
-    nc.publish("greet.joe".into(), "hello".into()).await?;
+    // Publish a message to the subject `greet.joe`.
+    client
+        .publish("greet.joe".to_string(), "hello".into())
+        .await?;
 
-    // Create a subscription to show interest. This uses a single token
-    // wildcard, `*`.
-    let mut sub = nc.subscribe("greet.*".into()).await?;
+    // `Subscriber` implements Rust iterator, so we can leverage
+    // combinators like `take()` to limit the messages intended
+    // to be consumed for this interaction.
+    let mut subscription = client
+        .subscribe("greet.*".to_string())
+        .await?
+        .take(3);
 
-    // Publish some messages with different tokens.
-    nc.publish("greet.joe".into(), "hello".into()).await?;
-    nc.publish("greet.pam".into(), "hello".into()).await?;
-    nc.publish("greet.sue".into(), "hello".into()).await?;
+    // Publish to three different subjects matching the wildcard.
+    client
+        .publish("greet.sue".to_string(), "hello".into())
+        .await?;
+    client
+        .publish("greet.bob".to_string(), "hello".into())
+        .await?;
+    client
+        .publish("greet.pam".to_string(), "hello".into())
+        .await?;
 
-    // Read the next three messages.
-    let msg1 = sub.next().await?;
-    println!("Received: {:?}", msg1.data);
-
-    let msg2 = sub.next().await?;
-    println!("Received: {:?}", msg2.data);
-
-    let msg2 = sub.next().await?;
-    println!("Received: {:?}", msg3.data);
-
-    sub.unsubscribe().await?;
-    nc.flush().await?;
+    // Notice that the first message received is `greet.sue` and not
+    // `greet.joe` which was the first message published. This is because
+    // core NATS provides at-most-once quality of service (QoS). Subscribers
+    // must be connected showing *interest* in a subject for the server to
+    // relay the message to the client.
+    while let Some(message) = subscription.next().await {
+        println!("{:?} received on {:?}", from_utf8(&message.payload), &message.subject);
+    }
 
     Ok(())
 }
+

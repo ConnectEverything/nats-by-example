@@ -12,6 +12,8 @@ import (
 	"github.com/alecthomas/chroma/lexers"
 	"github.com/alecthomas/chroma/styles"
 	"github.com/russross/blackfriday/v2"
+
+	_ "embed"
 )
 
 var (
@@ -20,6 +22,7 @@ var (
 		Go,
 		Python,
 		Deno,
+		Node,
 		Rust,
 		CSharp,
 		Java,
@@ -30,144 +33,23 @@ var (
 )
 
 var (
-	tocPage = `<!doctype html>
-<html>
-<head>
-	<title>NATS by Example</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" href="/nats.svg" />
-	<link rel="stylesheet" href="/main.css">
-</head>
-<body>
-	<h1>NATS by Example</h1>
+	//go:embed tmpl/head.html
+	headInclude string
 
-	{{range .Categories}}
-		<h3>{{.Title}}</h3>
-		<ul>
-		{{range .Examples}}
-			<li><a href="/{{.Path}}">{{.Title}}</a></li>
-		{{end}}
-		</ul>
-	{{end}}
-</body>
-</html>
-`
+	//go:embed tmpl/logo.html
+	logoInclude string
 
-	catPage = `<!doctype html>
-<html>
-<head>
-	<title>NATS by Example</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" href="/nats.svg" />
-	<link rel="stylesheet" href="/main.css">
-</head>
-<body>
-	<h1><a href="/">NATS by Example</a></h1>
+	//go:embed tmpl/index.html
+	indexPage string
 
-	<h2 class="title">{{.Title}}</h2>
+	//go:embed tmpl/category.html
+	categoryPage string
 
-	<div class="description">
-	{{.Description}}
-	</div>
+	//go:embed tmpl/example.html
+	examplePage string
 
-	<ul>
-	{{range .Examples}}
-		<li><a href="/{{.Path}}">{{.Label}}</a></li>
-	{{end}}
-	</ul>
-</body>
-</html>
-`
-
-	examplePage = `<!doctype html>
-<html>
-<head>
-	<title>NATS by Example</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" href="/nats.svg" />
-	<link rel="stylesheet" href="/main.css">
-</head>
-<body>
-	<h1><a href="/">NATS by Example</a></h1>
-
-	<div><a href="/{{.CategoryPath}}">{{.CategoryTitle}}</a></div>
-	<h2 class="title">{{.Title}}</h2>
-
-	<div class="description">
-	{{.Description}}
-	</div>
-
-	<div class="language-tabs">
-	{{range .Links}}
-	{{if .Path}}
-	<span><a href="/{{.Path}}">{{.Label}}</a></span>
-	{{else}}
-	<span class="quiet" title="Not yet implemented">{{.Label}}</span>
-	{{end}}
-	{{end}}
-	</div>
-
-</body>
-</html>
-`
-
-	implPage = `<!doctype html>
-<html>
-<head>
-	<title>NATS by Example</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" href="/nats.svg" />
-	<link rel="stylesheet" href="/main.css">
-</head>
-<body>
-	<h1><a href="/">NATS by Example</a></h1>
-
-	<div><a href="/{{.CategoryPath}}">{{.CategoryTitle}}</a></div>
-	<h2 class="title">{{.ExampleTitle}}</h2>
-
-	<div class="description">
-	{{.ExampleDescription}}
-	</div>
-
-	<div class="info">
-		<div class="language-tabs">
-		{{range .Links}}
-		{{if .Path}}
-		<span><a href="/{{.Path}}">{{.Label}}</a></span>
-		{{else}}
-		<span class="quiet" title="Not yet implemented">{{.Label}}</span>
-		{{end}}
-		{{end}}
-		</div>
-
-		<div class="source-run">
-			Run this example using
-			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-			<pre>nbe run {{.RunPath}}</pre>
-			<small><a href="{{.SourceURL}}" target=_blank>View source code</a></small>
-		</div>
-	</div>
-
-	<div class="example">
-	{{range .Blocks}}
-	{{if eq .Type "comment" }}
-		<div class="example-comment">
-		{{.HTML}}
-		</div>
-	{{else}}
-		<div class="example-code">
-		{{.HTML}}
-		</div>
-	{{end}}
-	{{end}}
-	</div>
-</body>
-</html>
-`
+	//go:embed tmpl/client.html
+	clientPage string
 )
 
 type LanguageLink struct {
@@ -181,13 +63,13 @@ type Link struct {
 	Path  string
 }
 
-type categoryTmplData struct {
+type categoryData struct {
 	Title       string
 	Description template.HTML
 	Examples    []*Link
 }
 
-type exampleTmplData struct {
+type exampleData struct {
 	CategoryTitle string
 	CategoryPath  string
 	Title         string
@@ -196,7 +78,7 @@ type exampleTmplData struct {
 	Links         []*LanguageLink
 }
 
-type implementationTmplData struct {
+type clientData struct {
 	CategoryTitle      string
 	CategoryPath       string
 	ExampleTitle       string
@@ -210,25 +92,37 @@ type implementationTmplData struct {
 	Blocks             []*RenderedBlock
 }
 
-func generateDocs(root *Root, output string) error {
-	rt, err := template.New("index").Parse(tocPage)
+func generateDocs(root *Root, dir string) error {
+	t := template.New("site")
+
+	_, err := t.New("head").Parse(headInclude)
+	if err != nil {
+		return err
+	}
+
+	_, err = t.New("logo").Parse(logoInclude)
+	if err != nil {
+		return err
+	}
+
+	rt, err := t.New("index").Parse(indexPage)
 	if err != nil {
 		return fmt.Errorf("index: %w", err)
 	}
 
-	ct, err := template.New("category").Parse(catPage)
+	ct, err := t.New("category").Parse(categoryPage)
 	if err != nil {
 		return fmt.Errorf("category: %w", err)
 	}
 
-	et, err := template.New("example").Parse(examplePage)
+	et, err := t.New("example").Parse(examplePage)
 	if err != nil {
 		return fmt.Errorf("example: %w", err)
 	}
 
-	it, err := template.New("impl").Parse(implPage)
+	it, err := t.New("client").Parse(clientPage)
 	if err != nil {
-		return fmt.Errorf("implementation: %w", err)
+		return fmt.Errorf("client: %w", err)
 	}
 
 	buf := bytes.NewBuffer(nil)
@@ -238,7 +132,7 @@ func generateDocs(root *Root, output string) error {
 		return err
 	}
 
-	err = createFile(filepath.Join(output, "index.html"), buf.Bytes())
+	err = createFile(filepath.Join(dir, "index.html"), buf.Bytes())
 	if err != nil {
 		return err
 	}
@@ -254,7 +148,7 @@ func generateDocs(root *Root, output string) error {
 			})
 		}
 
-		cx := categoryTmplData{
+		cx := categoryData{
 			Title:       c.Title,
 			Description: template.HTML(blackfriday.Run([]byte(c.Description))),
 			Examples:    elinks,
@@ -264,7 +158,7 @@ func generateDocs(root *Root, output string) error {
 			return err
 		}
 
-		err = createFile(filepath.Join(output, c.Path, "index.html"), buf.Bytes())
+		err = createFile(filepath.Join(dir, c.Path, "index.html"), buf.Bytes())
 		if err != nil {
 			return err
 		}
@@ -278,7 +172,7 @@ func generateDocs(root *Root, output string) error {
 					Name:  n,
 					Label: availableLanguages[n],
 				}
-				for _, i := range e.Implementations {
+				for _, i := range e.Clients {
 					if i.Language == n {
 						l.Path = i.Path
 						break
@@ -287,7 +181,7 @@ func generateDocs(root *Root, output string) error {
 				links[i] = l
 			}
 
-			ex := exampleTmplData{
+			ex := exampleData{
 				CategoryTitle: c.Title,
 				CategoryPath:  c.Path,
 				Description:   template.HTML(blackfriday.Run([]byte(e.Description))),
@@ -300,12 +194,12 @@ func generateDocs(root *Root, output string) error {
 				return err
 			}
 
-			err = createFile(filepath.Join(output, e.Path, "index.html"), buf.Bytes())
+			err = createFile(filepath.Join(dir, e.Path, "index.html"), buf.Bytes())
 			if err != nil {
 				return err
 			}
 
-			for _, i := range e.Implementations {
+			for _, i := range e.Clients {
 				var rblocks []*RenderedBlock
 				// Always start with a comment block...
 				if i.Blocks[0].Type == CodeBlock {
@@ -320,7 +214,7 @@ func generateDocs(root *Root, output string) error {
 					rblocks = append(rblocks, rb)
 				}
 
-				ix := implementationTmplData{
+				ix := clientData{
 					CategoryTitle:      c.Title,
 					CategoryPath:       c.Path,
 					ExampleTitle:       e.Title,
@@ -337,7 +231,7 @@ func generateDocs(root *Root, output string) error {
 				buf.Reset()
 				err = it.Execute(buf, &ix)
 
-				err = createFile(filepath.Join(output, i.Path, "index.html"), buf.Bytes())
+				err = createFile(filepath.Join(dir, i.Path, "index.html"), buf.Bytes())
 				if err != nil {
 					return err
 				}
@@ -413,8 +307,12 @@ func chromaFormat(code, lang string) (string, error) {
 	switch lang {
 	case Shell, CLI:
 		lang = "sh"
-	case Deno, Node:
+	case Deno, Bun:
 		lang = "ts"
+	case Node:
+		lang = "js"
+	case WebSocket:
+		lang = "js"
 	}
 
 	lexer := lexers.Get(lang)

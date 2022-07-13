@@ -99,6 +99,8 @@ type ExampleRunner struct {
 	Example string
 	// Set to true, to force the use of a cluster.
 	Cluster bool
+	// If true, do not delete the image.
+	KeepImage bool
 	// Defaults to os.Stdout and os.Stderr. Set if these streams need to be
 	// explicitly captured.
 	Stdout io.Writer
@@ -184,14 +186,16 @@ func (r *ExampleRunner) Run() error {
 	if err != nil {
 		return fmt.Errorf("build image: %w", err)
 	}
-	// Remove the built image on exit to prevent
-	// TODO: consider making this optional.. should rely on git hash instead
-	// of random uid.
-	defer exec.Command(
-		"docker",
-		"rmi",
-		imageTag,
-	).Run()
+
+	if !r.KeepImage {
+		// Remove the built image on exit to prevent
+		// TODO: should rely on git hash instead of random uid.
+		defer exec.Command(
+			"docker",
+			"rmi",
+			imageTag,
+		).Run()
+	}
 
 	// Create a temporary directory as the project directory for the temporary
 	// .env file containing the image tag.

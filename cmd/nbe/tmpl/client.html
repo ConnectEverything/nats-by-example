@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+	{{template "head"}}
+</head>
+<body>
+  {{template "logo"}}
+
+  <h2 class="title">{{.ExampleTitle}} <small class="quiet">in {{.CategoryTitle}}</small></h2>
+
+	<div class="description">
+	{{.ExampleDescription}}
+	</div>
+
+	<div class="info">
+		<div class="language-tabs">
+		{{range .Links}}
+		{{if .Path}}
+		<span><a href="/{{.Path}}">{{.Label}}</a></span>
+		{{else}}
+		<span class="quiet" title="Not yet implemented">{{.Label}}</span>
+		{{end}}
+		{{end}}
+		</div>
+
+		<div class="source-run">
+			Run this example using
+			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
+			<pre>nbe run {{.RunPath}}</pre>
+			<small><a href="{{.SourceURL}}" target=_blank>View source code</a></small>
+		</div>
+	</div>
+
+	<div class="example">
+	{{range .Blocks}}
+	{{if eq .Type "comment" }}
+		<div class="example-comment">
+		{{.HTML}}
+		</div>
+	{{else}}
+		<div class="example-code">
+		{{.HTML}}
+		</div>
+	{{end}}
+	{{end}}
+	</div>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+	{{template "head"}}
+</head>
+<body>
+  {{template "logo"}}
+
+	<h2 class="title">{{.Title}}</h2>
+
+	<div class="description">
+	{{.Description}}
+	</div>
+
+	<ul>
+	{{range .Examples}}
+		<li><a href="/{{.Path}}">{{.Label}}</a></li>
+	{{end}}
+	</ul>
+</body>
+</html>

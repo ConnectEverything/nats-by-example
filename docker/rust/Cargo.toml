@@ -9,3 +9,5 @@ path = "main.rs"
 
 [dependencies]
 async-nats = "0.16.0"
+tokio = { version = "1.20.0", features = ["full"] }
+futures = "0.3.21"

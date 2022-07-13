@@ -84,8 +84,8 @@
 		<div class="source-run">
 			Run this example using
 			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-			<pre>nbe run messaging/pub-sub/deno</pre>
-			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/deno" target=_blank>View source code</a></small>
+			<pre>nbe run messaging/pub-sub/node</pre>
+			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/node" target=_blank>View source code</a></small>
 		</div>
 	</div>
 
@@ -99,7 +99,7 @@
 	
 	
 		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">connect</span><span class="p">,</span> <span class="nx">StringCodec</span><span class="p">}</span> <span class="kr">from</span> <span class="s2">&#34;https://deno.land/x/nats@v1.7.1/src/mod.ts&#34;</span><span class="p">;</span>
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">connect</span><span class="p">,</span> <span class="nx">StringCodec</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;nats&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
 		</div>
@@ -115,7 +115,7 @@ a comma-separated string.</p>
 	
 	
 		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">servers</span> <span class="o">=</span> <span class="nx">Deno</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="s2">&#34;NATS_URL&#34;</span><span class="p">)</span> <span class="o">||</span> <span class="s2">&#34;nats://localhost:4222&#34;</span><span class="p">;</span>
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">servers</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NATS_URL</span> <span class="o">||</span> <span class="s2">&#34;nats://localhost:4222&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
 		</div>
@@ -130,8 +130,8 @@ a comma-separated string.</p>
 	
 	
 		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">nc</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">connect</span><span class="p">({</span>
-</span></span><span class="line"><span class="cl">  <span class="nx">servers</span>: <span class="kt">servers.split</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">),</span>
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">nc</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">connect</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">servers</span><span class="o">:</span> <span class="nx">servers</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl"><span class="p">});</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
@@ -184,9 +184,9 @@ is <code>greet</code>.</p>
 	
 	
 		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">sub</span> <span class="o">=</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&#34;greet.*&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">max</span>: <span class="kt">3</span><span class="p">});</span>
-</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">done</span> <span class="o">=</span> <span class="p">(</span><span class="kr">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="k">await</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">msg</span> <span class="k">of</span> <span class="nx">sub</span><span class="p">)</span> <span class="p">{</span>
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">sub</span> <span class="o">=</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&#34;greet.*&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">max</span><span class="o">:</span> <span class="mi">3</span><span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">done</span> <span class="o">=</span> <span class="p">(</span><span class="kr">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="kr">await</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">msg</span> <span class="k">of</span> <span class="nx">sub</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">sc</span><span class="p">.</span><span class="nx">decode</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="si">}</span><span class="sb"> on subject </span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">subject</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
 </span></span><span class="line"><span class="cl">  <span class="p">}</span>
 </span></span><span class="line"><span class="cl"><span class="p">})()</span>
@@ -226,7 +226,7 @@ of service (QoS) for active subscriptions.</p>
 	
 	
 		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">done</span><span class="p">;</span>
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">await</span> <span class="nx">done</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
 		</div>
@@ -242,7 +242,7 @@ messages (published or in a subscription) to be flushed.</p>
 	
 	
 		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">drain</span><span class="p">();</span></span></span></code></pre>
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">drain</span><span class="p">();</span></span></span></code></pre>
 		</div>
 	
 	

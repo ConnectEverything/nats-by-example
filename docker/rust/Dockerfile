@@ -2,16 +2,18 @@ FROM rust:1.62-slim AS build
 
 RUN useradd --create-home --user-group nats
 USER nats
+RUN mkdir /home/nats/code
+
 WORKDIR /home/nats/code
 
 COPY . ./
-RUN cargo install --path .
+RUN cargo build
 
-FROM alpine
+FROM debian:bullseye-slim
 
-RUN adduser nats
+RUN useradd --create-home --user-group nats
 USER nats
 
-COPY --from=build /usr/local/cargo/bin/app /home/nats/
+COPY --from=build /home/nats/code/target/debug/app /home/nats/
 
 CMD ["/home/nats/app"]

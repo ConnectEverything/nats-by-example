@@ -2,21 +2,32 @@
 <html>
 <head>
 	<title>NATS by Example</title>
-	<meta charset="utf-8" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="icon" href="/nats.svg" />
-	<link rel="stylesheet" href="/main.css">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/nats.svg" />
+<link rel="stylesheet" href="/reset.css">
+<link rel="stylesheet" href="/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QV780SHZ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QV780SHZ5');
+</script>
+
 </head>
 <body>
-	<h1>NATS by Example</h1>
+  <h1 id="header">
+  <a href="/">
+    <img src="/nats-horizontal-color.svg" alt="NATS Logo" /> by Example
+  </a>
+</h1>
 
-	
-		<h3>Authentication and Authorization</h3>
-		<ul>
-		
-			<li><a href="/examples/auth/nkeys-jwts">Programmatic NKeys and JWTs</a></li>
-		
-		</ul>
+
+  <p class="lead">A collection of (runnable) reference examples for NATS.</p>
+
 	
 		<h3>Messaging</h3>
 		<ul>
@@ -24,6 +35,13 @@
 			<li><a href="/examples/messaging/pub-sub">Pub-Sub</a></li>
 		
 			<li><a href="/examples/messaging/request-reply">Request-Reply</a></li>
+		
+		</ul>
+	
+		<h3>Authentication and Authorization</h3>
+		<ul>
+		
+			<li><a href="/examples/auth/nkeys-jwts">Programmatic NKeys and JWTs</a></li>
 		
 		</ul>
 	

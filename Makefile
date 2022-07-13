@@ -1,6 +1,21 @@
 GOOS=$(shell go env GOOS)
 GOARCH=$(shell go env GOARCH)
 
+# Requires: go install github.com/githubnemo/CompileDaemon@master
+# for the multi-build support.
+watch:
+	CompileDaemon \
+		-color=true \
+		-pattern="(.+\.go|.+\.html|.+\.css|.+\.svg|.+\.yaml)$$" \
+		-exclude-dir="html" \
+		-exclude-dir="docker" \
+		-exclude-dir="dist" \
+		-exclude-dir=".git" \
+		-build="make build" \
+		-build="nbe build" \
+		-command="nbe serve" \
+		-graceful-kill
+
 build:
 	mkdir -p dist/$(GOOS)-$(GOARCH)
 	go build -o dist/$(GOOS)-$(GOARCH)/nbe ./cmd/nbe

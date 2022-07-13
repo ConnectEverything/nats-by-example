@@ -16,80 +16,82 @@ import (
 )
 
 const (
-	Shell      = "shell"
-	CLI        = "cli"
-	Go         = "go"
-	Rust       = "rust"
-	Java       = "java"
-	CSharp     = "csharp"
-	Deno       = "deno"
-	Node       = "node"
-	TypeScript = "typescript"
-	JavaScript = "javascript"
-	C          = "c"
-	Python     = "python"
-	Ruby       = "ruby"
-	Elixir     = "elixir"
+	Shell     = "shell"
+	CLI       = "cli"
+	Go        = "go"
+	Rust      = "rust"
+	Java      = "java"
+	CSharp    = "csharp"
+	Deno      = "deno"
+	Node      = "node"
+	Bun       = "bun"
+	WebSocket = "websocket"
+	C         = "c"
+	Python    = "python"
+	Ruby      = "ruby"
+	Elixir    = "elixir"
 )
 
 var (
 	// Available client SDKs..
 	availableLanguages = map[string]string{
-		Shell:      "Shell",
-		CLI:        "CLI",
-		Go:         "Go",
-		Rust:       "Rust",
-		Java:       "Java",
-		CSharp:     "C#",
-		Deno:       "Deno",
-		Node:       "Node",
-		TypeScript: "TypeScript",
-		C:          "C",
-		Python:     "Python",
-		Ruby:       "Ruby",
-		Elixir:     "Elixir",
+		Shell:     "Shell",
+		CLI:       "CLI",
+		Go:        "Go",
+		Rust:      "Rust",
+		Java:      "Java",
+		CSharp:    "C#",
+		Deno:      "Deno",
+		Node:      "Node",
+		Bun:       "Bun",
+		WebSocket: "WebSocket",
+		C:         "C",
+		Python:    "Python",
+		Ruby:      "Ruby",
+		Elixir:    "Elixir",
 	}
 
 	// TODO: add more as they become supported..
 	languageMains = map[string]string{
-		Go:         "main.go",
-		Python:     "main.py",
-		CLI:        "main.sh",
-		Shell:      "main.sh",
-		Rust:       "main.rs",
-		Deno:       "main.ts",
-		TypeScript: "main.ts",
-		JavaScript: "main.js",
+		Go:        "main.go",
+		Python:    "main.py",
+		CLI:       "main.sh",
+		Shell:     "main.sh",
+		Rust:      "main.rs",
+		Deno:      "main.ts",
+		Bun:       "main.ts",
+		Node:      "main.js",
+		WebSocket: "main.js",
 	}
 
 	languageMultiCommentDelims = map[string][2]string{
 		Go: {"/*", "*/"},
 		// TODO: java has a few conventions..
 		// https://www.oracle.com/java/technologies/javase/codeconventions-comments.html
-		Java:       {"/*", "*/"},
-		CSharp:     {"/**", "**/"},
-		Deno:       {"/*", "*/"},
-		Node:       {"/*", "*/"},
-		TypeScript: {"/*", "*/"},
-		JavaScript: {"/*", "*/"},
-		C:          {"/*", "*/"},
+		Java:      {"/*", "*/"},
+		CSharp:    {"/**", "**/"},
+		Deno:      {"/*", "*/"},
+		Node:      {"/*", "*/"},
+		Bun:       {"/*", "*/"},
+		WebSocket: {"/*", "*/"},
+		C:         {"/*", "*/"},
 	}
 
 	languageLineCommentDelim = map[string]string{
-		Shell:      "#",
-		CLI:        "#",
-		Go:         "//",
-		Rust:       "//",
-		Java:       "//",
-		CSharp:     "///",
-		TypeScript: "//",
-		Deno:       "//",
-		Node:       "//",
-		JavaScript: "//",
-		C:          "//",
-		Python:     "#",
-		Ruby:       "#",
-		Elixir:     "#",
+		Shell:     "#",
+		CLI:       "#",
+		Go:        "//",
+		Rust:      "//",
+		Java:      "//",
+		CSharp:    "///",
+		Deno:      "//",
+		Node:      "//",
+		Bun:       "//",
+		WebSocket: "//",
+		C:         "//",
+		Python:    "#",
+		Ruby:      "#",
+		Elixir:    "#",
 	}
 )
 
@@ -107,14 +109,14 @@ type Category struct {
 }
 
 type Example struct {
-	Name            string
-	Path            string
-	Title           string
-	Description     string
-	Implementations []*Implementation
+	Name        string
+	Path        string
+	Title       string
+	Description string
+	Clients     []*Client
 }
 
-type Implementation struct {
+type Client struct {
 	Name     string
 	Path     string
 	Language string
@@ -179,7 +181,7 @@ func parseLineType(lang, line string) LineType {
 		}
 		return NormalLine
 
-	case Go, CSharp, Java, TypeScript, Rust, C, Deno, Node:
+	case Go, CSharp, Java, Rust, C, Deno, Node, Bun:
 		if cStyleSingleCommentLineRe.MatchString(line) {
 			return SingleCommentLine
 		}
@@ -317,8 +319,8 @@ func parseReader(lang string, r io.Reader) ([]*Block, error) {
 	return blocks, nil
 }
 
-func readImplmentationDir(path, name string) (*Implementation, error) {
-	x := Implementation{
+func readClientDir(path, name string) (*Client, error) {
+	x := Client{
 		Name: name,
 		Path: path,
 	}
@@ -372,7 +374,7 @@ func readExampleDir(path, name string) (*Example, error) {
 		return nil, fmt.Errorf("read dir: %w", err)
 	}
 
-	ims := make(map[string]*Implementation)
+	ims := make(map[string]*Client)
 	for _, e := range dirs {
 		if !e.IsDir() {
 			continue
@@ -380,7 +382,7 @@ func readExampleDir(path, name string) (*Example, error) {
 
 		name := e.Name()
 		path := filepath.Join(path, name)
-		im, err := readImplmentationDir(path, name)
+		im, err := readClientDir(path, name)
 		if err != nil {
 			if errors.Is(err, os.ErrNotExist) {
 				log.Printf("%s: no main file. skipping...", path)
@@ -391,9 +393,8 @@ func readExampleDir(path, name string) (*Example, error) {
 		ims[name] = im
 	}
 
-	// Append the reminder to the end.
 	for _, i := range ims {
-		x.Implementations = append(x.Implementations, i)
+		x.Clients = append(x.Clients, i)
 	}
 
 	return &x, nil
@@ -446,13 +447,16 @@ func readCategoryDir(path, name string) (*Category, error) {
 			return nil, fmt.Errorf("read example: %s: %w", name, err)
 		}
 
-		if len(ex.Implementations) > 0 {
+		if len(ex.Clients) > 0 {
 			exs[name] = ex
 		}
 	}
 
 	// Append ordered examples first.
 	for _, name := range cm.Examples {
+		if _, ok := exs[name]; !ok {
+			continue
+		}
 		c.Examples = append(c.Examples, exs[name])
 		delete(exs, name)
 	}
@@ -509,8 +513,12 @@ func parseExamples(path string) (*Root, error) {
 		}
 	}
 
-	// Append ordered examples first.
+	// Append ordered categories first.
 	for _, name := range rm.Categories {
+		if _, ok := cats[name]; !ok {
+			continue
+		}
+
 		r.Categories = append(r.Categories, cats[name])
 		delete(cats, name)
 	}
