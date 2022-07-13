@@ -1,9 +1,17 @@
 FROM rust:1.62-slim AS build
 
-WORKDIR /opt/app
+RUN useradd --create-home --user-group nats
+USER nats
+WORKDIR /home/nats/code
+
 COPY . ./
 RUN cargo install --path .
 
 FROM alpine
-COPY --from=build /usr/local/cargo/bin/app /app
-CMD ["/app"]
+
+RUN adduser nats
+USER nats
+
+COPY --from=build /usr/local/cargo/bin/app /home/nats/
+
+CMD ["/home/nats/app"]

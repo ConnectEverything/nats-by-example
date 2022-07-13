@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"io/fs"
 	"io/ioutil"
 	"os"
 	"os/exec"
@@ -29,6 +30,27 @@ func createFile(n string, b []byte) error {
 		return err
 	}
 	return c.Close()
+}
+
+func copyDirContents(src, dst string) error {
+	return fs.WalkDir(os.DirFS(src), ".", func(path string, info fs.DirEntry, err error) error {
+		dstpath := filepath.Join(dst, path)
+		// Ensure any directories are created..
+		if info.IsDir() {
+			return os.MkdirAll(dstpath, 0755)
+		}
+		sf, err := os.Open(filepath.Join(src, path))
+		if err != nil {
+			return err
+		}
+		defer sf.Close()
+		df, err := os.Create(dstpath)
+		if err != nil {
+			return err
+		}
+		_, err = io.Copy(df, sf)
+		return err
+	})
 }
 
 func generateOutput(repo, example string, recreate bool) error {
@@ -100,28 +122,10 @@ func (r *ExampleRunner) Run() error {
 		example = filepath.Join("examples", example)
 	}
 
-	path := filepath.Join(r.Repo, example)
-
+	exampleDir := filepath.Join(r.Repo, example)
 	lang := filepath.Base(example)
 
-	dockerfile := filepath.Join(path, "Dockerfile")
-	if _, err := os.Stat(dockerfile); err != nil {
-		if os.IsNotExist(err) {
-			dockerfile = filepath.Join(r.Repo, "docker", lang, "Dockerfile")
-		} else {
-			return err
-		}
-	}
-
-	if _, err := os.Stat(dockerfile); err != nil {
-		if os.IsNotExist(err) {
-			return fmt.Errorf("no default Dockerfile currently exists for %q", lang)
-		} else {
-			return err
-		}
-	}
-
-	composefile := filepath.Join(path, "docker-compose.yaml")
+	composefile := filepath.Join(exampleDir, "docker-compose.yaml")
 	if _, err := os.Stat(composefile); err != nil {
 		if os.IsNotExist(err) {
 			if r.Cluster {
@@ -143,27 +147,34 @@ func (r *ExampleRunner) Run() error {
 
 	imageTag := fmt.Sprintf("%s:%s", filepath.Join("nbe", r.Example), uid)
 
-	// Create a temporary directory as the project directory for the temporary
-	// .env file containing the image tag.
-	dir, err := ioutil.TempDir("", "")
+	defaultDir := filepath.Join(r.Repo, "docker", lang)
+
+	// Create a temporary directory for the build context of the image.
+	// This will combine all files in the runtime-specific docker/ directory
+	// and the files in the example.
+	buildDir, err := ioutil.TempDir("", "")
 	if err != nil {
 		return fmt.Errorf("temp dir: %w", err)
 	}
 	// Clean up the directory on exit.
-	defer os.RemoveAll(dir)
+	defer os.RemoveAll(buildDir)
 
-	err = createFile(filepath.Join(dir, ".env"), []byte(fmt.Sprintf("IMAGE_TAG=%s", imageTag)))
-	if err != nil {
-		return fmt.Errorf("create .env: %w", err)
+	// Copy default files first.
+	if err := copyDirContents(defaultDir, buildDir); err != nil {
+		return err
 	}
 
-	// Build a temporary image..
+	// Copy example files next..
+	if err := copyDirContents(exampleDir, buildDir); err != nil {
+		return err
+	}
+
+	// Build the temporary image relative to the build directory.
 	c := exec.Command(
 		"docker",
 		"build",
-		"--file", dockerfile,
 		"--tag", imageTag,
-		path,
+		buildDir,
 	)
 
 	c.Stdout = stdout
@@ -182,12 +193,26 @@ func (r *ExampleRunner) Run() error {
 		imageTag,
 	).Run()
 
+	// Create a temporary directory as the project directory for the temporary
+	// .env file containing the image tag.
+	composeDir, err := ioutil.TempDir("", "")
+	if err != nil {
+		return fmt.Errorf("temp dir: %w", err)
+	}
+	// Clean up the directory on exit.
+	defer os.RemoveAll(composeDir)
+
+	err = createFile(filepath.Join(composeDir, ".env"), []byte(fmt.Sprintf("IMAGE_TAG=%s", imageTag)))
+	if err != nil {
+		return fmt.Errorf("create .env: %w", err)
+	}
+
 	// Best effort to bring containers down..
 	defer exec.Command(
 		"docker",
 		"compose",
 		"--project-name", uid,
-		"--project-directory", dir,
+		"--project-directory", composeDir,
 		"--file", composefile,
 		"down",
 		"--remove-orphans",
@@ -199,7 +224,7 @@ func (r *ExampleRunner) Run() error {
 		"docker",
 		"compose",
 		"--project-name", uid,
-		"--project-directory", dir,
+		"--project-directory", composeDir,
 		"--file", composefile,
 		"run",
 		"--no-TTY",

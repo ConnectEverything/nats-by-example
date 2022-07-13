@@ -1,4 +1,4 @@
-module github.com/bruth/nats-by-example/examples/messaging/publish-subscribe/go
+module github.com/bruth/nats-by-example/go
 
 go 1.18
 

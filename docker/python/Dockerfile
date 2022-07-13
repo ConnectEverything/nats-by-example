@@ -1,8 +1,12 @@
-FROM python:3.10.5
+FROM python:3.10
 
-RUN pip install nats-py[nkeys]==2.1.4
+RUN useradd --create-home --user-group nats
+USER nats
 
-WORKDIR /opt/app
-COPY . ./
+WORKDIR /home/nats/code
 
-CMD ["python", "/opt/app/main.py"]
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+COPY . .
+
+CMD ["python", "/home/nats/code/main.py"]

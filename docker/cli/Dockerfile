@@ -1,9 +1,10 @@
 FROM natsio/nats-box:0.12.0
 
-WORKDIR /opt/app
+RUN useradd --create-home --user-group nats
+USER nats
+WORKDIR /home/nats/code
 
-COPY . ./
-RUN chmod +x main.sh
+COPY . .
 
-ENTRYPOINT ["/opt/app/main.sh"]
+CMD ["bash", "main.sh"]
 
