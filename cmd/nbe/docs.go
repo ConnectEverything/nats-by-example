@@ -100,6 +100,7 @@ type clientData struct {
 	Language           string
 	Links              []*LanguageLink
 	Blocks             []*RenderedBlock
+	JSEscaped          string
 }
 
 func generateDocs(root *Root, dir string) error {
@@ -262,6 +263,7 @@ func generateDocs(root *Root, dir string) error {
 					Links:              links,
 					Language:           i.Language,
 					Blocks:             rblocks,
+					JSEscaped:          i.Source,
 				}
 
 				buf.Reset()

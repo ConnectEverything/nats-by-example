@@ -38,60 +38,64 @@
       
       </div>
 
+      
+
       <div class="info">
         <div class="language-tabs">
-        
-        
-        <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">C#</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Java</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Ruby</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Elixir</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">C</span>
-        
-        
+          
+          
+          <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
+          
+          
+          
+          <span class="active">Go</span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
         </div>
 
         <div class="source-run">
-          Run this example using
-          <a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-          <pre>nbe run messaging/pub-sub/go</pre>
-          <small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/go" target=_blank>View source code</a></small>
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/go" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run messaging/pub-sub/go</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
 
@@ -281,5 +285,9 @@ their buffer for subsequent NextMsg calls.</p>
       </div>
     </div>
   </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = 'package main\\u000A\\u000Aimport (\\u000A\\u0009\\\u0022fmt\\\u0022\\u000A\\u0009\\\u0022os\\\u0022\\u000A\\u0009\\\u0022time\\\u0022\\u000A\\u000A\\u0009\\\u0022github.com\/nats-io\/nats.go\\\u0022\\u000A)\\u000A\\u000Afunc main() {\\u000A\\u0009\/\/ Use the env varibale if running in the container, otherwise use the default.\\u000A\\u0009url :\\u003D os.Getenv(\\\u0022NATS_URL\\\u0022)\\u000A\\u0009if url \\u003D\\u003D \\\u0022\\\u0022 {\\u000A\\u0009\\u0009url \\u003D nats.DefaultURL\\u000A\\u0009}\\u000A\\u000A\\u0009\/\/ Create an unauthenticated connection to NATS.\\u000A\\u0009nc, _ :\\u003D nats.Connect(url)\\u000A\\u000A\\u0009\/\/ Drain is a safe way to to ensure all buffered messages that were published\\u000A\\u0009\/\/ are sent and all buffered messages received on a subscription are processed\\u000A\\u0009\/\/ being closing the connection.\\u000A\\u0009defer nc.Drain()\\u000A\\u000A\\u0009\/\/ Messages are published to subjects. Although there are no subscribers,\\u000A\\u0009\/\/ this will be published successfully.\\u000A\\u0009nc.Publish(\\\u0022greet.joe\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009\/\/ Let\\\u0027s create a subscription on the greet.* wildcard.\\u000A\\u0009sub, _ :\\u003D nc.SubscribeSync(\\\u0022greet.*\\\u0022)\\u000A\\u000A\\u0009\/\/ For a synchronous subscription, we need to fetch the next message.\\u000A\\u0009\/\/ However.. since the publish occured before the subscription was\\u000A\\u0009\/\/ established, this is going to timeout.\\u000A\\u0009msg, _ :\\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Println(\\\u0022subscribed after a publish...\\\u0022)\\u000A\\u0009fmt.Printf(\\\u0022msg is nil? %v\\\\n\\\u0022, msg \\u003D\\u003D nil)\\u000A\\u000A\\u0009\/\/ Publish a couple messages.\\u000A\\u0009nc.Publish(\\\u0022greet.joe\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u0009nc.Publish(\\\u0022greet.pam\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009\/\/ Since the subscription is established, the published messages will\\u000A\\u0009\/\/ immediately be broadcasted to all subscriptions. They will land in\\u000A\\u0009\/\/ their buffer for subsequent NextMsg calls.\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A\\u000A\\u0009\/\/ One more for good measures..\\u000A\\u0009nc.Publish(\\\u0022greet.bob\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A}';
+  </script>
 </body>
 </html>

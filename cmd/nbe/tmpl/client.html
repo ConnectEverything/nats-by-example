@@ -18,22 +18,28 @@
       {{.ExampleDescription}}
       </div>
 
+      {{$currentPath := .Path}}
+
       <div class="info">
         <div class="language-tabs">
-        {{range .Links}}
-        {{if .Path}}
-        <span><a href="/{{.Path}}">{{.Label}}</a></span>
-        {{else}}
-        <span class="quiet" title="Not yet implemented">{{.Label}}</span>
-        {{end}}
-        {{end}}
+          {{range .Links}}
+          {{if eq .Path $currentPath}}
+          <span class="active">{{.Label}}</span>
+          {{else if .Path}}
+          <span><a href="/{{.Path}}">{{.Label}}</a></span>
+          {{else}}
+          <span class="inactive" title="Not yet implemented">{{.Label}}</span>
+          {{end}}
+          {{end}}
         </div>
 
         <div class="source-run">
-          Run this example using
-          <a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-          <pre>nbe run {{.RunPath}}</pre>
-          <small><a href="{{.SourceURL}}" target=_blank>View source code</a></small>
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="{{.SourceURL}}" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run {{.RunPath}}</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
 
@@ -52,5 +58,9 @@
       </div>
     </div>
   </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = '{{js .JSEscaped}}';
+  </script>
 </body>
 </html>

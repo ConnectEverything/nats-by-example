@@ -38,60 +38,64 @@
       
       </div>
 
+      
+
       <div class="info">
         <div class="language-tabs">
-        
-        
-        <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">C#</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Java</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Ruby</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Elixir</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">C</span>
-        
-        
+          
+          
+          <span class="active">CLI</span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
         </div>
 
         <div class="source-run">
-          Run this example using
-          <a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-          <pre>nbe run messaging/pub-sub/cli</pre>
-          <small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/cli" target=_blank>View source code</a></small>
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/cli" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run messaging/pub-sub/cli</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
 
@@ -242,5 +246,9 @@ the output to stdout.</p>
       </div>
     </div>
   </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = '#!\/bin\/sh\\u000A\\u000A# The `nats` CLI utilizes the `NATS_URL` environment variable if set.\\u000A# However, if you want to manage different _contexts_ for connecting\\u000A# or authenticating, check out the `nats context` commands.\\u000A# For example:\\u000A# ```\\u000A# nats context save --server\\u003D$NATS_URL local\\u000A# ```\\u000ANATS_URL\\u003D\\\u0022${NATS_URL:-nats:\/\/localhost:4222}\\\u0022\\u000A\\u000A# Publish a message to the subject \\\u0027greet.joe\\\u0027. Nothing will happen\\u000A# since the subscription is not yet setup.\\u000Anats pub \\\u0027greet.joe\\\u0027 \\\u0027hello\\\u0027\\u000A\\u000A# Let\\\u0027s start a subscription in the background that will print\\u000A# the output to stdout.\\u000Anats sub \\\u0027greet.*\\\u0027 \\u0026\\u000A\\u000A# This just captures the process ID of the previous command in this shell.\\u000ASUB_PID\\u003D$!\\u000A\\u000A# Tiny sleep to ensure the subscription connected.\\u000Asleep 0.5\\u000A\\u000A# Now we can publish a couple times..\\u000Anats pub \\\u0027greet.joe\\\u0027 \\\u0027hello\\\u0027\\u000Anats pub \\\u0027greet.pam\\\u0027 \\\u0027hello\\\u0027\\u000Anats pub \\\u0027greet.bob\\\u0027 \\\u0027hello\\\u0027\\u000A\\u000A# Remove the subscription.\\u000Akill $SUB_PID\\u000A\\u000A# Publishing again will not result in anything.\\u000Anats pub \\\u0027greet.bob\\\u0027 \\\u0027hello\\\u0027';
+  </script>
 </body>
 </html>

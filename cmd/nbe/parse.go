@@ -122,6 +122,7 @@ type Client struct {
 	Language string
 	MainFile string
 	Blocks   []*Block
+	Source   string
 }
 
 type BlockType uint8
@@ -207,12 +208,13 @@ func parseLineType(lang, line string) LineType {
 	panic(fmt.Sprintf("%q not currently supported", lang))
 }
 
-func parseReader(lang string, r io.Reader) ([]*Block, error) {
+func parseReader(lang string, r io.Reader) ([]*Block, string, error) {
 	var (
 		lineNum      int
 		block        = &Block{StartLine: 1, EndLine: 1}
 		blocks       = []*Block{block}
 		endMultiLine = false
+		lines        []string
 	)
 
 	// Read each line, keeping track of comment and code lines.
@@ -220,6 +222,7 @@ func parseReader(lang string, r io.Reader) ([]*Block, error) {
 	for sc.Scan() {
 		lineNum++
 		line := sc.Text()
+		lines = append(lines, line)
 
 		if endMultiLine {
 			block = &Block{
@@ -313,10 +316,10 @@ func parseReader(lang string, r io.Reader) ([]*Block, error) {
 		block.EndLine = lineNum
 	}
 	if err := sc.Err(); err != nil {
-		return nil, err
+		return nil, "", err
 	}
 
-	return blocks, nil
+	return blocks, strings.Join(lines, "\n"), nil
 }
 
 func readClientDir(path, name string) (*Client, error) {
@@ -344,10 +347,11 @@ func readClientDir(path, name string) (*Client, error) {
 	}
 	defer f.Close()
 
-	blocks, err := parseReader(lang, f)
+	blocks, source, err := parseReader(lang, f)
 	x.Language = lang
 	x.MainFile = mainFile
 	x.Blocks = blocks
+	x.Source = source
 
 	return &x, nil
 }

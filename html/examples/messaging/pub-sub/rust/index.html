@@ -38,60 +38,64 @@
       
       </div>
 
+      
+
       <div class="info">
         <div class="language-tabs">
-        
-        
-        <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
-        
-        
-        
-        <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">C#</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Java</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Ruby</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Elixir</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">C</span>
-        
-        
+          
+          
+          <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
+          
+          
+          
+          <span class="active">Rust</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
         </div>
 
         <div class="source-run">
-          Run this example using
-          <a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-          <pre>nbe run messaging/pub-sub/rust</pre>
-          <small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/rust" target=_blank>View source code</a></small>
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/rust" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run messaging/pub-sub/rust</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
 
@@ -217,5 +221,9 @@ relay the message to the client.</p>
       </div>
     </div>
   </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = 'use futures::StreamExt;\\u000Ause std::{env, str::from_utf8};\\u000A\\u000A#[tokio::main]\\u000Aasync fn main() -\\u003E Result\\u003C(), async_nats::Error\\u003E {\\u000A    \/\/ Use the NATS_URL env variable if defined, otherwise fallback\\u000A    \/\/ to the default.\\u000A    let nats_url \\u003D env::var(\\\u0022NATS_URL\\\u0022).unwrap_or_else(|_| \\\u0022nats:\/\/localhost:4222\\\u0022.to_string());\\u000A\\u000A    let client \\u003D async_nats::connect(nats_url).await?;\\u000A\\u000A    \/\/ Publish a message to the subject `greet.joe`.\\u000A    client\\u000A        .publish(\\\u0022greet.joe\\\u0022.to_string(), \\\u0022hello\\\u0022.into())\\u000A        .await?;\\u000A\\u000A    \/\/ `Subscriber` implements Rust iterator, so we can leverage\\u000A    \/\/ combinators like `take()` to limit the messages intended\\u000A    \/\/ to be consumed for this interaction.\\u000A    let mut subscription \\u003D client\\u000A        .subscribe(\\\u0022greet.*\\\u0022.to_string())\\u000A        .await?\\u000A        .take(3);\\u000A\\u000A    \/\/ Publish to three different subjects matching the wildcard.\\u000A    for subject in [\\\u0022greet.sue\\\u0022, \\\u0022greet.bob\\\u0022, \\\u0022greet.pam\\\u0022] {\\u000A        client\\u000A            .publish(subject.to_string(), \\\u0022hello\\\u0022.into())\\u000A            .await?;\\u000A    }\\u000A\\u000A    \/\/ Notice that the first message received is `greet.sue` and not\\u000A    \/\/ `greet.joe` which was the first message published. This is because\\u000A    \/\/ core NATS provides at-most-once quality of service (QoS). Subscribers\\u000A    \/\/ must be connected showing *interest* in a subject for the server to\\u000A    \/\/ relay the message to the client.\\u000A    while let Some(message) \\u003D subscription.next().await {\\u000A        println!(\\\u0022{:?} received on {:?}\\\u0022, from_utf8(\\u0026message.payload), \\u0026message.subject);\\u000A    }\\u000A\\u000A    Ok(())\\u000A}\\u000A';
+  </script>
 </body>
 </html>

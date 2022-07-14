@@ -103,23 +103,47 @@ main {
   margin-bottom: 20px;
 }
 
+.github-icon, .clipboard-icon {
+  width: 16px;
+  display: inline-block;
+  vertical-align: sub;
+}
+
+.source-run .links {
+  margin-bottom: 10px;
+}
+
 .source-run pre {
   background-color: #ddd;
   padding: 10px;
   border-radius: 3px;
 }
 
-.language-tabs {
+.info .language-tabs {
   width: 40%;
   margin-right: 20%;
 }
 
-.language-tabs span {
-  margin: 0 4px 7px 0;
+.info .language-tabs span {
   padding: 5px 7px;
+  margin-bottom: 5px;
   border-radius: 3px;
   display: inline-block;
-  background-color: #ddd;
+  background-color: #375c93;
+  font-weight: 600;
+  color: #fff;
+}
+
+.info .language-tabs a:hover, .info .language-tabs a:active {
+  color: #fff;
+}
+
+.info .language-tabs span.current {
+  color: #fff;
+}
+
+.info .language-tabs span.inactive {
+  background-color: #999;
 }
 
 /*

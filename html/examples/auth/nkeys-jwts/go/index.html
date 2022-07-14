@@ -50,60 +50,64 @@ nsc tool for creating and managing accounts and users.</p>
 
       </div>
 
+      
+
       <div class="info">
         <div class="language-tabs">
-        
-        
-        <span class="quiet" title="Not yet implemented">CLI</span>
-        
-        
-        
-        <span><a href="/examples/auth/nkeys-jwts/go">Go</a></span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Python</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Deno</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Node</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Rust</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">C#</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Java</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Ruby</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">Elixir</span>
-        
-        
-        
-        <span class="quiet" title="Not yet implemented">C</span>
-        
-        
+          
+          
+          <span class="inactive" title="Not yet implemented">CLI</span>
+          
+          
+          
+          <span class="active">Go</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Python</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Deno</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Node</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Rust</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
         </div>
 
         <div class="source-run">
-          Run this example using
-          <a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-          <pre>nbe run auth/nkeys-jwts/go</pre>
-          <small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/auth/nkeys-jwts/go" target=_blank>View source code</a></small>
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/auth/nkeys-jwts/go" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run auth/nkeys-jwts/go</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
 
@@ -357,5 +361,9 @@ limits, etc.</p>
       </div>
     </div>
   </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = 'package main\\u000A\\u000Aimport (\\u000A\\u0009\\\u0022fmt\\\u0022\\u000A\\u0009\\\u0022log\\\u0022\\u000A\\u000A\\u0009\\\u0022github.com\/nats-io\/jwt\/v2\\\u0022\\u000A\\u0009\\\u0022github.com\/nats-io\/nkeys\\\u0022\\u000A)\\u000A\\u000Afunc main() {\\u000A\\u0009log.SetFlags(0)\\u000A\\u000A\\u0009\/\/ Create a one-off operator keypair for the purpose of this example.\\u000A\\u0009\/\/ In practice, the operator needs to be created ahead of time to configure\\u000A\\u0009\/\/ the resolver in the server config if you are deploying your own NATS server.\\u000A\\u0009\/\/ This most commonly done using the \\\u0022nsc\\\u0022 tool:\\u000A\\u0009\/\/ ```\\u000A\\u0009\/\/ nsc add operator --generate-signing-key --sys --name local\\u000A\\u0009\/\/ nsc edit operator --require-signing-keys --account-jwt-server-url nats:\/\/127.0.0.1:4222\\u000A\\u0009\/\/ ```\\u000A\\u0009\/\/ Signing keys are technically optional, but a best practice.\\u000A\\u0009operatorKP, _ :\\u003D nkeys.CreateOperator()\\u000A\\u000A\\u0009\/\/ We can distinguish operators, accounts, and users by the first character\\u000A\\u0009\/\/ of their public key: O, A, or U.\\u000A\\u0009operatorPub, _ :\\u003D operatorKP.PublicKey()\\u000A\\u0009fmt.Printf(\\\u0022operator pubkey: %s\\\\n\\\u0022, operatorPub)\\u000A\\u000A\\u0009\/\/ Seed values (private key), are prefixed with S.\\u000A\\u0009operatorSeed, _ :\\u003D operatorKP.Seed()\\u000A\\u0009fmt.Printf(\\\u0022operator seed: %s\\\\n\\\\n\\\u0022, string(operatorSeed))\\u000A\\u000A\\u0009\/\/ To create accounts on demand, we start with creatinng a new keypair which\\u000A\\u0009\/\/ has a unique ID.\\u000A\\u0009accountKP, _ :\\u003D nkeys.CreateAccount()\\u000A\\u000A\\u0009accountPub, _ :\\u003D accountKP.PublicKey()\\u000A\\u0009fmt.Printf(\\\u0022account pubkey: %s\\\\n\\\u0022, accountPub)\\u000A\\u000A\\u0009accountSeed, _ :\\u003D accountKP.Seed()\\u000A\\u0009fmt.Printf(\\\u0022account seed: %s\\\\n\\\u0022, string(accountSeed))\\u000A\\u000A\\u0009\/\/ Create a new set of account claims and configure as desired including a\\u000A\\u0009\/\/ readable name, JetStream limits, imports\/exports, etc.\\u000A\\u0009accountClaims :\\u003D jwt.NewAccountClaims(accountPub)\\u000A\\u0009accountClaims.Name \\u003D \\\u0022my-account\\\u0022\\u000A\\u000A\\u0009\/\/ The only requirement to \\\u0022enable\\\u0022 JetStream is setting the disk and memory\\u000A\\u0009\/\/ limits to anything other than zero. -1 indicates \\\u0022unlimited\\\u0022.\\u000A\\u0009accountClaims.Limits.JetStreamLimits.DiskStorage \\u003D -1\\u000A\\u0009accountClaims.Limits.JetStreamLimits.MemoryStorage \\u003D -1\\u000A\\u000A\\u0009\/\/ Inspecting the claims, you will notice the `sub` field is the public key\\u000A\\u0009\/\/ of the account.\\u000A\\u0009fmt.Printf(\\\u0022account claims: %s\\\\n\\\u0022, accountClaims)\\u000A\\u000A\\u0009\/\/ Now we can sign the claims with the operator and encode it to a JWT string.\\u000A\\u0009\/\/ To activate this account, it must be pushed up to the server using a client\\u000A\\u0009\/\/ connection authenticated as the SYS account user:\\u000A\\u0009\/\/ ```go\\u000A\\u0009\/\/ nc.Request(\\\u0022$SYS.REQ.CLAIMS.UPDATE\\\u0022, []byte(accountJWT))\\u000A\\u0009\/\/ ```\\u000A\\u0009\/\/ If you copy the JWT output to https:\/\/jwt.io, you will notice the `iss`\\u000A\\u0009\/\/ field is set to the operator public key.\\u000A\\u0009accountJWT, _ :\\u003D accountClaims.Encode(operatorKP)\\u000A\\u0009fmt.Printf(\\\u0022account jwt: %s\\\\n\\\\n\\\u0022, accountJWT)\\u000A\\u000A\\u0009\/\/ It is important to call out that the nsc tool handles storage and management\\u000A\\u0009\/\/ of operators, accounts, users. It writes out each nkey and JWT to a file and\\u000A\\u0009\/\/ organizes everything for you. If you opt to create accounts or users dynamically,\\u000A\\u0009\/\/ keep in mind you need to store and manage the keypairs and JWTs yourself.\\u000A\\u000A\\u0009\/\/ If we want to create a user, the process is essentially the same as it was\\u000A\\u0009\/\/ for the account.\\u000A\\u0009userKP, _ :\\u003D nkeys.CreateUser()\\u000A\\u000A\\u0009userPub, _ :\\u003D userKP.PublicKey()\\u000A\\u0009fmt.Printf(\\\u0022user pubkey: %s\\\\n\\\u0022, userPub)\\u000A\\u000A\\u0009userSeed, _ :\\u003D userKP.Seed()\\u000A\\u0009fmt.Printf(\\\u0022user seed: %s\\\\n\\\u0022, string(userSeed))\\u000A\\u000A\\u0009\/\/ Create the user claims, set the name, and configure permissions, expiry time,\\u000A\\u0009\/\/ limits, etc.\\u000A\\u0009userClaims :\\u003D jwt.NewUserClaims(userPub)\\u000A\\u0009userClaims.Name \\u003D \\\u0022my-user\\\u0022\\u000A\\u0009fmt.Printf(\\\u0022userclaims: %s\\\\n\\\u0022, userClaims)\\u000A\\u000A\\u0009\/\/ Sign and encode the claims as a JWT.\\u000A\\u0009userJWT, _ :\\u003D userClaims.Encode(accountKP)\\u000A\\u0009fmt.Printf(\\\u0022user jwt: %s\\\\n\\\u0022, userJWT)\\u000A}';
+  </script>
 </body>
 </html>
