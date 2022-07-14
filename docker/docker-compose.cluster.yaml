@@ -1,0 +1,53 @@
+version: '3.9'
+services:
+  nats1:
+    image: docker.io/nats:2.8.4
+    command:
+      - "--debug"
+      - "--name=nats1"
+      - "--cluster_name=c1"
+      - "--cluster=nats://nats1:6222"
+      - "--routes=nats-route://nats1:6222,nats-route://nats2:6222,nats-route://nats3:6222"
+      - "--http_port=8222"
+      - "--js"
+    ports:
+      - "14222:4222"
+      - "18222:8222"
+
+  nats2:
+    image: docker.io/nats:2.8.4
+    command:
+      - "--debug"
+      - "--name=nats2"
+      - "--cluster_name=c1"
+      - "--cluster=nats://nats2:6222"
+      - "--routes=nats-route://nats1:6222,nats-route://nats2:6222,nats-route://nats3:6222"
+      - "--http_port=8222"
+      - "--js"
+    ports:
+      - "24222:4222"
+      - "28222:8222"
+
+  nats3:
+    image: docker.io/nats:2.8.4
+    command:
+      - "--debug"
+      - "--name=nats3"
+      - "--cluster_name=c1"
+      - "--cluster=nats://nats3:6222"
+      - "--routes=nats-route://nats1:6222,nats-route://nats2:6222,nats-route://nats3:6222"
+      - "--http_port=8222"
+      - "--js"
+    ports:
+      - "34222:4222"
+      - "38222:8222"
+
+  app:
+    image: ${IMAGE_TAG}
+    environment:
+      - NATS_URL=nats://nats1:4222,nats://nats2:4222,nats://nats3:4222
+    depends_on:
+      - nats1
+      - nats2
+      - nats3
+

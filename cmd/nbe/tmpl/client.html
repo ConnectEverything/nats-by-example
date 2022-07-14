@@ -1,0 +1,69 @@
+<!doctype html>
+<html>
+<head>
+	{{template "head"}}
+</head>
+<body>
+  <header>
+    <div class="container">
+      {{template "logo"}}
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2 class="title">{{.ExampleTitle}} <small class="quiet">in {{.CategoryTitle}}</small></h2>
+
+      <div class="description">
+      {{.ExampleDescription}}
+      </div>
+
+      {{$currentPath := .Path}}
+
+      <div class="info">
+        <div class="language-tabs">
+          {{range .Links}}
+          {{if eq .Path $currentPath}}
+          <span class="active">{{.Label}}</span>
+          {{else if .Path}}
+          <span><a href="/{{.Path}}">{{.Label}}</a></span>
+          {{else}}
+          <span class="inactive" title="Not yet implemented">{{.Label}}</span>
+          {{end}}
+          {{end}}
+        </div>
+
+        <div class="source-run">
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="{{.SourceURL}}" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run {{.RunPath}}</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
+        </div>
+      </div>
+
+      <div class="example">
+      {{range .Blocks}}
+      {{if eq .Type "comment" }}
+        <div class="example-comment">
+        {{.HTML}}
+        </div>
+      {{else}}
+        <div class="example-code">
+        {{.HTML}}
+        </div>
+      {{end}}
+      {{end}}
+      </div>
+    </div>
+  </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = '{{js .JSEscaped}}';
+  </script>
+
+  <footer>
+  </footer>
+</body>
+</html>

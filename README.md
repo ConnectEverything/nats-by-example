@@ -1,25 +1,106 @@
 # NATS By Example
 
-Collection of examples using NATS ranging from basic messaging to advanced architecture design and operational concerns.
+> A collection of reference examples using NATS.
 
-**Note: this repo just started, so please be patient while examples are being added. If you have any suggestions or questions, feel free to open an issue!**
+See https://natsbyexample.com to start exploring.
 
-## Messaging
+## Motivation
 
-TODO
+The vast majority of code examples that exist today don't work due to being incomplete or having invalid syntax **OR** the person trying to run the example doesn't know to properly setup the environment and/or dependencies for the example to run properly.
 
-## JetStream
+There are three primary goals of this repo:
 
-TODO
+- Provide fully functional and robust reference examples for as many NATS
+- Sufficiently document each example and make them presentable for learning
+- Keep the examples up-to-date
 
-## Authentication and authorization
+## Getting started
 
-- [Create account or user JWTs programmatically](./auth/create-jwts) (Go)
+The recommended way to get started is to browse the [website](https://natsbyexample.com) which provides nicer navigation and presentation for the example code in this repo.
 
-## Deployment topologies
+When you want to actually execute the example code, you can clone this repo, download the [`nbe`](https://github.com/bruth/nats-by-example/releases) CLI and use the `run` command at the root of the repo. For example:
 
-TODO
+```sh
+$ nbe run messaging/pub-sub/rust
+```
 
-## Operations
+This will run the Rust implementation of the [core publish-subscribe example](https://natsbyexample.com/examples/messaging/pub-sub/rust/) in a set of containers.
 
-- [Replacing nodes in a cluster](./operations/replace-cluster-nodes)
+Currently, the `nbe` CLI depends on [Docker](https://docs.docker.com) and [Compose](https://docs.docker.com/compose/) (v2+) to run a set of containers hosting the Rust program and the NATS server. Other container runtimes would be considered if requested (such as [Podman](https://podman.io)).
+
+The name of the example corresponds to the directory structure under `examples/`, specifically `<category>/<example>/<client>`.
+
+Have questions, issues, or suggestions? Please open [start a discussion](https://github.com/bruth/nats-by-example/discussions) or open [an issue](https://github.com/bruth/nats-by-example/issues).
+
+## Design
+
+### Directory structure
+
+Under the `examples` directory, each category has one or more examples with one or more client implementations. For example:
+
+```
+examples/
+  meta.yaml
+  messaging/
+    meta.yaml
+    pub-sub/
+      meta.yaml
+      cli/
+        main.sh
+      go/
+        main.go
+      python/
+        main.py
+```
+
+### Meta files
+
+The top-level `meta.yaml` is used to define the order of the categories.
+
+```yaml
+# Ordered set of categories.
+categories: [string]
+```
+
+The category `meta.yaml` supports the following properties:
+
+```yaml
+# Title of the category, defaults to a titlecase of the directory name.
+title: string
+
+# Description of the category.
+description: string
+
+# An ordered list of the example names within the category.
+examples: [string]
+```
+
+The example `meta.yaml` supports the following properties:
+
+```yaml
+# Title of the example, defaults to the title-case of the directory name.
+title: string
+
+# Description of the example.
+description: string
+```
+
+### Client directory
+
+The directory is named after the NATS client they correspond to, either the language name, e.g. `go` or the CLI, e.g. `cli`. For multi-client examples or ones requiring complex setups, the directory can be named `shell` to indicate a custom shell script is being used.
+
+The entrypoint file is expected to be named `main.[ext]` where the `ext` is language specific or `sh` for a shell script (including CLI usage). In addition to convention, the significance of this file is that the comments will be extracted out to be rendered more legibly alongside the source code for the website.
+
+Each client may include a custom `Dockerfile` to be able to build and run the example in a container acting as a controlled, reproducible environment. If not provided, the default one, by language, in the [`docker/`](./docker) directory will be used.
+
+Most examples require a NATS server, so there are two `docker-compose.yaml` files available in `docker/` which will be used by default. If there is a need for a customer file for an example, it can be added to the example directory to override the default.
+
+## Contributing
+
+There are several ways to contribute!
+
+- Create an issue for an issue with an existing example (comment or code)
+- Create an issue to for a new client of an existing example
+- Create an issue to recommend a new example
+- Create a pull request to fix an existing example
+- Create a pull request for a new client of an existing example

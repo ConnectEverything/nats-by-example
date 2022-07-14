@@ -1,0 +1,271 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/nats.svg" />
+<link rel="stylesheet" href="/reset.css">
+<link rel="stylesheet" href="/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QV780SHZ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QV780SHZ5');
+</script>
+
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 id="header">
+  <a href="/">
+    <img src="/nats-horizontal-color.svg" alt="NATS Logo" /> by Example
+  </a>
+</h1>
+
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2 class="title">Core Publish-Subcribe <small class="quiet">in Messaging</small></h2>
+
+      <div class="description">
+      <p>This example demonstrates the core NATS <a href="https://docs.nats.io/nats-concepts/core-nats/pubsub">publish-subscribe</a>
+behavior. This is the fundamental pattern that all other NATS
+patterns and higher-level APIs build upon. There are a few takeaways from this example:</p>
+
+<ul>
+<li>Delivery is an <em>at-most-once</em>. For <a href="https://docs.nats.io/running-a-nats-service/configuration/mqtt">MQTT</a> users, this is referred to as Quality of Service (QoS) 0.</li>
+<li>There are two circumstances when a published message <em>won&rsquo;t</em> be delivered to a subscriber:
+
+<ul>
+<li>The subscriber does not have an active connection to the server (i.e. the client is temporarily offline for some reason)</li>
+<li>There is a network interruption where the message is ultimately dropped</li>
+</ul></li>
+<li>Messages are published to <a href="https://docs.nats.io/nats-concepts/subjects">subjects</a> which can be one or more concrete tokens, e.g. <code>greet.bob</code>. Subscribers can utilize <a href="https://docs.nats.io/nats-concepts/subjects#wildcards">wildcards</a> to show interest on a set of matching subjects.</li>
+</ul>
+
+      </div>
+
+      
+
+      <div class="info">
+        <div class="language-tabs">
+          
+          
+          <span class="active">CLI</span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
+        </div>
+
+        <div class="source-run">
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/cli" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run messaging/pub-sub/cli</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
+        </div>
+      </div>
+
+      <div class="example">
+      
+      
+        <div class="example-comment">
+        
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>The <code>nats</code> CLI utilizes the <code>NATS_URL</code> environment variable if set.
+However, if you want to manage different <em>contexts</em> for connecting
+or authenticating, check out the <code>nats context</code> commands.
+For example:</p>
+
+<pre><code>nats context save --server=$NATS_URL local
+</code></pre>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nv">NATS_URL</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">NATS_URL</span><span class="k">:-</span><span class="nv">nats</span><span class="p">://localhost:</span><span class="nv">4222</span><span class="si">}</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Publish a message to the subject &lsquo;greet.joe&rsquo;. Nothing will happen
+since the subscription is not yet setup.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.joe&#39;</span> <span class="s1">&#39;hello&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Let&rsquo;s start a subscription in the background that will print
+the output to stdout.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats sub <span class="s1">&#39;greet.*&#39;</span> <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>This just captures the process ID of the previous command in this shell.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nv">SUB_PID</span><span class="o">=</span><span class="nv">$!</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Tiny sleep to ensure the subscription connected.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">sleep 0.5
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Now we can publish a couple times..</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.joe&#39;</span> <span class="s1">&#39;hello&#39;</span>
+</span></span><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.pam&#39;</span> <span class="s1">&#39;hello&#39;</span>
+</span></span><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.bob&#39;</span> <span class="s1">&#39;hello&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Remove the subscription.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nb">kill</span> <span class="nv">$SUB_PID</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Publishing again will not result in anything.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.bob&#39;</span> <span class="s1">&#39;hello&#39;</span></span></span></code></pre>
+        </div>
+      
+      
+      </div>
+    </div>
+  </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = '#!\/bin\/sh\\u000A\\u000A# The `nats` CLI utilizes the `NATS_URL` environment variable if set.\\u000A# However, if you want to manage different _contexts_ for connecting\\u000A# or authenticating, check out the `nats context` commands.\\u000A# For example:\\u000A# ```\\u000A# nats context save --server\\u003D$NATS_URL local\\u000A# ```\\u000ANATS_URL\\u003D\\\u0022${NATS_URL:-nats:\/\/localhost:4222}\\\u0022\\u000A\\u000A# Publish a message to the subject \\\u0027greet.joe\\\u0027. Nothing will happen\\u000A# since the subscription is not yet setup.\\u000Anats pub \\\u0027greet.joe\\\u0027 \\\u0027hello\\\u0027\\u000A\\u000A# Let\\\u0027s start a subscription in the background that will print\\u000A# the output to stdout.\\u000Anats sub \\\u0027greet.*\\\u0027 \\u0026\\u000A\\u000A# This just captures the process ID of the previous command in this shell.\\u000ASUB_PID\\u003D$!\\u000A\\u000A# Tiny sleep to ensure the subscription connected.\\u000Asleep 0.5\\u000A\\u000A# Now we can publish a couple times..\\u000Anats pub \\\u0027greet.joe\\\u0027 \\\u0027hello\\\u0027\\u000Anats pub \\\u0027greet.pam\\\u0027 \\\u0027hello\\\u0027\\u000Anats pub \\\u0027greet.bob\\\u0027 \\\u0027hello\\\u0027\\u000A\\u000A# Remove the subscription.\\u000Akill $SUB_PID\\u000A\\u000A# Publishing again will not result in anything.\\u000Anats pub \\\u0027greet.bob\\\u0027 \\\u0027hello\\\u0027';
+  </script>
+
+  <footer>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,310 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/nats.svg" />
+<link rel="stylesheet" href="/reset.css">
+<link rel="stylesheet" href="/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QV780SHZ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QV780SHZ5');
+</script>
+
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 id="header">
+  <a href="/">
+    <img src="/nats-horizontal-color.svg" alt="NATS Logo" /> by Example
+  </a>
+</h1>
+
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2 class="title">Core Publish-Subcribe <small class="quiet">in Messaging</small></h2>
+
+      <div class="description">
+      <p>This example demonstrates the core NATS <a href="https://docs.nats.io/nats-concepts/core-nats/pubsub">publish-subscribe</a>
+behavior. This is the fundamental pattern that all other NATS
+patterns and higher-level APIs build upon. There are a few takeaways from this example:</p>
+
+<ul>
+<li>Delivery is an <em>at-most-once</em>. For <a href="https://docs.nats.io/running-a-nats-service/configuration/mqtt">MQTT</a> users, this is referred to as Quality of Service (QoS) 0.</li>
+<li>There are two circumstances when a published message <em>won&rsquo;t</em> be delivered to a subscriber:
+
+<ul>
+<li>The subscriber does not have an active connection to the server (i.e. the client is temporarily offline for some reason)</li>
+<li>There is a network interruption where the message is ultimately dropped</li>
+</ul></li>
+<li>Messages are published to <a href="https://docs.nats.io/nats-concepts/subjects">subjects</a> which can be one or more concrete tokens, e.g. <code>greet.bob</code>. Subscribers can utilize <a href="https://docs.nats.io/nats-concepts/subjects#wildcards">wildcards</a> to show interest on a set of matching subjects.</li>
+</ul>
+
+      </div>
+
+      
+
+      <div class="info">
+        <div class="language-tabs">
+          
+          
+          <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
+          
+          
+          
+          <span class="active">Go</span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
+        </div>
+
+        <div class="source-run">
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/go" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run messaging/pub-sub/go</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
+        </div>
+      </div>
+
+      <div class="example">
+      
+      
+        <div class="example-comment">
+        
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/nats-io/nats.go&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Use the env varibale if running in the container, otherwise use the default.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">url</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Getenv</span><span class="p">(</span><span class="s">&#34;NATS_URL&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">url</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">url</span> <span class="p">=</span> <span class="nx">nats</span><span class="p">.</span><span class="nx">DefaultURL</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Create an unauthenticated connection to NATS.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nats</span><span class="p">.</span><span class="nf">Connect</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Drain is a safe way to to ensure all buffered messages that were published
+are sent and all buffered messages received on a subscription are processed
+being closing the connection.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">Drain</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Messages are published to subjects. Although there are no subscribers,
+this will be published successfully.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Let&rsquo;s create a subscription on the greet.* wildcard.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">sub</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">SubscribeSync</span><span class="p">(</span><span class="s">&#34;greet.*&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>For a synchronous subscription, we need to fetch the next message.
+However.. since the publish occured before the subscription was
+established, this is going to timeout.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">msg</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">sub</span><span class="p">.</span><span class="nf">NextMsg</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;subscribed after a publish...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;msg is nil? %v\n&#34;</span><span class="p">,</span> <span class="nx">msg</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Publish a couple messages.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;greet.pam&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Since the subscription is established, the published messages will
+immediately be broadcasted to all subscriptions. They will land in
+their buffer for subsequent NextMsg calls.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">msg</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">sub</span><span class="p">.</span><span class="nf">NextMsg</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;msg data: %q on subject %q\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Data</span><span class="p">),</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">Subject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">msg</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">sub</span><span class="p">.</span><span class="nf">NextMsg</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;msg data: %q on subject %q\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Data</span><span class="p">),</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">Subject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>One more for good measures..</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;greet.bob&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">msg</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">sub</span><span class="p">.</span><span class="nf">NextMsg</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;msg data: %q on subject %q\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Data</span><span class="p">),</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">Subject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+        </div>
+      
+      
+      </div>
+    </div>
+  </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = 'package main\\u000A\\u000Aimport (\\u000A\\u0009\\\u0022fmt\\\u0022\\u000A\\u0009\\\u0022os\\\u0022\\u000A\\u0009\\\u0022time\\\u0022\\u000A\\u000A\\u0009\\\u0022github.com\/nats-io\/nats.go\\\u0022\\u000A)\\u000A\\u000Afunc main() {\\u000A\\u0009\/\/ Use the env varibale if running in the container, otherwise use the default.\\u000A\\u0009url :\\u003D os.Getenv(\\\u0022NATS_URL\\\u0022)\\u000A\\u0009if url \\u003D\\u003D \\\u0022\\\u0022 {\\u000A\\u0009\\u0009url \\u003D nats.DefaultURL\\u000A\\u0009}\\u000A\\u000A\\u0009\/\/ Create an unauthenticated connection to NATS.\\u000A\\u0009nc, _ :\\u003D nats.Connect(url)\\u000A\\u000A\\u0009\/\/ Drain is a safe way to to ensure all buffered messages that were published\\u000A\\u0009\/\/ are sent and all buffered messages received on a subscription are processed\\u000A\\u0009\/\/ being closing the connection.\\u000A\\u0009defer nc.Drain()\\u000A\\u000A\\u0009\/\/ Messages are published to subjects. Although there are no subscribers,\\u000A\\u0009\/\/ this will be published successfully.\\u000A\\u0009nc.Publish(\\\u0022greet.joe\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009\/\/ Let\\\u0027s create a subscription on the greet.* wildcard.\\u000A\\u0009sub, _ :\\u003D nc.SubscribeSync(\\\u0022greet.*\\\u0022)\\u000A\\u000A\\u0009\/\/ For a synchronous subscription, we need to fetch the next message.\\u000A\\u0009\/\/ However.. since the publish occured before the subscription was\\u000A\\u0009\/\/ established, this is going to timeout.\\u000A\\u0009msg, _ :\\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Println(\\\u0022subscribed after a publish...\\\u0022)\\u000A\\u0009fmt.Printf(\\\u0022msg is nil? %v\\\\n\\\u0022, msg \\u003D\\u003D nil)\\u000A\\u000A\\u0009\/\/ Publish a couple messages.\\u000A\\u0009nc.Publish(\\\u0022greet.joe\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u0009nc.Publish(\\\u0022greet.pam\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009\/\/ Since the subscription is established, the published messages will\\u000A\\u0009\/\/ immediately be broadcasted to all subscriptions. They will land in\\u000A\\u0009\/\/ their buffer for subsequent NextMsg calls.\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A\\u000A\\u0009\/\/ One more for good measures..\\u000A\\u0009nc.Publish(\\\u0022greet.bob\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A}';
+  </script>
+
+  <footer>
+  </footer>
+</body>
+</html>

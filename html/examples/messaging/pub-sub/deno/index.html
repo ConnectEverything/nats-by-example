@@ -1,0 +1,284 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/nats.svg" />
+<link rel="stylesheet" href="/reset.css">
+<link rel="stylesheet" href="/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QV780SHZ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QV780SHZ5');
+</script>
+
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 id="header">
+  <a href="/">
+    <img src="/nats-horizontal-color.svg" alt="NATS Logo" /> by Example
+  </a>
+</h1>
+
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2 class="title">Core Publish-Subcribe <small class="quiet">in Messaging</small></h2>
+
+      <div class="description">
+      <p>This example demonstrates the core NATS <a href="https://docs.nats.io/nats-concepts/core-nats/pubsub">publish-subscribe</a>
+behavior. This is the fundamental pattern that all other NATS
+patterns and higher-level APIs build upon. There are a few takeaways from this example:</p>
+
+<ul>
+<li>Delivery is an <em>at-most-once</em>. For <a href="https://docs.nats.io/running-a-nats-service/configuration/mqtt">MQTT</a> users, this is referred to as Quality of Service (QoS) 0.</li>
+<li>There are two circumstances when a published message <em>won&rsquo;t</em> be delivered to a subscriber:
+
+<ul>
+<li>The subscriber does not have an active connection to the server (i.e. the client is temporarily offline for some reason)</li>
+<li>There is a network interruption where the message is ultimately dropped</li>
+</ul></li>
+<li>Messages are published to <a href="https://docs.nats.io/nats-concepts/subjects">subjects</a> which can be one or more concrete tokens, e.g. <code>greet.bob</code>. Subscribers can utilize <a href="https://docs.nats.io/nats-concepts/subjects#wildcards">wildcards</a> to show interest on a set of matching subjects.</li>
+</ul>
+
+      </div>
+
+      
+
+      <div class="info">
+        <div class="language-tabs">
+          
+          
+          <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+          
+          
+          
+          <span class="active">Deno</span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
+          
+          
+          
+          <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
+        </div>
+
+        <div class="source-run">
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/deno" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run messaging/pub-sub/deno</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
+        </div>
+      </div>
+
+      <div class="example">
+      
+      
+        <div class="example-comment">
+        
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">connect</span><span class="p">,</span> <span class="nx">StringCodec</span><span class="p">}</span> <span class="kr">from</span> <span class="s2">&#34;https://deno.land/x/nats@v1.7.1/src/mod.ts&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Get the passed NATS_URL or fallback to the default. This can be
+a comma-separated string.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">servers</span> <span class="o">=</span> <span class="nx">Deno</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="kr">get</span><span class="p">(</span><span class="s2">&#34;NATS_URL&#34;</span><span class="p">)</span> <span class="o">||</span> <span class="s2">&#34;nats://localhost:4222&#34;</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Create a client connection to an available NATS server.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">nc</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">connect</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="nx">servers</span>: <span class="kt">servers.split</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">),</span>
+</span></span><span class="line"><span class="cl"><span class="p">});</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>NATS message payloads are byte arrays, so we need to have a codec
+to serialize and deserialize payloads in order to work with them.
+Another built-in codec is JSONCodec or you can implement your own.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">sc</span> <span class="o">=</span> <span class="nx">StringCodec</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>To publish a message, simply provide the <em>subject</em> of the message
+and encode the message payload. NATS subjects are hierarchical using
+periods as token delimiters. <code>greet</code> and <code>joe</code> are two distinct tokens.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.bob&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Now we are going to create a subscription and utilize a wildcard on
+the second token. The effect is that this subscription shows <em>interest</em>
+in all messages published to a subject with two tokens where the first
+is <code>greet</code>.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">sub</span> <span class="o">=</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&#34;greet.*&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">max</span>: <span class="kt">3</span><span class="p">});</span>
+</span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">done</span> <span class="o">=</span> <span class="p">(</span><span class="kr">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="k">await</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">msg</span> <span class="k">of</span> <span class="nx">sub</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">sc</span><span class="p">.</span><span class="nx">decode</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="si">}</span><span class="sb"> on subject </span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">subject</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">  <span class="p">}</span>
+</span></span><span class="line"><span class="cl"><span class="p">})()</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Let&rsquo;s publish three more messages which will result in the messages
+being forwarded to the local subscription we have.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.pam&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.sue&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>This will wait until the above async subscription handler finishes
+processing the three messages. Note that the first message to
+<code>greet.bob</code> was not printed. This is because the subscription was
+created <em>after</em> the publish. Core NATS provides at-most-once quality
+of service (QoS) for active subscriptions.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">done</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Finally we drain the connection which waits for any pending
+messages (published or in a subscription) to be flushed.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">drain</span><span class="p">();</span></span></span></code></pre>
+        </div>
+      
+      
+      </div>
+    </div>
+  </main>
+  <script src="/main.js" async></script>
+  <script>
+    var codeWithComments = 'import {connect, StringCodec} from \\\u0022https:\/\/deno.land\/x\/nats@v1.7.1\/src\/mod.ts\\\u0022;\\u000A\\u000A\/\/ Get the passed NATS_URL or fallback to the default. This can be\\u000A\/\/ a comma-separated string.\\u000Aconst servers \\u003D Deno.env.get(\\\u0022NATS_URL\\\u0022) || \\\u0022nats:\/\/localhost:4222\\\u0022;\\u000A\\u000A\/\/ Create a client connection to an available NATS server.\\u000Aconst nc \\u003D await connect({\\u000A  servers: servers.split(\\\u0022,\\\u0022),\\u000A});\\u000A\\u000A\/\/ NATS message payloads are byte arrays, so we need to have a codec\\u000A\/\/ to serialize and deserialize payloads in order to work with them.\\u000A\/\/ Another built-in codec is JSONCodec or you can implement your own.\\u000Aconst sc \\u003D StringCodec();\\u000A\\u000A\/\/ To publish a message, simply provide the _subject_ of the message\\u000A\/\/ and encode the message payload. NATS subjects are hierarchical using\\u000A\/\/ periods as token delimiters. `greet` and `joe` are two distinct tokens.\\u000Anc.publish(\\\u0022greet.bob\\\u0022, sc.encode(\\\u0022hello\\\u0022));\\u000A\\u000A\/\/ Now we are going to create a subscription and utilize a wildcard on\\u000A\/\/ the second token. The effect is that this subscription shows _interest_\\u000A\/\/ in all messages published to a subject with two tokens where the first\\u000A\/\/ is `greet`.\\u000Alet sub \\u003D nc.subscribe(\\\u0022greet.*\\\u0022, {max: 3});\\u000Aconst done \\u003D (async () \\u003D\\u003E {\\u000A  for await (const msg of sub) {\\u000A    console.log(`${sc.decode(msg.data)} on subject ${msg.subject}`);\\u000A  }\\u000A})()\\u000A\\u000A\/\/ Let\\\u0027s publish three more messages which will result in the messages\\u000A\/\/ being forwarded to the local subscription we have.\\u000Anc.publish(\\\u0022greet.joe\\\u0022, sc.encode(\\\u0022hello\\\u0022));\\u000Anc.publish(\\\u0022greet.pam\\\u0022, sc.encode(\\\u0022hello\\\u0022));\\u000Anc.publish(\\\u0022greet.sue\\\u0022, sc.encode(\\\u0022hello\\\u0022));\\u000A\\u000A\/\/ This will wait until the above async subscription handler finishes\\u000A\/\/ processing the three messages. Note that the first message to\\u000A\/\/ `greet.bob` was not printed. This is because the subscription was\\u000A\/\/ created _after_ the publish. Core NATS provides at-most-once quality\\u000A\/\/ of service (QoS) for active subscriptions.\\u000Aawait done;\\u000A\\u000A\/\/ Finally we drain the connection which waits for any pending\\u000A\/\/ messages (published or in a subscription) to be flushed.\\u000Aawait nc.drain();';
+  </script>
+
+  <footer>
+  </footer>
+</body>
+</html>

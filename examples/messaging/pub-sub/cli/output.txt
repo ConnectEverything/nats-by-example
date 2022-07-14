@@ -1,0 +1,28 @@
+Sending build context to Docker daemon  3.119kB
+Step 1/5 : FROM natsio/nats-box:0.12.0
+ ---> 829a5d8662d0
+Step 2/5 : WORKDIR /opt/app
+ ---> Running in 628bcfa08862
+Removing intermediate container 628bcfa08862
+ ---> bffb099371d5
+Step 3/5 : COPY . ./
+ ---> 8a12e6e12b56
+Step 4/5 : RUN chmod +x main.sh
+ ---> Running in 1153b9e7c03e
+Removing intermediate container 1153b9e7c03e
+ ---> c20294a6a3cd
+Step 5/5 : ENTRYPOINT ["/opt/app/main.sh"]
+ ---> Running in e19618a315db
+Removing intermediate container e19618a315db
+ ---> 2ff5b2b69c03
+Successfully built 2ff5b2b69c03
+Successfully tagged nbe/examples/messaging/pub-sub/cli:33d3e787
+[#1] Received on "greet.joe"
+hello
+
+[#2] Received on "greet.pam"
+hello
+
+[#3] Received on "greet.bob"
+hello
+

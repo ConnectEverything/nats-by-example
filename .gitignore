@@ -1,3 +1,2 @@
-data
-logs
-pids
+dist
+node_modules
