@@ -34,6 +34,10 @@ func createFile(n string, b []byte) error {
 
 func copyDirContents(src, dst string) error {
 	return fs.WalkDir(os.DirFS(src), ".", func(path string, info fs.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+
 		dstpath := filepath.Join(dst, path)
 		// Ensure any directories are created..
 		if info.IsDir() {
