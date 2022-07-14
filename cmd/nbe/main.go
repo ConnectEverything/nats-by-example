@@ -25,10 +25,22 @@ var (
 		Name:  "nbe",
 		Usage: "CLI for using the NATS by Example repo.",
 		Commands: []*cli.Command{
+			&cloneCmd,
 			&runCmd,
 			&buildCmd,
 			&serveCmd,
 			&generateCmd,
+		},
+	}
+
+	cloneCmd = cli.Command{
+		Name:  "clone",
+		Usage: "Clone the NATS by Example repo.",
+		Description: `This is a convenience command to clone a fresh copy
+of the repo or fetch the latest updates it any are available.
+`,
+		Action: func(c *cli.Context) error {
+			return nil
 		},
 	}
 

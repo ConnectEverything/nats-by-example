@@ -3,26 +3,40 @@
   src: url("/Cookie-Regular.ttf");
 }
 
-body {
-  width: 1000px;
-  margin: 0 auto;
-}
-
 body, button, input, select, textarea {
 font-family: "Source Sans Pro",BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
+
+a {
+  text-decoration: none;
+}
+
+a:link, a:visited {
+  color: #27aae1;
+}
+
+a:hover, a:active {
+  color: #375c93;
+}
+
 pre {
   background-color: inherit;
   margin: 0;
 }
 
+header {
+  padding: 5px 0;
+  color: #ffffff;
+  background-color: #1b2e49;
+  border-bottom: 5px solid #27aae1;
+}
+
 #header {
   font-family: "Cookie";
-  margin-bottom: 20px;
 }
 
 #header a {
-  color: inherit;
+  color: #ffffff;
   text-decoration: none;
 }
 
@@ -30,6 +44,45 @@ pre {
   display: inline-block;
   vertical-align: bottom;
   height: 42px;
+}
+
+.container {
+  width: 1000px;
+  margin: 0 auto;
+}
+
+#hero {
+  text-align: center;
+  padding: 2rem 0;
+  background-color: #efefef;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #1b2e49;
+}
+
+#hero h2 {
+  margin-top: 0;
+  font-size: 52px;
+}
+
+#hero p {
+  font-size: 24px;
+  font-weight: 200px;
+  margin-bottom: 20px;
+  color: #444444;
+}
+
+#hero pre {
+  background-color: #ddd;
+  padding: 7px 10px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  display: inline-block;
+}
+
+main {
+  margin-top: 20px;
 }
 
 .quiet {
@@ -43,6 +96,11 @@ pre {
   padding: 20px;
   border-radius: 3px;
   background-color: #eee;
+  margin-bottom: 20px;
+}
+
+main {
+  margin-bottom: 20px;
 }
 
 .source-run pre {
@@ -78,12 +136,10 @@ a:hover, a:active {
   background-color: inherit;
 }
 
-/*
 pre, code {
-  font-family: 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace;
-  font-size: 0.8rem;
+  font-family: 'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace;
+  font-size: 0.9em;
 }
-*/
 
 .example {
   display: flex;

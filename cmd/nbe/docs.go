@@ -63,6 +63,16 @@ type Link struct {
 	Path  string
 }
 
+type indexCategory struct {
+	Title        string
+	Description  template.HTML
+	ExampleLinks []*Link
+}
+
+type indexData struct {
+	Categories []*indexCategory
+}
+
 type categoryData struct {
 	Title       string
 	Description template.HTML
@@ -127,7 +137,33 @@ func generateDocs(root *Root, dir string) error {
 
 	buf := bytes.NewBuffer(nil)
 
-	err = rt.Execute(buf, root)
+	var ics []*indexCategory
+	for _, c := range root.Categories {
+		ic := indexCategory{
+			Title:       c.Title,
+			Description: template.HTML(blackfriday.Run([]byte(c.Description))),
+		}
+		ics = append(ics, &ic)
+		for _, e := range c.Examples {
+			l := &Link{
+				Label: e.Title,
+			}
+			for _, k := range languageOrder {
+				if c, ok := e.Clients[k]; ok {
+					l.Path = c.Path
+					break
+				}
+			}
+			// Use the example title, but with the first client path.
+			ic.ExampleLinks = append(ic.ExampleLinks, l)
+		}
+	}
+
+	ix := indexData{
+		Categories: ics,
+	}
+
+	err = rt.Execute(buf, &ix)
 	if err != nil {
 		return err
 	}

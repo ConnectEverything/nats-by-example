@@ -113,7 +113,7 @@ type Example struct {
 	Path        string
 	Title       string
 	Description string
-	Clients     []*Client
+	Clients     map[string]*Client
 }
 
 type Client struct {
@@ -354,9 +354,10 @@ func readClientDir(path, name string) (*Client, error) {
 
 func readExampleDir(path, name string) (*Example, error) {
 	x := Example{
-		Name:  name,
-		Path:  path,
-		Title: strings.Title(name),
+		Name:    name,
+		Path:    path,
+		Title:   strings.Title(name),
+		Clients: make(map[string]*Client),
 	}
 
 	// Read meta file.
@@ -374,7 +375,7 @@ func readExampleDir(path, name string) (*Example, error) {
 		return nil, fmt.Errorf("read dir: %w", err)
 	}
 
-	ims := make(map[string]*Client)
+	clients := make(map[string]*Client)
 	for _, e := range dirs {
 		if !e.IsDir() {
 			continue
@@ -390,11 +391,11 @@ func readExampleDir(path, name string) (*Example, error) {
 			}
 			return nil, fmt.Errorf("%s: %w", path, err)
 		}
-		ims[name] = im
+		clients[name] = im
 	}
 
-	for _, i := range ims {
-		x.Clients = append(x.Clients, i)
+	for _, i := range clients {
+		x.Clients[i.Name] = i
 	}
 
 	return &x, nil

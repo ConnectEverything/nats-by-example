@@ -19,95 +19,101 @@
 
 </head>
 <body>
-  <h1 id="header">
+  <header>
+    <div class="container">
+      <h1 id="header">
   <a href="/">
     <img src="/nats-horizontal-color.svg" alt="NATS Logo" /> by Example
   </a>
 </h1>
 
+    </div>
+  </header>
 
-  <h2 class="title">Pub-Sub <small class="quiet">in Messaging</small></h2>
+  <main>
+    <div class="container">
+      <h2 class="title">Pub-Sub <small class="quiet">in Messaging</small></h2>
 
-	<div class="description">
-	
-	</div>
+      <div class="description">
+      
+      </div>
 
-	<div class="info">
-		<div class="language-tabs">
-		
-		
-		<span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/go">Go</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/python">Python</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/node">Node</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">C#</span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">Java</span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">Ruby</span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">Elixir</span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">C</span>
-		
-		
-		</div>
+      <div class="info">
+        <div class="language-tabs">
+        
+        
+        <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">C#</span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">Java</span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">Ruby</span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">Elixir</span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">C</span>
+        
+        
+        </div>
 
-		<div class="source-run">
-			Run this example using
-			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-			<pre>nbe run messaging/pub-sub/cli</pre>
-			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/cli" target=_blank>View source code</a></small>
-		</div>
-	</div>
+        <div class="source-run">
+          Run this example using
+          <a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
+          <pre>nbe run messaging/pub-sub/cli</pre>
+          <small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/cli" target=_blank>View source code</a></small>
+        </div>
+      </div>
 
-	<div class="example">
-	
-	
-		<div class="example-comment">
-		
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+      <div class="example">
+      
+      
+        <div class="example-comment">
+        
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="cp">#!/bin/sh
 </span></span></span><span class="line"><span class="cl"><span class="cp"></span>
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>The <code>nats</code> CLI utilizes the <code>NATS_URL</code> environment variable if set.
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>The <code>nats</code> CLI utilizes the <code>NATS_URL</code> environment variable if set.
 However, if you want to manage different <em>contexts</em> for connecting
 or authenticating, check out the <code>nats context</code> commands.
 For example:</p>
@@ -115,124 +121,126 @@ For example:</p>
 <pre><code>nats context save --server=$NATS_URL local
 </code></pre>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nv">NATS_URL</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">NATS_URL</span><span class="k">:-</span><span class="nv">nats</span><span class="p">://localhost:</span><span class="nv">4222</span><span class="si">}</span><span class="s2">&#34;</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nv">NATS_URL</span><span class="o">=</span><span class="s2">&#34;</span><span class="si">${</span><span class="nv">NATS_URL</span><span class="k">:-</span><span class="nv">nats</span><span class="p">://localhost:</span><span class="nv">4222</span><span class="si">}</span><span class="s2">&#34;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Publish a message to the subject &lsquo;greet.joe&rsquo;. Nothing will happen
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Publish a message to the subject &lsquo;greet.joe&rsquo;. Nothing will happen
 since the subscription is not yet setup.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.joe&#39;</span> <span class="s1">&#39;hello&#39;</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.joe&#39;</span> <span class="s1">&#39;hello&#39;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Let&rsquo;s start a subscription in the background that will print
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Let&rsquo;s start a subscription in the background that will print
 the output to stdout.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats sub <span class="s1">&#39;greet.*&#39;</span> <span class="p">&amp;</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats sub <span class="s1">&#39;greet.*&#39;</span> <span class="p">&amp;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>This just captures the process ID of the previous command in this shell.</p>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>This just captures the process ID of the previous command in this shell.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nv">SUB_PID</span><span class="o">=</span><span class="nv">$!</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nv">SUB_PID</span><span class="o">=</span><span class="nv">$!</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Tiny sleep to ensure the subscription connected.</p>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Tiny sleep to ensure the subscription connected.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">sleep 0.5
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">sleep 0.5
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Now we can publish a couple times..</p>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Now we can publish a couple times..</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.joe&#39;</span> <span class="s1">&#39;hello&#39;</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.joe&#39;</span> <span class="s1">&#39;hello&#39;</span>
 </span></span><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.pam&#39;</span> <span class="s1">&#39;hello&#39;</span>
 </span></span><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.bob&#39;</span> <span class="s1">&#39;hello&#39;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Remove the subscription.</p>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Remove the subscription.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nb">kill</span> <span class="nv">$SUB_PID</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nb">kill</span> <span class="nv">$SUB_PID</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Publishing again will not result in anything.</p>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Publishing again will not result in anything.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.bob&#39;</span> <span class="s1">&#39;hello&#39;</span></span></span></code></pre>
-		</div>
-	
-	
-	</div>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats pub <span class="s1">&#39;greet.bob&#39;</span> <span class="s1">&#39;hello&#39;</span></span></span></code></pre>
+        </div>
+      
+      
+      </div>
+    </div>
+  </main>
 </body>
 </html>

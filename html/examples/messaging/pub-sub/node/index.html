@@ -19,172 +19,178 @@
 
 </head>
 <body>
-  <h1 id="header">
+  <header>
+    <div class="container">
+      <h1 id="header">
   <a href="/">
     <img src="/nats-horizontal-color.svg" alt="NATS Logo" /> by Example
   </a>
 </h1>
 
+    </div>
+  </header>
 
-  <h2 class="title">Pub-Sub <small class="quiet">in Messaging</small></h2>
+  <main>
+    <div class="container">
+      <h2 class="title">Pub-Sub <small class="quiet">in Messaging</small></h2>
 
-	<div class="description">
-	
-	</div>
+      <div class="description">
+      
+      </div>
 
-	<div class="info">
-		<div class="language-tabs">
-		
-		
-		<span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/go">Go</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/python">Python</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/node">Node</a></span>
-		
-		
-		
-		<span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">C#</span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">Java</span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">Ruby</span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">Elixir</span>
-		
-		
-		
-		<span class="quiet" title="Not yet implemented">C</span>
-		
-		
-		</div>
+      <div class="info">
+        <div class="language-tabs">
+        
+        
+        <span><a href="/examples/messaging/pub-sub/cli">CLI</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/go">Go</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/python">Python</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/deno">Deno</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/node">Node</a></span>
+        
+        
+        
+        <span><a href="/examples/messaging/pub-sub/rust">Rust</a></span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">C#</span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">Java</span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">Ruby</span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">Elixir</span>
+        
+        
+        
+        <span class="quiet" title="Not yet implemented">C</span>
+        
+        
+        </div>
 
-		<div class="source-run">
-			Run this example using
-			<a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
-			<pre>nbe run messaging/pub-sub/node</pre>
-			<small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/node" target=_blank>View source code</a></small>
-		</div>
-	</div>
+        <div class="source-run">
+          Run this example using
+          <a href="https://github.com/bruth/nats-by-example/releases"><code>nbe</code></a>
+          <pre>nbe run messaging/pub-sub/node</pre>
+          <small><a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/pub-sub/node" target=_blank>View source code</a></small>
+        </div>
+      </div>
 
-	<div class="example">
-	
-	
-		<div class="example-comment">
-		
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">connect</span><span class="p">,</span> <span class="nx">StringCodec</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;nats&#34;</span><span class="p">;</span>
+      <div class="example">
+      
+      
+        <div class="example-comment">
+        
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">import</span> <span class="p">{</span><span class="nx">connect</span><span class="p">,</span> <span class="nx">StringCodec</span><span class="p">}</span> <span class="nx">from</span> <span class="s2">&#34;nats&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Get the passed NATS_URL or fallback to the default. This can be
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Get the passed NATS_URL or fallback to the default. This can be
 a comma-separated string.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">servers</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NATS_URL</span> <span class="o">||</span> <span class="s2">&#34;nats://localhost:4222&#34;</span><span class="p">;</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">servers</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">NATS_URL</span> <span class="o">||</span> <span class="s2">&#34;nats://localhost:4222&#34;</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Create a client connection to an available NATS server.</p>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Create a client connection to an available NATS server.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">nc</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">connect</span><span class="p">({</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">nc</span> <span class="o">=</span> <span class="kr">await</span> <span class="nx">connect</span><span class="p">({</span>
 </span></span><span class="line"><span class="cl">  <span class="nx">servers</span><span class="o">:</span> <span class="nx">servers</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s2">&#34;,&#34;</span><span class="p">),</span>
 </span></span><span class="line"><span class="cl"><span class="p">});</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>NATS message payloads are byte arrays, so we need to have a codec
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>NATS message payloads are byte arrays, so we need to have a codec
 to serialize and deserialize payloads in order to work with them.
 Another built-in codec is JSONCodec or you can implement your own.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">sc</span> <span class="o">=</span> <span class="nx">StringCodec</span><span class="p">();</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">sc</span> <span class="o">=</span> <span class="nx">StringCodec</span><span class="p">();</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>To publish a message, simply provide the <em>subject</em> of the message
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>To publish a message, simply provide the <em>subject</em> of the message
 and encode the message payload. NATS subjects are hierarchical using
 periods as token delimiters. <code>greet</code> and <code>joe</code> are two distinct tokens.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.bob&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.bob&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Now we are going to create a subscription and utilize a wildcard on
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Now we are going to create a subscription and utilize a wildcard on
 the second token. The effect is that this subscription shows <em>interest</em>
 in all messages published to a subject with two tokens where the first
 is <code>greet</code>.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">sub</span> <span class="o">=</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&#34;greet.*&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">max</span><span class="o">:</span> <span class="mi">3</span><span class="p">});</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kd">let</span> <span class="nx">sub</span> <span class="o">=</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">subscribe</span><span class="p">(</span><span class="s2">&#34;greet.*&#34;</span><span class="p">,</span> <span class="p">{</span><span class="nx">max</span><span class="o">:</span> <span class="mi">3</span><span class="p">});</span>
 </span></span><span class="line"><span class="cl"><span class="kr">const</span> <span class="nx">done</span> <span class="o">=</span> <span class="p">(</span><span class="kr">async</span> <span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">  <span class="k">for</span> <span class="kr">await</span> <span class="p">(</span><span class="kr">const</span> <span class="nx">msg</span> <span class="k">of</span> <span class="nx">sub</span><span class="p">)</span> <span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">sc</span><span class="p">.</span><span class="nx">decode</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">data</span><span class="p">)</span><span class="si">}</span><span class="sb"> on subject </span><span class="si">${</span><span class="nx">msg</span><span class="p">.</span><span class="nx">subject</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
@@ -192,60 +198,62 @@ is <code>greet</code>.</p>
 </span></span><span class="line"><span class="cl"><span class="p">})()</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Let&rsquo;s publish three more messages which will result in the messages
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Let&rsquo;s publish three more messages which will result in the messages
 being forwarded to the local subscription we have.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.pam&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl"><span class="nx">nc</span><span class="p">.</span><span class="nx">publish</span><span class="p">(</span><span class="s2">&#34;greet.sue&#34;</span><span class="p">,</span> <span class="nx">sc</span><span class="p">.</span><span class="nx">encode</span><span class="p">(</span><span class="s2">&#34;hello&#34;</span><span class="p">));</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>This will wait until the above async subscription handler finishes
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>This will wait until the above async subscription handler finishes
 processing the three messages. Note that the first message to
 <code>greet.bob</code> was not printed. This is because the subscription was
 created <em>after</em> the publish. Core NATS provides at-most-once quality
 of service (QoS) for active subscriptions.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">await</span> <span class="nx">done</span><span class="p">;</span>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">await</span> <span class="nx">done</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">
 </span></span></code></pre>
-		</div>
-	
-	
-	
-		<div class="example-comment">
-		<p>Finally we drain the connection which waits for any pending
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Finally we drain the connection which waits for any pending
 messages (published or in a subscription) to be flushed.</p>
 
-		</div>
-	
-	
-	
-		<div class="example-code">
-		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">drain</span><span class="p">();</span></span></span></code></pre>
-		</div>
-	
-	
-	</div>
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kr">await</span> <span class="nx">nc</span><span class="p">.</span><span class="nx">drain</span><span class="p">();</span></span></span></code></pre>
+        </div>
+      
+      
+      </div>
+    </div>
+  </main>
 </body>
 </html>
