@@ -32,10 +32,24 @@
 
   <main>
     <div class="container">
-      <h2 class="title">Pub-Sub <small class="quiet">in Messaging</small></h2>
+      <h2 class="title">Core Publish-Subcribe <small class="quiet">in Messaging</small></h2>
 
       <div class="description">
-      
+      <p>This example demonstrates the core NATS <a href="https://docs.nats.io/nats-concepts/core-nats/pubsub">publish-subscribe</a>
+behavior. This is the fundamental pattern that all other NATS
+patterns and higher-level APIs build upon. There are a few takeaways from this example:</p>
+
+<ul>
+<li>Delivery is an <em>at-most-once</em>. For <a href="https://docs.nats.io/running-a-nats-service/configuration/mqtt">MQTT</a> users, this is referred to as Quality of Service (QoS) 0.</li>
+<li>There are two circumstances when a published message <em>won&rsquo;t</em> be delivered to a subscriber:
+
+<ul>
+<li>The subscriber does not have an active connection to the server (i.e. the client is temporarily offline for some reason)</li>
+<li>There is a network interruption where the message is ultimately dropped</li>
+</ul></li>
+<li>Messages are published to <a href="https://docs.nats.io/nats-concepts/subjects">subjects</a> which can be one or more concrete tokens, e.g. <code>greet.bob</code>. Subscribers can utilize <a href="https://docs.nats.io/nats-concepts/subjects#wildcards">wildcards</a> to show interest on a set of matching subjects.</li>
+</ul>
+
       </div>
 
       
@@ -263,5 +277,8 @@ messages (published or in a subscription) to be flushed.</p>
   <script>
     var codeWithComments = 'import {connect, StringCodec} from \\\u0022https:\/\/deno.land\/x\/nats@v1.7.1\/src\/mod.ts\\\u0022;\\u000A\\u000A\/\/ Get the passed NATS_URL or fallback to the default. This can be\\u000A\/\/ a comma-separated string.\\u000Aconst servers \\u003D Deno.env.get(\\\u0022NATS_URL\\\u0022) || \\\u0022nats:\/\/localhost:4222\\\u0022;\\u000A\\u000A\/\/ Create a client connection to an available NATS server.\\u000Aconst nc \\u003D await connect({\\u000A  servers: servers.split(\\\u0022,\\\u0022),\\u000A});\\u000A\\u000A\/\/ NATS message payloads are byte arrays, so we need to have a codec\\u000A\/\/ to serialize and deserialize payloads in order to work with them.\\u000A\/\/ Another built-in codec is JSONCodec or you can implement your own.\\u000Aconst sc \\u003D StringCodec();\\u000A\\u000A\/\/ To publish a message, simply provide the _subject_ of the message\\u000A\/\/ and encode the message payload. NATS subjects are hierarchical using\\u000A\/\/ periods as token delimiters. `greet` and `joe` are two distinct tokens.\\u000Anc.publish(\\\u0022greet.bob\\\u0022, sc.encode(\\\u0022hello\\\u0022));\\u000A\\u000A\/\/ Now we are going to create a subscription and utilize a wildcard on\\u000A\/\/ the second token. The effect is that this subscription shows _interest_\\u000A\/\/ in all messages published to a subject with two tokens where the first\\u000A\/\/ is `greet`.\\u000Alet sub \\u003D nc.subscribe(\\\u0022greet.*\\\u0022, {max: 3});\\u000Aconst done \\u003D (async () \\u003D\\u003E {\\u000A  for await (const msg of sub) {\\u000A    console.log(`${sc.decode(msg.data)} on subject ${msg.subject}`);\\u000A  }\\u000A})()\\u000A\\u000A\/\/ Let\\\u0027s publish three more messages which will result in the messages\\u000A\/\/ being forwarded to the local subscription we have.\\u000Anc.publish(\\\u0022greet.joe\\\u0022, sc.encode(\\\u0022hello\\\u0022));\\u000Anc.publish(\\\u0022greet.pam\\\u0022, sc.encode(\\\u0022hello\\\u0022));\\u000Anc.publish(\\\u0022greet.sue\\\u0022, sc.encode(\\\u0022hello\\\u0022));\\u000A\\u000A\/\/ This will wait until the above async subscription handler finishes\\u000A\/\/ processing the three messages. Note that the first message to\\u000A\/\/ `greet.bob` was not printed. This is because the subscription was\\u000A\/\/ created _after_ the publish. Core NATS provides at-most-once quality\\u000A\/\/ of service (QoS) for active subscriptions.\\u000Aawait done;\\u000A\\u000A\/\/ Finally we drain the connection which waits for any pending\\u000A\/\/ messages (published or in a subscription) to be flushed.\\u000Aawait nc.drain();';
   </script>
+
+  <footer>
+  </footer>
 </body>
 </html>

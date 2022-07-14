@@ -124,16 +124,17 @@ func (r *ExampleRunner) Run() error {
 		example = filepath.Join("examples", example)
 	}
 
-	exampleDir := filepath.Join(r.Repo, example)
+	clientDir := filepath.Join(r.Repo, example)
+	exampleDir := filepath.Dir(clientDir)
 	lang := filepath.Base(example)
 
-	composefile := filepath.Join(exampleDir, "docker-compose.yaml")
-	if _, err := os.Stat(composefile); err != nil {
+	composeFile := filepath.Join(exampleDir, "docker-compose.yaml")
+	if _, err := os.Stat(composeFile); err != nil {
 		if os.IsNotExist(err) {
 			if r.Cluster {
-				composefile = filepath.Join(r.Repo, "docker", "docker-compose.cluster.yaml")
+				composeFile = filepath.Join(r.Repo, "docker", "docker-compose.cluster.yaml")
 			} else {
-				composefile = filepath.Join(r.Repo, "docker", "docker-compose.yaml")
+				composeFile = filepath.Join(r.Repo, "docker", "docker-compose.yaml")
 			}
 		} else {
 			return err
@@ -167,7 +168,7 @@ func (r *ExampleRunner) Run() error {
 	}
 
 	// Copy example files next..
-	if err := copyDirContents(exampleDir, buildDir); err != nil {
+	if err := copyDirContents(clientDir, buildDir); err != nil {
 		return err
 	}
 
@@ -217,7 +218,7 @@ func (r *ExampleRunner) Run() error {
 		"compose",
 		"--project-name", uid,
 		"--project-directory", composeDir,
-		"--file", composefile,
+		"--file", composeFile,
 		"down",
 		"--remove-orphans",
 		"--timeout", "3",
@@ -229,7 +230,7 @@ func (r *ExampleRunner) Run() error {
 		"compose",
 		"--project-name", uid,
 		"--project-directory", composeDir,
-		"--file", composefile,
+		"--file", composeFile,
 		"run",
 		"--no-TTY",
 		"--rm",

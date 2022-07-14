@@ -32,10 +32,24 @@
 
   <main>
     <div class="container">
-      <h2 class="title">Pub-Sub <small class="quiet">in Messaging</small></h2>
+      <h2 class="title">Core Publish-Subcribe <small class="quiet">in Messaging</small></h2>
 
       <div class="description">
-      
+      <p>This example demonstrates the core NATS <a href="https://docs.nats.io/nats-concepts/core-nats/pubsub">publish-subscribe</a>
+behavior. This is the fundamental pattern that all other NATS
+patterns and higher-level APIs build upon. There are a few takeaways from this example:</p>
+
+<ul>
+<li>Delivery is an <em>at-most-once</em>. For <a href="https://docs.nats.io/running-a-nats-service/configuration/mqtt">MQTT</a> users, this is referred to as Quality of Service (QoS) 0.</li>
+<li>There are two circumstances when a published message <em>won&rsquo;t</em> be delivered to a subscriber:
+
+<ul>
+<li>The subscriber does not have an active connection to the server (i.e. the client is temporarily offline for some reason)</li>
+<li>There is a network interruption where the message is ultimately dropped</li>
+</ul></li>
+<li>Messages are published to <a href="https://docs.nats.io/nats-concepts/subjects">subjects</a> which can be one or more concrete tokens, e.g. <code>greet.bob</code>. Subscribers can utilize <a href="https://docs.nats.io/nats-concepts/subjects#wildcards">wildcards</a> to show interest on a set of matching subjects.</li>
+</ul>
+
       </div>
 
       
@@ -250,5 +264,8 @@ the output to stdout.</p>
   <script>
     var codeWithComments = '#!\/bin\/sh\\u000A\\u000A# The `nats` CLI utilizes the `NATS_URL` environment variable if set.\\u000A# However, if you want to manage different _contexts_ for connecting\\u000A# or authenticating, check out the `nats context` commands.\\u000A# For example:\\u000A# ```\\u000A# nats context save --server\\u003D$NATS_URL local\\u000A# ```\\u000ANATS_URL\\u003D\\\u0022${NATS_URL:-nats:\/\/localhost:4222}\\\u0022\\u000A\\u000A# Publish a message to the subject \\\u0027greet.joe\\\u0027. Nothing will happen\\u000A# since the subscription is not yet setup.\\u000Anats pub \\\u0027greet.joe\\\u0027 \\\u0027hello\\\u0027\\u000A\\u000A# Let\\\u0027s start a subscription in the background that will print\\u000A# the output to stdout.\\u000Anats sub \\\u0027greet.*\\\u0027 \\u0026\\u000A\\u000A# This just captures the process ID of the previous command in this shell.\\u000ASUB_PID\\u003D$!\\u000A\\u000A# Tiny sleep to ensure the subscription connected.\\u000Asleep 0.5\\u000A\\u000A# Now we can publish a couple times..\\u000Anats pub \\\u0027greet.joe\\\u0027 \\\u0027hello\\\u0027\\u000Anats pub \\\u0027greet.pam\\\u0027 \\\u0027hello\\\u0027\\u000Anats pub \\\u0027greet.bob\\\u0027 \\\u0027hello\\\u0027\\u000A\\u000A# Remove the subscription.\\u000Akill $SUB_PID\\u000A\\u000A# Publishing again will not result in anything.\\u000Anats pub \\\u0027greet.bob\\\u0027 \\\u0027hello\\\u0027';
   </script>
+
+  <footer>
+  </footer>
 </body>
 </html>

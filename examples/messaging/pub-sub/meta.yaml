@@ -1,0 +1,16 @@
+title: Core Publish-Subcribe
+description: |-
+  This example demonstrates the core NATS [publish-subscribe][pubsub]
+  behavior. This is the fundamental pattern that all other NATS
+  patterns and higher-level APIs build upon. There are a few takeaways from this example:
+
+  - Delivery is an _at-most-once_. For [MQTT][mqtt] users, this is referred to as Quality of Service (QoS) 0.
+  - There are two circumstances when a published message _won't_ be delivered to a subscriber:
+    - The subscriber does not have an active connection to the server (i.e. the client is temporarily offline for some reason)
+    - There is a network interruption where the message is ultimately dropped
+  - Messages are published to [subjects][subjects] which can be one or more concrete tokens, e.g. `greet.bob`. Subscribers can utilize [wildcards][wildcards] to show interest on a set of matching subjects.
+
+  [pubsub]: https://docs.nats.io/nats-concepts/core-nats/pubsub
+  [mqtt]: https://docs.nats.io/running-a-nats-service/configuration/mqtt
+  [subjects]: https://docs.nats.io/nats-concepts/subjects
+  [wildcards]: https://docs.nats.io/nats-concepts/subjects#wildcards

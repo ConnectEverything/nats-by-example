@@ -3,8 +3,14 @@
   src: url("/Cookie-Regular.ttf");
 }
 
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 body, button, input, select, textarea {
-font-family: "Source Sans Pro",BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
+  font-family: "Source Sans Pro",BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
 
 a {
@@ -29,6 +35,18 @@ header {
   color: #ffffff;
   background-color: #1b2e49;
   border-bottom: 5px solid #27aae1;
+}
+
+main {
+  margin: 20px 0 30px 0;
+}
+
+footer {
+  margin-top: auto;
+  padding: 5px 0;
+  color: #ffffff;
+  background-color: #1b2e49;
+  border-top: 5px solid #27aae1;
 }
 
 #header {
@@ -81,10 +99,6 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
 }
 
-main {
-  margin-top: 20px;
-}
-
 .quiet {
   color: #999;
 }
@@ -96,11 +110,7 @@ main {
   padding: 20px;
   border-radius: 3px;
   background-color: #eee;
-  margin-bottom: 20px;
-}
-
-main {
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .github-icon, .clipboard-icon {
@@ -186,9 +196,8 @@ pre, code {
 }
 
 .description {
-  color: #555;
   font-size: 0.9rem;
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 }
 
 .title {

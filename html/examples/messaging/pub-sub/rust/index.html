@@ -32,10 +32,24 @@
 
   <main>
     <div class="container">
-      <h2 class="title">Pub-Sub <small class="quiet">in Messaging</small></h2>
+      <h2 class="title">Core Publish-Subcribe <small class="quiet">in Messaging</small></h2>
 
       <div class="description">
-      
+      <p>This example demonstrates the core NATS <a href="https://docs.nats.io/nats-concepts/core-nats/pubsub">publish-subscribe</a>
+behavior. This is the fundamental pattern that all other NATS
+patterns and higher-level APIs build upon. There are a few takeaways from this example:</p>
+
+<ul>
+<li>Delivery is an <em>at-most-once</em>. For <a href="https://docs.nats.io/running-a-nats-service/configuration/mqtt">MQTT</a> users, this is referred to as Quality of Service (QoS) 0.</li>
+<li>There are two circumstances when a published message <em>won&rsquo;t</em> be delivered to a subscriber:
+
+<ul>
+<li>The subscriber does not have an active connection to the server (i.e. the client is temporarily offline for some reason)</li>
+<li>There is a network interruption where the message is ultimately dropped</li>
+</ul></li>
+<li>Messages are published to <a href="https://docs.nats.io/nats-concepts/subjects">subjects</a> which can be one or more concrete tokens, e.g. <code>greet.bob</code>. Subscribers can utilize <a href="https://docs.nats.io/nats-concepts/subjects#wildcards">wildcards</a> to show interest on a set of matching subjects.</li>
+</ul>
+
       </div>
 
       
@@ -225,5 +239,8 @@ relay the message to the client.</p>
   <script>
     var codeWithComments = 'use futures::StreamExt;\\u000Ause std::{env, str::from_utf8};\\u000A\\u000A#[tokio::main]\\u000Aasync fn main() -\\u003E Result\\u003C(), async_nats::Error\\u003E {\\u000A    \/\/ Use the NATS_URL env variable if defined, otherwise fallback\\u000A    \/\/ to the default.\\u000A    let nats_url \\u003D env::var(\\\u0022NATS_URL\\\u0022).unwrap_or_else(|_| \\\u0022nats:\/\/localhost:4222\\\u0022.to_string());\\u000A\\u000A    let client \\u003D async_nats::connect(nats_url).await?;\\u000A\\u000A    \/\/ Publish a message to the subject `greet.joe`.\\u000A    client\\u000A        .publish(\\\u0022greet.joe\\\u0022.to_string(), \\\u0022hello\\\u0022.into())\\u000A        .await?;\\u000A\\u000A    \/\/ `Subscriber` implements Rust iterator, so we can leverage\\u000A    \/\/ combinators like `take()` to limit the messages intended\\u000A    \/\/ to be consumed for this interaction.\\u000A    let mut subscription \\u003D client\\u000A        .subscribe(\\\u0022greet.*\\\u0022.to_string())\\u000A        .await?\\u000A        .take(3);\\u000A\\u000A    \/\/ Publish to three different subjects matching the wildcard.\\u000A    for subject in [\\\u0022greet.sue\\\u0022, \\\u0022greet.bob\\\u0022, \\\u0022greet.pam\\\u0022] {\\u000A        client\\u000A            .publish(subject.to_string(), \\\u0022hello\\\u0022.into())\\u000A            .await?;\\u000A    }\\u000A\\u000A    \/\/ Notice that the first message received is `greet.sue` and not\\u000A    \/\/ `greet.joe` which was the first message published. This is because\\u000A    \/\/ core NATS provides at-most-once quality of service (QoS). Subscribers\\u000A    \/\/ must be connected showing *interest* in a subject for the server to\\u000A    \/\/ relay the message to the client.\\u000A    while let Some(message) \\u003D subscription.next().await {\\u000A        println!(\\\u0022{:?} received on {:?}\\\u0022, from_utf8(\\u0026message.payload), \\u0026message.subject);\\u000A    }\\u000A\\u000A    Ok(())\\u000A}\\u000A';
   </script>
+
+  <footer>
+  </footer>
 </body>
 </html>
