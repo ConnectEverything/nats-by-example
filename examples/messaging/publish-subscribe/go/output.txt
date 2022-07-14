@@ -1,0 +1,5 @@
+subscribed after a publish...
+msg is nil? true
+msg data: "hello" on subject "greet.joe"
+msg data: "hello" on subject "greet.pam"
+msg data: "hello" on subject "greet.bob"

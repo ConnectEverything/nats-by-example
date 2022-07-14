@@ -1,0 +1,189 @@
+<!doctype html>
+<html>
+<head>
+	<link rel="stylesheet" href="/main.css">
+</head>
+<body>
+	<h1><a href="/">NATS by Example</a></h1>
+
+	<div><a href="/examples/messaging">Messaging</a> / <a href="/examples/messaging/publish-subscribe">Publish-Subscribe</a></div>
+	<h2>go</h2>
+
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="kn">package</span> <span class="nx">main</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="p">(</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;fmt&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;os&#34;</span>
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;time&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="s">&#34;github.com/nats-io/nats.go&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="kd">func</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span></span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Use the env varibale if running in the container, otherwise use the default.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">url</span> <span class="o">:=</span> <span class="nx">os</span><span class="p">.</span><span class="nf">Getenv</span><span class="p">(</span><span class="s">&#34;NATS_URL&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="k">if</span> <span class="nx">url</span> <span class="o">==</span> <span class="s">&#34;&#34;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">		<span class="nx">url</span> <span class="p">=</span> <span class="nx">nats</span><span class="p">.</span><span class="nx">DefaultURL</span>
+</span></span><span class="line"><span class="cl">	<span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Create an unauthenticated connection to NATS.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nats</span><span class="p">.</span><span class="nf">Connect</span><span class="p">(</span><span class="nx">url</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Drain is a safe way to to ensure all buffered messages that were published
+are sent and all buffered messages received on a subscription are processed
+being closing the connection.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="k">defer</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">Drain</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Messages are published to subjects. Although there are no subscribers,
+this will be published successfully.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Let&rsquo;s create a subscription on the greet.* wildcard.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">sub</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">nc</span><span class="p">.</span><span class="nf">SubscribeSync</span><span class="p">(</span><span class="s">&#34;greet.*&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>For a synchronous subscription, we need to fetch the next message.
+However.. since the publish occured before the subscription was
+established, this is going to timeout.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">msg</span><span class="p">,</span> <span class="nx">_</span> <span class="o">:=</span> <span class="nx">sub</span><span class="p">.</span><span class="nf">NextMsg</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Println</span><span class="p">(</span><span class="s">&#34;subscribed after a publish...&#34;</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;msg is nil? %v\n&#34;</span><span class="p">,</span> <span class="nx">msg</span> <span class="o">==</span> <span class="kc">nil</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Publish a couple messages.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;greet.pam&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>Since the subscription is established, the published messages will
+immediately be broadcasted to all subscriptions. They will land in
+their buffer for subsequent NextMsg calls.</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">msg</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">sub</span><span class="p">.</span><span class="nf">NextMsg</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;msg data: %q on subject %q\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Data</span><span class="p">),</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">Subject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">msg</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">sub</span><span class="p">.</span><span class="nf">NextMsg</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;msg data: %q on subject %q\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Data</span><span class="p">),</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">Subject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+		</div>
+	
+	
+	
+		<div class="example-comment">
+		<p>One more for good measures..</p>
+
+		</div>
+	
+	
+	
+		<div class="example-code">
+		<pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">	<span class="nx">nc</span><span class="p">.</span><span class="nf">Publish</span><span class="p">(</span><span class="s">&#34;greet.bob&#34;</span><span class="p">,</span> <span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&#34;hello&#34;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">	<span class="nx">msg</span><span class="p">,</span> <span class="nx">_</span> <span class="p">=</span> <span class="nx">sub</span><span class="p">.</span><span class="nf">NextMsg</span><span class="p">(</span><span class="mi">10</span> <span class="o">*</span> <span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="nx">fmt</span><span class="p">.</span><span class="nf">Printf</span><span class="p">(</span><span class="s">&#34;msg data: %q on subject %q\n&#34;</span><span class="p">,</span> <span class="nb">string</span><span class="p">(</span><span class="nx">msg</span><span class="p">.</span><span class="nx">Data</span><span class="p">),</span> <span class="nx">msg</span><span class="p">.</span><span class="nx">Subject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span></span></span></code></pre>
+		</div>
+	
+	
+</body>
+</html>
