@@ -104,16 +104,20 @@ type ExampleRunner struct {
 	// Set to true, to force the use of a cluster.
 	Cluster bool
 	// If true, do not delete the image.
-	KeepImage bool
+	Keep bool
+	// If true, use "compose up" instead of "run"
+	Up bool
 	// Defaults to os.Stdout and os.Stderr. Set if these streams need to be
 	// explicitly captured.
 	Stdout io.Writer
 	Stderr io.Writer
+	Stdin  io.Reader
 }
 
 func (r *ExampleRunner) Run() error {
 	stdout := r.Stdout
 	stderr := r.Stderr
+	stdin := r.Stdin
 
 	if stdout == nil {
 		stdout = os.Stdout
@@ -192,7 +196,7 @@ func (r *ExampleRunner) Run() error {
 		return fmt.Errorf("build image: %w", err)
 	}
 
-	if !r.KeepImage {
+	if !r.Keep {
 		// Remove the built image on exit to prevent
 		// TODO: should rely on git hash instead of random uid.
 		defer exec.Command(
@@ -202,16 +206,7 @@ func (r *ExampleRunner) Run() error {
 		).Run()
 	}
 
-	// Create a temporary directory as the project directory for the temporary
-	// .env file containing the image tag.
-	composeDir, err := ioutil.TempDir("", "")
-	if err != nil {
-		return fmt.Errorf("temp dir: %w", err)
-	}
-	// Clean up the directory on exit.
-	defer os.RemoveAll(composeDir)
-
-	err = createFile(filepath.Join(composeDir, ".env"), []byte(fmt.Sprintf("IMAGE_TAG=%s", imageTag)))
+	err = createFile(filepath.Join(buildDir, ".env"), []byte(fmt.Sprintf("IMAGE_TAG=%s", imageTag)))
 	if err != nil {
 		return fmt.Errorf("create .env: %w", err)
 	}
@@ -221,28 +216,42 @@ func (r *ExampleRunner) Run() error {
 		"docker",
 		"compose",
 		"--project-name", uid,
-		"--project-directory", composeDir,
+		"--project-directory", buildDir,
 		"--file", composeFile,
 		"down",
 		"--remove-orphans",
 		"--timeout", "3",
 	).Run()
 
-	// Run the app container.
-	cmd := exec.Command(
-		"docker",
-		"compose",
-		"--project-name", uid,
-		"--project-directory", composeDir,
-		"--file", composeFile,
-		"run",
-		"--no-TTY",
-		"--rm",
-		"app",
-	)
+	var cmd *exec.Cmd
+	if r.Up {
+		// Run the app container.
+		cmd = exec.Command(
+			"docker",
+			"compose",
+			"--project-name", uid,
+			"--project-directory", buildDir,
+			"--file", composeFile,
+			"up",
+		)
+	} else {
+		// Run the app container.
+		cmd = exec.Command(
+			"docker",
+			"compose",
+			"--project-name", uid,
+			"--project-directory", buildDir,
+			"--file", composeFile,
+			"run",
+			"--no-TTY",
+			"--rm",
+			"app",
+		)
+	}
 
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
+	cmd.Stdin = stdin
 
 	return cmd.Run()
 }

@@ -52,8 +52,13 @@ the runtime.`,
 				Value: "",
 			},
 			&cli.BoolFlag{
-				Name:  "keep-image",
+				Name:  "keep",
 				Usage: "If true, the example image is not deleted after the run.",
+				Value: false,
+			},
+			&cli.BoolFlag{
+				Name:  "up",
+				Usage: "Run with docker compose up primarily for debugging.",
 				Value: false,
 			},
 		},
@@ -61,7 +66,9 @@ the runtime.`,
 			cluster := c.Bool("cluster")
 			repo := c.String("repo")
 			name := c.String("name")
-			keep := c.Bool("keep-image")
+			keep := c.Bool("keep")
+			up := c.Bool("up")
+
 			example := c.Args().First()
 
 			repo, err := os.Getwd()
@@ -70,11 +77,12 @@ the runtime.`,
 			}
 
 			r := ExampleRunner{
-				Name:      name,
-				Repo:      repo,
-				Example:   example,
-				Cluster:   cluster,
-				KeepImage: keep,
+				Name:    name,
+				Repo:    repo,
+				Example: example,
+				Cluster: cluster,
+				Keep:    keep,
+				Up:      up,
 			}
 
 			return r.Run()
