@@ -21,12 +21,12 @@ The recommended way to get started is to browse the [website](https://natsbyexam
 When you want to actually execute the example code, you can clone this repo, download the [`nbe`](https://github.com/bruth/nats-by-example/releases) CLI and use the `run` command at the root of the repo. For example:
 
 ```sh
-$ nbe run messaging/pub-sub/rust
+$ nbe run messaging/pub-sub/cli
 ```
 
-This will run the Rust implementation of the [core publish-subscribe example](https://natsbyexample.com/examples/messaging/pub-sub/rust/) in a set of containers.
+This will run the NATS CLI implementation of the [core publish-subscribe example](https://natsbyexample.com/examples/messaging/pub-sub/cli/) in a set of containers.
 
-Currently, the `nbe` CLI depends on [Docker](https://docs.docker.com) and [Compose](https://docs.docker.com/compose/) (v2+) to run a set of containers hosting the Rust program and the NATS server. Other container runtimes would be considered if requested (such as [Podman](https://podman.io)).
+Currently, the `nbe` CLI depends on [Docker](https://docs.docker.com) and [Compose](https://docs.docker.com/compose/) (v2+) to run a set of containers hosting the CLI client and the NATS server. Other container runtimes would be considered if requested (such as [Podman](https://podman.io)).
 
 The name of the example corresponds to the directory structure under `examples/`, specifically `<category>/<example>/<client>`.
 
