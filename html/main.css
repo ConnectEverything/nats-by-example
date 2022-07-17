@@ -182,13 +182,15 @@ pre, code {
   margin: 0 auto;
 }
 
-.example .example-code {
+.example-code {
   width: 50%;
+  margin-bottom: 30px;
 }
 
-.example .example-comment {
+.example-comment {
   width: 40%;
   margin-right: 5%;
+  margin-bottom: 30px;
 }
 
 .example-comment pre {
