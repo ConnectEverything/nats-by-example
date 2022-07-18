@@ -1,0 +1,10 @@
+title: Leafnode with JWT Auth
+description: |-
+  This example demonstrates how to bootstrap the [decentralized JWT
+  authentication mode][jwt] using the [nsc tool][nsc], configuring a
+  server to accept leaf node connections, configuring a server acting
+  as the leaf node itself, and how a client making a request to the leaf
+  node will get handled by a service connected to the main node.
+
+  [jwt]: https://docs.nats.io/running-a-nats-service/configuration/securing_nats/auth_intro/jwt
+  [nsc]: https://docs.nats.io/using-nats/nats-tools/nsc

@@ -1,0 +1,28 @@
+Network e113dd2b_default  Creating
+Network e113dd2b_default  Created
+Container e113dd2b-nats-1  Creating
+Container e113dd2b-nats-1  Created
+Container e113dd2b-nats-1  Starting
+Container e113dd2b-nats-1  Started
+             _             _               
+ _ __   __ _| |_ ___      | |__   _____  __
+| '_ \ / _` | __/ __|_____| '_ \ / _ \ \/ /
+| | | | (_| | |_\__ \_____| |_) | (_) >  < 
+|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
+                                           
+nats-box v0.12.0
+12:08:34 Published 5 bytes to "greet.joe"
+12:08:34 Subscribing on greet.*
+12:08:34 Published 5 bytes to "greet.joe"
+[#1] Received on "greet.joe"
+hello
+
+[#2] Received on "greet.pam"
+hello
+
+12:08:34 Published 5 bytes to "greet.pam"
+[#3] Received on "greet.bob"
+hello
+
+12:08:34 Published 5 bytes to "greet.bob"
+12:08:35 Published 5 bytes to "greet.bob"

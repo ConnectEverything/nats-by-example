@@ -17,6 +17,7 @@
   gtag('config', 'G-9QV780SHZ5');
 </script>
 
+  <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>
 <body>
   <header>
@@ -110,6 +111,10 @@ nsc tool for creating and managing accounts and users.</p>
           <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
+
+      <div class="highlight">Check out a <a href="#recording">recording</a> of the code executing and the <a href="#output">output</a> below!</div>
+
+      <h3 id="code">Code</h3>
 
       <div class="example">
       
@@ -359,13 +364,81 @@ limits, etc.</p>
       
       
       </div>
+
+      <h3 id="recording">Recording</h3>
+      <div class="quiet text-center">Note, playback is 1/5 the speed to make it a bit easier to follow.</div>
+      <div id="asciinema"></div>
+
+      <h3 id="output">Output</h3>
+
+      <pre class="output">Network 5f3c810c_default  Creating
+Network 5f3c810c_default  Created
+Container 5f3c810c-nats-1  Creating
+Container 5f3c810c-nats-1  Created
+Container 5f3c810c-nats-1  Starting
+Container 5f3c810c-nats-1  Started
+operator pubkey: OBM5R45XP7LDVHIBIJYWSQVRQNMIH6PAD2JJGTUVZ65NCNNL2XL2BEDH
+operator seed: SOAB5V4E5FRLQAA6ATEEYFK7CSCP2HVW2G7I7P66WM6GVX2WPZDH7PLYGQ
+
+account pubkey: AD4ZSLQA4TF6BQEHJOGYSVYO5GQRPRTBJWZNU37CE6NMMT6M6KU3F6AJ
+account seed: SAAEFLXYQ4UFT6VSV345TGC3KYSV7PTWY6W3LQ3Q3L4M75WIKZHN4QGFRA
+account claims: {
+  &#34;name&#34;: &#34;my-account&#34;,
+  &#34;sub&#34;: &#34;AD4ZSLQA4TF6BQEHJOGYSVYO5GQRPRTBJWZNU37CE6NMMT6M6KU3F6AJ&#34;,
+  &#34;nats&#34;: {
+    &#34;limits&#34;: {
+      &#34;subs&#34;: -1,
+      &#34;data&#34;: -1,
+      &#34;payload&#34;: -1,
+      &#34;imports&#34;: -1,
+      &#34;exports&#34;: -1,
+      &#34;wildcards&#34;: true,
+      &#34;conn&#34;: -1,
+      &#34;leaf&#34;: -1,
+      &#34;mem_storage&#34;: -1,
+      &#34;disk_storage&#34;: -1
+    },
+    &#34;default_permissions&#34;: {
+      &#34;pub&#34;: {},
+      &#34;sub&#34;: {}
+    }
+  }
+}
+account jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJJUFZUNEVQWEVVRTNXUVVDN1RaUlEyWlczRTNPTTRZQU03UlBVM1dYVUU1SVFBWFVaN0tBIiwiaWF0IjoxNjU4MTQ3MjEzLCJpc3MiOiJPQk01UjQ1WFA3TERWSElCSUpZV1NRVlJRTk1JSDZQQUQySkpHVFVWWjY1TkNOTkwyWEwyQkVESCIsIm5hbWUiOiJteS1hY2NvdW50Iiwic3ViIjoiQUQ0WlNMUUE0VEY2QlFFSEpPR1lTVllPNUdRUlBSVEJKV1pOVTM3Q0U2Tk1NVDZNNktVM0Y2QUoiLCJuYXRzIjp7ImxpbWl0cyI6eyJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJpbXBvcnRzIjotMSwiZXhwb3J0cyI6LTEsIndpbGRjYXJkcyI6dHJ1ZSwiY29ubiI6LTEsImxlYWYiOi0xLCJtZW1fc3RvcmFnZSI6LTEsImRpc2tfc3RvcmFnZSI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.wRcrk8sNjZytXc4ndJPi0t6aUs-6s-HW06rsnWVj6lt2JDq96G_Avay-jQ1KVvhUv6UVpclSeFsPD7NNsEW0Dg
+
+user pubkey: UA7NAURVQHENYVCWE5TMCRUNW5CG3U7J77Y3TFEUMR7HCGSRVO6PNVX5
+user seed: SUAEV2MKYN43G5YMU4MAKBHYHCOAIYCJZYKAMVUUS774ERWMB76N2SL5VM
+userclaims: {
+  &#34;name&#34;: &#34;my-user&#34;,
+  &#34;sub&#34;: &#34;UA7NAURVQHENYVCWE5TMCRUNW5CG3U7J77Y3TFEUMR7HCGSRVO6PNVX5&#34;,
+  &#34;nats&#34;: {
+    &#34;pub&#34;: {},
+    &#34;sub&#34;: {},
+    &#34;subs&#34;: -1,
+    &#34;data&#34;: -1,
+    &#34;payload&#34;: -1
+  }
+}
+user jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJCSVNOSkJUS0NHSEZKNTVMSFRLUklOSEpIRlRLRUdPVFdQQVhRSkpBQzNGSFFJWEtJQVNRIiwiaWF0IjoxNjU4MTQ3MjEzLCJpc3MiOiJBRDRaU0xRQTRURjZCUUVISk9HWVNWWU81R1FSUFJUQkpXWk5VMzdDRTZOTU1UNk02S1UzRjZBSiIsIm5hbWUiOiJteS11c2VyIiwic3ViIjoiVUE3TkFVUlZRSEVOWVZDV0U1VE1DUlVOVzVDRzNVN0o3N1kzVEZFVU1SN0hDR1NSVk82UE5WWDUiLCJuYXRzIjp7InB1YiI6e30sInN1YiI6e30sInN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsInR5cGUiOiJ1c2VyIiwidmVyc2lvbiI6Mn19.Z2RdkEUQrnKo4IE2w1F84XH44K_4kMhZSh4-OvUxNui2hYBnNO0R50DhtVbqCYprD1m1x1XZYc84O1GCTfz5Bg
+</pre>
+
     </div>
   </main>
   <script src="/main.js" async></script>
+  <script src="/asciinema-player.min.js"></script>
   <script>
-    var codeWithComments = 'package main\\u000A\\u000Aimport (\\u000A\\u0009\\\u0022fmt\\\u0022\\u000A\\u0009\\\u0022log\\\u0022\\u000A\\u000A\\u0009\\\u0022github.com\/nats-io\/jwt\/v2\\\u0022\\u000A\\u0009\\\u0022github.com\/nats-io\/nkeys\\\u0022\\u000A)\\u000A\\u000Afunc main() {\\u000A\\u0009log.SetFlags(0)\\u000A\\u000A\\u0009\/\/ Create a one-off operator keypair for the purpose of this example.\\u000A\\u0009\/\/ In practice, the operator needs to be created ahead of time to configure\\u000A\\u0009\/\/ the resolver in the server config if you are deploying your own NATS server.\\u000A\\u0009\/\/ This most commonly done using the \\\u0022nsc\\\u0022 tool:\\u000A\\u0009\/\/ ```\\u000A\\u0009\/\/ nsc add operator --generate-signing-key --sys --name local\\u000A\\u0009\/\/ nsc edit operator --require-signing-keys --account-jwt-server-url nats:\/\/127.0.0.1:4222\\u000A\\u0009\/\/ ```\\u000A\\u0009\/\/ Signing keys are technically optional, but a best practice.\\u000A\\u0009operatorKP, _ :\\u003D nkeys.CreateOperator()\\u000A\\u000A\\u0009\/\/ We can distinguish operators, accounts, and users by the first character\\u000A\\u0009\/\/ of their public key: O, A, or U.\\u000A\\u0009operatorPub, _ :\\u003D operatorKP.PublicKey()\\u000A\\u0009fmt.Printf(\\\u0022operator pubkey: %s\\\\n\\\u0022, operatorPub)\\u000A\\u000A\\u0009\/\/ Seed values (private key), are prefixed with S.\\u000A\\u0009operatorSeed, _ :\\u003D operatorKP.Seed()\\u000A\\u0009fmt.Printf(\\\u0022operator seed: %s\\\\n\\\\n\\\u0022, string(operatorSeed))\\u000A\\u000A\\u0009\/\/ To create accounts on demand, we start with creatinng a new keypair which\\u000A\\u0009\/\/ has a unique ID.\\u000A\\u0009accountKP, _ :\\u003D nkeys.CreateAccount()\\u000A\\u000A\\u0009accountPub, _ :\\u003D accountKP.PublicKey()\\u000A\\u0009fmt.Printf(\\\u0022account pubkey: %s\\\\n\\\u0022, accountPub)\\u000A\\u000A\\u0009accountSeed, _ :\\u003D accountKP.Seed()\\u000A\\u0009fmt.Printf(\\\u0022account seed: %s\\\\n\\\u0022, string(accountSeed))\\u000A\\u000A\\u0009\/\/ Create a new set of account claims and configure as desired including a\\u000A\\u0009\/\/ readable name, JetStream limits, imports\/exports, etc.\\u000A\\u0009accountClaims :\\u003D jwt.NewAccountClaims(accountPub)\\u000A\\u0009accountClaims.Name \\u003D \\\u0022my-account\\\u0022\\u000A\\u000A\\u0009\/\/ The only requirement to \\\u0022enable\\\u0022 JetStream is setting the disk and memory\\u000A\\u0009\/\/ limits to anything other than zero. -1 indicates \\\u0022unlimited\\\u0022.\\u000A\\u0009accountClaims.Limits.JetStreamLimits.DiskStorage \\u003D -1\\u000A\\u0009accountClaims.Limits.JetStreamLimits.MemoryStorage \\u003D -1\\u000A\\u000A\\u0009\/\/ Inspecting the claims, you will notice the `sub` field is the public key\\u000A\\u0009\/\/ of the account.\\u000A\\u0009fmt.Printf(\\\u0022account claims: %s\\\\n\\\u0022, accountClaims)\\u000A\\u000A\\u0009\/\/ Now we can sign the claims with the operator and encode it to a JWT string.\\u000A\\u0009\/\/ To activate this account, it must be pushed up to the server using a client\\u000A\\u0009\/\/ connection authenticated as the SYS account user:\\u000A\\u0009\/\/ ```go\\u000A\\u0009\/\/ nc.Request(\\\u0022$SYS.REQ.CLAIMS.UPDATE\\\u0022, []byte(accountJWT))\\u000A\\u0009\/\/ ```\\u000A\\u0009\/\/ If you copy the JWT output to https:\/\/jwt.io, you will notice the `iss`\\u000A\\u0009\/\/ field is set to the operator public key.\\u000A\\u0009accountJWT, _ :\\u003D accountClaims.Encode(operatorKP)\\u000A\\u0009fmt.Printf(\\\u0022account jwt: %s\\\\n\\\\n\\\u0022, accountJWT)\\u000A\\u000A\\u0009\/\/ It is important to call out that the nsc tool handles storage and management\\u000A\\u0009\/\/ of operators, accounts, users. It writes out each nkey and JWT to a file and\\u000A\\u0009\/\/ organizes everything for you. If you opt to create accounts or users dynamically,\\u000A\\u0009\/\/ keep in mind you need to store and manage the keypairs and JWTs yourself.\\u000A\\u000A\\u0009\/\/ If we want to create a user, the process is essentially the same as it was\\u000A\\u0009\/\/ for the account.\\u000A\\u0009userKP, _ :\\u003D nkeys.CreateUser()\\u000A\\u000A\\u0009userPub, _ :\\u003D userKP.PublicKey()\\u000A\\u0009fmt.Printf(\\\u0022user pubkey: %s\\\\n\\\u0022, userPub)\\u000A\\u000A\\u0009userSeed, _ :\\u003D userKP.Seed()\\u000A\\u0009fmt.Printf(\\\u0022user seed: %s\\\\n\\\u0022, string(userSeed))\\u000A\\u000A\\u0009\/\/ Create the user claims, set the name, and configure permissions, expiry time,\\u000A\\u0009\/\/ limits, etc.\\u000A\\u0009userClaims :\\u003D jwt.NewUserClaims(userPub)\\u000A\\u0009userClaims.Name \\u003D \\\u0022my-user\\\u0022\\u000A\\u0009fmt.Printf(\\\u0022userclaims: %s\\\\n\\\u0022, userClaims)\\u000A\\u000A\\u0009\/\/ Sign and encode the claims as a JWT.\\u000A\\u0009userJWT, _ :\\u003D userClaims.Encode(accountKP)\\u000A\\u0009fmt.Printf(\\\u0022user jwt: %s\\\\n\\\u0022, userJWT)\\u000A}';
+    var url = '/examples\/auth\/nkeys-jwts\/go\/output.cast';
+    AsciinemaPlayer.create(url, document.getElementById('asciinema'), {
+      cols: 120,
+      rows: 24,
+      fit: false,
+      
+      speed: 0.2,
+      terminalFontSize: "14px",
+      terminalFontFamily: "'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace",
+      terminalFontHeight: 1.4,
+    });
   </script>
-
   <footer>
   </footer>
 </body>

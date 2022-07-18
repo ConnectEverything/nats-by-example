@@ -1,0 +1,10 @@
+Network d1f7dc69_default  Creating
+Network d1f7dc69_default  Created
+Container d1f7dc69-nats-1  Creating
+Container d1f7dc69-nats-1  Created
+Container d1f7dc69-nats-1  Starting
+Container d1f7dc69-nats-1  Started
+b'hello, joe'
+b'hello, sue'
+b'hello, bob'
+no responders

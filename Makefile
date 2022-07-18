@@ -6,7 +6,7 @@ GOARCH=$(shell go env GOARCH)
 watch:
 	CompileDaemon \
 		-color=true \
-		-pattern="(.+\.go|.+\.html|.+\.css|.+\.svg|.+\.yaml)$$" \
+		-pattern="(.+\.go|.+\.html|.+\.css|.+\.svg|.+\.yaml|.+\.cast)$$" \
 		-exclude-dir="html" \
 		-exclude-dir="docker" \
 		-exclude-dir="dist" \

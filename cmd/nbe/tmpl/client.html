@@ -2,6 +2,7 @@
 <html>
 <head>
 	{{template "head"}}
+  <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>
 <body>
   <header>
@@ -43,6 +44,10 @@
         </div>
       </div>
 
+      <div class="highlight">Check out a <a href="#recording">recording</a> of the code executing and the <a href="#output">output</a> below!</div>
+
+      <h3 id="code">Code</h3>
+
       <div class="example">
       {{range .Blocks}}
       {{if eq .Type "comment" }}
@@ -56,13 +61,32 @@
       {{end}}
       {{end}}
       </div>
+
+      <h3 id="recording">Recording</h3>
+      <div class="quiet text-center">Note, playback is 1/5 the speed to make it a bit easier to follow.</div>
+      <div id="asciinema"></div>
+
+      <h3 id="output">Output</h3>
+
+      <pre class="output">{{.Output}}</pre>
+
     </div>
   </main>
   <script src="/main.js" async></script>
+  <script src="/asciinema-player.min.js"></script>
   <script>
-    var codeWithComments = '{{js .JSEscaped}}';
+    var url = '/{{.AsciinemaURL}}';
+    AsciinemaPlayer.create(url, document.getElementById('asciinema'), {
+      cols: 120,
+      rows: 24,
+      fit: false,
+      // TODO: make this user configurable?
+      speed: 0.2,
+      terminalFontSize: "14px",
+      terminalFontFamily: "'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace",
+      terminalFontHeight: 1.4,
+    });
   </script>
-
   <footer>
   </footer>
 </body>
