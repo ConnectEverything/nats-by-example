@@ -14,7 +14,7 @@ async fn main() -> Result<(), async_nats::Error> {
     // sent to it. This kind of subscription is called a _service_.
     let mut requests = client.subscribe("greet.*".into()).await.unwrap();
 
-    // Spawn a new task, so we can response to incoming requests.
+    // Spawn a new task, so we can respond to incoming requests.
     // Usually request/response happens across clients and network
     // and in such scenarios, you don't need a separate task.
     tokio::spawn({
