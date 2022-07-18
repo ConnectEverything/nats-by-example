@@ -1,0 +1,583 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/nats.svg" />
+<link rel="stylesheet" href="/reset.css">
+<link rel="stylesheet" href="/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QV780SHZ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QV780SHZ5');
+</script>
+
+  <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 id="header">
+  <a href="/">
+    <img src="/nats-horizontal-color.svg" alt="NATS Logo" /> by Example
+  </a>
+</h1>
+
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2 class="title">Leafnode <small class="quiet">in Topologies</small></h2>
+
+      <div class="description">
+      
+      </div>
+
+      
+
+      <div class="info">
+        <div class="language-tabs">
+          
+          
+          <span class="active">CLI</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Go</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Python</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Deno</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Node</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Rust</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
+        </div>
+
+        <div class="source-run">
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/topologies/leafnode/cli" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run topologies/leafnode/cli</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
+        </div>
+      </div>
+
+      <div class="highlight">Check out a <a href="#recording">recording</a> of the code executing and the <a href="#output">output</a> below!</div>
+
+      <h3 id="code">Code</h3>
+
+      <div class="example">
+      
+      
+        <div class="example-comment">
+        
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">set</span> -xeuo pipefail
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>For this example, we are going to have a service connected
+to the main server and then another client send a request
+via a connection to the leaf node.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nv">NATS_MAIN_URL</span><span class="o">=</span><span class="s2">&#34;nats://0.0.0.0:4222&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">NATS_LEAF_URL</span><span class="o">=</span><span class="s2">&#34;nats://0.0.0.0:4223&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Create the operator, generate a signing key (which is a best practice),
+and initialize the default SYS account and sys user.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nsc add operator --generate-signing-key --sys --name <span class="nb">local</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>A follow-up edit of the operator enforces signing keys are used for
+accounts as well. Setting the server URL is a convenience so that
+it does not need to be specified with call <code>nsc push</code>.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nsc edit operator --require-signing-keys <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --account-jwt-server-url <span class="s2">&#34;</span><span class="nv">$NATS_MAIN_URL</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Next we need to create an account intended for application usage. The
+<code>SYS</code> account should be used for operational purposes. These commands create
+the <code>APP</code> account, generates a signing key, and then creates a user named
+<code>user</code>.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nsc add account APP
+</span></span><span class="line"><span class="cl">nsc edit account APP --sk generate
+</span></span><span class="line"><span class="cl">nsc add user --account APP user
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Check out the current settings of nsc.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nsc env
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>The <code>nats</code> CLI provides a way to manage different <em>contexts</em> by name.
+Here we define the server and the credentials (via <code>nsc</code> integration)
+(notice the operator/account/user hierarchy).
+We save two one for the main server and one for the leaf node. Note
+how didn&rsquo;t provide credentials for the leaf node..</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats context save main-user <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --server <span class="s2">&#34;</span><span class="nv">$NATS_MAIN_URL</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --nsc nsc://local/APP/user 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nats context save main-sys <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --server <span class="s2">&#34;</span><span class="nv">$NATS_MAIN_URL</span><span class="s2">&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --nsc nsc://local/SYS/sys
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">nats context save leaf-user <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>  --server <span class="s2">&#34;</span><span class="nv">$NATS_LEAF_URL</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>This command generates the bit of configuration to be used by the server
+to setup the embedded JWT resolver.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nsc generate config --nats-resolver --sys-account SYS &gt; resolver.conf
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Create the most basic server config which enables leaf node connections
+and include the JWT resolver config.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;Creating the main server conf...&#39;</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;- EOF &gt; main.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">port: 4222
+</span></span></span><span class="line"><span class="cl"><span class="s">leafnodes: {
+</span></span></span><span class="line"><span class="cl"><span class="s">  port: 7422
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">
+</span></span></span><span class="line"><span class="cl"><span class="s">include resolver.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>The second config is for the leaf node itself. This needs to define
+the leaf node <em>remotes</em> which is the main server it will be connecting
+to.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;Creating the leaf node conf...&#39;</span>
+</span></span><span class="line"><span class="cl">cat <span class="s">&lt;&lt;- EOF &gt; leaf.conf
+</span></span></span><span class="line"><span class="cl"><span class="s">port: 4223
+</span></span></span><span class="line"><span class="cl"><span class="s">leafnodes: {
+</span></span></span><span class="line"><span class="cl"><span class="s">  remotes: [
+</span></span></span><span class="line"><span class="cl"><span class="s">    {
+</span></span></span><span class="line"><span class="cl"><span class="s">      url: &#34;nats-leaf://0.0.0.0:7422&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s">      credentials: &#34;$NKEYS_PATH/creds/local/APP/user.creds&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s">    }
+</span></span></span><span class="line"><span class="cl"><span class="s">  ]
+</span></span></span><span class="line"><span class="cl"><span class="s">}
+</span></span></span><span class="line"><span class="cl"><span class="s">EOF</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Start the main server first.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats-server -c main.conf 2&gt; /dev/null <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">MAIN_PID</span><span class="o">=</span><span class="nv">$!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sleep <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>We need to put up the <code>APP</code> account JWT we created previously to the
+main server so that the user credentials file used both for the
+client providing the service and the client making the request is
+trusted.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;Pushing the account JWT...&#39;</span>
+</span></span><span class="line"><span class="cl">nsc push -a APP
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Now we can start the leaf node which uses the credentials for the
+remote connection.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats-server -c leaf.conf 2&gt; /dev/null <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">LEAF_PID</span><span class="o">=</span><span class="nv">$!</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">sleep <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Connecting directly to the main server with the user creds, we can
+create a simple service that will reply to any request published
+to <code>greet</code> with the text <code>hello</code>. This is put in the background
+since this will block while serving.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats --context main-user reply <span class="s1">&#39;greet&#39;</span> <span class="s1">&#39;hello&#39;</span> <span class="p">&amp;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">SERVICE_PID</span><span class="o">=</span><span class="nv">$!</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Tiny sleep to ensure the service is connected.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">sleep <span class="m">1</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>For this CLI invocation, we connect to the <em>leaf</em> server and send
+a request to <code>greet</code>. Notice two things, one is that no credentials
+file is specified since the leaf server does not have authentication
+setup. Instead the <code>leafnodes.remotes</code> section of the config defines
+the main server and provides the credentials so that the leaf node
+is authenticated for forwarding messaging. This request will be
+transparently fullfilled by the service connected to the main server.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl">nats --context leaf-user request <span class="s1">&#39;greet&#39;</span> <span class="s1">&#39;&#39;</span>
+</span></span><span class="line"><span class="cl">
+</span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Finally stop the service and servers.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="nb">kill</span> <span class="nv">$SERVICE_PID</span>
+</span></span><span class="line"><span class="cl"><span class="nb">kill</span> <span class="nv">$LEAF_PID</span>
+</span></span><span class="line"><span class="cl"><span class="nb">kill</span> <span class="nv">$MAIN_PID</span></span></span></code></pre>
+        </div>
+      
+      
+      </div>
+
+      <h3 id="recording">Recording</h3>
+
+      <div id="asciinema"></div>
+
+      <h3 id="output">Output</h3>
+
+      <pre>[1A[1B[0G[?25l[&#43;] Running 1/0
+[34m ⠿ Network aa9ac0dd_default  Created                                             0.0s
+[0m[?25h             _             _               
+ _ __   __ _| |_ ___      | |__   _____  __
+| &#39;_ \ / _` | __/ __|_____| &#39;_ \ / _ \ \/ /
+| | | | (_| | |_\__ \_____| |_) | (_) &gt;  &lt; 
+|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
+                                           
+nats-box v0.12.0
+&#43; NATS_MAIN_URL=nats://0.0.0.0:4222
+&#43; NATS_LEAF_URL=nats://0.0.0.0:4223
+&#43; nsc add operator --generate-signing-key --sys --name local
+[ OK ] generated and stored operator key &#34;ODSP5CIIBQGF2DBXL2Z7LPRNHFZUFV77BNFLWEHDXYFISAYCVARNASMT&#34;
+[ OK ] added operator &#34;local&#34;
+[ OK ] When running your own nats-server, make sure they run at least version 2.2.0
+[ OK ] created operator signing key: ODVED3HES2UK5LX5HYDDR3LHA6QWR4VLIKPURN7R4W7IZDBONVB35CIU
+[ OK ] created system_account: name:SYS id:AACKNBWQMVMX7KO2ZNJVB5W7U3Y7TZIJMNVB66X2SUTXHXPY3JPQ6IWS
+[ OK ] created system account user: name:sys id:UARWXJQZGAVGNWPGZIYKVDEBZJ4PMTXYHEOCSDYWGQGLM2DO56LOMBKM
+[ OK ] system account user creds file stored in `/nsc/nkeys/creds/local/SYS/sys.creds`
+&#43; nsc edit operator --require-signing-keys --account-jwt-server-url nats://0.0.0.0:4222
+[ OK ] strict signing key usage set to: true
+[ OK ] set account jwt server url to &#34;nats://0.0.0.0:4222&#34;
+[ OK ] edited operator &#34;local&#34;
+&#43; nsc add account APP
+[ OK ] generated and stored account key &#34;ABHOCGIG4Z2RAUIM2MR677SW256MRWPAO6O37SCVO5H2PFG46WUJNPWB&#34;
+[ OK ] added account &#34;APP&#34;
+&#43; nsc edit account APP --sk generate
+[ OK ] added signing key &#34;ADOR3QTTRSTB25OJWSJYBPD6XX4OLZRDBVRVSRPMTO72BHWHS5NFNQRA&#34;
+[ OK ] edited account &#34;APP&#34;
+&#43; nsc add user --account APP user
+[ OK ] generated and stored user key &#34;UAFYV6YSOLCMC3ZAIPGMJAEVTDW6X3TPWSJ7HSKHCITSNONT5KZVZOSI&#34;
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/user.creds`
+[ OK ] added user &#34;user&#34; to account &#34;APP&#34;
+&#43; nsc env
+&#43;----------------------------------------------------------------------------------------------------------&#43;
+|                                             NSC Environment                                              |
+&#43;--------------------&#43;-----&#43;-------------------------------------------------------------------------------&#43;
+| Setting            | Set | Effective Value                                                               |
+&#43;--------------------&#43;-----&#43;-------------------------------------------------------------------------------&#43;
+| $NSC_CWD_ONLY      | No  | If set, default operator/account from cwd only                                |
+| $NSC_NO_GIT_IGNORE | No  | If set, no .gitignore files written                                           |
+| $NKEYS_PATH        | Yes | /nsc/nkeys                                                                    |
+| $NSC_HOME          | No  | /nsc/.config/nats/nsc                                                         |
+| $NATS_CA           | No  | If set, root CAs in the referenced file will be used for nats connections     |
+|                    |     | If not set, will default to the system trust store                            |
+| $NATS_KEY          | No  | If set, the tls key in the referenced file will be used for nats connections  |
+| $NATS_CERT         | No  | If set, the tls cert in the referenced file will be used for nats connections |
+&#43;--------------------&#43;-----&#43;-------------------------------------------------------------------------------&#43;
+| From CWD           |     | No                                                                            |
+| Default Stores Dir |     | /nsc/nats/nsc/stores                                                          |
+| Current Store Dir  |     | /nsc/nats/nsc/stores                                                          |
+| Current Operator   |     | local                                                                         |
+| Current Account    |     | APP                                                                           |
+| Root CAs to trust  |     | Default: System Trust Store                                                   |
+&#43;--------------------&#43;-----&#43;-------------------------------------------------------------------------------&#43;
+
+&#43; nats context save main-user --server nats://0.0.0.0:4222 --nsc nsc://local/APP/user
+NATS Configuration Context &#34;main-user&#34;
+
+      Server URLs: nats://0.0.0.0:4222
+      Credentials: /nsc/nkeys/creds/local/APP/user.creds (OK)
+       NSC Lookup: nsc://local/APP/user
+             Path: /nsc/.config/nats/context/main-user.json
+
+&#43; nats context save main-sys --server nats://0.0.0.0:4222 --nsc nsc://local/SYS/sys
+NATS Configuration Context &#34;main-sys&#34;
+
+      Server URLs: nats://0.0.0.0:4222
+      Credentials: /nsc/nkeys/creds/local/SYS/sys.creds (OK)
+       NSC Lookup: nsc://local/SYS/sys
+             Path: /nsc/.config/nats/context/main-sys.json
+
+&#43; nats context save leaf-user --server nats://0.0.0.0:4223
+NATS Configuration Context &#34;leaf-user&#34;
+
+      Server URLs: nats://0.0.0.0:4223
+             Path: /nsc/.config/nats/context/leaf-user.json
+
+&#43; nsc generate config --nats-resolver --sys-account SYS
+Creating the main server conf...
+&#43; echo &#39;Creating the main server conf...&#39;
+&#43; cat
+Creating the leaf node conf...
+&#43; echo &#39;Creating the leaf node conf...&#39;
+&#43; cat
+&#43; MAIN_PID=98
+&#43; sleep 1
+&#43; nats-server -c main.conf
+&#43; echo &#39;Pushing the account JWT...&#39;
+&#43; nsc push -a APP
+Pushing the account JWT...
+[ OK ] push to nats-server &#34;nats://0.0.0.0:4222&#34; using system account &#34;SYS&#34;:
+       [ OK ] push APP to nats-server with nats account resolver:
+              [ OK ] pushed &#34;APP&#34; to nats-server NA6DT64W3LDXSLIWCFAKNWN7R4CIM25QQP4ZPTHZK54ON2YBVIWHE5LQ: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+&#43; LEAF_PID=115
+&#43; sleep 1
+&#43; nats-server -c leaf.conf
+&#43; SERVICE_PID=125
+&#43; sleep 1
+&#43; nats --context main-user reply greet hello
+12:01:19 Listening on &#34;greet&#34; in group &#34;NATS-RPLY-22&#34;
+&#43; nats --context leaf-user request greet 
+12:01:20 Sending request on &#34;greet&#34;
+12:01:20 [#0] Received on subject &#34;greet&#34;:
+
+
+12:01:20 Received with rtt 375.529µs
+hello
+
+&#43; kill 125
+&#43; kill 115
+&#43; kill 98
+</pre>
+
+    </div>
+  </main>
+  <script src="/main.js" async></script>
+  <script src="/asciinema-player.min.js"></script>
+  <script>
+    var url = '/examples\/topologies\/leafnode\/cli\/output.cast';
+    AsciinemaPlayer.create(url, document.getElementById('asciinema'), {
+      cols: 120,
+      rows: 24,
+      fit: false,
+      
+      speed: 0.2,
+      terminalFontSize: "14px",
+      terminalFontFamily: "'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace",
+      terminalFontHeight: 1.4,
+    });
+  </script>
+  <footer>
+  </footer>
+</body>
+</html>
