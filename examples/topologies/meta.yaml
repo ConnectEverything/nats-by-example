@@ -6,3 +6,6 @@ description: |-
   [cluster]: https://docs.nats.io/running-a-nats-service/configuration/clustering
   [super]: https://docs.nats.io/running-a-nats-service/configuration/gateways
   [leaf]: https://docs.nats.io/running-a-nats-service/configuration/leafnodes
+examples:
+  - simple-leafnode
+  - leafnode-jwt
