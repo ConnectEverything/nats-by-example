@@ -1,0 +1,8 @@
+{"version": 2, "width": 86, "height": 24, "timestamp": 1658058936, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/go"}
+[0.109743, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 2/0\r\n\u001b[34m ⠿ Network a485d8b4_default   Created                                            0.0s\r\n\u001b[0m\u001b[34m ⠿ Container a485d8b4-nats-1  Created                                            0.0s\r\n\u001b[0m\u001b[?25h"]
+[0.209899, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n"]
+[0.210029, "o", "\u001b[37m ⠋ Container a485d8b4-nats-1  Starting                                           0.1s\r\n\u001b[0m\u001b[?25h"]
+[0.310404, "o", "\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n\u001b[37m ⠙ Container a485d8b4-nats-1  Starting                                           0.2s\r\n\u001b[0m\u001b[?25h"]
+[0.384652, "o", "\u001b[1A\u001b[1A\u001b[0G\u001b[?25l\u001b[34m[+] Running 1/1\u001b[0m\r\n\u001b[34m ⠿ Container a485d8b4-nats-1  Started                                            0.3s\r\n\u001b[0m\u001b[?25h"]
+[0.648196, "o", "subscribed after a publish...\r\nmsg is nil? true\r\nmsg data: \"hello\" on subject \"greet.joe\"\r\nmsg data: \"hello\" on subject \"greet.pam\"\r\n"]
+[0.648393, "o", "msg data: \"hello\" on subject \"greet.bob\"\r\n"]

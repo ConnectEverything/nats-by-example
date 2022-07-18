@@ -27,8 +27,36 @@ var (
 		Commands: []*cli.Command{
 			&runCmd,
 			&buildCmd,
+			&imageCmd,
 			&serveCmd,
 			&generateCmd,
+		},
+	}
+
+	imageCmd = cli.Command{
+		Name:  "image",
+		Usage: "Build the container image for the example.",
+		Action: func(c *cli.Context) error {
+			example := c.Args().First()
+
+			repo, err := os.Getwd()
+			if err != nil {
+				return err
+			}
+
+			b := ImageBuilder{
+				Repo:    repo,
+				Example: example,
+				Verbose: true,
+			}
+
+			image, err := b.Run()
+			if err != nil {
+				return err
+			}
+
+			fmt.Println(image)
+			return nil
 		},
 	}
 
@@ -51,6 +79,11 @@ the runtime.`,
 				Usage: "Explicit name of the run. This maps to the Compose project name and image tag.",
 				Value: "",
 			},
+			&cli.StringFlag{
+				Name:  "image",
+				Usage: "Pre-built image for this example to use.",
+				Value: "",
+			},
 			&cli.BoolFlag{
 				Name:  "keep",
 				Usage: "If true, the example image is not deleted after the run.",
@@ -61,13 +94,25 @@ the runtime.`,
 				Usage: "Run with docker compose up primarily for debugging.",
 				Value: false,
 			},
+			&cli.BoolFlag{
+				Name:  "quiet",
+				Usage: "Hide output of image building.",
+				Value: false,
+			},
+			&cli.BoolFlag{
+				Name:  "no-ansi",
+				Usage: "If true, disable ANSI control characters.",
+				Value: false,
+			},
 		},
 		Action: func(c *cli.Context) error {
 			cluster := c.Bool("cluster")
-			repo := c.String("repo")
 			name := c.String("name")
 			keep := c.Bool("keep")
+			image := c.String("image")
 			up := c.Bool("up")
+			quiet := c.Bool("quiet")
+			noAnsi := c.Bool("no-ansi")
 
 			example := c.Args().First()
 
@@ -76,16 +121,37 @@ the runtime.`,
 				return err
 			}
 
-			r := ExampleRunner{
+			if image == "" {
+				b := ImageBuilder{
+					Name:    name,
+					Repo:    repo,
+					Example: example,
+					Verbose: !quiet,
+				}
+
+				image, err = b.Run()
+				if err != nil {
+					return err
+				}
+
+				if !keep {
+					// Best effort.
+					defer removeImage(image)
+				}
+			}
+
+			r := ComposeRunner{
 				Name:    name,
 				Repo:    repo,
 				Example: example,
 				Cluster: cluster,
 				Keep:    keep,
 				Up:      up,
+				Verbose: !quiet,
+				NoAnsi:  noAnsi,
 			}
 
-			return r.Run()
+			return r.Run(image)
 		},
 	}
 
@@ -115,13 +181,13 @@ the runtime.`,
 		Name:  "generate",
 		Usage: "Set of commands for generating various files from examples.",
 		Subcommands: []*cli.Command{
-			&generateOutputCmd,
+			&generateRecordingCmd,
 		},
 	}
 
-	generateOutputCmd = cli.Command{
-		Name:  "output",
-		Usage: "Generate execution output for examples.",
+	generateRecordingCmd = cli.Command{
+		Name:  "recording",
+		Usage: "Generate execution recording for examples.",
 		Flags: []cli.Flag{
 			&cli.StringFlag{
 				Name:  "source",
@@ -130,7 +196,7 @@ the runtime.`,
 			},
 			&cli.BoolFlag{
 				Name:  "recreate",
-				Usage: "If true, recreate all previously generated output files.",
+				Usage: "If true, recreate all previously generated files.",
 			},
 		},
 		Action: func(c *cli.Context) error {
@@ -147,11 +213,11 @@ the runtime.`,
 				return err
 			}
 
-			// Enumerate all the example implementations.
+			// Enumerate all the client implementations.
 			for _, c := range root.Categories {
 				for _, e := range c.Examples {
 					for _, i := range e.Clients {
-						if err := generateOutput(repo, i.Path, recreate); err != nil {
+						if err := generateRecording(repo, i.Path, recreate); err != nil {
 							log.Printf("%s: %s", i.Path, err)
 						}
 					}

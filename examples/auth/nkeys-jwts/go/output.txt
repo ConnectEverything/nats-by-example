@@ -1,0 +1,52 @@
+[1A[1B[0G[?25l[+] Running 2/0
+[34m ⠿ Network 77497588_default   Created                                            0.0s
+[0m[34m ⠿ Container 77497588-nats-1  Created                                            0.0s
+[0m[?25h[1A[1B[0G[?25l[+] Running 0/0
+[37m ⠋ Container 77497588-nats-1  Starting                                           0.1s
+[0m[?25h[1A[1A[0G[?25l[+] Running 0/1
+[37m ⠙ Container 77497588-nats-1  Starting                                           0.2s
+[0m[?25h[1A[1A[0G[?25l[34m[+] Running 1/1[0m
+[34m ⠿ Container 77497588-nats-1  Started                                            0.3s
+[0m[?25hoperator pubkey: OAFSZVT6VJW4TIJIARUAH5AOZWTIXQTQKWLTQWYPVJ3QJ2LAV4XCT2S4
+operator seed: SOAKUTUFUIWP5YKRQIWAENV5DZA6EJ2WJZPSFQXIGPCOQ5W3KQENUEVVWU
+
+account pubkey: ADHJUM3WM26KVBSZ2ODFQWGWZMR3B2QIWL46OTYVREWTVDAJYOSSP6OS
+account seed: SAAJUZVRCK42I2NJ5LTMF355CIBLMSMBKOQOGLB5PYWJGSCN6S4XWLOHTQ
+account claims: {
+  "name": "my-account",
+  "sub": "ADHJUM3WM26KVBSZ2ODFQWGWZMR3B2QIWL46OTYVREWTVDAJYOSSP6OS",
+  "nats": {
+    "limits": {
+      "subs": -1,
+      "data": -1,
+      "payload": -1,
+      "imports": -1,
+      "exports": -1,
+      "wildcards": true,
+      "conn": -1,
+      "leaf": -1,
+      "mem_storage": -1,
+      "disk_storage": -1
+    },
+    "default_permissions": {
+      "pub": {},
+      "sub": {}
+    }
+  }
+}
+account jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJETVNaNTMyWVA3V1BCRlRJU0hPTkpTSE1ISExQRDVGNlFTVE5TNUE2NkJWVklZNk4yWFFBIiwiaWF0IjoxNjU4MDU4OTU0LCJpc3MiOiJPQUZTWlZUNlZKVzRUSUpJQVJVQUg1QU9aV1RJWFFUUUtXTFRRV1lQVkozUUoyTEFWNFhDVDJTNCIsIm5hbWUiOiJteS1hY2NvdW50Iiwic3ViIjoiQURISlVNM1dNMjZLVkJTWjJPREZRV0dXWk1SM0IyUUlXTDQ2T1RZVlJFV1RWREFKWU9TU1A2T1MiLCJuYXRzIjp7ImxpbWl0cyI6eyJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJpbXBvcnRzIjotMSwiZXhwb3J0cyI6LTEsIndpbGRjYXJkcyI6dHJ1ZSwiY29ubiI6LTEsImxlYWYiOi0xLCJtZW1fc3RvcmFnZSI6LTEsImRpc2tfc3RvcmFnZSI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.v4eag60l-B8cMPx1ZslRNnV9S2NbdF4KBv-svorF8R-v8AC8_mi4bkc8ZQHAfErbxe-_1m0dMcZJj-GOYH2NDg
+
+user pubkey: UA35DXZ5JQFRBUOPRGOMW7RCM4ETFCL3WRH5WHFYCGY6FJURLBVTAWHJ
+user seed: SUAM4KXLNTFEKG3II7CVV6PLDYD7S4BI7CUPZYLQJHHVHI3TBKCO6UHLKM
+userclaims: {
+  "name": "my-user",
+  "sub": "UA35DXZ5JQFRBUOPRGOMW7RCM4ETFCL3WRH5WHFYCGY6FJURLBVTAWHJ",
+  "nats": {
+    "pub": {},
+    "sub": {},
+    "subs": -1,
+    "data": -1,
+    "payload": -1
+  }
+}
+user jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJLNFgzWUhWSElWMjRNWTZFQkEyNlZaVldQNEhONTZJVFpWWllUWEVFQU5ZVE9FWk1NTzNRIiwiaWF0IjoxNjU4MDU4OTU0LCJpc3MiOiJBREhKVU0zV00yNktWQlNaMk9ERlFXR1daTVIzQjJRSVdMNDZPVFlWUkVXVFZEQUpZT1NTUDZPUyIsIm5hbWUiOiJteS11c2VyIiwic3ViIjoiVUEzNURYWjVKUUZSQlVPUFJHT01XN1JDTTRFVEZDTDNXUkg1V0hGWUNHWTZGSlVSTEJWVEFXSEoiLCJuYXRzIjp7InB1YiI6e30sInN1YiI6e30sInN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTEsInR5cGUiOiJ1c2VyIiwidmVyc2lvbiI6Mn19.R1ZBt31MyopW-ZKFiwscw4J3u01dg8IxHFaAeC31aukAhnQbGpcy8azsgG_Ua9HL6YE-GBL2QDbQBkS76vS3Ag

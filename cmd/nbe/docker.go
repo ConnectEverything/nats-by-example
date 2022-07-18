@@ -1,8 +1,6 @@
 package main
 
 import (
-	"bytes"
-	"errors"
 	"fmt"
 	"io"
 	"io/fs"
@@ -14,6 +12,30 @@ import (
 
 	"github.com/google/uuid"
 )
+
+func copyFile(src, dst string) error {
+	f, err := os.Open(src)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	dir := filepath.Dir(dst)
+	if dir != "" {
+		os.MkdirAll(dir, 0755)
+	}
+
+	c, err := os.Create(dst)
+	if err != nil {
+		return err
+	}
+
+	_, err = io.Copy(c, f)
+	if err != nil {
+		return err
+	}
+	return c.Close()
+}
 
 func createFile(n string, b []byte) error {
 	dir := filepath.Dir(n)
@@ -57,45 +79,99 @@ func copyDirContents(src, dst string) error {
 	})
 }
 
-func generateOutput(repo, example string, recreate bool) error {
-	p := filepath.Join(repo, example, "output.txt")
-
-	_, err := os.Stat(p)
-	// Exists..
-	if err == nil {
-		// Regardless if it was generated or manually created.
-		if !recreate {
-			return nil
-		}
-	} else if !errors.Is(err, os.ErrNotExist) {
-		return fmt.Errorf("open file: %w", err)
-	}
-
-	stdout := bytes.NewBuffer(nil)
-	stderr := bytes.NewBuffer(nil)
-
-	r := ExampleRunner{
-		Repo:    repo,
-		Example: example,
-		Stdout:  stdout,
-		Stderr:  stderr,
-	}
-
-	err = r.Run()
-	if err != nil {
-		return fmt.Errorf("%w\n%s", err, stderr.String())
-	}
-
-	// Create new or recreate.
-	err = createFile(p, stdout.Bytes())
-	if err != nil {
-		return fmt.Errorf("create file: %w", err)
-	}
-
-	return nil
+type ImageBuilder struct {
+	Name string
+	// Absolute path to the repo.
+	Repo string
+	// Relative path to the example, examples/ can be omitted.
+	Example string
+	// Print out docker build output.
+	Verbose bool
+	// Defaults to os.Stdout and os.Stderr. Set if these streams need to be
+	// explicitly captured.
+	Stdout io.Writer
+	Stderr io.Writer
+	Stdin  io.Reader
 }
 
-type ExampleRunner struct {
+func (r *ImageBuilder) Run() (string, error) {
+	stdout := r.Stdout
+	stderr := r.Stderr
+
+	if stdout == nil {
+		stdout = os.Stdout
+	}
+
+	if stderr == nil {
+		stderr = os.Stderr
+	}
+
+	example := r.Example
+	if !strings.HasPrefix(example, "examples/") {
+		example = filepath.Join("examples", example)
+	}
+
+	clientDir := filepath.Join(r.Repo, example)
+	lang := filepath.Base(example)
+
+	var uid string
+	if r.Name != "" {
+		uid = r.Name
+	} else {
+		uid = uuid.New().String()[:8]
+	}
+
+	imageTag := fmt.Sprintf("%s:%s", filepath.Join("nbe", r.Example), uid)
+
+	defaultDir := filepath.Join(r.Repo, "docker", lang)
+
+	// Create a temporary directory for the build context of the image.
+	// This will combine all files in the runtime-specific docker/ directory
+	// and the files in the example.
+	buildDir, err := ioutil.TempDir("", "")
+	if err != nil {
+		return "", fmt.Errorf("temp dir: %w", err)
+	}
+	// Clean up the directory on exit.
+	defer os.RemoveAll(buildDir)
+
+	// Copy default files first.
+	if err := copyDirContents(defaultDir, buildDir); err != nil {
+		return "", fmt.Errorf("copy default files: %w", err)
+	}
+
+	// Copy example files next..
+	if err := copyDirContents(clientDir, buildDir); err != nil {
+		return "", fmt.Errorf("copy client files: %w", err)
+	}
+
+	// Build the temporary image relative to the build directory.
+	c := exec.Command(
+		"docker",
+		"build",
+		"--tag", imageTag,
+		buildDir,
+	)
+
+	if r.Verbose {
+		c.Stdout = stdout
+	}
+	c.Stderr = stderr
+
+	err = c.Run()
+	if err != nil {
+		return "", fmt.Errorf("build image: %w", err)
+	}
+
+	return imageTag, nil
+}
+
+func removeImage(image string) error {
+	c := exec.Command("docker", "rmi", image)
+	return c.Run()
+}
+
+type ComposeRunner struct {
 	Name string
 	// Absolute path to the repo.
 	Repo string
@@ -107,6 +183,10 @@ type ExampleRunner struct {
 	Keep bool
 	// If true, use "compose up" instead of "run"
 	Up bool
+	// Print out docker build output.
+	Verbose bool
+	// If true, do not use ansi control characters.
+	NoAnsi bool
 	// Defaults to os.Stdout and os.Stderr. Set if these streams need to be
 	// explicitly captured.
 	Stdout io.Writer
@@ -114,7 +194,7 @@ type ExampleRunner struct {
 	Stdin  io.Reader
 }
 
-func (r *ExampleRunner) Run() error {
+func (r *ComposeRunner) Run(imageTag string) error {
 	stdout := r.Stdout
 	stderr := r.Stderr
 	stdin := r.Stdin
@@ -156,8 +236,6 @@ func (r *ExampleRunner) Run() error {
 		uid = uuid.New().String()[:8]
 	}
 
-	imageTag := fmt.Sprintf("%s:%s", filepath.Join("nbe", r.Example), uid)
-
 	defaultDir := filepath.Join(r.Repo, "docker", lang)
 
 	// Create a temporary directory for the build context of the image.
@@ -178,32 +256,6 @@ func (r *ExampleRunner) Run() error {
 	// Copy example files next..
 	if err := copyDirContents(clientDir, buildDir); err != nil {
 		return err
-	}
-
-	// Build the temporary image relative to the build directory.
-	c := exec.Command(
-		"docker",
-		"build",
-		"--tag", imageTag,
-		buildDir,
-	)
-
-	c.Stdout = stdout
-	c.Stderr = stderr
-
-	err = c.Run()
-	if err != nil {
-		return fmt.Errorf("build image: %w", err)
-	}
-
-	if !r.Keep {
-		// Remove the built image on exit to prevent
-		// TODO: should rely on git hash instead of random uid.
-		defer exec.Command(
-			"docker",
-			"rmi",
-			imageTag,
-		).Run()
 	}
 
 	err = createFile(filepath.Join(buildDir, ".env"), []byte(fmt.Sprintf("IMAGE_TAG=%s", imageTag)))
@@ -235,10 +287,16 @@ func (r *ExampleRunner) Run() error {
 			"up",
 		)
 	} else {
+		ansi := "auto"
+		if r.NoAnsi {
+			ansi = "never"
+		}
+
 		// Run the app container.
 		cmd = exec.Command(
 			"docker",
 			"compose",
+			"--ansi", ansi,
 			"--project-name", uid,
 			"--project-directory", buildDir,
 			"--file", composeFile,

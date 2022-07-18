@@ -179,7 +179,7 @@ pre, code {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  margin: 0 auto;
+  margin-bottom: 30px;
 }
 
 .example-code {

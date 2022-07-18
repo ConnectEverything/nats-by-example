@@ -17,6 +17,7 @@
   gtag('config', 'G-9QV780SHZ5');
 </script>
 
+  <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>
 <body>
   <header>
@@ -112,6 +113,10 @@ patterns and higher-level APIs build upon. There are a few takeaways from this e
           <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
+
+      <div class="highlight">Check out a <a href="#recording">recording</a> of the code executing and the <a href="#output">output</a> below!</div>
+
+      <h3 id="code">Code</h3>
 
       <div class="example">
       
@@ -258,13 +263,63 @@ the output to stdout.</p>
       
       
       </div>
+
+      <h3 id="recording">Recording</h3>
+
+      <div id="asciinema"></div>
+
+      <h3 id="output">Output</h3>
+
+      <pre>[1A[1B[0G[?25l[&#43;] Running 2/0
+[34m ⠿ Network 1f022099_default   Created                                            0.0s
+[0m[34m ⠿ Container 1f022099-nats-1  Created                                            0.0s
+[0m[?25h[1A[1B[0G[?25l[&#43;] Running 0/0
+[37m ⠋ Container 1f022099-nats-1  Starting                                           0.1s
+[0m[?25h[1A[1A[0G[?25l[&#43;] Running 0/1
+[37m ⠙ Container 1f022099-nats-1  Starting                                           0.2s
+[0m[?25h[1A[1A[0G[?25l[34m[&#43;] Running 1/1[0m
+[34m ⠿ Container 1f022099-nats-1  Started                                            0.3s
+[0m[?25h             _             _               
+ _ __   __ _| |_ ___      | |__   _____  __
+| &#39;_ \ / _` | __/ __|_____| &#39;_ \ / _ \ \/ /
+| | | | (_| | |_\__ \_____| |_) | (_) &gt;  &lt; 
+|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
+                                           
+nats-box v0.12.0
+12:01:01 Published 5 bytes to &#34;greet.joe&#34;
+12:01:01 Subscribing on greet.*
+12:01:02 Published 5 bytes to &#34;greet.joe&#34;
+[#1] Received on &#34;greet.joe&#34;
+hello
+
+12:01:02 Published 5 bytes to &#34;greet.pam&#34;
+[#2] Received on &#34;greet.pam&#34;
+hello
+
+12:01:02 Published 5 bytes to &#34;greet.bob&#34;
+[#3] Received on &#34;greet.bob&#34;
+hello
+
+12:01:02 Published 5 bytes to &#34;greet.bob&#34;
+</pre>
+
     </div>
   </main>
   <script src="/main.js" async></script>
+  <script src="/asciinema-player.min.js"></script>
   <script>
-    var codeWithComments = '#!\/bin\/sh\\u000A\\u000A# The `nats` CLI utilizes the `NATS_URL` environment variable if set.\\u000A# However, if you want to manage different _contexts_ for connecting\\u000A# or authenticating, check out the `nats context` commands.\\u000A# For example:\\u000A# ```\\u000A# nats context save --server\\u003D$NATS_URL local\\u000A# ```\\u000ANATS_URL\\u003D\\\u0022${NATS_URL:-nats:\/\/localhost:4222}\\\u0022\\u000A\\u000A# Publish a message to the subject \\\u0027greet.joe\\\u0027. Nothing will happen\\u000A# since the subscription is not yet setup.\\u000Anats pub \\\u0027greet.joe\\\u0027 \\\u0027hello\\\u0027\\u000A\\u000A# Let\\\u0027s start a subscription in the background that will print\\u000A# the output to stdout.\\u000Anats sub \\\u0027greet.*\\\u0027 \\u0026\\u000A\\u000A# This just captures the process ID of the previous command in this shell.\\u000ASUB_PID\\u003D$!\\u000A\\u000A# Tiny sleep to ensure the subscription connected.\\u000Asleep 0.5\\u000A\\u000A# Now we can publish a couple times..\\u000Anats pub \\\u0027greet.joe\\\u0027 \\\u0027hello\\\u0027\\u000Anats pub \\\u0027greet.pam\\\u0027 \\\u0027hello\\\u0027\\u000Anats pub \\\u0027greet.bob\\\u0027 \\\u0027hello\\\u0027\\u000A\\u000A# Remove the subscription.\\u000Akill $SUB_PID\\u000A\\u000A# Publishing again will not result in anything.\\u000Anats pub \\\u0027greet.bob\\\u0027 \\\u0027hello\\\u0027';
+    var url = '/examples\/messaging\/pub-sub\/cli\/output.cast';
+    AsciinemaPlayer.create(url, document.getElementById('asciinema'), {
+      cols: 120,
+      rows: 24,
+      fit: false,
+      
+      speed: 0.2,
+      terminalFontSize: "14px",
+      terminalFontFamily: "'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace",
+      terminalFontHeight: 1.4,
+    });
   </script>
-
   <footer>
   </footer>
 </body>

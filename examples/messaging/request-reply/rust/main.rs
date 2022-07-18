@@ -1,3 +1,6 @@
+use futures::StreamExt;
+use std::{env, str::from_utf8, time::Duration};
+
 #[tokio::main]
 async fn main() -> Result<(), async_nats::Error> {
     // Use the NATS_URL env variable if defined, otherwise fallback

@@ -1,0 +1,13 @@
+{"version": 2, "width": 86, "height": 24, "timestamp": 1658058944, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/node"}
+[0.090876, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 2/0\r\n"]
+[0.091555, "o", "\u001b[34m ⠿ Network 750bdd46_default   Created                                            0.0s\r\n\u001b[0m\u001b[34m ⠿ Container 750bdd46-nats-1  Created                                            0.0s\r\n\u001b[0m\u001b[?25h"]
+[0.191195, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n"]
+[0.191326, "o", "\u001b[37m ⠋ Container 750bdd46-nats-1  Starting                                           0.1s\r\n\u001b[0m\u001b[?25h"]
+[0.291598, "o", "\u001b[1A\u001b[1A\u001b[0G\u001b[?25l[+] Running 0/1\r\n\u001b[37m ⠙ Container 750bdd46-nats-1  Starting                                           0.2s\r\n\u001b[0m\u001b[?25h"]
+[0.370761, "o", "\u001b[1A\u001b[1A\u001b[0G\u001b[?25l\u001b[34m[+] Running 1/1\u001b[0m\r\n\u001b[34m ⠿ Container 750bdd46-nats-1  Started                                            0.3s\r\n\u001b[0m\u001b[?25h"]
+[0.83237, "o", "npm"]
+[0.832492, "o", " ERR! Missing script: \"main.js\"\r\nnpm ERR! \r\nnpm ERR! To see a list of scripts, run:\r\nnpm ERR!   npm run\r\n"]
+[0.834054, "o", "\r\n"]
+[0.83417, "o", "npm "]
+[0.834233, "o", "ERR! A complete log of this run can be found in:\r\nnpm ERR!     /home/nats/.npm/_logs/2022-07-17T11_55_44_893Z-debug-0.log\r\n"]
+[1.352067, "o", "exit status 1\r\n"]

@@ -17,6 +17,7 @@
   gtag('config', 'G-9QV780SHZ5');
 </script>
 
+  <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>
 <body>
   <header>
@@ -64,7 +65,7 @@
           
           
           
-          <span class="inactive" title="Not yet implemented">Rust</span>
+          <span><a href="/examples/messaging/request-reply/rust">Rust</a></span>
           
           
           
@@ -98,6 +99,10 @@
           <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
+
+      <div class="highlight">Check out a <a href="#recording">recording</a> of the code executing and the <a href="#output">output</a> below!</div>
+
+      <h3 id="code">Code</h3>
 
       <div class="example">
       
@@ -248,13 +253,45 @@ expect an error.</p>
       
       
       </div>
+
+      <h3 id="recording">Recording</h3>
+
+      <div id="asciinema"></div>
+
+      <h3 id="output">Output</h3>
+
+      <pre>[1A[1B[0G[?25l[&#43;] Running 2/0
+[34m ⠿ Network 12f96c9c_default   Created                                            0.0s
+[0m[34m ⠿ Container 12f96c9c-nats-1  Created                                            0.0s
+[0m[?25h[1A[1B[0G[?25l[&#43;] Running 0/0
+[37m ⠋ Container 12f96c9c-nats-1  Starting                                           0.1s
+[0m[?25h[1A[1A[0G[?25l[&#43;] Running 0/1
+[37m ⠙ Container 12f96c9c-nats-1  Starting                                           0.2s
+[0m[?25h[1A[1A[0G[?25l[34m[&#43;] Running 1/1[0m
+[34m ⠿ Container 12f96c9c-nats-1  Started                                            0.3s
+[0m[?25hb&#39;hello, joe&#39;
+b&#39;hello, sue&#39;
+b&#39;hello, bob&#39;
+no responders
+</pre>
+
     </div>
   </main>
   <script src="/main.js" async></script>
+  <script src="/asciinema-player.min.js"></script>
   <script>
-    var codeWithComments = 'import os\\u000Aimport asyncio\\u000A\\u000Aimport nats\\u000Afrom nats.errors import TimeoutError, NoRespondersError\\u000A\\u000A# Get the list of servers.\\u000Aservers \\u003D os.environ.get(\\\u0022NATS_URL\\\u0022, \\\u0022nats:\/\/localhost:4222\\\u0022).split(\\\u0022,\\\u0022)\\u000A\\u000Aasync def main():\\u000A    # Create the connection to NATS which takes a list of servers.\\u000A    nc \\u003D await nats.connect(servers\\u003Dservers)\\u000A\\u000A    # In addition to vanilla publish-request, NATS supports request-reply\\u000A    # interactions as well. Under the covers, this is just an optimized\\u000A    # pair of publish-subscribe operations.\\u000A    # The _request handler_ is a subscription that _responds_ to a message\\u000A    # sent to it. This kind of subscription is called a _service_.\\u000A    # We can use the `cb` argument for asynchronous handling.\\u000A    async def greet_handler(msg):\\u000A        # Parse out the second token in the subject (everything after\\u000A        # `greet.`) and use it as part of the response message.\\u000A        name \\u003D msg.subject[6:]\\u000A        reply \\u003D f\\\u0022hello, {name}\\\u0022\\u000A        await msg.respond(reply.encode(\\\u0022utf8\\\u0022))\\u000A\\u000A    sub \\u003D await nc.subscribe(\\\u0022greet.*\\\u0022, cb\\u003Dgreet_handler)\\u000A\\u000A    # Now we can use the built-in `request` method to do the service request.\\u000A    # We simply pass a empty body since that is being used right now.\\u000A    # In addition, we need to specify a timeout since with a request we\\u000A    # are _waiting_ for the reply and we likely don\\\u0027t want to wait forever.\\u000A    rep \\u003D await nc.request(\\\u0022greet.joe\\\u0022, b\\\u0027\\\u0027, timeout\\u003D0.5)\\u000A    print(f\\\u0022{rep.data}\\\u0022)\\u000A\\u000A    rep \\u003D await nc.request(\\\u0022greet.sue\\\u0022, b\\\u0027\\\u0027, timeout\\u003D0.5)\\u000A    print(f\\\u0022{rep.data}\\\u0022)\\u000A\\u000A    rep \\u003D await nc.request(\\\u0022greet.bob\\\u0022, b\\\u0027\\\u0027, timeout\\u003D0.5)\\u000A    print(f\\\u0022{rep.data}\\\u0022)\\u000A\\u000A    # What happens if the service is _unavailable_? We can simulate this by\\u000A    # unsubscribing our handler from above. Now if we make a request, we will\\u000A    # expect an error.\\u000A    await sub.drain()\\u000A\\u000A    try:\\u000A        await nc.request(\\\u0022greet.joe\\\u0022, b\\\u0027\\\u0027, timeout\\u003D0.5)\\u000A    except NoRespondersError:\\u000A        print(\\\u0022no responders\\\u0022)\\u000A\\u000A    await nc.drain()\\u000A\\u000A\\u000Aif __name__ \\u003D\\u003D \\\u0027__main__\\\u0027:\\u000A    asyncio.run(main())';
+    var url = '/examples\/messaging\/request-reply\/python\/output.cast';
+    AsciinemaPlayer.create(url, document.getElementById('asciinema'), {
+      cols: 120,
+      rows: 24,
+      fit: false,
+      
+      speed: 0.2,
+      terminalFontSize: "14px",
+      terminalFontFamily: "'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace",
+      terminalFontHeight: 1.4,
+    });
   </script>
-
   <footer>
   </footer>
 </body>

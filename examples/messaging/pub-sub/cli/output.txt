@@ -1,0 +1,31 @@
+[1A[1B[0G[?25l[+] Running 2/0
+[34m ⠿ Network 1f022099_default   Created                                            0.0s
+[0m[34m ⠿ Container 1f022099-nats-1  Created                                            0.0s
+[0m[?25h[1A[1B[0G[?25l[+] Running 0/0
+[37m ⠋ Container 1f022099-nats-1  Starting                                           0.1s
+[0m[?25h[1A[1A[0G[?25l[+] Running 0/1
+[37m ⠙ Container 1f022099-nats-1  Starting                                           0.2s
+[0m[?25h[1A[1A[0G[?25l[34m[+] Running 1/1[0m
+[34m ⠿ Container 1f022099-nats-1  Started                                            0.3s
+[0m[?25h             _             _               
+ _ __   __ _| |_ ___      | |__   _____  __
+| '_ \ / _` | __/ __|_____| '_ \ / _ \ \/ /
+| | | | (_| | |_\__ \_____| |_) | (_) >  < 
+|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
+                                           
+nats-box v0.12.0
+12:01:01 Published 5 bytes to "greet.joe"
+12:01:01 Subscribing on greet.*
+12:01:02 Published 5 bytes to "greet.joe"
+[#1] Received on "greet.joe"
+hello
+
+12:01:02 Published 5 bytes to "greet.pam"
+[#2] Received on "greet.pam"
+hello
+
+12:01:02 Published 5 bytes to "greet.bob"
+[#3] Received on "greet.bob"
+hello
+
+12:01:02 Published 5 bytes to "greet.bob"

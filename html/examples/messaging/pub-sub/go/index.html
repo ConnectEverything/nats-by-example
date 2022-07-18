@@ -17,6 +17,7 @@
   gtag('config', 'G-9QV780SHZ5');
 </script>
 
+  <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>
 <body>
   <header>
@@ -112,6 +113,10 @@ patterns and higher-level APIs build upon. There are a few takeaways from this e
           <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
+
+      <div class="highlight">Check out a <a href="#recording">recording</a> of the code executing and the <a href="#output">output</a> below!</div>
+
+      <h3 id="code">Code</h3>
 
       <div class="example">
       
@@ -297,13 +302,46 @@ their buffer for subsequent NextMsg calls.</p>
       
       
       </div>
+
+      <h3 id="recording">Recording</h3>
+
+      <div id="asciinema"></div>
+
+      <h3 id="output">Output</h3>
+
+      <pre>[1A[1B[0G[?25l[&#43;] Running 2/0
+[34m ⠿ Network a485d8b4_default   Created                                            0.0s
+[0m[34m ⠿ Container a485d8b4-nats-1  Created                                            0.0s
+[0m[?25h[1A[1B[0G[?25l[&#43;] Running 0/0
+[37m ⠋ Container a485d8b4-nats-1  Starting                                           0.1s
+[0m[?25h[1A[1A[0G[?25l[&#43;] Running 0/1
+[37m ⠙ Container a485d8b4-nats-1  Starting                                           0.2s
+[0m[?25h[1A[1A[0G[?25l[34m[&#43;] Running 1/1[0m
+[34m ⠿ Container a485d8b4-nats-1  Started                                            0.3s
+[0m[?25hsubscribed after a publish...
+msg is nil? true
+msg data: &#34;hello&#34; on subject &#34;greet.joe&#34;
+msg data: &#34;hello&#34; on subject &#34;greet.pam&#34;
+msg data: &#34;hello&#34; on subject &#34;greet.bob&#34;
+</pre>
+
     </div>
   </main>
   <script src="/main.js" async></script>
+  <script src="/asciinema-player.min.js"></script>
   <script>
-    var codeWithComments = 'package main\\u000A\\u000Aimport (\\u000A\\u0009\\\u0022fmt\\\u0022\\u000A\\u0009\\\u0022os\\\u0022\\u000A\\u0009\\\u0022time\\\u0022\\u000A\\u000A\\u0009\\\u0022github.com\/nats-io\/nats.go\\\u0022\\u000A)\\u000A\\u000Afunc main() {\\u000A\\u0009\/\/ Use the env varibale if running in the container, otherwise use the default.\\u000A\\u0009url :\\u003D os.Getenv(\\\u0022NATS_URL\\\u0022)\\u000A\\u0009if url \\u003D\\u003D \\\u0022\\\u0022 {\\u000A\\u0009\\u0009url \\u003D nats.DefaultURL\\u000A\\u0009}\\u000A\\u000A\\u0009\/\/ Create an unauthenticated connection to NATS.\\u000A\\u0009nc, _ :\\u003D nats.Connect(url)\\u000A\\u000A\\u0009\/\/ Drain is a safe way to to ensure all buffered messages that were published\\u000A\\u0009\/\/ are sent and all buffered messages received on a subscription are processed\\u000A\\u0009\/\/ being closing the connection.\\u000A\\u0009defer nc.Drain()\\u000A\\u000A\\u0009\/\/ Messages are published to subjects. Although there are no subscribers,\\u000A\\u0009\/\/ this will be published successfully.\\u000A\\u0009nc.Publish(\\\u0022greet.joe\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009\/\/ Let\\\u0027s create a subscription on the greet.* wildcard.\\u000A\\u0009sub, _ :\\u003D nc.SubscribeSync(\\\u0022greet.*\\\u0022)\\u000A\\u000A\\u0009\/\/ For a synchronous subscription, we need to fetch the next message.\\u000A\\u0009\/\/ However.. since the publish occured before the subscription was\\u000A\\u0009\/\/ established, this is going to timeout.\\u000A\\u0009msg, _ :\\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Println(\\\u0022subscribed after a publish...\\\u0022)\\u000A\\u0009fmt.Printf(\\\u0022msg is nil? %v\\\\n\\\u0022, msg \\u003D\\u003D nil)\\u000A\\u000A\\u0009\/\/ Publish a couple messages.\\u000A\\u0009nc.Publish(\\\u0022greet.joe\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u0009nc.Publish(\\\u0022greet.pam\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009\/\/ Since the subscription is established, the published messages will\\u000A\\u0009\/\/ immediately be broadcasted to all subscriptions. They will land in\\u000A\\u0009\/\/ their buffer for subsequent NextMsg calls.\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A\\u000A\\u0009\/\/ One more for good measures..\\u000A\\u0009nc.Publish(\\\u0022greet.bob\\\u0022, []byte(\\\u0022hello\\\u0022))\\u000A\\u000A\\u0009msg, _ \\u003D sub.NextMsg(10 * time.Millisecond)\\u000A\\u0009fmt.Printf(\\\u0022msg data: %q on subject %q\\\\n\\\u0022, string(msg.Data), msg.Subject)\\u000A}';
+    var url = '/examples\/messaging\/pub-sub\/go\/output.cast';
+    AsciinemaPlayer.create(url, document.getElementById('asciinema'), {
+      cols: 120,
+      rows: 24,
+      fit: false,
+      
+      speed: 0.2,
+      terminalFontSize: "14px",
+      terminalFontFamily: "'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace",
+      terminalFontHeight: 1.4,
+    });
   </script>
-
   <footer>
   </footer>
 </body>

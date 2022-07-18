@@ -4,6 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"io/ioutil"
+	"log"
+	"os"
 	"path/filepath"
 	"strings"
 
@@ -97,9 +100,11 @@ type clientData struct {
 	RunPath            string
 	Path               string
 	SourceURL          string
+	AsciinemaURL       template.URL
 	Language           string
 	Links              []*LanguageLink
 	Blocks             []*RenderedBlock
+	Output             string
 	JSEscaped          string
 }
 
@@ -251,6 +256,20 @@ func generateDocs(root *Root, dir string) error {
 					rblocks = append(rblocks, rb)
 				}
 
+				outputFile := filepath.Join(i.Path, "output.txt")
+
+				var castFile string
+				outputBytes, err := ioutil.ReadFile(outputFile)
+				if err != nil {
+					if !os.IsNotExist(err) {
+						log.Printf("%s: %s", outputFile, err)
+					} else {
+						return err
+					}
+				} else {
+					castFile = filepath.Join(i.Path, "output.cast")
+				}
+
 				ix := clientData{
 					CategoryTitle:      c.Title,
 					CategoryPath:       c.Path,
@@ -260,6 +279,8 @@ func generateDocs(root *Root, dir string) error {
 					Path:               i.Path,
 					RunPath:            strings.TrimPrefix(i.Path, "examples/"),
 					SourceURL:          "https://github.com/bruth/nats-by-example/tree/main/" + i.Path,
+					AsciinemaURL:       template.URL(castFile),
+					Output:             string(outputBytes),
 					Links:              links,
 					Language:           i.Language,
 					Blocks:             rblocks,
@@ -272,6 +293,14 @@ func generateDocs(root *Root, dir string) error {
 				err = createFile(filepath.Join(dir, i.Path, "index.html"), buf.Bytes())
 				if err != nil {
 					return err
+				}
+
+				if err := copyFile(castFile, filepath.Join(dir, castFile)); err != nil {
+					if os.IsNotExist(err) {
+						log.Printf("%s: %s", castFile, err)
+					} else {
+						return err
+					}
 				}
 			}
 		}
