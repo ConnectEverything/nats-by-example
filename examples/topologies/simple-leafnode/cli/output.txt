@@ -1,0 +1,86 @@
+Network 048d641d_default  Creating
+Network 048d641d_default  Created
+             _             _               
+ _ __   __ _| |_ ___      | |__   _____  __
+| '_ \ / _` | __/ __|_____| '_ \ / _ \ \/ /
+| | | | (_| | |_\__ \_____| |_) | (_) >  < 
+|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
+                                           
+nats-box v0.12.0
++ NATS_MAIN_URL=nats://0.0.0.0:4222
++ NATS_LEAF_URL=nats://0.0.0.0:4223
++ nats context save main --server nats://0.0.0.0:4222
+NATS Configuration Context "main"
+
+      Server URLs: nats://0.0.0.0:4222
+             Path: /nsc/.config/nats/context/main.json
+
++ nats context save leaf --server nats://0.0.0.0:4223
+NATS Configuration Context "leaf"
+
+      Server URLs: nats://0.0.0.0:4223
+             Path: /nsc/.config/nats/context/leaf.json
+
++ echo 'Creating the main server conf...'
+Creating the main server conf...
++ cat
++ echo 'Creating the leaf node conf...'
+Creating the leaf node conf...
++ cat
++ MAIN_PID=34
++ sleep 1
++ nats-server -c main.conf
++ LEAF_PID=44
++ sleep 1
++ nats-server -c leaf.conf
++ SERVICE_PID=54
++ sleep 1
++ nats --context main reply greet 'hello from main'
+12:12:26 Listening on "greet" in group "NATS-RPLY-22"
++ nats --context leaf request greet 
+12:12:27 Sending request on "greet"
+
+
+12:12:27 [#0] Received on subject "greet":
+12:12:27 Received with rtt 732.112µs
+hello from main
+
++ SERVICE2_PID=76
++ nats --context leaf request greet 
++ nats --context leaf reply greet 'hello from leaf'
+12:12:27 Sending request on "greet"
+12:12:27 [#1] Received on subject "greet":
+
+
+12:12:27 Received with rtt 3.891391ms
+hello from main
+
+12:12:27 Listening on "greet" in group "NATS-RPLY-22"
++ nats --context leaf request greet 
+12:12:28 Sending request on "greet"
+12:12:28 [#0] Received on subject "greet":
+
+
+12:12:28 Received with rtt 591.02µs
+hello from leaf
+
++ nats --context leaf request greet 
+12:12:28 Sending request on "greet"
+
+
+12:12:28 [#1] Received on subject "greet":
+12:12:28 Received with rtt 492.585µs
+hello from leaf
+
++ kill 76
++ nats --context leaf request greet 
+12:12:28 Sending request on "greet"
+
+
+12:12:28 [#2] Received on subject "greet":
+12:12:28 Received with rtt 631.337µs
+hello from main
+
++ kill 54
++ kill 44
++ kill 34

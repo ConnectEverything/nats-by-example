@@ -1,6 +1,6 @@
-[1A[1B[0G[?25l[+] Running 1/0
-[34m ⠿ Network aa9ac0dd_default  Created                                             0.0s
-[0m[?25h             _             _               
+Network 65af27f1_default  Creating
+Network 65af27f1_default  Created
+             _             _               
  _ __   __ _| |_ ___      | |__   _____  __
 | '_ \ / _` | __/ __|_____| '_ \ / _ \ \/ /
 | | | | (_| | |_\__ \_____| |_) | (_) >  < 
@@ -10,25 +10,25 @@ nats-box v0.12.0
 + NATS_MAIN_URL=nats://0.0.0.0:4222
 + NATS_LEAF_URL=nats://0.0.0.0:4223
 + nsc add operator --generate-signing-key --sys --name local
-[ OK ] generated and stored operator key "ODSP5CIIBQGF2DBXL2Z7LPRNHFZUFV77BNFLWEHDXYFISAYCVARNASMT"
+[ OK ] generated and stored operator key "OBA4MEJE33O7FM2IHCHSPDK362OP3EQ7U54UFM6UB3VIMWBPZMNPUC7N"
 [ OK ] added operator "local"
 [ OK ] When running your own nats-server, make sure they run at least version 2.2.0
-[ OK ] created operator signing key: ODVED3HES2UK5LX5HYDDR3LHA6QWR4VLIKPURN7R4W7IZDBONVB35CIU
-[ OK ] created system_account: name:SYS id:AACKNBWQMVMX7KO2ZNJVB5W7U3Y7TZIJMNVB66X2SUTXHXPY3JPQ6IWS
-[ OK ] created system account user: name:sys id:UARWXJQZGAVGNWPGZIYKVDEBZJ4PMTXYHEOCSDYWGQGLM2DO56LOMBKM
+[ OK ] created operator signing key: OBGXY46O6M7D5MPR75SLTK5AWN5P2R34SZFAYWWIEURNDIREIULAD22S
+[ OK ] created system_account: name:SYS id:ADMPNQC7QE2LFABYBGEA7AEN37O2T5Z26GQPAVNB4P43RGF3KDAGFYIW
+[ OK ] created system account user: name:sys id:UAOJIINY45JT5JLI7FYWRX5HEBBFXVOVOIVTKM5MFH2T2VSAFLH4DJSZ
 [ OK ] system account user creds file stored in `/nsc/nkeys/creds/local/SYS/sys.creds`
 + nsc edit operator --require-signing-keys --account-jwt-server-url nats://0.0.0.0:4222
 [ OK ] strict signing key usage set to: true
 [ OK ] set account jwt server url to "nats://0.0.0.0:4222"
 [ OK ] edited operator "local"
 + nsc add account APP
-[ OK ] generated and stored account key "ABHOCGIG4Z2RAUIM2MR677SW256MRWPAO6O37SCVO5H2PFG46WUJNPWB"
+[ OK ] generated and stored account key "ADBFUJSUHBMTN67HZJD327RCTLRGIYKSTWAZIUXS5U2H3CDGW5FCG7T7"
 [ OK ] added account "APP"
 + nsc edit account APP --sk generate
-[ OK ] added signing key "ADOR3QTTRSTB25OJWSJYBPD6XX4OLZRDBVRVSRPMTO72BHWHS5NFNQRA"
+[ OK ] added signing key "AB65VFZBW4RN34LQCHICB3BTGQ6YVDAC653CAP2S4OIWHEUU7KQ444MI"
 [ OK ] edited account "APP"
 + nsc add user --account APP user
-[ OK ] generated and stored user key "UAFYV6YSOLCMC3ZAIPGMJAEVTDW6X3TPWSJ7HSKHCITSNONT5KZVZOSI"
+[ OK ] generated and stored user key "UDEMHMTMMGCNTKAK5T532WGAMEDHBFF77CPDRSTHYV7ZIDMY2Y6HQN3E"
 [ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/user.creds`
 [ OK ] added user "user" to account "APP"
 + nsc env
@@ -80,18 +80,18 @@ NATS Configuration Context "leaf-user"
 Creating the main server conf...
 + echo 'Creating the main server conf...'
 + cat
-Creating the leaf node conf...
 + echo 'Creating the leaf node conf...'
+Creating the leaf node conf...
 + cat
-+ MAIN_PID=98
++ MAIN_PID=99
 + sleep 1
 + nats-server -c main.conf
+Pushing the account JWT...
 + echo 'Pushing the account JWT...'
 + nsc push -a APP
-Pushing the account JWT...
 [ OK ] push to nats-server "nats://0.0.0.0:4222" using system account "SYS":
        [ OK ] push APP to nats-server with nats account resolver:
-              [ OK ] pushed "APP" to nats-server NA6DT64W3LDXSLIWCFAKNWN7R4CIM25QQP4ZPTHZK54ON2YBVIWHE5LQ: jwt updated
+              [ OK ] pushed "APP" to nats-server NB6YKJ4ZAT3MYWMHMY2UYRSX6DXPUHPOJQOAHPJ4ZW2PN2BHIMS7ID4T: jwt updated
               [ OK ] pushed to a total of 1 nats-server
 + LEAF_PID=115
 + sleep 1
@@ -99,15 +99,15 @@ Pushing the account JWT...
 + SERVICE_PID=125
 + sleep 1
 + nats --context main-user reply greet hello
-12:01:19 Listening on "greet" in group "NATS-RPLY-22"
+12:12:21 Listening on "greet" in group "NATS-RPLY-22"
 + nats --context leaf-user request greet 
-12:01:20 Sending request on "greet"
-12:01:20 [#0] Received on subject "greet":
+12:12:22 Sending request on "greet"
 
 
-12:01:20 Received with rtt 375.529µs
+12:12:22 [#0] Received on subject "greet":
+12:12:22 Received with rtt 861.64µs
 hello
 
 + kill 125
 + kill 115
-+ kill 98
++ kill 99

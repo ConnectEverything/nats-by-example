@@ -1,5 +1,7 @@
 FROM golang:1.18-alpine AS build
 
+WORKDIR /opt/app
+
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
 
@@ -10,5 +12,5 @@ FROM alpine
 
 COPY --from=build /app /app
 
-CMD ["/home/nats/app"]
+CMD ["/app"]
 

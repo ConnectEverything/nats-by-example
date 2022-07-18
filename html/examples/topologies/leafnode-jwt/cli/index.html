@@ -33,10 +33,15 @@
 
   <main>
     <div class="container">
-      <h2 class="title">Leafnode <small class="quiet">in Topologies</small></h2>
+      <h2 class="title">Leafnode with JWT Auth <small class="quiet">in Topologies</small></h2>
 
       <div class="description">
-      
+      <p>This example demonstrates how to bootstrap the <a href="https://docs.nats.io/running-a-nats-service/configuration/securing_nats/auth_intro/jwt">decentralized JWT
+authentication mode</a> using the <a href="https://docs.nats.io/using-nats/nats-tools/nsc">nsc tool</a>, configuring a
+server to accept leaf node connections, configuring a server acting
+as the leaf node itself, and how a client making a request to the leaf
+node will get handled by a service connected to the main node.</p>
+
       </div>
 
       
@@ -93,9 +98,9 @@
         <div class="source-run">
           <div class="links">
             <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
-            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/topologies/leafnode/cli" target=_blank>Source code</a>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/topologies/leafnode-jwt/cli" target=_blank>Source code</a>
           </div>
-          <pre>$ nbe run topologies/leafnode/cli</pre>
+          <pre>$ nbe run topologies/leafnode-jwt/cli</pre>
           <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
         </div>
       </div>
@@ -440,14 +445,14 @@ transparently fullfilled by the service connected to the main server.</p>
       </div>
 
       <h3 id="recording">Recording</h3>
-
+      <div class="quiet text-center">Note, playback is 1/5 the speed to make it a bit easier to follow.</div>
       <div id="asciinema"></div>
 
       <h3 id="output">Output</h3>
 
-      <pre>[1A[1B[0G[?25l[&#43;] Running 1/0
-[34m ⠿ Network aa9ac0dd_default  Created                                             0.0s
-[0m[?25h             _             _               
+      <pre class="output">Network 65af27f1_default  Creating
+Network 65af27f1_default  Created
+             _             _               
  _ __   __ _| |_ ___      | |__   _____  __
 | &#39;_ \ / _` | __/ __|_____| &#39;_ \ / _ \ \/ /
 | | | | (_| | |_\__ \_____| |_) | (_) &gt;  &lt; 
@@ -457,25 +462,25 @@ nats-box v0.12.0
 &#43; NATS_MAIN_URL=nats://0.0.0.0:4222
 &#43; NATS_LEAF_URL=nats://0.0.0.0:4223
 &#43; nsc add operator --generate-signing-key --sys --name local
-[ OK ] generated and stored operator key &#34;ODSP5CIIBQGF2DBXL2Z7LPRNHFZUFV77BNFLWEHDXYFISAYCVARNASMT&#34;
+[ OK ] generated and stored operator key &#34;OBA4MEJE33O7FM2IHCHSPDK362OP3EQ7U54UFM6UB3VIMWBPZMNPUC7N&#34;
 [ OK ] added operator &#34;local&#34;
 [ OK ] When running your own nats-server, make sure they run at least version 2.2.0
-[ OK ] created operator signing key: ODVED3HES2UK5LX5HYDDR3LHA6QWR4VLIKPURN7R4W7IZDBONVB35CIU
-[ OK ] created system_account: name:SYS id:AACKNBWQMVMX7KO2ZNJVB5W7U3Y7TZIJMNVB66X2SUTXHXPY3JPQ6IWS
-[ OK ] created system account user: name:sys id:UARWXJQZGAVGNWPGZIYKVDEBZJ4PMTXYHEOCSDYWGQGLM2DO56LOMBKM
+[ OK ] created operator signing key: OBGXY46O6M7D5MPR75SLTK5AWN5P2R34SZFAYWWIEURNDIREIULAD22S
+[ OK ] created system_account: name:SYS id:ADMPNQC7QE2LFABYBGEA7AEN37O2T5Z26GQPAVNB4P43RGF3KDAGFYIW
+[ OK ] created system account user: name:sys id:UAOJIINY45JT5JLI7FYWRX5HEBBFXVOVOIVTKM5MFH2T2VSAFLH4DJSZ
 [ OK ] system account user creds file stored in `/nsc/nkeys/creds/local/SYS/sys.creds`
 &#43; nsc edit operator --require-signing-keys --account-jwt-server-url nats://0.0.0.0:4222
 [ OK ] strict signing key usage set to: true
 [ OK ] set account jwt server url to &#34;nats://0.0.0.0:4222&#34;
 [ OK ] edited operator &#34;local&#34;
 &#43; nsc add account APP
-[ OK ] generated and stored account key &#34;ABHOCGIG4Z2RAUIM2MR677SW256MRWPAO6O37SCVO5H2PFG46WUJNPWB&#34;
+[ OK ] generated and stored account key &#34;ADBFUJSUHBMTN67HZJD327RCTLRGIYKSTWAZIUXS5U2H3CDGW5FCG7T7&#34;
 [ OK ] added account &#34;APP&#34;
 &#43; nsc edit account APP --sk generate
-[ OK ] added signing key &#34;ADOR3QTTRSTB25OJWSJYBPD6XX4OLZRDBVRVSRPMTO72BHWHS5NFNQRA&#34;
+[ OK ] added signing key &#34;AB65VFZBW4RN34LQCHICB3BTGQ6YVDAC653CAP2S4OIWHEUU7KQ444MI&#34;
 [ OK ] edited account &#34;APP&#34;
 &#43; nsc add user --account APP user
-[ OK ] generated and stored user key &#34;UAFYV6YSOLCMC3ZAIPGMJAEVTDW6X3TPWSJ7HSKHCITSNONT5KZVZOSI&#34;
+[ OK ] generated and stored user key &#34;UDEMHMTMMGCNTKAK5T532WGAMEDHBFF77CPDRSTHYV7ZIDMY2Y6HQN3E&#34;
 [ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/user.creds`
 [ OK ] added user &#34;user&#34; to account &#34;APP&#34;
 &#43; nsc env
@@ -527,18 +532,18 @@ NATS Configuration Context &#34;leaf-user&#34;
 Creating the main server conf...
 &#43; echo &#39;Creating the main server conf...&#39;
 &#43; cat
-Creating the leaf node conf...
 &#43; echo &#39;Creating the leaf node conf...&#39;
+Creating the leaf node conf...
 &#43; cat
-&#43; MAIN_PID=98
+&#43; MAIN_PID=99
 &#43; sleep 1
 &#43; nats-server -c main.conf
+Pushing the account JWT...
 &#43; echo &#39;Pushing the account JWT...&#39;
 &#43; nsc push -a APP
-Pushing the account JWT...
 [ OK ] push to nats-server &#34;nats://0.0.0.0:4222&#34; using system account &#34;SYS&#34;:
        [ OK ] push APP to nats-server with nats account resolver:
-              [ OK ] pushed &#34;APP&#34; to nats-server NA6DT64W3LDXSLIWCFAKNWN7R4CIM25QQP4ZPTHZK54ON2YBVIWHE5LQ: jwt updated
+              [ OK ] pushed &#34;APP&#34; to nats-server NB6YKJ4ZAT3MYWMHMY2UYRSX6DXPUHPOJQOAHPJ4ZW2PN2BHIMS7ID4T: jwt updated
               [ OK ] pushed to a total of 1 nats-server
 &#43; LEAF_PID=115
 &#43; sleep 1
@@ -546,18 +551,18 @@ Pushing the account JWT...
 &#43; SERVICE_PID=125
 &#43; sleep 1
 &#43; nats --context main-user reply greet hello
-12:01:19 Listening on &#34;greet&#34; in group &#34;NATS-RPLY-22&#34;
+12:12:21 Listening on &#34;greet&#34; in group &#34;NATS-RPLY-22&#34;
 &#43; nats --context leaf-user request greet 
-12:01:20 Sending request on &#34;greet&#34;
-12:01:20 [#0] Received on subject &#34;greet&#34;:
+12:12:22 Sending request on &#34;greet&#34;
 
 
-12:01:20 Received with rtt 375.529µs
+12:12:22 [#0] Received on subject &#34;greet&#34;:
+12:12:22 Received with rtt 861.64µs
 hello
 
 &#43; kill 125
 &#43; kill 115
-&#43; kill 98
+&#43; kill 99
 </pre>
 
     </div>
@@ -565,7 +570,7 @@ hello
   <script src="/main.js" async></script>
   <script src="/asciinema-player.min.js"></script>
   <script>
-    var url = '/examples\/topologies\/leafnode\/cli\/output.cast';
+    var url = '/examples\/topologies\/leafnode-jwt\/cli\/output.cast';
     AsciinemaPlayer.create(url, document.getElementById('asciinema'), {
       cols: 120,
       rows: 24,

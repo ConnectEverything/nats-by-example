@@ -69,6 +69,13 @@ footer {
   margin: 0 auto;
 }
 
+.highlight {
+  text-align: center;
+  margin-bottom: 30px;
+  padding: 10px 15px;
+  background-color: lightyellow;
+}
+
 #hero {
   text-align: center;
   padding: 2rem 0;
@@ -101,6 +108,17 @@ h1, h2, h3, h4, h5, h6 {
 
 .quiet {
   color: #999;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.output {
+  padding: 10px;
+  background-color: #eee;
+  max-height: 450px;
+  overflow-y: scroll;
 }
 
 .info {
@@ -179,6 +197,10 @@ pre, code {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-bottom: 30px;
+}
+
+#asciinema {
   margin-bottom: 30px;
 }
 

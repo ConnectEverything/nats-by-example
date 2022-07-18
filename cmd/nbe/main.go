@@ -208,6 +208,25 @@ the runtime.`,
 			source := c.String("source")
 			recreate := c.Bool("recreate")
 
+			path := c.Args().First()
+
+			var matches map[string]struct{}
+			var useMatch bool
+			if path != "" {
+				ms, err := filepath.Glob(path)
+				if err != nil {
+					return err
+				}
+				if len(ms) == 0 {
+					return fmt.Errorf("glob has no matches")
+				}
+				matches = make(map[string]struct{})
+				for _, m := range ms {
+					matches[m] = struct{}{}
+				}
+				useMatch = true
+			}
+
 			root, err := parseExamples(source)
 			if err != nil {
 				return err
@@ -217,8 +236,10 @@ the runtime.`,
 			for _, c := range root.Categories {
 				for _, e := range c.Examples {
 					for _, i := range e.Clients {
-						if err := generateRecording(repo, i.Path, recreate); err != nil {
-							log.Printf("%s: %s", i.Path, err)
+						if _, ok := matches[i.Path]; ok || !useMatch {
+							if err := generateRecording(repo, i.Path, recreate); err != nil {
+								log.Printf("%s: %s", i.Path, err)
+							}
 						}
 					}
 				}
