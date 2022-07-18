@@ -2,7 +2,7 @@
 
 > A collection of reference examples using NATS.
 
-See https://natsbyexample.com to start exploring.
+See https://natsbyexample.com to start exploring. Check out the [6m intro video](https://www.youtube.com/watch?v=GGX0KQuY0zQ) to learn how to best use this resource.
 
 ## Motivation
 
