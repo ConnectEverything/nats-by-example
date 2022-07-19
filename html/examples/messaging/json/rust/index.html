@@ -17,6 +17,22 @@
   gtag('config', 'G-9QV780SHZ5');
 </script>
 
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:creator" content="@thedevel" />
+  <meta name="twitter:title" content="JSON for Message Payloads in Messaging" />
+  <meta name="twitter:description" content="The basic structure of a NATS message modeled in the client libraries includes the
+subject the message was published to, the application-defined payload, and an optional
+set of headers (for requests, there is also a reply-to subject). The payload is a
+sequence of bytes, so it is up to the application to define how to serialize and
+deserialize the payload.
+
+JSON is ubiquitous and simple data-interchange format that is
+supported in virtually all programming languages. This example demonstrates how to
+serialize and deserialize a message payload using a JSON library.
+" />
+  <meta name="twitter:image" content="https://natsbyexample.com/nbe-twitter.png" />
+  <meta name="twitter:image:alt" content="NATS by Example" />
+
   <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>
 <body>
@@ -248,12 +264,12 @@ to the default.</p>
 
       <h3 id="output">Output</h3>
 
-      <pre class="output">Network 86473a18_default  Creating
-Network 86473a18_default  Created
-Container 86473a18-nats-1  Creating
-Container 86473a18-nats-1  Created
-Container 86473a18-nats-1  Starting
-Container 86473a18-nats-1  Started
+      <pre class="output">Network d1bf822b_default  Creating
+Network d1bf822b_default  Created
+Container d1bf822b-nats-1  Creating
+Container d1bf822b-nats-1  Created
+Container d1bf822b-nats-1  Starting
+Container d1bf822b-nats-1  Started
 received payload: foo=&#34;bar&#34; bar=27
 </pre>
 

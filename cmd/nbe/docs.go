@@ -106,6 +106,8 @@ type clientData struct {
 	Blocks             []*RenderedBlock
 	Output             string
 	JSEscaped          string
+	CanonicalURL       template.URL
+	CanonicalImageURL  template.URL
 }
 
 func generateDocs(root *Root, dir string) error {

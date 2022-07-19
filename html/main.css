@@ -64,6 +64,29 @@ footer {
   height: 42px;
 }
 
+#twitter-image {
+  margin: 10px auto;
+  width: 512px;
+  height: 512px;
+  font-family: "Cookie";
+  font-size: 7rem;
+  padding: 0 30px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #1b2e49;
+  border-bottom: 10px solid #27aae1;
+  vertical-align: middle;
+}
+
+#twitter-image img {
+  margin-top: 120px;
+}
+
+#twitter-image div {
+  margin-top: -30px;
+  text-align: center;
+}
+
 .container {
   width: 1000px;
   margin: 0 auto;
