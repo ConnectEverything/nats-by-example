@@ -1,8 +1,8 @@
-{"version": 2, "width": 102, "height": 26, "timestamp": 1658231669, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/json/rust"}
-[0.052851, "o", "Network d1bf822b_default  Creating\r\n"]
-[0.077465, "o", "Network d1bf822b_default  Created\r\n"]
-[0.077582, "o", "Container d1bf822b-nats-1  Creating\r\n"]
-[0.153625, "o", "Container d1bf822b-nats-1  Created\r\n"]
-[0.154631, "o", "Container d1bf822b-nats-1  Starting\r\n"]
-[0.418815, "o", "Container d1bf822b-nats-1  Started\r\n"]
-[3.070026, "o", "received payload: foo=\"bar\" bar=27\r\n"]
+{"version": 2, "width": 102, "height": 26, "timestamp": 1658266568, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/json/rust"}
+[0.054928, "o", "Network e5cea0e3_default  Creating\r\n"]
+[0.08016, "o", "Network e5cea0e3_default  Created\r\n"]
+[0.080276, "o", "Container e5cea0e3-nats-1  Creating\r\n"]
+[0.138586, "o", "Container e5cea0e3-nats-1  Created\r\n"]
+[0.139428, "o", "Container e5cea0e3-nats-1  Starting\r\n"]
+[0.406429, "o", "Container e5cea0e3-nats-1  Started\r\n"]
+[2.758019, "o", "received valid JSON payload: foo=\"bar\" bar=27\r\nreceived invalid JSON payload: b\"not json\"\r\n"]

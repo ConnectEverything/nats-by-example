@@ -192,14 +192,15 @@ to the default.</p>
       
       
         <div class="example-comment">
-        <p>Create a subscription that receives one message.</p>
+        <p>Create a subscription that receives two messages. One message will
+contain a valid serialized payload and the other will not.</p>
 
         </div>
       
       
       
         <div class="example-code">
-        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">subscriber</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span></code></pre>
         </div>
@@ -231,23 +232,30 @@ to the default.</p>
       
         <div class="example-code">
         <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="n">bytes</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">client</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;foo&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">(),</span><span class="w"> </span><span class="s">&#34;not json&#34;</span><span class="p">.</span><span class="n">into</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">next</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span></span></span></code></pre>
+</span></span></span></code></pre>
         </div>
       
       
       
         <div class="example-comment">
-        <p>Deserialize the message payload into a Payload value.</p>
+        <p>Loop through the expected messages and  attempt to deserialize the payload
+into a Payload value. If deserialization into this type fails, alternate
+handling can be performed, either discarding or attempting to derialize in
+a more general type (such as a map).</p>
 
         </div>
       
       
       
         <div class="example-code">
-        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">        </span><span class="kd">let</span><span class="w"> </span><span class="n">payload</span>: <span class="nc">Payload</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_json</span>::<span class="n">from_slice</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">payload</span><span class="p">.</span><span class="n">as_ref</span><span class="p">())</span><span class="o">?</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;received payload: foo={:?} bar={:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">.</span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">.</span><span class="n">bar</span><span class="p">);</span><span class="w">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Some</span><span class="p">(</span><span class="n">message</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">subscriber</span><span class="p">.</span><span class="n">next</span><span class="p">().</span><span class="k">await</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="kd">let</span><span class="w"> </span><span class="nb">Ok</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">serde_json</span>::<span class="n">from_slice</span>::<span class="o">&lt;</span><span class="n">Payload</span><span class="o">&gt;</span><span class="p">(</span><span class="n">message</span><span class="p">.</span><span class="n">payload</span><span class="p">.</span><span class="n">as_ref</span><span class="p">())</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;received valid JSON payload: foo={:?} bar={:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">.</span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="n">payload</span><span class="p">.</span><span class="n">bar</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="s">&#34;received invalid JSON payload: {:?}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">message</span><span class="p">.</span><span class="n">payload</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
@@ -264,13 +272,14 @@ to the default.</p>
 
       <h3 id="output">Output</h3>
 
-      <pre class="output">Network d1bf822b_default  Creating
-Network d1bf822b_default  Created
-Container d1bf822b-nats-1  Creating
-Container d1bf822b-nats-1  Created
-Container d1bf822b-nats-1  Starting
-Container d1bf822b-nats-1  Started
-received payload: foo=&#34;bar&#34; bar=27
+      <pre class="output">Network e5cea0e3_default  Creating
+Network e5cea0e3_default  Created
+Container e5cea0e3-nats-1  Creating
+Container e5cea0e3-nats-1  Created
+Container e5cea0e3-nats-1  Starting
+Container e5cea0e3-nats-1  Started
+received valid JSON payload: foo=&#34;bar&#34; bar=27
+received invalid JSON payload: b&#34;not json&#34;
 </pre>
 
     </div>
