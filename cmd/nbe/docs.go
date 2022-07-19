@@ -284,7 +284,7 @@ func generateDocs(root *Root, dir string) error {
 					AsciinemaURL:       template.URL(castFile),
 					Output:             string(outputBytes),
 					Links:              links,
-					Language:           i.Language,
+					Language:           availableLanguages[i.Language],
 					Blocks:             rblocks,
 					JSEscaped:          i.Source,
 				}
