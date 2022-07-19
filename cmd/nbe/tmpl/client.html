@@ -2,6 +2,12 @@
 <html>
 <head>
 	{{template "head"}}
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:creator" content="@thedevel" />
+  <meta property="og:url" content="/{{.Path}}" />
+  <meta property="og:title" content="{{.ExampleTitle}} in {{.CategoryTitle}}" />
+  <meta property="og:image" content="/nbe-twitter.png" />
+
   <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>
 <body>
