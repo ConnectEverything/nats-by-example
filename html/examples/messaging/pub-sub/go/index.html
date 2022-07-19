@@ -19,9 +19,24 @@
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:creator" content="@thedevel" />
-  <meta property="og:url" content="https://natsbyexample.com/examples/messaging/pub-sub/go" />
-  <meta property="og:title" content="Core Publish-Subcribe in Messaging" />
-  <meta property="og:image" content="https://natsbyexample.com/nbe-twitter.png" />
+  <meta name="twitter:title" content="Core Publish-Subcribe in Messaging" />
+  <meta name="twitter:description" content="This example demonstrates the core NATS publish-subscribe
+behavior. This is the fundamental pattern that all other NATS
+patterns and higher-level APIs build upon. There are a few takeaways from this example:
+
+
+Delivery is an at-most-once. For MQTT users, this is referred to as Quality of Service (QoS) 0.
+There are two circumstances when a published message won&rsquo;t be delivered to a subscriber:
+
+
+The subscriber does not have an active connection to the server (i.e. the client is temporarily offline for some reason)
+There is a network interruption where the message is ultimately dropped
+
+Messages are published to subjects which can be one or more concrete tokens, e.g. greet.bob. Subscribers can utilize wildcards to show interest on a set of matching subjects.
+
+" />
+  <meta name="twitter:image" content="https://natsbyexample.com/nbe-twitter.png" />
+  <meta name="twitter:image:alt" content="NATS by Example" />
 
   <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>

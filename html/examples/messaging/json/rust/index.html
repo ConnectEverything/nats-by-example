@@ -19,9 +19,19 @@
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:creator" content="@thedevel" />
-  <meta property="og:url" content="https://natsbyexample.com/examples/messaging/json/rust" />
-  <meta property="og:title" content="JSON for Message Payloads in Messaging" />
-  <meta property="og:image" content="https://natsbyexample.com/nbe-twitter.png" />
+  <meta name="twitter:title" content="JSON for Message Payloads in Messaging" />
+  <meta name="twitter:description" content="The basic structure of a NATS message modeled in the client libraries includes the
+subject the message was published to, the application-defined payload, and an optional
+set of headers (for requests, there is also a reply-to subject). The payload is a
+sequence of bytes, so it is up to the application to define how to serialize and
+deserialize the payload.
+
+JSON is ubiquitous and simple data-interchange format that is
+supported in virtually all programming languages. This example demonstrates how to
+serialize and deserialize a message payload using a JSON library.
+" />
+  <meta name="twitter:image" content="https://natsbyexample.com/nbe-twitter.png" />
+  <meta name="twitter:image:alt" content="NATS by Example" />
 
   <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
 </head>
