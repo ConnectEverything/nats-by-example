@@ -1,7 +1,7 @@
-Network 86473a18_default  Creating
-Network 86473a18_default  Created
-Container 86473a18-nats-1  Creating
-Container 86473a18-nats-1  Created
-Container 86473a18-nats-1  Starting
-Container 86473a18-nats-1  Started
+Network d1bf822b_default  Creating
+Network d1bf822b_default  Created
+Container d1bf822b-nats-1  Creating
+Container d1bf822b-nats-1  Created
+Container d1bf822b-nats-1  Starting
+Container d1bf822b-nats-1  Started
 received payload: foo="bar" bar=27

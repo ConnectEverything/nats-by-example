@@ -27,10 +27,19 @@
 
 
 	<div><a href="/examples/messaging">Messaging</a></div>
-	<h2 class="title">Json</h2>
+	<h2 class="title">JSON for Message Payloads</h2>
 
 	<div class="description">
-	
+	<p>The basic structure of a NATS message modeled in the client libraries includes the
+subject the message was published to, the application-defined payload, and an optional
+set of headers (for requests, there is also a <em>reply-to</em> subject). The payload is a
+sequence of bytes, so it is up to the application to define how to serialize and
+deserialize the payload.</p>
+
+<p><a href="https://json.org">JSON</a> is ubiquitous and simple data-interchange format that is
+supported in virtually all programming languages. This example demonstrates how to
+serialize and deserialize a message payload using a JSON library.</p>
+
 	</div>
 
 	<div class="language-tabs">

@@ -33,10 +33,19 @@
 
   <main>
     <div class="container">
-      <h2 class="title">Json <small class="quiet">in Messaging</small></h2>
+      <h2 class="title">JSON for Message Payloads <small class="quiet">in Messaging</small></h2>
 
       <div class="description">
-      
+      <p>The basic structure of a NATS message modeled in the client libraries includes the
+subject the message was published to, the application-defined payload, and an optional
+set of headers (for requests, there is also a <em>reply-to</em> subject). The payload is a
+sequence of bytes, so it is up to the application to define how to serialize and
+deserialize the payload.</p>
+
+<p><a href="https://json.org">JSON</a> is ubiquitous and simple data-interchange format that is
+supported in virtually all programming languages. This example demonstrates how to
+serialize and deserialize a message payload using a JSON library.</p>
+
       </div>
 
       
@@ -114,10 +123,10 @@
       
       
         <div class="example-code">
-        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">futures</span>::<span class="n">stream</span>::<span class="n">StreamExt</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">serde</span>::<span class="p">{</span><span class="n">Deserialize</span><span class="p">,</span><span class="n">Serialize</span><span class="p">};</span><span class="w">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">env</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">serde_json</span>::<span class="n">json</span><span class="p">;</span><span class="w">
-</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="n">env</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">serde</span>::<span class="p">{</span><span class="n">Deserialize</span><span class="p">,</span><span class="n">Serialize</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">futures</span>::<span class="n">stream</span>::<span class="n">StreamExt</span><span class="p">;</span><span class="w">
 </span></span></span><span class="line"><span class="cl"><span class="w">
 </span></span></span></code></pre>
         </div>
@@ -126,7 +135,7 @@
       
         <div class="example-comment">
         <p>Use the macro to generate the serialize and deserialize methods on
-struct with basic types.</p>
+a struct with basic types.</p>
 
         </div>
       
@@ -167,7 +176,7 @@ to the default.</p>
       
       
         <div class="example-comment">
-        <p>Create a subscription that handles one message.</p>
+        <p>Create a subscription that receives one message.</p>
 
         </div>
       

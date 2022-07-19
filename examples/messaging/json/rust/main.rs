@@ -1,10 +1,10 @@
-use futures::stream::StreamExt;
-use serde::{Deserialize,Serialize};
-use serde_json::json;
 use std::env;
+use serde_json::json;
+use serde::{Deserialize,Serialize};
+use futures::stream::StreamExt;
 
 // Use the macro to generate the serialize and deserialize methods on
-// struct with basic types.
+// a struct with basic types.
 #[derive(Serialize, Deserialize)]
 struct Payload {
     foo: String,
@@ -20,7 +20,7 @@ async fn main() -> Result<(), async_nats::Error> {
 
     let client = async_nats::connect(nats_url).await?;
 
-    // Create a subscription that handles one message.
+    // Create a subscription that receives one message.
     let mut subscriber = client.subscribe("foo".into()).await?.take(1);
 
     // Construct a Payload value and serialize it.

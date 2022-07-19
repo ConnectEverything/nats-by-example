@@ -1,0 +1,11 @@
+title: JSON for Message Payloads
+description: |-
+  The basic structure of a NATS message modeled in the client libraries includes the
+  subject the message was published to, the application-defined payload, and an optional
+  set of headers (for requests, there is also a *reply-to* subject). The payload is a
+  sequence of bytes, so it is up to the application to define how to serialize and
+  deserialize the payload.
+
+  [JSON](https://json.org) is ubiquitous and simple data-interchange format that is
+  supported in virtually all programming languages. This example demonstrates how to
+  serialize and deserialize a message payload using a JSON library.
