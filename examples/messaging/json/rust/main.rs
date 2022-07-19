@@ -20,8 +20,9 @@ async fn main() -> Result<(), async_nats::Error> {
 
     let client = async_nats::connect(nats_url).await?;
 
-    // Create a subscription that receives one message.
-    let mut subscriber = client.subscribe("foo".into()).await?.take(1);
+    // Create a subscription that receives two messages. One message will
+    // contain a valid serialized payload and the other will not.
+    let mut subscriber = client.subscribe("foo".into()).await?.take(2);
 
     // Construct a Payload value and serialize it.
     let payload = Payload{foo: "bar".to_string(), bar: 27};
@@ -29,11 +30,18 @@ async fn main() -> Result<(), async_nats::Error> {
 
     // Publish the serialized payload.
     client.publish("foo".into(), bytes.into()).await?;
+    client.publish("foo".into(), "not json".into()).await?;
 
+    // Loop through the expected messages and  attempt to deserialize the payload
+    // into a Payload value. If deserialization into this type fails, alternate
+    // handling can be performed, either discarding or attempting to derialize in
+    // a more general type (such as a map).
     while let Some(message) = subscriber.next().await {
-        // Deserialize the message payload into a Payload value.
-        let payload: Payload = serde_json::from_slice(message.payload.as_ref())?;
-        println!("received payload: foo={:?} bar={:?}", payload.foo, payload.bar);
+        if let Ok(payload) = serde_json::from_slice::<Payload>(message.payload.as_ref()) {
+            println!("received valid JSON payload: foo={:?} bar={:?}", payload.foo, payload.bar);
+        } else {
+            println!("received invalid JSON payload: {:?}", message.payload);
+        }
     }
 
     Ok(())
