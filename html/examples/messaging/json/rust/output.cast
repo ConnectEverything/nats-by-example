@@ -1,0 +1,8 @@
+{"version": 2, "width": 102, "height": 26, "timestamp": 1658228706, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/json/rust"}
+[0.052085, "o", "Network 86473a18_default  Creating\r\n"]
+[0.116369, "o", "Network 86473a18_default  Created\r\n"]
+[0.116417, "o", "Container 86473a18-nats-1  Creating\r\n"]
+[0.166863, "o", "Container 86473a18-nats-1  Created\r\n"]
+[0.167709, "o", "Container 86473a18-nats-1  Starting\r\n"]
+[0.428293, "o", "Container 86473a18-nats-1  Started\r\n"]
+[3.022705, "o", "received payload: foo=\"bar\" bar=27\r\n"]
