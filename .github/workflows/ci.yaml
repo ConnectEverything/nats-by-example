@@ -12,9 +12,9 @@ jobs:
 
       - name: Setup Go
         uses: actions/setup-go@v3
-        working-directory: ./cmd/nbe
         with:
-          go-version-file: 'go.mod'
+          go-version-file: cmd/nbe/go.mod
+          cache-dependency-path: cmd/nbe/go.sum
           cache: true
 
       - name: Build nbe
