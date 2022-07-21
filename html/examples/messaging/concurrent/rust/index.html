@@ -1,0 +1,329 @@
+<!doctype html>
+<html>
+<head>
+	<title>NATS by Example</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="/nats.svg" />
+<link rel="stylesheet" href="/reset.css">
+<link rel="stylesheet" href="/main.css">
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9QV780SHZ5"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-9QV780SHZ5');
+</script>
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:creator" content="@thedevel" />
+  <meta name="twitter:title" content="Concurrent (Rust)" />
+  <meta name="twitter:description" content="" />
+  <meta name="twitter:image" content="https://natsbyexample.com/nbe-twitter.png" />
+  <meta name="twitter:image:alt" content="NATS by Example" />
+
+  <link rel="stylesheet" type="text/css" href="/asciinema-player.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1 id="header">
+  <a href="/">
+    <img src="/nats-horizontal-color.svg" alt="NATS Logo" /> by Example
+  </a>
+</h1>
+
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <h2 class="title">Concurrent <small class="quiet">in Messaging</small></h2>
+
+      <div class="description">
+      
+      </div>
+
+      
+
+      <div class="info">
+        <div class="language-tabs">
+          
+          
+          <span class="inactive" title="Not yet implemented">CLI</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Go</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Python</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Deno</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Node</span>
+          
+          
+          
+          <span class="active">Rust</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C#</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Java</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Ruby</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">Elixir</span>
+          
+          
+          
+          <span class="inactive" title="Not yet implemented">C</span>
+          
+          
+        </div>
+
+        <div class="source-run">
+          <div class="links">
+            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
+            <a href="https://github.com/bruth/nats-by-example/tree/main/examples/messaging/concurrent/rust" target=_blank>Source code</a>
+          </div>
+          <pre>$ nbe run messaging/concurrent/rust</pre>
+          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
+        </div>
+      </div>
+
+      <div class="highlight">Check out a <a href="#recording">recording</a> of the code executing and the <a href="#output">output</a> below!</div>
+
+      <h3 id="code">Code</h3>
+
+      <div class="example">
+      
+      
+        <div class="example-comment">
+        
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">futures</span>::<span class="n">stream</span>::<span class="n">StreamExt</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">rand</span>::<span class="n">Rng</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">std</span>::<span class="p">{</span><span class="n">env</span><span class="p">,</span><span class="w"> </span><span class="kt">str</span>::<span class="n">from_utf8</span><span class="p">,</span><span class="w"> </span><span class="n">time</span>::<span class="n">Duration</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="cp">#[tokio::main]</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">async</span><span class="w"> </span><span class="k">fn</span> <span class="nf">main</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="p">(),</span><span class="w"> </span><span class="n">async_nats</span>::<span class="n">Error</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span></span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Use the NATS_URL env variable if defined, otherwise fallback
+to the default.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">nats_url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">env</span>::<span class="n">var</span><span class="p">(</span><span class="s">&#34;NATS_URL&#34;</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">unwrap_or_else</span><span class="p">(</span><span class="o">|</span><span class="n">_</span><span class="o">|</span><span class="w"> </span><span class="s">&#34;nats://localhost:4222&#34;</span><span class="p">.</span><span class="n">to_string</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">client</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">async_nats</span>::<span class="n">connect</span><span class="p">(</span><span class="n">nats_url</span><span class="p">).</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p><code>Subscriber</code> implements Rust iterator, so we can leverage
+combinators like <code>take()</code> to limit the messages intended
+to be consumed for this interaction.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">subscription</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">client</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&#34;greet.*&#34;</span><span class="p">.</span><span class="n">to_string</span><span class="p">()).</span><span class="k">await</span><span class="o">?</span><span class="p">.</span><span class="n">take</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Publish set of messages, each with order identifier.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">0</span><span class="o">..</span><span class="mi">50</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">client</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="s">&#34;greet.joe&#34;</span><span class="p">.</span><span class="n">to_string</span><span class="p">(),</span><span class="w"> </span><span class="fm">format!</span><span class="p">(</span><span class="s">&#34;hello {}&#34;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">).</span><span class="n">into</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">.</span><span class="k">await</span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Iterate over messages concurrently.
+<code>for_each_concurrent</code> allows us to not wait for time-consuming operation and receive next
+message immediately.
+<code>25</code> is a limit for concurrent operations.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">    </span><span class="n">subscription</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="n">for_each_concurrent</span><span class="p">(</span><span class="mi">25</span><span class="p">,</span><span class="w"> </span><span class="o">|</span><span class="n">message</span><span class="o">|</span><span class="w"> </span><span class="k">async</span><span class="w"> </span><span class="k">move</span><span class="w"> </span><span class="p">{</span></span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Let&rsquo;s simulate expensive operation.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">            </span><span class="kd">let</span><span class="w"> </span><span class="n">num</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rand</span>::<span class="n">thread_rng</span><span class="p">().</span><span class="n">gen_range</span><span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">500</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">tokio</span>::<span class="n">time</span>::<span class="n">sleep</span><span class="p">(</span><span class="n">Duration</span>::<span class="n">from_millis</span><span class="p">(</span><span class="n">num</span><span class="p">)).</span><span class="k">await</span><span class="p">;</span></span></span></code></pre>
+        </div>
+      
+      
+      
+        <div class="example-comment">
+        <p>Print the result after sleep.</p>
+
+        </div>
+      
+      
+      
+        <div class="example-code">
+        <pre tabindex="0" class="chroma"><code><span class="line"><span class="cl"><span class="w">            </span><span class="fm">println!</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="s">&#34;received message: {:?}&#34;</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">from_utf8</span><span class="p">(</span><span class="o">&amp;</span><span class="n">message</span><span class="p">.</span><span class="n">payload</span><span class="p">).</span><span class="n">unwrap</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">})</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">.</span><span class="k">await</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">Ok</span><span class="p">(())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span></span></span></code></pre>
+        </div>
+      
+      
+      </div>
+
+      <h3 id="recording">Recording</h3>
+      <div class="quiet text-center">Note, playback is 1/5 the speed to make it a bit easier to follow.</div>
+      <div id="asciinema"></div>
+
+      <h3 id="output">Output</h3>
+
+      <pre class="output">Network 3b5be259_default  Creating
+Network 3b5be259_default  Created
+Container 3b5be259-nats-1  Creating
+Container 3b5be259-nats-1  Created
+Container 3b5be259-nats-1  Starting
+Container 3b5be259-nats-1  Started
+received message: &#34;hello 10&#34;
+received message: &#34;hello 22&#34;
+received message: &#34;hello 23&#34;
+received message: &#34;hello 0&#34;
+received message: &#34;hello 21&#34;
+received message: &#34;hello 18&#34;
+received message: &#34;hello 24&#34;
+received message: &#34;hello 17&#34;
+received message: &#34;hello 1&#34;
+received message: &#34;hello 4&#34;
+received message: &#34;hello 5&#34;
+received message: &#34;hello 27&#34;
+received message: &#34;hello 33&#34;
+received message: &#34;hello 8&#34;
+received message: &#34;hello 15&#34;
+received message: &#34;hello 29&#34;
+received message: &#34;hello 3&#34;
+received message: &#34;hello 2&#34;
+received message: &#34;hello 37&#34;
+received message: &#34;hello 40&#34;
+received message: &#34;hello 16&#34;
+received message: &#34;hello 25&#34;
+received message: &#34;hello 32&#34;
+received message: &#34;hello 13&#34;
+received message: &#34;hello 31&#34;
+received message: &#34;hello 6&#34;
+received message: &#34;hello 39&#34;
+received message: &#34;hello 19&#34;
+received message: &#34;hello 7&#34;
+received message: &#34;hello 44&#34;
+received message: &#34;hello 45&#34;
+received message: &#34;hello 26&#34;
+received message: &#34;hello 14&#34;
+received message: &#34;hello 46&#34;
+received message: &#34;hello 11&#34;
+received message: &#34;hello 35&#34;
+received message: &#34;hello 20&#34;
+received message: &#34;hello 9&#34;
+received message: &#34;hello 12&#34;
+received message: &#34;hello 34&#34;
+received message: &#34;hello 28&#34;
+received message: &#34;hello 38&#34;
+received message: &#34;hello 30&#34;
+received message: &#34;hello 42&#34;
+received message: &#34;hello 49&#34;
+received message: &#34;hello 41&#34;
+received message: &#34;hello 36&#34;
+received message: &#34;hello 47&#34;
+received message: &#34;hello 43&#34;
+received message: &#34;hello 48&#34;
+</pre>
+
+    </div>
+  </main>
+  <script src="/main.js" async></script>
+  <script src="/asciinema-player.min.js"></script>
+  <script>
+    var url = '/examples\/messaging\/concurrent\/rust\/output.cast';
+    AsciinemaPlayer.create(url, document.getElementById('asciinema'), {
+      cols: 120,
+      rows: 24,
+      fit: false,
+      
+      speed: 0.2,
+      terminalFontSize: "14px",
+      terminalFontFamily: "'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace",
+      terminalFontHeight: 1.4,
+    });
+  </script>
+  <footer>
+  </footer>
+</body>
+</html>
