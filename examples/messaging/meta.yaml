@@ -2,3 +2,4 @@ examples:
   - pub-sub
   - request-reply
   - json
+  - concurrent

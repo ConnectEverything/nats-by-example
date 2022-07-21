@@ -19,8 +19,16 @@
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:creator" content="@thedevel" />
-  <meta name="twitter:title" content="Concurrent (Rust)" />
-  <meta name="twitter:description" content="" />
+  <meta name="twitter:title" content="Concurrent Message Processing (Rust)" />
+  <meta name="twitter:description" content="By default, when a subscription is created, each message that is
+received it process sequentially. There can be multiple subscriptions
+setup in a [queue group][queue] in which case the NATS server will
+distribute messages to each member of the group.
+
+However, even within a subscription, it may be desirable to handle
+messages concurrently. This example shows how this can be achieved
+in the clients that support it.
+" />
   <meta name="twitter:image" content="https://natsbyexample.com/nbe-twitter.png" />
   <meta name="twitter:image:alt" content="NATS by Example" />
 
@@ -40,10 +48,18 @@
 
   <main>
     <div class="container">
-      <h2 class="title">Concurrent <small class="quiet">in Messaging</small></h2>
+      <h2 class="title">Concurrent Message Processing <small class="quiet">in Messaging</small></h2>
 
       <div class="description">
-      
+      <p>By default, when a subscription is created, each message that is
+received it process sequentially. There can be multiple subscriptions
+setup in a [queue group][queue] in which case the NATS server will
+distribute messages to each member of the group.</p>
+
+<p>However, even within a subscription, it may be desirable to handle
+messages concurrently. This example shows how this can be achieved
+in the clients that support it.</p>
+
       </div>
 
       
