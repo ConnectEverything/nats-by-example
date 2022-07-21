@@ -25,6 +25,7 @@ func generateRecording(repo, example string, recreate bool) error {
 		b := ImageBuilder{
 			Repo:    repo,
 			Example: example,
+			Verbose: true,
 		}
 
 		image, err := b.Run()
