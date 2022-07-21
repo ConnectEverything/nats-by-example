@@ -19,7 +19,7 @@ jobs:
 
       - name: Build nbe
         run: |
-          go build -o $GOBIN/nbe ./cmd/nbe
+          go install ./cmd/nbe
 
       - name: Generate recordings
         run: |
