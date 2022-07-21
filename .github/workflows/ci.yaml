@@ -31,6 +31,7 @@ jobs:
           go install ./cmd/nbe
 
       - name: Generate recordings
+        shell: 'script -q -e -c "bash {0}"'
         run: |
           nbe generate recording
 
