@@ -1,0 +1,27 @@
+name: ci
+on:
+  push:
+
+jobs:
+  run:
+    name: Run
+    runs-on: "ubuntu"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: 'go.mod'
+          cache: true
+        run: |
+          go build -o $GOBIN/nbe ./cmd/nbe
+
+      - name: Generate Recordings
+        run: |
+          nbe generate recording
+
+      - name: Build HTML
+        run: |
+          nbe build
