@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"os"
 	"time"
@@ -10,7 +11,7 @@ import (
 )
 
 func main() {
-	// Use the env varibale if running in the container, otherwise use the default.
+	// Use the env variable if running in the container, otherwise use the default.
 	url := os.Getenv("NATS_URL")
 	if url == "" {
 		url = nats.DefaultURL
@@ -24,15 +25,15 @@ func main() {
 	// being closing the connection.
 	defer nc.Drain()
 
-	// Access the JetStreamContext which provides methods to create
+	// Access `JetStreamContext` which provides methods to create
 	// streams and consumers as well as convenience methods for publishing
 	// to streams and implicitly creating consumers through `*Subscribe*`
-	// methods (more on this in other examples).
+	// methods (which will be discussed in examples focused on consumers).
 	js, _ := nc.JetStream()
 
 	// To get started with JetStream, a stream must be created. The mental
 	// model for a stream is that is binds a set of subjects for which
-	// messages published to those subjects will be appended (and persisted)
+	// messages published to those subjects will be persisted
 	// to the stream. We will declare the initial stream configuration by
 	// specifying the name and subjects.
 	cfg := nats.StreamConfig{
@@ -58,7 +59,7 @@ func main() {
 	// the maximum age of a message. For now, we will not set any limits
 	// and to show the behavior applying these limits incrementally.
 	js.AddStream(&cfg)
-	log.Println("created the stream")
+	fmt.Println("created the stream")
 
 	// Let's publish a few messages which are received by the stream since
 	// they match the subject bound to the stream. The `js.Publish` method
@@ -70,10 +71,10 @@ func main() {
 	js.Publish("events.page_loaded", nil)
 	js.Publish("events.mouse_clicked", nil)
 	js.Publish("events.input_focused", nil)
-	log.Println("published 6 messages")
+	fmt.Println("published 6 messages")
 
 	// There is also is an async form in which the client batches the
-	// the messages to the server and then asynchronously receives the
+	// messages to the server and then asynchronously receives the
 	// the acknowledgements.
 	js.PublishAsync("events.input_changed", nil)
 	js.PublishAsync("events.input_blurred", nil)
@@ -86,56 +87,57 @@ func main() {
 	// `js.PublishAsyncComplete`.
 	select {
 	case <-js.PublishAsyncComplete():
-		log.Println("published 6 messages")
+		fmt.Println("published 6 messages")
 	case <-time.After(time.Second):
 		log.Fatal("publish took too long")
 	}
 
 	// Checking out the stream info, we can see how many messages we
 	// have.
-	logStreamState(js, cfg.Name)
+	printStreamState(js, cfg.Name)
 
 	// Stream configuration can be dynamically changed. For example,
 	// we can set the max messages limit to 10 and it will truncate the
-	// two events we had received.
+	// two initial events in the stream.
 
 	cfg.MaxMsgs = 10
 	js.UpdateStream(&cfg)
-	log.Println("set max messages to 10")
+	fmt.Println("set max messages to 10")
 
 	// Checking out the info, we see there are now 10 messages and the
 	// first sequence and timestamp are based on the third message.
-	logStreamState(js, cfg.Name)
+	printStreamState(js, cfg.Name)
 
 	// Limits can be combined and whichever one is reached, it will
-	// be applied to truncate the stream. For example, let's add the
-	// max bytes.
+	// be applied to truncate the stream. For example, let's set a
+	// maximum number of bytes for the stream.
 	cfg.MaxBytes = 300
 	js.UpdateStream(&cfg)
-	log.Println("set max bytes to 300")
+	fmt.Println("set max bytes to 300")
 
 	// Inspecting the stream info we now see more messages have been
 	// truncated to ensure the size is not exceeded.
-	logStreamState(js, cfg.Name)
+	printStreamState(js, cfg.Name)
 
 	// Finally, for the last primary limit, we can set the max age.
 	cfg.MaxAge = time.Second
 	js.UpdateStream(&cfg)
-	log.Println("set max age to one second")
+	fmt.Println("set max age to one second")
 
-	// Looking at the strem info, we still see all the messages..
-	logStreamState(js, cfg.Name)
+	// Looking at the stream info, we still see all the messages..
+	printStreamState(js, cfg.Name)
 
-	// Until a second passes...
+	// until a second passes.
+	fmt.Println("sleeping one second...")
 	time.Sleep(time.Second)
 
-	logStreamState(js, cfg.Name)
+	printStreamState(js, cfg.Name)
 }
 
-// Helper function to log the stream state info.
-func logStreamState(js nats.JetStreamContext, name string) {
+// This is just a helper function to print the stream state info 😉
+func printStreamState(js nats.JetStreamContext, name string) {
 	info, _ := js.StreamInfo(name)
 	b, _ := json.MarshalIndent(info.State, "", " ")
-	log.Println("inspecting stream info")
-	log.Println(string(b))
+	fmt.Println("inspecting stream info")
+	fmt.Println(string(b))
 }
