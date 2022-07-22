@@ -1,6 +1,6 @@
 title: Limits-based Stream
 description: |-
-	To get started with JetStream, a stream must be created. The mental model for a stream is that it binds a set of subjects for which messages published to those subjects will be persisted.
+  To get started with JetStream, a stream must be created. The mental model for a stream is that it binds a set of subjects for which messages published to those subjects will be persisted.
 
   A stream is implemented as an implicit server-side _service_ that receives a request (the published message) and replies back once the message has been persisted.
 
