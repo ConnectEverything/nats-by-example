@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"io/fs"
@@ -275,7 +276,24 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		"--timeout", "3",
 	).Run()
 
-	var cmd *exec.Cmd
+	cmd := exec.Command(
+		"docker",
+		"compose",
+		"--project-name", uid,
+		"--project-directory", buildDir,
+		"--file", composeFile,
+		"pull",
+		"--include-deps",
+		"--quiet",
+		"--ignore-pull-failures",
+	)
+
+	stderrb := bytes.NewBuffer(nil)
+	cmd.Stderr = stderrb
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("pull images: %w\n%s", err, stderrb.String())
+	}
+
 	if r.Up {
 		// Run the app container.
 		cmd = exec.Command(

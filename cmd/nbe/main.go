@@ -237,6 +237,7 @@ the runtime.`,
 				for _, e := range c.Examples {
 					for _, i := range e.Clients {
 						if _, ok := matches[i.Path]; ok || !useMatch {
+							log.Printf("%s: recording", i.Path)
 							if err := generateRecording(repo, i.Path, recreate); err != nil {
 								log.Printf("%s: %s", i.Path, err)
 							}

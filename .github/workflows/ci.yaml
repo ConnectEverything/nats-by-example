@@ -1,0 +1,62 @@
+name: ci
+on:
+  push:
+
+jobs:
+  run:
+    name: Run
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install Asciinema
+        run: |
+          python3 -m pip install asciinema
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: cmd/nbe/go.mod
+          cache-dependency-path: cmd/nbe/go.sum
+          cache: true
+
+      - name: Build nbe
+        run: |
+          go install ./cmd/nbe
+
+      - name: Generate recordings
+        shell: 'script -q -e -c "bash {0}"'
+        run: |
+          nbe generate recording
+
+      - name: Auto-commit generated recordings
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Auto-commit recording
+          file_pattern: examples/**/output.txt examples/**/output.cast
+
+      - name: Build HTML
+        run: |
+          nbe build
+
+      - name: Deploy to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: ./html
+          production-branch: main
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "Deploy from GitHub Actions"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+          overwrites-pull-request-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}

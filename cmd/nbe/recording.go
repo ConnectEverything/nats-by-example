@@ -25,6 +25,7 @@ func generateRecording(repo, example string, recreate bool) error {
 		b := ImageBuilder{
 			Repo:    repo,
 			Example: example,
+			Verbose: true,
 		}
 
 		image, err := b.Run()
@@ -59,7 +60,7 @@ func generateRecording(repo, example string, recreate bool) error {
 	)
 	output, err := c.CombinedOutput()
 	if err != nil {
-		return fmt.Errorf("asciinema cat: %w", err)
+		return fmt.Errorf("asciinema cat: %w\n%s", err, string(output))
 	}
 
 	return ioutil.WriteFile(outputFile, output, 0644)
