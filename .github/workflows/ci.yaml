@@ -41,6 +41,7 @@ jobs:
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Auto-commit recording
+          file_pattern: examples/**/output.txt examples/**/output.cast
 
       - name: Build HTML
         run: |
