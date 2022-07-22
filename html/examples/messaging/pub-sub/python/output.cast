@@ -1,8 +1,0 @@
-{"version": 2, "width": 86, "height": 24, "timestamp": 1658146128, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/python"}
-[0.103946, "o", "Network 4cc20542_default  Creating\r\n"]
-[0.149841, "o", "Network 4cc20542_default  Created\r\n"]
-[0.150095, "o", "Container 4cc20542-nats-1  Creating\r\n"]
-[0.202558, "o", "Container 4cc20542-nats-1  Created\r\n"]
-[0.204232, "o", "Container 4cc20542-nats-1  Starting\r\n"]
-[0.608887, "o", "Container 4cc20542-nats-1  Started\r\n"]
-[1.302849, "o", "b'hello' on subject greet.joe\r\nb'hello' on subject greet.pam\r\nb'hello' on subject greet.bob\r\n"]
