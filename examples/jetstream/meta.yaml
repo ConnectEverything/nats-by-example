@@ -1,0 +1,12 @@
+title: JetStream
+description: |-
+  An [integrated subsystem][jetstream] providing distributed persistence.
+
+  [jetstream]: https://docs.nats.io/nats-concepts/jetstream
+
+examples:
+  - limits-stream
+    #  - push-consumer
+    #  - pull-consumer
+    #  - workqueue-stream
+    #  - interests-stream

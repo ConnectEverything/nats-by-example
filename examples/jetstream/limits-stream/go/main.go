@@ -31,18 +31,16 @@ func main() {
 	// methods (which will be discussed in examples focused on consumers).
 	js, _ := nc.JetStream()
 
-	// To get started with JetStream, a stream must be created. The mental
-	// model for a stream is that is binds a set of subjects for which
-	// messages published to those subjects will be persisted
-	// to the stream. We will declare the initial stream configuration by
-	// specifying the name and subjects.
+	// We will declare the initial stream configuration by specifying
+	// the name and subjects. Stream names are commonly uppercased to
+	// visually differentiate them from subjects, but this is not required.
+	// A stream can bind one or more subjects which almost always include
+	// wildcards. In addition, no two streams can have overlapping subjects
+	// otherwise the primary messages would be persisted twice. There
+	// are option to replicate messages in various ways, but that will
+	// be explained in later examples.
 	cfg := nats.StreamConfig{
-		// Stream names are commonly uppercased to visually differentiate
-		// them from subjects, but this is not required.
-		Name: "EVENTS",
-		// Notice this is a slice of subjects, so there can be multiple
-		// concrete subjects or ones with wildcards all bound to the same
-		// stream.
+		Name:     "EVENTS",
 		Subjects: []string{"events.>"},
 	}
 
@@ -52,12 +50,7 @@ func main() {
 	// but we can still set it explicitly.
 	cfg.Storage = nats.FileStorage
 
-	// Every stream has what is called a **retention policy**. The default
-	// policy is **limits-based** and applies to *all* streams.
-	// The standard limits include the maximum number of messages in
-	// the stream, the maximum total size in bytes of the stream, and
-	// the maximum age of a message. For now, we will not set any limits
-	// and to show the behavior applying these limits incrementally.
+	// Finally, let's add/create the stream with the default (no) limits.
 	js.AddStream(&cfg)
 	fmt.Println("created the stream")
 

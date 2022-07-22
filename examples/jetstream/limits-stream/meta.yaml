@@ -1,0 +1,19 @@
+title: Limits-based Stream
+description: |-
+	To get started with JetStream, a stream must be created. The mental model for a stream is that it binds a set of subjects for which messages published to those subjects will be persisted.
+
+  A stream is implemented as an implicit server-side _service_ that receives a request (the published message) and replies back once the message has been persisted.
+
+  There are handful of different kinds of streams and configuration options, but we will start with the most basic one having a **limits-based** retention policy. This policy is the default, however, limits still apply to streams with other retention policies.
+
+  The stream limit choices include:
+
+    - the maximum number of messages
+    - the maximum total size in bytes
+    - the maximum age of a message
+
+  There is also a specialized maximum messages limit that can be applied at the *subject level*, but this will be demonstrated in a separate example.
+
+  By default, no limits are set which would require manually managing the ever-growing stream. However, if any of these limits satisfy how the stream should be truncated, simply turn these limits on and let the server manage everything.
+
+  In this example, we showcase the behavior or applying these limits and the flexibility of JetStream supporting dynamically changing the stream configuration on-demand.
