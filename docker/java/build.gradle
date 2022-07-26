@@ -17,7 +17,7 @@ dependencies {
 jar {
   manifest {
     attributes (
-      'Main-Class': "Main"
+      'Main-Class': "example.Main"
     )
   }
 }
