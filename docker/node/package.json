@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "dependencies": {
     "nats": "^2.7.1"
   }
