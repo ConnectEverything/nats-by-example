@@ -7,12 +7,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.nats:jnats:2.15.0'
+    implementation 'io.nats:jnats:2.15.5'
 }
 
-application {
-    mainClass = 'example.Main'
-}
+apply plugin: 'java'
 
 task (uberJar, type:Jar) {
     archiveClassifier = 'uber'
@@ -21,7 +19,7 @@ task (uberJar, type:Jar) {
 
     dependsOn configurations.runtimeClasspath
     from {
-        configurations.runtimeClasspath.findAll { it.name.endswith('jar') }.collect { zipTree(it) }
+        configurations.runtimeClasspath.findAll { it.name.endsWith('jar') }.collect { zipTree(it) }
     }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
