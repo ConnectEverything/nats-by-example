@@ -1,4 +1,4 @@
-import {connect, StringCodec} from "nats";
+import {connect, nanos, StringCodec} from "nats";
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string.
@@ -51,13 +51,9 @@ const events = [
   "events.input_blurred",
 ];
 
-// Publish a series of events and wait for _all_ of the publishes
-// have resolved.
-const batch = [];
-events.forEach((e) => {
-  batch.push(js.publish(e));
-})
-
+// Map over the events which returns a set of promises as a batch.
+// Then wait until all of them are done before proceeding.
+const batch = events.map((e) => js.publish(e));
 await Promise.all(batch);
 console.log("published another 6 messages");
 
@@ -83,10 +79,10 @@ info = await jsm.streams.info(cfg.name);
 console.log(info.state);
 
 // Finally the last limit of max_age can be applied. Note the age
-// is in nanoseconds, so 1 billion => 1 second.
-await jsm.streams.update(cfg.name, {max_age: 1000000000});
+// is in nanoseconds, so 1000 milliseconds (1 second) converted to nanos.
+await jsm.streams.update(cfg.name, {max_age: nanos(1000)});
 
-// Sleep for a second.
+// Sleep for a second to ensure the message age in the stream has lapsed.
 await new Promise(r => setTimeout(r, 1000));
 
 info = await jsm.streams.info(cfg.name);
