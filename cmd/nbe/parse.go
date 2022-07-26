@@ -62,6 +62,7 @@ var (
 		Bun:       "main.ts",
 		Node:      "main.js",
 		WebSocket: "main.js",
+		Java:      "Main.java",
 	}
 
 	languageMultiCommentDelims = map[string][2]string{
