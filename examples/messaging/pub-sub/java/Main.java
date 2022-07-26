@@ -1,10 +1,10 @@
 package example;
 
-import java.io.IOException;
 import io.nats.client.Connection;
 import io.nats.client.Nats;
 import io.nats.client.Dispatcher;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class Main {
@@ -15,27 +15,28 @@ public class Main {
     }
 
     // Initialize a connection to the server. The connection is AutoCloseable
+    // on exit.
     try (Connection nc = Nats.connect(natsURL)) {
 
-        // Prepare a simple message body.
+        // Prepare a simple message body and publish a message to a subject.
         byte[] messageBytes = "hello".getBytes(StandardCharsets.UTF_8);
-
-        // Publish a message.
         nc.publish("greet.joe", messageBytes);
 
-        // Create a message dispatcher for handling messages in a separate thread.
+        // Create a message dispatcher for handling messages in a
+        // separate thread and then subscribe to the target subject
+        // which leverages a wildcard `greet.*`.
         Dispatcher dispatcher = nc.createDispatcher((msg) -> {
             System.out.printf("%s on subject %s\n",
                 new String(msg.getData(), StandardCharsets.UTF_8),
                 msg.getSubject());
         });
 
-        // Subscribe the dispatcher to the subject wildcard.
         dispatcher.subscribe("greet.*");
 
-        // Publish more messages that will be received by the subscription.
-        // Note the first message on `greet.joe` was not received because
-        // we were not subscribed when it was published
+        // Publish more messages that will be received by the subscription
+        // since they match the wildcard. Note the first message on
+        // `greet.joe` was not received because we were not subscribed when
+        // it was published
         nc.publish("greet.bob", messageBytes);
         nc.publish("greet.sue", messageBytes);
         nc.publish("greet.pam", messageBytes);
@@ -43,9 +44,9 @@ public class Main {
         // Sleep this thread a little so the dispatcher thread has time
         // to receive all the messages before the program quits.
         Thread.sleep(200);
-    }
-    catch (InterruptedException | IOException e) {
-        e.printStackTrace();
+
+    } catch (InterruptedException | IOException e) {
+      e.printStackTrace();
     }
   }
 }
