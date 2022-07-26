@@ -1,0 +1,9 @@
+Network ac43372d_default  Creating
+Network ac43372d_default  Created
+Container ac43372d-nats-1  Creating
+Container ac43372d-nats-1  Created
+Container ac43372d-nats-1  Starting
+Container ac43372d-nats-1  Started
+hello on subject greet.bob
+hello on subject greet.sue
+hello on subject greet.pam
