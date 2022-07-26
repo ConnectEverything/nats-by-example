@@ -1,4 +1,11 @@
-import {connect, nanos, StringCodec} from "https://deno.land/x/nats@v1.7.1/src/mod.ts";
+import {
+  connect,
+  nanos,
+  StringCodec,
+  StreamConfig,
+  StreamInfo,
+  PubAck,
+} from "https://deno.land/x/nats@v1.7.1/src/mod.ts";
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string.
@@ -21,7 +28,7 @@ const jsm = await nc.jetstreamManager();
 // Declare the initial stream config. A stream can bind one or more
 // subjects that are not overlapping with other streams. By default,
 // a stream will have one replica and use file storage.
-const cfg = {
+const cfg: StreamConfig = {
   name: "EVENTS",
   subjects: ["events.>"],
 };
@@ -53,12 +60,12 @@ const events = [
 
 // Map over the events which returns a set of promises as a batch.
 // Then wait until all of them are done before proceeding.
-const batch = events.map((e) => js.publish(e));
+const batch: Promise<PubAck>[] = events.map((e) => js.publish(e));
 await Promise.all(batch);
 console.log("published another 6 messages");
 
 // Get the stream state to show 12 messages exist.
-let info = await jsm.streams.info(cfg.name);
+let info: StreamInfo = await jsm.streams.info(cfg.name);
 console.log(info.state);
 
 // Let's update the stream config and set the max messages to 10. This
