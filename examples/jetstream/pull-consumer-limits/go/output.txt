@@ -1,0 +1,43 @@
+Network 0777a351_default  Creating
+Network 0777a351_default  Created
+Container 0777a351-nats-1  Creating
+Container 0777a351-nats-1  Created
+Container 0777a351-nats-1  Starting
+Container 0777a351-nats-1  Started
+expecting a timeout...
+nats: timeout
+published 20 messages
+try fetching again...
+received 10 messages
+fetching again...
+requested 20, got 10
+sleeping for ack wait..
+fetching after sleep...
+received all 20 messages
+num delivered == 2? true
+acked 20 messages
+published 20 messages
+--- max in-flight messages ---
+requested 10, got 5
+timeout error? true
+acked 5 messages
+acked 5 messages
+acked 5 messages
+published 20 messages
+--- max fetch batch size ---
+requested 10, got 10
+requested 6, got 0 -> nats: Exceeded MaxRequestBatch of 5
+requested 6, got 0 -> nats: Exceeded MaxRequestBatch of 5
+requested 6, got 0 -> nats: Exceeded MaxRequestBatch of 5
+acked 10 messages
+nats: Exceeded MaxRequestBatch of 5
+acked 0 messages
+published 20 messages
+--- max in-flight requests ---
+sub1: fetch 1 ok? true
+sub1: fetch 2 ok? true
+sub1: fetch 3 ok? true
+sub2: fetch 1 ok? true
+sub3: fetch 1 ok? true -> %!s(<nil>)
+acked 30 messages
+timeout occured? true in 3.000887651s
