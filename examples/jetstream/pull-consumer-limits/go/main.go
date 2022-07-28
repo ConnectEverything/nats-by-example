@@ -57,7 +57,7 @@ func main() {
 	// all subscriptions bound to this consumer.
 	// We can update the consumer config on-the-fly with the
 	// `MaxAckPending` setting.
-	fmt.Println("--- max in-flight messages ---")
+	fmt.Println("--- max in-flight messages (n=1) ---")
 
 	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:       consumerName,
@@ -92,7 +92,7 @@ func main() {
 	// ### Max fetch batch size
 	// This one limits the max batch size any one fetch can receive. This
 	// can be used to keep the fetches to a reasonable size.
-	fmt.Println("\n--- max fetch batch size ---")
+	fmt.Println("\n--- max fetch batch size (n=2) ---")
 
 	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:         consumerName,
@@ -121,7 +121,7 @@ func main() {
 	// that are all waiting in parallel to receive messages. This
 	// prevents building up too many requests that the server will
 	// have to distribute to for a given consumer.
-	fmt.Println("\n--- max waiting requests ---")
+	fmt.Println("\n--- max waiting requests (n=1) ---")
 
 	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:    consumerName,
@@ -129,6 +129,8 @@ func main() {
 		AckWait:    ackWait,
 		MaxWaiting: 1,
 	})
+
+	fmt.Printf("is valid? %v\n", sub.IsValid())
 
 	// Since `Fetch` is blocking, we will put these in a few goroutines
 	// to simulate the behavior. There are no more messages in the stream
@@ -138,19 +140,19 @@ func main() {
 	wg.Add(3)
 
 	go func() {
-		_, err = sub.Fetch(1, nats.MaxWait(time.Second))
+		_, err := sub.Fetch(1, nats.MaxWait(time.Second))
 		fmt.Printf("fetch 1: %s\n", err)
 		wg.Done()
 	}()
 
 	go func() {
-		_, err = sub.Fetch(1, nats.MaxWait(time.Second))
+		_, err := sub.Fetch(1, nats.MaxWait(time.Second))
 		fmt.Printf("fetch 2: %s\n", err)
 		wg.Done()
 	}()
 
 	go func() {
-		_, err = sub.Fetch(1, nats.MaxWait(time.Second))
+		_, err := sub.Fetch(1, nats.MaxWait(time.Second))
 		fmt.Printf("fetch 3: %s\n", err)
 		wg.Done()
 	}()
@@ -162,7 +164,7 @@ func main() {
 	// how long the client wants to wait to receive at least one message.
 	// It may be desirable to limit defined on the consumer to prevent
 	// requests waiting too long for messages.
-	fmt.Println("\n--- max fetch timeout ---")
+	fmt.Println("\n--- max fetch timeout (d=1s) ---")
 
 	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:           consumerName,
