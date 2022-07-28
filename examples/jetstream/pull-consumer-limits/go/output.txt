@@ -1,0 +1,23 @@
+Network 9419c70d_default  Creating
+Network 9419c70d_default  Created
+Container 9419c70d-nats-1  Creating
+Container 9419c70d-nats-1  Created
+Container 9419c70d-nats-1  Starting
+Container 9419c70d-nats-1  Started
+--- max in-flight messages ---
+requested 3, got 1
+nats: timeout
+requested 1, got 1
+
+--- max fetch batch size ---
+nats: Exceeded MaxRequestBatch of 2
+requested 2, got 2
+
+--- max waiting requests ---
+fetch 2: nats: timeout
+fetch 3: nats: timeout
+fetch 1: nats: timeout
+
+--- max fetch timeout ---
+timeout occured? true in 1.00046389s
+nats: Exceeded MaxRequestExpires of 1s in 244.505µs
