@@ -1,0 +1,14 @@
+title: Pull Consumer - Applying Limits
+description: |-
+  When configuring a pull consumer, there are a few limits that can be set
+  that are enforced server-side. There are several options including:
+
+  - the maximum number of non-acked in-flight messages
+  - the maximum number of in-flight pull requests (across subscribers)
+  - the maximum pull batch size for any given request
+  - the maximum timeout on a given pull request
+  - the maximum total size (in bytes) of a pulled batch
+
+  In addition, when a pull request (fetch) is made, both the batch size
+  and the timeout can be specified (and changed) per request and across
+  different subscribers if desired.
