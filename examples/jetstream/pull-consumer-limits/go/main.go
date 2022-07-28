@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"sync"
 	"time"
@@ -19,265 +18,171 @@ func main() {
 
 	// Create an unauthenticated connection to NATS.
 	nc, _ := nats.Connect(url)
-
-	// Drain is a safe way to to ensure all buffered messages that were published
-	// are sent and all buffered messages received on a subscription are processed
-	// being closing the connection.
 	defer nc.Drain()
 
-	// Access `JetStreamContext` which provides methods to create
-	// streams and consumers as well as convenience methods for publishing
-	// to streams and implicitly creating consumers through `*Subscribe*`
-	// methods (which will be discussed in examples focused on consumers).
+	// Access the JetStreamContext for managing streams and consumers
+	// as well as for publishing and subscription convenience methods.
 	js, _ := nc.JetStream()
 
-	streamName := "events"
+	// Declare a simple [limits-based stream](/examples/jetstream/limits-stream/go/).
+	streamName := "EVENTS"
+
+	js.AddStream(&nats.StreamConfig{
+		Name:     streamName,
+		Subjects: []string{"events.>"},
+	})
+
+	// Define a basic pull consumer without any limits and a short ack wait
+	// time for the purpose of this example. These default options will be
+	// reused when we update the consumer to show-case various limits.
+	// If you haven't seen the first [pull consumer][1] example yet, check
+	// that out first!
+	// [1]: /examples/jetstream/pull-consumer/go/
 	consumerName := "processor"
-	updateConfig := false
+	ackWait := 10 * time.Second
+	ackPolicy := nats.AckExplicitPolicy
 
-	sub := resetStreamConsumerSub(js, nil, streamName, &nats.ConsumerConfig{
+	js.AddConsumer(streamName, &nats.ConsumerConfig{
 		Durable:   consumerName,
-		AckPolicy: nats.AckExplicitPolicy,
-		AckWait:   5 * time.Second,
-	}, updateConfig)
+		AckPolicy: ackPolicy,
+		AckWait:   ackWait,
+	})
 
-	// Per call, we can vary the batch size and the max wait for a response.
-	// By default, the max wait is 30 seconds. We know there are no messages
-	// in the stream, so we shorten this max wait to show the timeout error.
-	fmt.Println("expecting a timeout...")
-	_, err := sub.Fetch(5, nats.MaxWait(time.Second))
-	fmt.Printf("timeout received? %v\n", err == nats.ErrTimeout)
-
-	// Let's publish some events using the helper function below and then fetch
-	// again.
-	publishEvents(js, streamName, 20)
-
-	fmt.Println("try fetching again...")
-	batch, _ := sub.Fetch(10, nats.MaxWait(time.Second))
-	fmt.Printf("received %d messages\n", len(batch))
-	checkRedelivered(batch)
-
-	// The messages haven't been ack'ed yet, what happens if I fetch again
-	// and with a larger batch size? We know there are only 20 events in
-	// the stream...
-	// If at least one message can be fetched, it will returned. So the fetch
-	// size is the _maximum_ number of messages that should be fetched in one
-	// request.
-	fmt.Println("fetching again...")
-	batch, _ = sub.Fetch(20, nats.MaxWait(time.Second))
-	fmt.Printf("requested 20, got %d\n", len(batch))
-	checkRedelivered(batch)
-
-	// Since we set the *ack wait* on the consumer config, let's
-	// sleep and then try to fetch again..
-	fmt.Println("sleeping for ack wait..")
-	time.Sleep(5 * time.Second)
-
-	// Since the ack wait time was exceeded, the messages are eligible
-	// for redelivery and that is what is happening here.
-	fmt.Println("fetching after sleep...")
-	batch, _ = sub.Fetch(20, nats.MaxWait(time.Second))
-	fmt.Printf("received all %d messages\n", len(batch))
-	checkRedelivered(batch)
-	ackMsgs(batch)
-
-	// We can confirm that by looking at the message metadata for the
-	// *num delivered* field which will be 2 since this is the second time
-	// it was delivered.
-	md, _ := batch[0].Metadata()
-	fmt.Printf("num delivered == 2? %v\n", md.NumDelivered == 2)
+	// Bind a subscription to the consumer.
+	sub, _ := js.PullSubscribe("", consumerName, nats.Bind(streamName, consumerName))
 
 	// ### Max in-flight messages
 	// The first limit to explore is the max in-flight messages. This
-	// will limit how many un-acked in-flight messages there are. We
-	// can update the consumer config after setting this value.
-	// (note only certain options can be changed).
-	fmt.Println("\n--- max in-flight messages (n=5) ---")
+	// will limit how many un-acked in-flight messages there are across
+	// all subscriptions bound to this consumer.
+	// We can update the consumer config on-the-fly with the
+	// `MaxAckPending` setting.
+	fmt.Println("--- max in-flight messages ---")
 
-	sub = resetStreamConsumerSub(js, sub, streamName, &nats.ConsumerConfig{
+	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:       consumerName,
-		AckPolicy:     nats.AckExplicitPolicy,
-		AckWait:       5 * time.Second,
-		MaxAckPending: 5,
-	}, updateConfig)
+		AckPolicy:     ackPolicy,
+		AckWait:       ackWait,
+		MaxAckPending: 1,
+	})
 
-	publishEvents(js, streamName, 20)
+	// Let's publish a couple events for this section.
+	js.Publish("events.1", nil)
+	js.Publish("events.2", nil)
 
-	// Now if try to fetch more than five messages, we will only be given
-	// five since none are currently in-flight.
-	batch, _ = sub.Fetch(10, nats.MaxWait(time.Second))
-	fmt.Printf("requested 10, got %d\n", len(batch))
-	checkRedelivered(batch)
+	// We can request a larger batch size, but we will only get one
+	// back since only one can be un-acked at any given time. This
+	// essentially forces serial processing messages for a pull consumer.
+	msgs, _ := sub.Fetch(3)
+	fmt.Printf("requested 3, got %d\n", len(msgs))
 
 	// This limit becomes more apparent with the second fetch which would
-	// timeout since we haven't acked the previous five yet.
-	_, err = sub.Fetch(10, nats.MaxWait(time.Second))
-	fmt.Printf("timeout error? %v\n", err == nats.ErrTimeout)
+	// timeout since we haven't acked the previous one yet.
+	_, err := sub.Fetch(1, nats.MaxWait(time.Second))
+	fmt.Printf("%s\n", err)
 
-	// Once we ack the first batch, then we can fetch some more.
-	ackMsgs(batch)
+	// Let's ack it and then try another fetch.
+	msgs[0].Ack()
 
-	// Let's fetch the remaining 10 and ack them..
-	batch, _ = sub.Fetch(5, nats.MaxWait(time.Second))
-	fmt.Printf("requested 5, got %d\n", len(batch))
-	checkRedelivered(batch)
-	ackMsgs(batch)
+	// It works this time!
+	msgs, _ = sub.Fetch(1)
+	fmt.Printf("requested 1, got %d\n", len(msgs))
+	msgs[0].Ack()
 
 	// ### Max fetch batch size
-	// This one simply limits the max batch size any one fetch can receive.
-	// We will also reset the max ack pending so we don't confuse which limit
-	// is taking effect.
-	fmt.Println("\n--- max fetch batch size (n=5) ---")
+	// This one limits the max batch size any one fetch can receive. This
+	// can be used to keep the fetches to a reasonable size.
+	fmt.Println("\n--- max fetch batch size ---")
 
-	sub = resetStreamConsumerSub(js, sub, streamName, &nats.ConsumerConfig{
+	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:         consumerName,
-		AckPolicy:       nats.AckExplicitPolicy,
-		AckWait:         5 * time.Second,
-		MaxRequestBatch: 5,
-	}, updateConfig)
+		AckPolicy:       ackPolicy,
+		AckWait:         ackWait,
+		MaxRequestBatch: 2,
+	})
 
-	publishEvents(js, streamName, 20)
+	// Publish a couple events for this section...
+	js.Publish("events.1", nil)
+	js.Publish("events.2", nil)
 
-	// Note that although multiple requests can be made (without acking),
-	// each one will return at most the max request batch size.
-	batch, err = sub.Fetch(10, nats.MaxWait(time.Second))
-	fmt.Printf("requested 10, got %d -> %s\n", len(batch), err)
+	// If a batch size is larger than the limit, it is considered an error.
+	_, err = sub.Fetch(10)
+	fmt.Printf("%s\n", err)
 
-	batch, err = sub.Fetch(6, nats.MaxWait(time.Second))
-	fmt.Printf("requested 6, got %d -> %s\n", len(batch), err)
+	// Using the max batch size (or less) will, of course, work.
+	msgs, _ = sub.Fetch(2)
+	fmt.Printf("requested 2, got %d\n", len(msgs))
 
-	batch, err = sub.Fetch(5, nats.MaxWait(time.Second))
-	fmt.Printf("requested 5, got %d\n", len(batch))
+	msgs[0].Ack()
+	msgs[1].Ack()
 
-	// ### Max in-flight requests
-	// The second limit we will add constrains the number of in-flight
-	// pull requests with unack'ed messages across subscribers. We will
-	// also revert the max ack pending to focus on this new limit.
-	fmt.Println("\n--- max in-flight requests (n=2) ---")
+	// ### Max waiting requests
+	// The next limit defines the maximum number of fetch requests
+	// that are all waiting in parallel to receive messages. This
+	// prevents building up too many requests that the server will
+	// have to distribute to for a given consumer.
+	fmt.Println("\n--- max waiting requests ---")
 
-	sub = resetStreamConsumerSub(js, sub, streamName, &nats.ConsumerConfig{
+	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:    consumerName,
-		AckPolicy:  nats.AckExplicitPolicy,
-		AckWait:    5 * time.Second,
-		MaxWaiting: 2,
-	}, updateConfig)
+		AckPolicy:  ackPolicy,
+		AckWait:    ackWait,
+		MaxWaiting: 1,
+	})
 
+	// Since `Fetch` is blocking, we will put these in a few goroutines
+	// to simulate the behavior. There are no more messages in the stream
+	// so we will expect two timeouts and one with the max waiting error
+	// since we are allowing at most two requests to be waiting.
 	wg := &sync.WaitGroup{}
 	wg.Add(3)
 
-	// For the current subscription we have, we can make more than *max
-	// waiting* fetch requests since the configuration applies across
-	// subscriptions.
 	go func() {
-		b, err := sub.Fetch(1, nats.MaxWait(time.Second))
-		fmt.Printf("sub1: fetch 1 ok? got %d or %v\n", len(b), err)
+		_, err = sub.Fetch(1, nats.MaxWait(time.Second))
+		fmt.Printf("fetch 1: %s\n", err)
 		wg.Done()
 	}()
 
 	go func() {
-		b, err := sub.Fetch(1, nats.MaxWait(time.Second))
-		fmt.Printf("sub1: fetch 2 ok? got %d or %v\n", len(b), err)
+		_, err = sub.Fetch(1, nats.MaxWait(time.Second))
+		fmt.Printf("fetch 2: %s\n", err)
 		wg.Done()
 	}()
 
 	go func() {
-		b, err := sub.Fetch(1, nats.MaxWait(time.Second))
-		fmt.Printf("sub1: fetch 3 ok? got %d or %v\n", len(b), err)
+		_, err = sub.Fetch(1, nats.MaxWait(time.Second))
+		fmt.Printf("fetch 3: %s\n", err)
 		wg.Done()
 	}()
 
 	wg.Wait()
 
 	// ### Max fetch timeout
-	// Shown above, we are explicitly setting the MaxWait option on per
-	// fetch request, however this can be set and capped as part of the
-	// consumer config.
-	sub = resetStreamConsumerSub(js, sub, streamName, &nats.ConsumerConfig{
+	// Normally each fetch call can specify it's own max wait timeout, i.e.
+	// how long the client wants to wait to receive at least one message.
+	// It may be desirable to limit defined on the consumer to prevent
+	// requests waiting too long for messages.
+	fmt.Println("\n--- max fetch timeout ---")
+
+	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:           consumerName,
-		AckPolicy:         nats.AckExplicitPolicy,
-		AckWait:           5 * time.Second,
-		MaxRequestExpires: 3 * time.Second,
-	}, updateConfig)
-
-	// All messages have been acked in the stream, so this request should
-	// timeout. We will set a longer MaxWait time to demonstrate.
-	t0 := time.Now()
-	batch, err = sub.Fetch(10, nats.MaxWait(10*time.Second))
-	fmt.Printf("expiry occured? %s in %s\n", err, time.Since(t0))
-
-	// ### Max total bytes per fetch
-	// This is not yet implememented...
-}
-
-func resetStreamConsumerSub(js nats.JetStreamContext, sub *nats.Subscription, stream string, cfg *nats.ConsumerConfig, update bool) *nats.Subscription {
-	_, err := js.StreamInfo(stream)
-	// No error means it exists, so do a consumer-only update.
-	if err == nil && update {
-		// Temporary update for clearing the current messages...
-		_, err = js.UpdateConsumer(stream, &nats.ConsumerConfig{
-			Durable:   cfg.Durable,
-			AckPolicy: nats.AckExplicitPolicy,
-			AckWait:   30 * time.Second,
-		})
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		fmt.Println("cleaning up pending...")
-		msgs, err := sub.Fetch(100)
-		if err != nil && err != nats.ErrTimeout {
-			log.Fatal(err)
-		}
-		ackMsgs(msgs)
-
-		// Now update with the real config.
-		js.UpdateConsumer(stream, cfg)
-		return sub
-	}
-
-	// Remove existing consumer and stream if present to reset the example.
-	js.DeleteConsumer(stream, cfg.Durable)
-	js.DeleteStream(stream)
-
-	// Declare a simple [limits-based stream](/examples/jetstream/limits-stream/go/).
-	js.AddStream(&nats.StreamConfig{
-		Name:     stream,
-		Subjects: []string{fmt.Sprintf("%s.>", stream)},
+		AckPolicy:         ackPolicy,
+		AckWait:           ackWait,
+		MaxRequestExpires: time.Second,
 	})
 
-	js.AddConsumer(stream, cfg)
+	// Using a max wait equal or less than `MaxRequestExpires` will result
+	// in the expected timeout since there are no messages currently.
+	t0 := time.Now()
+	_, err = sub.Fetch(1, nats.MaxWait(time.Second))
+	fmt.Printf("timeout occured? %v in %s\n", err == nats.ErrTimeout, time.Since(t0))
 
-	sub, _ = js.PullSubscribe("", cfg.Durable, nats.Bind(stream, cfg.Durable))
-	return sub
-}
+	// However, trying to use a longer timeout will return immediately with
+	// an error.
+	t0 = time.Now()
+	_, err = sub.Fetch(1, nats.MaxWait(5*time.Second))
+	fmt.Printf("%s in %s\n", err, time.Since(t0))
 
-// Helper function to publish some events to the stream.
-func publishEvents(js nats.JetStreamContext, stream string, count int) {
-	for i := 0; i < count; i++ {
-		subject := fmt.Sprintf("%s.%d", stream, i%5)
-		js.PublishAsync(subject, nil)
-	}
-
-	<-js.PublishAsyncComplete()
-	fmt.Printf("published %d messages\n", count)
-}
-
-func checkRedelivered(msgs []*nats.Msg) {
-	var count int
-	for _, m := range msgs {
-		md, _ := m.Metadata()
-		if md.NumDelivered > 1 {
-			count++
-		}
-	}
-	if count > 0 {
-		fmt.Printf("%d messages were redelivered\n", count)
-	}
-}
-
-func ackMsgs(msgs []*nats.Msg) {
-	for _, m := range msgs {
-		m.Ack()
-	}
-	fmt.Printf("acked %d messages\n", len(msgs))
+	// ### Max total bytes per fetch
+	// This is not yet implememented in the Go client..
 }
