@@ -148,10 +148,15 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: space-between;
   padding: 20px;
   border-radius: 3px;
   background-color: #eee;
   margin-bottom: 30px;
+}
+
+.info .language-tabs {
+  width: 30%;
 }
 
 .github-icon, .clipboard-icon {
@@ -168,11 +173,6 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #ddd;
   padding: 10px;
   border-radius: 3px;
-}
-
-.info .language-tabs {
-  width: 40%;
-  margin-right: 20%;
 }
 
 .info .language-tabs span {
