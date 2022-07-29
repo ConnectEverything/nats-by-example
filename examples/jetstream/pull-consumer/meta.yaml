@@ -1,0 +1,27 @@
+title: Pull Consumers
+description: |-
+  A pull consumer allows for the application to fetch one or more messages
+  on-demand using a subscription bound to the consumer. This allows the
+  application to control the flow of the messages coming in so it can
+  process and ack them in an appropriate amount of time.
+
+  A consumer can either be durable or ephemeral. A durable consumer will
+  have its state tracked on the server, most importantly, the last
+  acknowledged message from the client.
+
+  Ephemeral consumers are useful as one-off needs and are a bit cheaper in
+  terms of resources and management. However, ephemerals do not support
+  multiple subscribers nor do they (of course) persist after the primary
+  subscriber unsubscribes. The server will automatically clean up (delete)
+  the consumer after a period of time.
+
+  Since each subscription is _fetching_ messages on-demand, multiple
+  subscriptions can be create bound to the same pull consumer without
+  any additional configuration. Each subscriber can fetch batches of
+  messages and process them concurrently.
+
+  It is important to note that the messages in a given batch are ordered
+  with respect to each other, but each subscriber will be handling a batch
+  independently. If there is a need to have determinstic partitioning for scalable order processing, learn more [here][1].
+
+  [1]: https://docs.nats.io/nats-concepts/subject_mapping#deterministic-subject-token-partitioning
