@@ -39,6 +39,7 @@ jobs:
 
       - name: Auto-commit generated recordings
         uses: stefanzweifel/git-auto-commit-action@v4
+        if: ${{ github.branch_name == 'main' }}
         with:
           commit_message: Auto-commit recording
           file_pattern: examples/**/output.txt examples/**/output.cast
