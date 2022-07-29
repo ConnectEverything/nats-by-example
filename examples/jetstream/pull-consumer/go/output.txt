@@ -1,0 +1,8 @@
+Network 55ae8185_default  Creating
+Network 55ae8185_default  Created
+Container 55ae8185-nats-1  Creating
+Container 55ae8185-nats-1  Created
+Container 55ae8185-nats-1  Starting
+Container 55ae8185-nats-1  Started
+2022/07/29 10:43:32 main.go:53: nats: no responders available for request
+exit status 1

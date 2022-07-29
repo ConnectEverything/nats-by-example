@@ -1,0 +1,10 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1659091411, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/pull-consumer/go"}
+[0.858255, "o", "Network 55ae8185_default  Creating\r\n"]
+[0.898909, "o", "Network 55ae8185_default  Created\r\n"]
+[0.898956, "o", "Container 55ae8185-nats-1  Creating\r\n"]
+[0.927247, "o", "Container 55ae8185-nats-1  Created\r\n"]
+[0.928009, "o", "Container 55ae8185-nats-1  Starting\r\n"]
+[1.239975, "o", "Container 55ae8185-nats-1  Started"]
+[1.240287, "o", "\r\n"]
+[1.553266, "o", "2022/07/29 10:43:32 main.go:53: nats: no responders available for request\r\n"]
+[1.94944, "o", "exit status 1\r\n"]
