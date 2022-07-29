@@ -128,6 +128,8 @@ func main() {
 	// have to distribute to for a given consumer.
 	fmt.Println("\n--- max waiting requests (n=1) ---")
 
+	// Since `MaxWaiting` was already set to 1 when the consumer
+	// was created, this is a no-op.
 	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
 		Durable:    consumerName,
 		AckPolicy:  ackPolicy,
