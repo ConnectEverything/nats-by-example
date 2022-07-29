@@ -43,11 +43,9 @@ func main() {
 	ackPolicy := nats.AckExplicitPolicy
 
 	// One quick note. This example show cases how consumer configuration
-	// can be changed on-demand. However, prior to NATS 2.9, the `MaxWaiting`
-	// option did not support dynamic updates, so this example is setting it
-	// up front. This does not impact any of sections in this example except
-	// for the "max waiting requests" section where the behavior is
-	// demonstrated.
+	// can be changed on-demand. This one exception is `MaxWaiting` which
+	// cannot be updated on a consumer as of now. This must be set up front
+	// when the consumer is created.
 	js.AddConsumer(streamName, &nats.ConsumerConfig{
 		Durable:    consumerName,
 		AckPolicy:  ackPolicy,
