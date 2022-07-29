@@ -1,8 +1,9 @@
+// NOTE: This example requires a fix that came after the v1.16.0 release
+// of the Go client which corrected an issue with ephemeral pull consumers.
 package main
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"time"
 
@@ -10,7 +11,6 @@ import (
 )
 
 func main() {
-	log.SetFlags(log.Default().Flags() | log.Lshortfile)
 	// Use the env variable if running in the container, otherwise use the default.
 	url := os.Getenv("NATS_URL")
 	if url == "" {
@@ -25,9 +25,11 @@ func main() {
 	// as well as for publishing and subscription convenience methods.
 	js, _ := nc.JetStream()
 
+	streamName := "EVENTS"
+
 	// Declare a simple [limits-based stream](/examples/jetstream/limits-stream/go/).
 	js.AddStream(&nats.StreamConfig{
-		Name:     "EVENTS",
+		Name:     streamName,
 		Subjects: []string{"events.>"},
 	})
 
@@ -37,21 +39,23 @@ func main() {
 	js.Publish("events.3", nil)
 
 	// The JetStreamContext provides a simple way to create an ephemeral
-	// pull consumer. Simplify omit the subject and name and indicate the
-	// stream to bind to. The subject _can_ be provided with `BindStream`
-	// omitted as an alternative. In this case, the subject will be used
-	// to lookup which stream the subject is bound to. Personally, I think
-	// the use of bind is more explicit and readable.
-	sub, _ := js.PullSubscribe("", "", nats.BindStream("EVENTS"))
+	// pull consumer. Simply durable name (second parameter) and specify
+	// either the subject or the explicit stream to bind to using `BindStream`.
+	// If the subject is provided, it will be used to look up the stream
+	// the subject is bound to.
+	sub, _ := js.PullSubscribe("", "", nats.BindStream(streamName))
+
+	// An ephemeral consumer has a name generated on the server-side.
+	// Since there is only one consumer so far, let's just get the first
+	// one.
+	ephemeralName := <-js.ConsumerNames(streamName)
+	fmt.Printf("ephemeral name is %q\n", ephemeralName)
 
 	// We can _fetch_ messages in batches. The first argument being the
 	// batch size which is the _maximum_ number of messages that should
 	// be returned. For this first fetch, we ask for two and we will get
 	// those since they are in the stream.
-	msgs, err := sub.Fetch(2)
-	if err != nil {
-		log.Fatal(err) // <-- "nats: no responders available for request"??
-	}
+	msgs, _ := sub.Fetch(2)
 	fmt.Printf("got %d messages\n", len(msgs))
 
 	// Let's also ack them so they are not redelivered.
@@ -69,12 +73,12 @@ func main() {
 	// Finally, if we are at the end of the stream and we call fetch,
 	// the call will be blocked until the "max wait" time which is 5
 	// seconds by default, but this can be set explicitly as an option.
-	_, err = sub.Fetch(1, nats.MaxWait(time.Second))
-	fmt.Printf("timeout? %v", err == nats.ErrTimeout)
+	_, err := sub.Fetch(1, nats.MaxWait(time.Second))
+	fmt.Printf("timeout? %v\n", err == nats.ErrTimeout)
 
 	// Unsubscribing this subscription will result in the ephemeral consumer
 	// being deleted.
-	sub.Drain()
+	sub.Unsubscribe()
 
 	// Create a basic durable pull consumer by specifying the name and
 	// the `Explicit` ack policy (which is required). The `AckWait` is only
@@ -83,45 +87,43 @@ func main() {
 	// durable consumer as well relying on subscription options, but this
 	// shows a more explicit way. In addition, you can use the `UpdateConsumer`
 	// method passing configuration to change on-demand.
-	js.AddConsumer("EVENTS", &nats.ConsumerConfig{
-		Durable:   "processor",
+	consumerName := "processor"
+	js.AddConsumer(streamName, &nats.ConsumerConfig{
+		Durable:   consumerName,
 		AckPolicy: nats.AckExplicitPolicy,
 	})
 
 	// Unlike the `js.PullSubscribe` abstraction above, creating a consumer
 	// still requires a subcription to be setup to actually process the
 	// messages. This is done by using the `nats.Bind` option.
-	sub1, err := js.PullSubscribe("", "", nats.Bind("EVENTS", "processor"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	sub1, _ := js.PullSubscribe("", consumerName, nats.BindStream(streamName))
 
 	// All the same fetching works as above.
 	msgs, _ = sub1.Fetch(1)
-	fmt.Printf("received event on subject %q\n", msgs[0])
+	fmt.Printf("received %q from sub1\n", msgs[0].Subject)
 	msgs[0].Ack()
 
 	// However, now we can unsubscribe and re-subscribe to pick up where
 	// we left off.
 	sub1.Unsubscribe()
-	sub1, _ = js.PullSubscribe("", "", nats.Bind("EVENTS", "processor"))
+	sub1, _ = js.PullSubscribe("", consumerName, nats.BindStream(streamName))
 
 	msgs, _ = sub1.Fetch(1)
-	fmt.Printf("received event on subject %q\n", msgs[0])
+	fmt.Printf("received %q from sub1 (after reconnect)\n", msgs[0].Subject)
 	msgs[0].Ack()
 
 	// We can also transparently add another subscription (typically in
 	// a separate process) and fetch independently.
-	sub2, _ := js.PullSubscribe("", "", nats.Bind("EVENTS", "processor"))
+	sub2, _ := js.PullSubscribe("", consumerName, nats.BindStream(streamName))
 
 	msgs, _ = sub2.Fetch(1)
-	fmt.Printf("received event on subject %q\n", msgs[0])
+	fmt.Printf("received %q from sub2\n", msgs[0].Subject)
 	msgs[0].Ack()
 
 	// If we try to fetch from `sub1` again, notice we will timeout since
 	// `sub2` processed the third message already.
 	_, err = sub1.Fetch(1, nats.MaxWait(time.Second))
-	fmt.Printf("timeout? %v", err == nats.ErrTimeout)
+	fmt.Printf("timeout on sub1? %v\n", err == nats.ErrTimeout)
 
 	// Explicitly clean up. Note `nc.Drain()` above will do this automatically.
 	sub1.Unsubscribe()
