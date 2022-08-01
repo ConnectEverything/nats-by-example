@@ -1,0 +1,101 @@
+Network 0e66dc3e_default  Creating
+Network 0e66dc3e_default  Created
+             _             _               
+ _ __   __ _| |_ ___      | |__   _____  __
+| '_ \ / _` | __/ __|_____| '_ \ / _ \ \/ /
+| | | | (_| | |_\__ \_____| |_) | (_) >  < 
+|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
+                                           
+nats-box v0.12.0
++ touch server.conf
++ SERVER_PID=13
++ sleep 0.5
++ nats-server -c server.conf -l log.txt
++ nats server info
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions, try --help
++ cat
++ nats-server --signal 'reload=13'
++ nats context save sys --user sys --password pass
+NATS Configuration Context "sys"
+
+      Server URLs: nats://127.0.0.1:4222
+         Username: sys
+         Password: *********
+            Token: sys
+             Path: /nsc/.config/nats/context/sys.json
+
++ nats --context sys server info
+Server information for NB2MEK5VEFZGMLMCV35G557VTY3NJVOUIAJC2H42I5PXRLYWDZ4CYRKY
+
+Process Details:
+
+         Version: 2.8.4
+      Git Commit: 66524ed
+      Go Version: go1.17.10
+      Start Time: 2022-08-01 18:55:25.918663239 +0000 UTC
+          Uptime: 0s
+
+Connection Details:
+
+   Auth Required: true
+    TLS Required: false
+            Host: 0.0.0.0:4222
+     Client URLs: 
+
+Limits:
+
+        Max Conn: 65536
+        Max Subs: 0
+     Max Payload: 1.0 MiB
+     TLS Timeout: 2s
+  Write Deadline: 10s
+
+Statistics:
+
+       CPU Cores: 2 0.00%
+          Memory: 11 MiB
+     Connections: 1
+   Subscriptions: 37
+            Msgs: 1 in 0 out
+           Bytes: 2 B in 0 B out
+  Slow Consumers: 0
+
++ cat
++ nats-server --signal 'reload=13'
++ nats --context sys server info
+Server information for NB2MEK5VEFZGMLMCV35G557VTY3NJVOUIAJC2H42I5PXRLYWDZ4CYRKY
+
+Process Details:
+
+         Version: 2.8.4
+      Git Commit: 66524ed
+      Go Version: go1.17.10
+      Start Time: 2022-08-01 18:55:25.918663239 +0000 UTC
+          Uptime: 0s
+
+Connection Details:
+
+   Auth Required: true
+    TLS Required: false
+            Host: 0.0.0.0:4222
+     Client URLs: 
+
+Limits:
+
+        Max Conn: 65536
+        Max Subs: 0
+     Max Payload: 1.0 MiB
+     TLS Timeout: 2s
+  Write Deadline: 10s
+
+Statistics:
+
+       CPU Cores: 2 0.00%
+          Memory: 11 MiB
+     Connections: 1
+   Subscriptions: 37
+            Msgs: 2 in 1 out
+           Bytes: 4 B in 1.2 KiB out
+  Slow Consumers: 0
+
++ kill 13
