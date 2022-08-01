@@ -49,11 +49,14 @@ nats context save main-sys \
   --nsc nsc://local/SYS/sys
 
 nats context save leaf-user \
-  --server "$NATS_LEAF_URL"
+  --server "$NATS_LEAF_URL" \
+  --nsc nsc://local/APP/user 
 
 # This command generates the bit of configuration to be used by the server
 # to setup the embedded JWT resolver.
 nsc generate config --nats-resolver --sys-account SYS > resolver.conf
+
+APP_PUB_KEY=$(nsc describe account --json APP | jq -r .sub)
 
 # Create the most basic server config which enables leaf node connections
 # and include the JWT resolver config.
@@ -81,6 +84,7 @@ leafnodes: {
   remotes: [
     {
       url: "nats-leaf://0.0.0.0:7422",
+      account: $APP_PUB_KEY,
       credentials: "$NKEYS_PATH/creds/local/APP/user.creds"
     }
   ]
@@ -89,6 +93,8 @@ leafnodes: {
 jetstream: {
   store_dir: /leaf/jetstream
 }
+
+include resolver.conf
 EOF
 
 # Start the main server first.
