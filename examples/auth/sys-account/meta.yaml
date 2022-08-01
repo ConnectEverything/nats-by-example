@@ -1,0 +1,16 @@
+title: Configuring the System Account
+description: |-
+  NATS has the notion of a *system account* which is a designated account
+  for operations and monitoring of the server, cluster, or supercluster.
+  Although there is an implicit system account created on the server,
+  there are no _users_ associated with it, by default.
+
+  This example showcases the minimal configuration required to define
+  a user associated with the default system account. This will allow us
+  to run administrative commands using the `nats` CLI.
+
+  For the [decentralized JWT authentication][jwt] method, configuring the
+  system account is a slightly different process that will be highlighted
+  in a separate example.
+
+  [jwt]: https://docs.nats.io/running-a-nats-service/configuration/securing_nats/auth_intro/jwt

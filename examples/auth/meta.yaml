@@ -3,3 +3,4 @@ description: |
   Topics related to [authentication](https://docs.nats.io/running-a-nats-service/configuration/securing_nats/auth_intro) and [authorization](https://docs.nats.io/running-a-nats-service/configuration/securing_nats/authorization).
 examples:
   - nkeys-jwts
+  - sys-account
