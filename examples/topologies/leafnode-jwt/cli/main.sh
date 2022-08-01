@@ -20,10 +20,16 @@ nsc edit operator --require-signing-keys \
 
 # Next we need to create an account intended for application usage. The
 # `SYS` account should be used for operational purposes. These commands create
-# the `APP` account, generates a signing key, and then creates a user named
+# the `APP` account, generates a signing key, enables JetStream for the
+# account (setting unlimited storage), and then creates a user named
 # `user`.
 nsc add account APP
-nsc edit account APP --sk generate
+
+nsc edit account APP \
+  --sk generate \
+  --js-disk-storage -1 \
+  --js-mem-storage -1
+
 nsc add user --account APP user
 
 # Check out the current settings of nsc.
@@ -58,6 +64,10 @@ leafnodes: {
   port: 7422
 }
 
+jetstream: {
+  store_dir: /main/jetstream
+}
+
 include resolver.conf
 EOF
 
@@ -74,6 +84,10 @@ leafnodes: {
       credentials: "$NKEYS_PATH/creds/local/APP/user.creds"
     }
   ]
+}
+
+jetstream: {
+  store_dir: /leaf/jetstream
 }
 EOF
 
