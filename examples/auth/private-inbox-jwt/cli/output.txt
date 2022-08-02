@@ -1,0 +1,125 @@
+Network b7bfbec0_default  Creating
+Network b7bfbec0_default  Created
+             _             _               
+ _ __   __ _| |_ ___      | |__   _____  __
+| '_ \ / _` | __/ __|_____| '_ \ / _ \ \/ /
+| | | | (_| | |_\__ \_____| |_) | (_) >  < 
+|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
+                                           
+nats-box v0.12.0
+[ OK ] generated and stored operator key "ODFMSKLO5IXEZEYGRURAIXESSKTOITJY6J5ENUZM2DOPODARGAMRCBYE"
+[ OK ] added operator "local"
+[ OK ] When running your own nats-server, make sure they run at least version 2.2.0
+[ OK ] created operator signing key: OBVV4SZH4LGW2DTKN75CFDKPI3EAPG2JY55R3YOOKYPVOPTW6QLLKRSV
+[ OK ] created system_account: name:SYS id:ABBGTNCV4YW7PFBT6J5DCT4E7MFJPINFPAKZKYX3YEDOBD2B2CKJNYJI
+[ OK ] created system account user: name:sys id:UAX4G37MYJSFKJZAYW4DCBPZNWYUQSFHEJTJVDICYXTSFWFU4OSM76RD
+[ OK ] system account user creds file stored in `/nsc/nkeys/creds/local/SYS/sys.creds`
+[ OK ] strict signing key usage set to: true
+[ OK ] set account jwt server url to "nats://localhost:4222"
+[ OK ] edited operator "local"
+[ OK ] generated and stored account key "AB5MLX47CDR6HLNI7CGRRAOPHZXHA5WLLZBCM3Y5M5ITSBZWT66HBDUZ"
+[ OK ] added account "APP"
+[ OK ] added signing key "AAT6RZPFDH5Y4HRDO554REFLEZXC7OC6YLI6ED3SCYNFZ4NDMYY7WB65"
+[ OK ] edited account "APP"
+[ OK ] push to nats-server "nats://localhost:4222" using system account "SYS":
+       [ OK ] push APP to nats-server with nats account resolver:
+              [ OK ] pushed "APP" to nats-server NCXGMGNQBBKCTS3LO2SLVRCZP7CJGO6GWSR6KADR4Y3D6LG7TQS2S6AB: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+[ OK ] set max responses to 1
+[ OK ] added sub "services.greet"
+[ OK ] generated and stored user key "UBAK6JLWQMHXEJ4WCFGVRKZYCBHLCNI6JGFHFMUODPNL27ZHOYOCHOO3"
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/greeter.creds`
+[ OK ] added user "greeter" to account "APP"
+[ OK ] added pub pub "joe.>"
+[ OK ] added pub pub "services.*"
+[ OK ] generated and stored user key "UARFKBJRTAZM4OW3WZIPOXAV5BCS3JH6BCCUARVFHJDFJ7IY2HXJUXLJ"
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/joe.creds`
+[ OK ] added user "joe" to account "APP"
+[ OK ] added pub pub "pam.>"
+[ OK ] added pub pub "services.*"
+[ OK ] generated and stored user key "UBYSMJ3Y366XN5H6JP5IHNQ3M76CTXK2BRXSTK2C75HY7LFRUASGT3OV"
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/pam.creds`
+[ OK ] added user "pam" to account "APP"
+[ OK ] added sub "_INBOX.>"
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/joe.creds`
+[ OK ] edited user "joe"
+[ OK ] added sub "_INBOX.>"
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/pam.creds`
+[ OK ] edited user "pam"
+NATS Configuration Context "greeter"
+
+      Server URLs: nats://127.0.0.1:4222
+      Credentials: /nsc/nkeys/creds/local/APP/greeter.creds (OK)
+       NSC Lookup: nsc://local/APP/greeter
+             Path: /nsc/.config/nats/context/greeter.json
+
+NATS Configuration Context "joe"
+
+      Server URLs: nats://127.0.0.1:4222
+      Credentials: /nsc/nkeys/creds/local/APP/joe.creds (OK)
+       NSC Lookup: nsc://local/APP/joe
+             Path: /nsc/.config/nats/context/joe.json
+
+NATS Configuration Context "pam"
+
+      Server URLs: nats://127.0.0.1:4222
+      Credentials: /nsc/nkeys/creds/local/APP/pam.creds (OK)
+       NSC Lookup: nsc://local/APP/pam
+             Path: /nsc/.config/nats/context/pam.json
+
+17:21:11 Listening on "services.greet" in group "NATS-RPLY-22"
+17:21:11 Sending request on "services.greet"
+
+
+17:21:11 [#0] Received on subject "services.greet":
+17:21:11 Received with rtt 1.421611ms
+Reply EiaIxD2O9zht77dHYbTZfN
+
+17:21:11 Sending request on "services.greet"
+17:21:11 [#1] Received on subject "services.greet":
+
+
+17:21:11 Received with rtt 1.089909ms
+Reply EiaIxD2O9zht77dHYbTZk4
+
+17:21:12 Subscribing on _INBOX.>
+17:21:12 Sending request on "services.greet"
+17:21:12 [#2] Received on subject "services.greet":
+
+
+Reply EiaIxD2O9zht77dHYbTZol
+
+17:21:12 Received with rtt 681.706µs
+[#1] Received on "_INBOX.ZYAAExoXcyDKsFDdxuFgQb.PIt1MPL3"
+Reply EiaIxD2O9zht77dHYbTZol
+
+17:21:12 Sending request on "services.greet"
+17:21:12 [#3] Received on subject "services.greet":
+17:21:12 Unexpected NATS error from server nats://127.0.0.1:4222: nats: Permissions Violation for Subscription to "_INBOX_joe.fNg5JF7k4bT2VSUa4Ep6wD.7tIj5Fxs"
+
+
+[ OK ] added sub "_INBOX_joe.>"
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/joe.creds`
+[ OK ] edited user "joe"
+[ OK ] added sub "_INBOX_pam.>"
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/pam.creds`
+[ OK ] edited user "pam"
+17:21:17 Subscribing on _INBOX.>
+17:21:17 Unexpected NATS error from server nats://127.0.0.1:4222: nats: Permissions Violation for Subscription to "_INBOX.>"
+nats: error: nats: Permissions Violation for Subscription to "_INBOX.>", try --help
+17:21:17 Subscribing on _INBOX_joe.>
+nats: error: nats: Permissions Violation for Subscription to "_INBOX_joe.>", try --help
+17:21:17 Sending request on "services.greet"
+
+
+17:21:17 [#4] Received on subject "services.greet":
+17:21:17 Received with rtt 1.093234ms
+Reply EiaIxD2O9zht77dHYbTZy9
+
+17:21:17 Sending request on "services.greet"
+17:21:17 [#5] Received on subject "services.greet":
+
+
+17:21:17 Received with rtt 2.893689ms
+Reply EiaIxD2O9zht77dHYbTa2q
+
