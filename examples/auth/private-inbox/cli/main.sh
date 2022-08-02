@@ -26,7 +26,6 @@ accounts: {
           sub: {
             allow: ["services.greet"]
           },
-          # Enables this service to reply to the requestor's inbox.
           allow_responses: true
         }
       },
@@ -118,7 +117,6 @@ accounts: {
           sub: {
             allow: ["services.greet"]
           },
-          # Enables this service to reply to the requestor's inbox.
           allow_responses: true
         }
       },
