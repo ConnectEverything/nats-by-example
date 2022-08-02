@@ -1,8 +1,13 @@
-title: Private Inbox
+title: Private Inbox using JWT
 description: |-
+  *This is the analog to the standard [Private Inbox][1] example, but
+  leveraging the NKeys/JWT authentication method.*
+
   Replies to a request using the built-in request-reply pattern
   all share the same subject pattern `_INBOX.>`. For multi-user
   applications where isolation of messages within the same account
   is required, an explicit **inbox prefix** can be used when a
   client connects to the server. This combined with explicit
   permissions prevents users from _snooping_ on service replies.
+
+  [1]: /examples/auth/private-inbox/cli
