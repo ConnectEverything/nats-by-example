@@ -19,33 +19,24 @@ func main() {
 		url = nats.DefaultURL
 	}
 
-	// Create an unauthenticated connection to NATS and defer the drain
+	// Create a connection to NATS and defer the drain
 	// to gracefully handle buffered messages and clean up resources.
 	nc, _ := nats.Connect(url)
 	defer nc.Drain()
 
-	// Access `JetStreamContext` which provides methods to create
-	// streams and consumers as well as convenience methods for publishing
-	// to streams and implicitly creating consumers through `*Subscribe*`
-	// methods (which will be discussed in examples focused on consumers).
+	// Access `JetStreamContext` for convenient methods to interact
+	// with JetStream constructs likes streams, consumers, and key-value.
 	js, _ := nc.JetStream()
 
-	// Given a stream that is being written to by a backend  control plane
-	// service needing to communicate out to a fleet of devices, we can
-	// enable and leverage the republish option on a stream. This takes a
-	// subject mapping from the source (subjects bound to the stream) and
-	// some destination subject.
-	//
-	// For this example, assume a source subject
-	// like `config.<device>.<property...>`. We are then republishing messages
-	// to `<device>.config.<property...>` by re-arranging the wildcard tokens.
-	// *Note: the Go client prior to v1.16.0 used an experimental API for
-	// this feature and changed the name of the type for `RePublish` from
-	// `SubjectMapping`.*
-	bucketName := "CONFIG"
-
+	// Given a command and control service that is writing out configuration
+	// for a fleet of devices, we can leverage the key-value interface
+	// overlaying a stream. With a history of 1, only the most recent
+	// value per key will be retained.
+	// The `RePublish` feature will take every key-value (modeled as a message)
+	// and re-publish it to a destination subject. Clients can then subscribe
+	// to this subject and receive all new updates while connected.
 	kv, _ := js.CreateKeyValue(&nats.KeyValueConfig{
-		Bucket:  bucketName,
+		Bucket:  "CONFIG",
 		History: 1,
 		RePublish: &nats.RePublish{
 			Source:      ">",
@@ -54,9 +45,8 @@ func main() {
 	})
 
 	// For the purpose of this example, let's assume we have a known set of
-	// configuration properties. We are also going to assume that we
-	// only care about the latest value for each property. When a device
-	// receives a value, it will update it's state accordingly.
+	// configuration properties. When a device receives a value, it will
+	// update it's state accordingly.
 	props := []string{
 		"driving",
 		"temperature",
@@ -65,14 +55,14 @@ func main() {
 
 	// Next we will create a subscriptions to a particular device.
 	// In practice, there can be N devices each with their own subscription
-	// using their own connection. This would be reuqire when combining
+	// using their own connection. This would be required when combining
 	// with user permissions. Each device can have user credentials tied
 	// a set of permissions authorized to only subscribe to its subset
 	// of messages. This provides a lightweight and secure fan-out option
 	// in lieu of consumers.
 	sub, _ := nc.SubscribeSync("repub.$KV.CONFIG.device-1.*")
 
-	// Let's publish a message to the stream and then receive it
+	// Let's write an entry to the KV and observe it being received it
 	// on the subscription.
 	kv.Put("device-1.driving", []byte(`true`))
 
@@ -96,17 +86,19 @@ func main() {
 
 	// Assuming we want to keep track of these properties as they come in,
 	// we can use a simple config map that is *sequence* aware. Meaning, it
-	// keeps keeps track of the sequence to ensure only the *latest* value
-	// per property is set in the config.
+	// keeps track of the sequence to ensure only the *latest* value
+	// per property is set in the config in case we receive different
+	// versions concurrently.
 	config := NewConfig()
 
 	// Let's parse out the property key, sequence value, and value from
-	// from the message and set it into the config and print it.
+	// from the message and set it into the config.
 	prop, seq, val := parseConfigEntry(msg)
 	config.Set(prop, seq, val)
 	fmt.Printf("config: %s\n", config)
 
-	// And another...
+	// Adding another property, we will observe the same flow building
+	// up the config.
 	kv.Put("device-1.temperature", []byte(`80`))
 
 	msg, _ = sub.NextMsg(time.Second)
@@ -118,7 +110,7 @@ func main() {
 
 	// What happens if the device temporarily gets disconnected? How can
 	// we catch up? Since the messages are being republished to a subject
-	// not bound to the stream, the delivery guarantee is at-most-once.
+	// separate from the KV, the delivery guarantee is at-most-once.
 	// This is the trade-off with consumers (which provide at-least-once),
 	// but this republish capability can, currently, scale to orders of
 	// magnitude more devices.
@@ -128,32 +120,31 @@ func main() {
 
 	kv.Put("device-1.temperature", []byte(`72`))
 	kv.Put("device-1.temperature", []byte(`76`))
+	fmt.Println("put 2 more kv entries...")
 
-	// To recover from this situation, we can introduce an initialization
-	// step after we setup the subscription. Let's re-subscribe to start
-	// buffering new messages.
+	// Let's re-subscribe and see if receive the last two messages?
 	sub, _ = nc.SubscribeSync("repub.$KV.CONFIG.device-1.*")
 	fmt.Println("re-subscribed for new messages")
+	_, err := sub.NextMsg(time.Second)
+	fmt.Printf("received a timeout? %v\n", err == nats.ErrTimeout)
 
-	// This API is slightly lower-level and returns a `RawStreamMsg`.
-	// We can still extract the same information we need to update the
-	// config struct.
-	fmt.Println("direct latest props")
+	// As expected, we got a timeout since those previous updates would have
+	// been dropped after being re-published (at-most-once guarantee). So this
+	// means we need to request the KV entry for each prop for this device. It
+	// doesn't yet exist, we can ignore it.
+	fmt.Println("getting latest props")
 	for _, prop := range props {
-		// Original subject?
 		subject := fmt.Sprintf("device-1.%s", prop)
 		entry, _ := kv.Get(subject)
-
-		// Just ignore if no message is available.
 		if entry == nil {
 			continue
 		}
 
+		fmt.Printf("catching up prop: %q\n", prop)
 		seq := entry.Revision()
 		val := string(entry.Value())
-
-		fmt.Printf("catching up prop: %q\n", prop)
 		config.Set(prop, seq, val)
+
 		fmt.Printf("config: %s\n", config)
 	}
 
@@ -161,15 +152,12 @@ func main() {
 	// the subscription and continue on.
 	kv.Put("device-1.radio", []byte(`102.9 FM`))
 
-	// Receive the message and set in the config.
 	msg, _ = sub.NextMsg(time.Second)
 	fmt.Printf("received message on %q\n", msg.Subject)
 
 	prop, seq, val = parseConfigEntry(msg)
 	config.Set(prop, seq, val)
 	fmt.Printf("config: %s\n", config)
-
-	sub.Unsubscribe()
 }
 
 type SeqValue struct {
