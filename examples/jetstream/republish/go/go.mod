@@ -2,7 +2,7 @@ module github.com/bruth/nats-by-example/examples/jetstream/republish/go
 
 go 1.18
 
-require github.com/nats-io/nats.go v1.16.1-0.20220803180602-ec49000ee1e2
+require github.com/nats-io/nats.go v1.16.1-0.20220803221958-cc189da40f83
 
 require (
 	github.com/golang/protobuf v1.5.2 // indirect

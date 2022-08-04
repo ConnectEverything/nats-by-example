@@ -42,16 +42,14 @@ func main() {
 	// *Note: the Go client prior to v1.16.0 used an experimental API for
 	// this feature and changed the name of the type for `RePublish` from
 	// `SubjectMapping`.*
-	streamName := "CONFIG"
+	bucketName := "CONFIG"
 
-	js.AddStream(&nats.StreamConfig{
-		Name: streamName,
-		Subjects: []string{
-			"config.*.*",
-		},
+	kv, _ := js.CreateKeyValue(&nats.KeyValueConfig{
+		Bucket:  bucketName,
+		History: 1,
 		RePublish: &nats.RePublish{
-			Source:      "config.*.*",
-			Destination: "$1.config.$2",
+			Source:      ">",
+			Destination: "repub.>",
 		},
 	})
 
@@ -72,11 +70,11 @@ func main() {
 	// a set of permissions authorized to only subscribe to its subset
 	// of messages. This provides a lightweight and secure fan-out option
 	// in lieu of consumers.
-	sub, _ := nc.SubscribeSync("device-1.config.*")
+	sub, _ := nc.SubscribeSync("repub.$KV.CONFIG.device-1.*")
 
 	// Let's publish a message to the stream and then receive it
 	// on the subscription.
-	js.Publish("config.device-1.driving", []byte(`true`))
+	kv.Put("device-1.driving", []byte(`true`))
 
 	msg, _ := sub.NextMsg(time.Second)
 	fmt.Printf("received message on %q\n", msg.Subject)
@@ -84,12 +82,11 @@ func main() {
 	// Every republished message includes an augmented set of headers
 	// which allows for tracking and correlating this message with respect
 	// to the original stream.
-	fmt.Printf(`
-  - Nats-Subject: %s
-  - Nats-Stream: %s
-  - Nats-Sequence: %s
-  - Nats-Last-Sequence: %s
-
+	fmt.Printf(`republish headers:
+- Nats-Subject: %s
+- Nats-Stream: %s
+- Nats-Sequence: %s
+- Nats-Last-Sequence: %s
 `,
 		msg.Header.Get("Nats-Subject"),
 		msg.Header.Get("Nats-Stream"),
@@ -107,17 +104,17 @@ func main() {
 	// from the message and set it into the config and print it.
 	prop, seq, val := parseConfigEntry(msg)
 	config.Set(prop, seq, val)
-	fmt.Println(config)
+	fmt.Printf("config: %s\n", config)
 
 	// And another...
-	js.Publish("config.device-1.temperature", []byte(`80`))
+	kv.Put("device-1.temperature", []byte(`80`))
 
 	msg, _ = sub.NextMsg(time.Second)
 	fmt.Printf("received message on %q\n", msg.Subject)
 
 	prop, seq, val = parseConfigEntry(msg)
 	config.Set(prop, seq, val)
-	fmt.Println(config)
+	fmt.Printf("config: %s\n", config)
 
 	// What happens if the device temporarily gets disconnected? How can
 	// we catch up? Since the messages are being republished to a subject
@@ -127,57 +124,50 @@ func main() {
 	// magnitude more devices.
 	// Let's unsubscribe and observe what happens.
 	sub.Unsubscribe()
+	fmt.Println("subscription closed")
 
-	js.Publish("config.device-1.temperature", []byte(`72`))
-	js.Publish("config.device-1.temperature", []byte(`76`))
+	kv.Put("device-1.temperature", []byte(`72`))
+	kv.Put("device-1.temperature", []byte(`76`))
 
 	// To recover from this situation, we can introduce an initialization
 	// step after we setup the subscription. Let's re-subscribe to start
 	// buffering new messages.
-	sub, _ = nc.SubscribeSync("device-1.config.*")
-
-	// In the meantime, we can leverage a new JetStream API which supports
-	// getting the latest message on a stream for a given subject.
-	// Given that we know the set of properties we want to fetch, we can
-	// iterate over them and _catch-up_ with the latest known property.
-	// This feature is opt-in, so we must enable it on a stream. We can do this by updating the stream.
-	js.UpdateStream(&nats.StreamConfig{
-		AllowDirect: true,
-	})
+	sub, _ = nc.SubscribeSync("repub.$KV.CONFIG.device-1.*")
+	fmt.Println("re-subscribed for new messages")
 
 	// This API is slightly lower-level and returns a `RawStreamMsg`.
 	// We can still extract the same information we need to update the
 	// config struct.
+	fmt.Println("direct latest props")
 	for _, prop := range props {
 		// Original subject?
-		subject := fmt.Sprintf("config.device-1.%s", prop)
-		rmsg, _ := js.GetLastMsg(streamName, subject)
+		subject := fmt.Sprintf("device-1.%s", prop)
+		entry, _ := kv.Get(subject)
 
 		// Just ignore if no message is available.
-		if rmsg == nil {
+		if entry == nil {
 			continue
 		}
 
-		seq := rmsg.Sequence
-		val := string(rmsg.Data)
+		seq := entry.Revision()
+		val := string(entry.Value())
 
 		fmt.Printf("catching up prop: %q\n", prop)
 		config.Set(prop, seq, val)
+		fmt.Printf("config: %s\n", config)
 	}
-
-	// Given that the two temperature values were appended to the stream
-	// we would expect the latest temp to be present (76).
-	fmt.Println(config)
 
 	// If we publish a new message to the stream, we can receive it on
 	// the subscription and continue on.
-	js.Publish("config.device-1.radio", []byte(`102.9 FM`))
+	kv.Put("device-1.radio", []byte(`102.9 FM`))
 
 	// Receive the message and set in the config.
 	msg, _ = sub.NextMsg(time.Second)
+	fmt.Printf("received message on %q\n", msg.Subject)
+
 	prop, seq, val = parseConfigEntry(msg)
 	config.Set(prop, seq, val)
-	fmt.Println(config)
+	fmt.Printf("config: %s\n", config)
 
 	sub.Unsubscribe()
 }
