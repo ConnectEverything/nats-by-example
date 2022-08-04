@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/exec"
+	"os/signal"
 	"path/filepath"
 	"strings"
 
@@ -259,34 +260,40 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		return err
 	}
 
+	err = copyFile(composeFile, filepath.Join(buildDir, "docker-compose.yaml"))
+	if err != nil {
+		return err
+	}
+
 	err = createFile(filepath.Join(buildDir, ".env"), []byte(fmt.Sprintf("IMAGE_TAG=%s", imageTag)))
 	if err != nil {
 		return fmt.Errorf("create .env: %w", err)
 	}
 
 	// Best effort to bring containers down..
-	defer exec.Command(
-		"docker",
-		"compose",
-		"--project-name", uid,
-		"--project-directory", buildDir,
-		"--file", composeFile,
-		"down",
-		"--remove-orphans",
-		"--timeout", "3",
-	).Run()
+	defer func() {
+		cmd := exec.Command(
+			"docker",
+			"compose",
+			"--project-name", uid,
+			"down",
+			"--remove-orphans",
+			"--timeout", "3",
+		)
+		cmd.Dir = buildDir
+		cmd.Run()
+	}()
 
 	cmd := exec.Command(
 		"docker",
 		"compose",
 		"--project-name", uid,
-		"--project-directory", buildDir,
-		"--file", composeFile,
 		"pull",
 		"--include-deps",
 		"--quiet",
 		"--ignore-pull-failures",
 	)
+	cmd.Dir = buildDir
 
 	stderrb := bytes.NewBuffer(nil)
 	cmd.Stderr = stderrb
@@ -300,8 +307,6 @@ func (r *ComposeRunner) Run(imageTag string) error {
 			"docker",
 			"compose",
 			"--project-name", uid,
-			"--project-directory", buildDir,
-			"--file", composeFile,
 			"up",
 		)
 	} else {
@@ -316,8 +321,6 @@ func (r *ComposeRunner) Run(imageTag string) error {
 			"compose",
 			"--ansi", ansi,
 			"--project-name", uid,
-			"--project-directory", buildDir,
-			"--file", composeFile,
 			"run",
 			"--no-TTY",
 			"--rm",
@@ -325,9 +328,26 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		)
 	}
 
+	cmd.Dir = buildDir
 	cmd.Stdout = stdout
 	cmd.Stderr = stderr
 	cmd.Stdin = stdin
 
-	return cmd.Run()
+	done := make(chan error, 1)
+	sigch := make(chan os.Signal, 1)
+
+	signal.Notify(sigch, os.Interrupt)
+
+	go func() {
+		done <- cmd.Run()
+	}()
+
+	// Wait for interrupt or once the command finishes.
+	// This ensures the `docker compose down` runs.
+	select {
+	case err := <-done:
+		return err
+	case <-sigch:
+		return nil
+	}
 }
