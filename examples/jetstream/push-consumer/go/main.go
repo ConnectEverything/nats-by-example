@@ -152,8 +152,7 @@ func main() {
 
 	// Since we created the durable explicitly, we can freely unsubscribe
 	// and re-subscribe without the consumer being deleted.
-	sub.Unsubscribe()
-	fmt.Printf("sub valid? %v\n", sub.IsValid())
+	sub.Drain()
 
 	// The second way to subscribe is directly to the `DeliverSubject` with
 	// a core NATS subscription.
