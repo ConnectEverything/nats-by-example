@@ -8,6 +8,7 @@ examples:
   - limits-stream
   - pull-consumer
   - pull-consumer-limits
-    #  - push-consumer
+  - push-consumer
+    #  - push-queue-consumer
     #  - workqueue-stream
     #  - interests-stream
