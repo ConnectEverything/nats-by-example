@@ -154,7 +154,6 @@ func main() {
 	// and re-subscribe without the consumer being deleted.
 	sub.Unsubscribe()
 
-	time.Sleep(100 * time.Millisecond)
 	sub, _ = js.SubscribeSync("", nats.Bind(streamName, consumerName))
 
 	// Upon resubscribe we would expect our queue to be at five, right??
@@ -171,20 +170,12 @@ func main() {
 	// So we are not waiting for 30 seconds, I had explicity set the
 	// `MaxAck` option in the consumer config above to shorter time so
 	// we can simulate and observe the redelivery.
-	time.Sleep(time.Second)
-
-	// Now that the ack timeout has been reached, the server will redeliver
-	// to this new active subscription. We can see this by checking the
-	// pending messages again.
-	queuedMsgs, queuedBytes, _ = sub.Pending()
-	fmt.Printf("%d messages queued (%d bytes)\n", queuedMsgs, queuedBytes)
-
-	// The next message we receive will be the second event since the first
-	// was consumed by the previous subscription.
 	msg, _ = sub.NextMsg(time.Second)
-	fmt.Printf("received %q\n", msg.Subject)
+	md, _ := msg.Metadata()
+	fmt.Printf("received %q (delivery #%d)\n", msg.Subject, md.NumDelivered)
 	msg.Ack()
 
+	// Now we can see the remainder of the four messages are pending.
 	queuedMsgs, queuedBytes, _ = sub.Pending()
 	fmt.Printf("%d messages queued (%d bytes)\n", queuedMsgs, queuedBytes)
 }
