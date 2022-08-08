@@ -152,10 +152,9 @@ func main() {
 
 	// Since we created the durable explicitly, we can freely unsubscribe
 	// and re-subscribe without the consumer being deleted.
-	sub.Drain()
+	sub.Unsubscribe()
 
-	// The second way to subscribe is directly to the `DeliverSubject` with
-	// a core NATS subscription.
+	time.Sleep(100 * time.Millisecond)
 	sub, _ = js.SubscribeSync("", nats.Bind(streamName, consumerName))
 
 	// Upon resubscribe we would expect our queue to be at five, right??
