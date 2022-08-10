@@ -1,0 +1,14 @@
+{
+  "public": false,
+  "github": {
+    "enabled": false
+  },
+  "builds": [
+    {
+      "use": "@vercel/static",
+      "src": "./**"
+    }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": true
+}
