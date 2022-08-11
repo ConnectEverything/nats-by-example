@@ -37,14 +37,14 @@ func main() {
 	js.Publish("events.2", nil)
 	js.Publish("events.3", nil)
 
-	fmt.Println("--- Ephemeral ---")
-
+	// ### Ephemeral
 	// The JetStreamContext provides a simple way to create an ephemeral
 	// push consumer, simply provide a subject that overlaps with the
 	// bound subjects on the stream and this helper method will do the
 	// stream look-up automatically and create the consumer. We will also
 	// make ack-ing explicit rather than relying on the default implicit
 	// ack on receive.
+	fmt.Println("# Ephemeral")
 	sub, _ := js.SubscribeSync("events.>", nats.AckExplicit())
 
 	// An ephemeral consumer has a name generated on the server-side.
@@ -99,12 +99,13 @@ func main() {
 	// when it determines the subscription is no longer active.
 	sub.Unsubscribe()
 
-	fmt.Println("\n--- Durable (helper) ---")
-
+	// ### Durable (Helper)
 	// We can use the same `SubscribeSync` method to create a durable
 	// consumer as well by passing `nats.Durable()`. This will implicitly
 	// create the durable if it does not exist, otherwise it will bind to
 	// an existing one if it exist.
+	fmt.Println("\n# Durable (Helper)")
+
 	sub, _ = js.SubscribeSync("events.>", nats.Durable("handler-1"), nats.AckExplicit())
 
 	// Let's check out pending messages again. We should have some queued
@@ -126,14 +127,15 @@ func main() {
 	_, err := js.ConsumerInfo("EVENTS", "handler-1")
 	fmt.Println(err)
 
-	fmt.Println("\n--- Durable (AddConsumer) ---")
-
+	// ### Durable (AddConsumer)
 	// A more explicit and safer way to create durables is using `js.AddConsumer`.
 	// For push consumers, we must provide a `DeliverSubject` which is the
 	// subject messages will be published to (pushed) for a subscription to
 	// receive them. Another best practice is to use an AckExplicit or AckAll
 	// policy depending on your use case. This will provide more explicit control
 	// over acking.
+	fmt.Println("\n# Durable (AddConsumer)")
+
 	consumerName := "handler-2"
 	js.AddConsumer(streamName, &nats.ConsumerConfig{
 		Durable:        consumerName,
