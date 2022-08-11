@@ -23,18 +23,21 @@ func main() {
 	// as well as for publishing and subscription convenience methods.
 	js, _ := nc.JetStream()
 
+	// Declare a simple [limits-based stream][1] and populate the stream
+	// with a few messages.
+	// [1]: /examples/jetstream/limits-stream/go/
 	streamName := "EVENTS"
 
-	// Declare a simple [limits-based stream](/examples/jetstream/limits-stream/go/).
 	js.AddStream(&nats.StreamConfig{
 		Name:     streamName,
 		Subjects: []string{"events.>"},
 	})
 
-	// Publish a few messages for the example.
 	js.Publish("events.1", nil)
 	js.Publish("events.2", nil)
 	js.Publish("events.3", nil)
+
+	fmt.Println("--- Ephemeral ---")
 
 	// The JetStreamContext provides a simple way to create an ephemeral
 	// push consumer, simply provide a subject that overlaps with the
@@ -50,11 +53,12 @@ func main() {
 
 	// Since this is a push consumer, messages will be sent by the server
 	// and pre-buffered by this subscription. We can observe this by using
-	// the `Pending()` method.
+	// the `Pending()` method. Messages are buffered asynchronously, so
+	// this pending count may or may not be three.
 	queuedMsgs, _, _ := sub.Pending()
 	fmt.Printf("%d messages queued\n", queuedMsgs)
 
-	// The number of messages that will be queued is defined by the
+	// The maxinum number of messages that will be queued is defined by the
 	// `MaxAckPending` option set on a consumer. The default is 65,536.
 	// Let's observe this by publishing a few more events and then check
 	// the pending status again.
@@ -62,9 +66,7 @@ func main() {
 	js.Publish("events.5", nil)
 	js.Publish("events.6", nil)
 
-	// Although messages pushed from the server is asynchronous with
-	// respect to the subscriptions, for this basic example, we can
-	// observe they have been received already.
+	// Let's check if we buffered some more.
 	queuedMsgs, _, _ = sub.Pending()
 	fmt.Printf("%d messages queued\n", queuedMsgs)
 
@@ -84,8 +86,8 @@ func main() {
 	fmt.Printf("received %q\n", msg.Subject)
 	msg.Ack()
 
-	// Checking out our pending information, we see there are only four
-	// remaining.
+	// Checking out our pending information, we see there are no more
+	// than four remaining.
 	queuedMsgs, _, _ = sub.Pending()
 	fmt.Printf("%d messages queued\n", queuedMsgs)
 
@@ -95,14 +97,16 @@ func main() {
 	// when it determines the subscription is no longer active.
 	sub.Unsubscribe()
 
+	fmt.Println("\n--- Durable (helper) ---")
+
 	// We can use the same `SubscribeSync` method to create a durable
 	// consumer as well by passing `nats.Durable()`. This will implicitly
 	// create the durable if it does not exist, otherwise it will bind to
 	// an existing one if it exist.
 	sub, _ = js.SubscribeSync("events.>", nats.Durable("handler-1"))
 
-	// Let's check out pending messages again. We should have all six
-	// queued up.
+	// Let's check out pending messages again. We should have some queued
+	// up already.
 	queuedMsgs, _, _ = sub.Pending()
 	fmt.Printf("%d messages queued\n", queuedMsgs)
 
@@ -119,6 +123,8 @@ func main() {
 	// If we try to get the consumer info, we will see it no longer exists.
 	_, err := js.ConsumerInfo("EVENTS", "handler-1")
 	fmt.Println(err)
+
+	fmt.Println("\n--- Durable (AddConsumer) ---")
 
 	// A more explicit and safer way to create durables is using `js.AddConsumer`.
 	// For push consumers, we must provide a `DeliverSubject` which is the
@@ -152,18 +158,22 @@ func main() {
 	msg, _ = sub.NextMsg(time.Second)
 	fmt.Printf("received %q\n", msg.Subject)
 
-	// Let's ack the message and check out the pending count.
+	// Let's ack the message and check out the pending count which will have
+	// a few buffered as shown above.
 	msg.Ack()
 	queuedMsgs, _, _ = sub.Pending()
 	fmt.Printf("%d messages queued\n", queuedMsgs)
 
-	// If we unsubscribe/drain, what happens to these pending messages?
+	// If we unsubscribe, what happens to these pending messages?
 	// From the client's perspective they are effectively dropped. This behavior
 	// would be true if the client crashed for some reason.
 	// From the server's perspective it is going to wait until `AckWait`
 	// before attempting to re-deliver them. However, it will only re-deliver
 	// if there is an active subscription.
-	sub.Drain()
+	sub.Unsubscribe()
+
+	// Let the consumer info state update since its asynchronous.
+	time.Sleep(100 * time.Millisecond)
 
 	// If we check out the consumer info, we can pull out a few interesting
 	// bits of information. The first one is that the consumer tracks the
@@ -185,12 +195,14 @@ func main() {
 	fmt.Printf("num redelivered: %d\n", info.NumRedelivered)
 
 	// If we create a new subscription and attempt to get a message
-	// before the AckWait, we will get a timeout.
+	// before the AckWait, we will get a timeout since the messages
+	// are still pending.
 	sub, _ = js.SubscribeSync("", nats.Bind(streamName, consumerName))
 	_, err = sub.NextMsg(100 * time.Millisecond)
 	fmt.Printf("received timeout? %v\n", err == nats.ErrTimeout)
 
-	// Let's try again and wait a bit longer beyond the AckWait.
+	// Let's try again and wait a bit longer beyond the AckWait. We
+	// can also see that the delivery attempt on the message is now 2.
 	msg, _ = sub.NextMsg(time.Second)
 	md, _ := msg.Metadata()
 	fmt.Printf("received %q (delivery #%d)\n", msg.Subject, md.NumDelivered)
