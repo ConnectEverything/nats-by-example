@@ -42,8 +42,10 @@ func main() {
 	// The JetStreamContext provides a simple way to create an ephemeral
 	// push consumer, simply provide a subject that overlaps with the
 	// bound subjects on the stream and this helper method will do the
-	// stream look-up automatically and create the consumer.
-	sub, _ := js.SubscribeSync("events.>")
+	// stream look-up automatically and create the consumer. We will also
+	// make ack-ing explicit rather than relying on the default implicit
+	// ack on receive.
+	sub, _ := js.SubscribeSync("events.>", nats.AckExplicit())
 
 	// An ephemeral consumer has a name generated on the server-side.
 	// Since there is only one consumer so far, let's just get the first
@@ -103,7 +105,7 @@ func main() {
 	// consumer as well by passing `nats.Durable()`. This will implicitly
 	// create the durable if it does not exist, otherwise it will bind to
 	// an existing one if it exist.
-	sub, _ = js.SubscribeSync("events.>", nats.Durable("handler-1"))
+	sub, _ = js.SubscribeSync("events.>", nats.Durable("handler-1"), nats.AckExplicit())
 
 	// Let's check out pending messages again. We should have some queued
 	// up already.
@@ -171,9 +173,6 @@ func main() {
 	// before attempting to re-deliver them. However, it will only re-deliver
 	// if there is an active subscription.
 	sub.Unsubscribe()
-
-	// Let the consumer info state update since its asynchronous.
-	time.Sleep(100 * time.Millisecond)
 
 	// If we check out the consumer info, we can pull out a few interesting
 	// bits of information. The first one is that the consumer tracks the
