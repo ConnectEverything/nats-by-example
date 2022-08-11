@@ -131,9 +131,7 @@ func main() {
 	// A more explicit and safer way to create durables is using `js.AddConsumer`.
 	// For push consumers, we must provide a `DeliverSubject` which is the
 	// subject messages will be published to (pushed) for a subscription to
-	// receive them. Another best practice is to use an AckExplicit or AckAll
-	// policy depending on your use case. This will provide more explicit control
-	// over acking.
+	// receive them.
 	fmt.Println("\n# Durable (AddConsumer)")
 
 	consumerName := "handler-2"
