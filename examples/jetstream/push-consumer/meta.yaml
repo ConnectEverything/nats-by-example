@@ -1,0 +1,22 @@
+title: Push Consumers
+description: |-
+  A push consumer provides alternate control to a [pull consumer][1]. Rather
+  than _fetching_ messages in controlled (and appropriately sized) batches
+  to be processed, with a push consumer, the server will proactively _push_
+  as many messages to the active subscription up to the consumer's *max ack pending* limit.
+
+  In the happy path, the subscription receiving these messages can keep up
+  and acknowledge the message prior to the *ack wait* time has elapsed.
+
+  Where push consumers can get unwieldy and confusing is when the subscriber
+  *cannot* keep up, message processing errors start occurring, or the
+  active subscription gets interrupted. Messages start getting redelivered
+  and being interleaving with new messages pushed from the stream.
+
+  In practice, _ephemeral_ push consumers can be a lightweight and useful
+  way to do one-off consumption of a subset of messages in a stream.
+  However, if you have a durable use case, it is recommended to access
+  [pull consumers][1] first which provides more control and implicit
+  support for scaling out consumption.
+
+  [1]: /examples/jetstream/pull-consumer/go/
