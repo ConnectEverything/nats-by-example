@@ -139,23 +139,25 @@ func main() {
 	wg.Add(6)
 
 	// For this part, we will use async core NATS queue subscriptions. Since
-	// we are using an *async* subscription here, by default, messages will
-	// be ack'ed automatically (even if there is an error during processing).
-	// To change this to require _manual_ ack-ing by the subscription, we can
-	// use `nats.ManualAck()` which is shown in the third subscription.
+	// core NATS subscriptions are JetStream-unaware, we must call `msg.Ack`
+	// explicitly to notify the server that the message has been processed.
+	// For a `js.QueueSubscribe` handler, by default, messages will be auto-acked
+	// unless the `nats.ManualAck` subscription option is supplied.
 	sub1, _ = nc.QueueSubscribe("my-subject", "event-processor", func(msg *nats.Msg) {
 		fmt.Printf("sub1: received message %q\n", msg.Subject)
+		msg.Ack()
 		wg.Done()
 	})
 	sub2, _ = nc.QueueSubscribe("my-subject", "event-processor", func(msg *nats.Msg) {
 		fmt.Printf("sub2: received message %q\n", msg.Subject)
+		msg.Ack()
 		wg.Done()
 	})
 	sub3, _ = nc.QueueSubscribe("my-subject", "event-processor", func(msg *nats.Msg) {
 		fmt.Printf("sub3: received message %q\n", msg.Subject)
 		msg.Ack()
 		wg.Done()
-	}, nats.ManualAck())
+	})
 
 	wg.Wait()
 }
