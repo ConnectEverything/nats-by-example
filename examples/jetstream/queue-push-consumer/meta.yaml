@@ -1,0 +1,19 @@
+title: Queue Push Consumers
+description: |-
+  A queue push consumer is analogous to a [core NATS queue group][qg], but
+  designed to work with streams. Unlike a standard [push consumer][pc] which
+  only supports a single bound subscription at any time, a queue-based one
+  supports multiple subscriptions bound to the consumer. Messages from the
+  consumer will be distributed randomly among active subscribers which can
+  freely come and go.
+
+  In this example, we will demonstrate how to create an ephemeral and durable
+  queue push consumer and how to bind subscriptions to receive and process
+  messages.
+
+  *It is recommended to review the standard [push consumer][pc] example in
+  order to understand the general concepts. The queue-based variant is a
+  small extension to this type of consumer.*
+
+  [qg]: https://docs.nats.io/nats-concepts/core-nats/queue
+  [pc]: /examples/jetstream/push-consumer/go/
