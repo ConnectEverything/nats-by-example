@@ -141,7 +141,7 @@ func main() {
 	wg := &sync.WaitGroup{}
 	wg.Add(6)
 
-	// For this part, we will use async core NATS queu subscriptions.
+	// For this part, we will use async core NATS queue subscriptions.
 	sub1, _ = nc.QueueSubscribe("my-subject", "event-processor", func(msg *nats.Msg) {
 		fmt.Printf("sub1: received message %q\n", msg.Subject)
 		wg.Done()
