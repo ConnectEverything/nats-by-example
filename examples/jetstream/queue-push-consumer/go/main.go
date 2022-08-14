@@ -34,25 +34,21 @@ func main() {
 		Subjects: []string{"events.>"},
 	})
 
-	// ### Ephemeral
+	// ### Durable (implicit)
 	// Like the standard [push consumer][1], the `JetStreamContext` provides
-	// a simple way to create an ephemeral queue push consumer. The only
-	// additional argument is the "group name".
+	// a simple way to create an queue push consumer. The only additional
+	// argument is the "group name". If `nats.Durable` is not passed, the
+	// group name is used as the durable name as well.
 	// [1]: /examples/jetstream/push-consumer/go/
-	fmt.Println("# Ephemeral")
+	fmt.Println("# Durable (implicit)")
 	sub1, _ := js.QueueSubscribeSync("events.>", "event-processor", nats.AckExplicit())
-
-	// Since we know this is the only consumer, we can determine the name
-	// by fetching the first name from the "consumer names" API.
-	ephemeralName := <-js.ConsumerNames(streamName)
-	fmt.Printf("ephemeral name is %q\n", ephemeralName)
 
 	// If we inspect the consumer info, we will notice a property that
 	// was not defined for the non-queue push consumer. The `DeliverGroup`
 	// is the unique name of the group of subscribers. Internally, this
 	// corresponds to a core NATS queue group name which we will see
 	// below.
-	info, _ := js.ConsumerInfo(streamName, ephemeralName)
+	info, _ := js.ConsumerInfo(streamName, "event-processor")
 	fmt.Printf("deliver group: %q\n", info.Config.DeliverGroup)
 
 	// Using the same helper method, we can create another subscription
@@ -114,20 +110,21 @@ func main() {
 		fmt.Println("sub3: receive timeout")
 	}
 
-	// Like all ephemeral consumers, once the subscription that created
-	// it unsubscribes (or calls `Drain`), the consumer will be deleted.
+	// Since we created this consumer using the helper method, when we unsubscribe
+	// (or call `Drain`), the consumer will be deleted.
 	sub1.Unsubscribe()
 	sub2.Unsubscribe()
 	sub3.Unsubscribe()
 
-	// ### Durable
+	// ### Durable (explicit)
 	// To create a (safe) durable consumer, use the `AddConsumer`
 	// method. Although it may seem redundant, a durable name *and*
 	// the deliver group name must be defined. This is simply because
 	// the durable name is used for all consumer types, while the
 	// deliver group is exclusive to the queue push consumer. In this
-	// example, the same name is used as convention.
-	fmt.Println("\n# Durable")
+	// example, the same name is used as convention which is what the helper
+	// method above did as well.
+	fmt.Println("\n# Durable (explicit)")
 
 	js.AddConsumer(streamName, &nats.ConsumerConfig{
 		Durable:        "event-processor",
@@ -141,7 +138,11 @@ func main() {
 	wg := &sync.WaitGroup{}
 	wg.Add(6)
 
-	// For this part, we will use async core NATS queue subscriptions.
+	// For this part, we will use async core NATS queue subscriptions. Since
+	// we are using an *async* subscription here, by default, messages will
+	// be ack'ed automatically (even if there is an error during processing).
+	// To change this to require _manual_ ack-ing by the subscription, we can
+	// use `nats.ManualAck()` which is shown in the third subscription.
 	sub1, _ = nc.QueueSubscribe("my-subject", "event-processor", func(msg *nats.Msg) {
 		fmt.Printf("sub1: received message %q\n", msg.Subject)
 		wg.Done()
@@ -152,8 +153,9 @@ func main() {
 	})
 	sub3, _ = nc.QueueSubscribe("my-subject", "event-processor", func(msg *nats.Msg) {
 		fmt.Printf("sub3: received message %q\n", msg.Subject)
+		msg.Ack()
 		wg.Done()
-	})
+	}, nats.ManualAck())
 
 	wg.Wait()
 }
