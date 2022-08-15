@@ -13,6 +13,10 @@ body, button, input, select, textarea {
   font-family: "Source Sans Pro",BlinkMacSystemFont,-apple-system,"Segoe UI","Roboto","Oxygen","Ubuntu","Cantarell","Fira Sans","Droid Sans","Helvetica Neue","Helvetica","Arial",sans-serif;
 }
 
+h3 {
+  margin: 0.7rem 0;
+}
+
 a {
   text-decoration: none;
 }
@@ -92,6 +96,20 @@ footer {
   margin: 0 auto;
 }
 
+.index-categories {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 20px;
+}
+
+.index-categories > * {
+  max-width: 480px;
+  flex-grow: 1;
+}
+
 .highlight {
   text-align: center;
   margin-bottom: 30px;
@@ -149,14 +167,18 @@ h1, h2, h3, h4, h5, h6 {
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: 20px;
+  padding: 10px;
   border-radius: 3px;
   background-color: #eee;
   margin-bottom: 30px;
 }
 
+.info .links ul {
+  margin-bottom: 0;
+}
+
 .info .language-tabs {
-  width: 30%;
+ /* width: 30%; */
 }
 
 .github-icon, .clipboard-icon {
@@ -171,7 +193,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .source-run pre {
   background-color: #ddd;
-  padding: 10px;
+  padding: 7px;
   border-radius: 3px;
 }
 
@@ -236,6 +258,7 @@ pre, code {
   width: 40%;
   margin-right: 5%;
   margin-bottom: 30px;
+  user-select: none;
 }
 
 .example-comment pre {
@@ -252,7 +275,7 @@ pre, code {
 }
 
 .title {
-  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Syntax highlighting... */

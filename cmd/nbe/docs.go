@@ -73,16 +73,19 @@ type indexCategory struct {
 }
 
 type indexData struct {
+	PageTitle  string
 	Categories []*indexCategory
 }
 
 type categoryData struct {
+	PageTitle   string
 	Title       string
 	Description template.HTML
 	Examples    []*Link
 }
 
 type exampleData struct {
+	PageTitle     string
 	CategoryTitle string
 	CategoryPath  string
 	Title         string
@@ -92,6 +95,7 @@ type exampleData struct {
 }
 
 type clientData struct {
+	PageTitle          string
 	CategoryTitle      string
 	CategoryPath       string
 	ExampleTitle       string
@@ -168,6 +172,7 @@ func generateDocs(root *Root, dir string) error {
 	}
 
 	ix := indexData{
+		PageTitle:  "NATS by Example",
 		Categories: ics,
 	}
 
@@ -280,7 +285,7 @@ func generateDocs(root *Root, dir string) error {
 					ExampleDescription: ex.Description,
 					Path:               i.Path,
 					RunPath:            strings.TrimPrefix(i.Path, "examples/"),
-					SourceURL:          "https://github.com/bruth/nats-by-example/tree/main/" + i.Path,
+					SourceURL:          "https://github.com/ConnectEverything/nats-by-example/tree/main/" + i.Path,
 					AsciinemaURL:       template.URL(castFile),
 					Output:             string(outputBytes),
 					Links:              links,
@@ -288,6 +293,8 @@ func generateDocs(root *Root, dir string) error {
 					Blocks:             rblocks,
 					JSEscaped:          i.Source,
 				}
+
+				ix.PageTitle = fmt.Sprintf("NATS by Example - %s (%s)", ix.ExampleTitle, ix.Language)
 
 				buf.Reset()
 				err = it.Execute(buf, &ix)
