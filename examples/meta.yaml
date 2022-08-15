@@ -1,5 +1,7 @@
 categories:
   - messaging
-  - connecting
+  - jetstream
   - auth
-  - operations
+  - topologies
+  #- operations
+  #- connecting

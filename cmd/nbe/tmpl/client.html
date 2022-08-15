@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
 <head>
-	{{template "head"}}
+	{{template "head" .}}
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:creator" content="@thedevel" />
   <meta name="twitter:title" content="{{.ExampleTitle}} ({{.Language}})" />
@@ -29,6 +29,17 @@
       {{$currentPath := .Path}}
 
       <div class="info">
+        <!--
+        <div class="links">
+          Jump to..
+          <ul>
+            <li><a href="#code">Code</a></li>
+            <li><a href="#output">Output</a></li>
+            <li><a href="#recording">Recording</a></li>
+          </ul>
+        </div>
+        -->
+
         <div class="language-tabs">
           {{range .Links}}
           {{if eq .Path $currentPath}}
@@ -39,19 +50,17 @@
           <span class="inactive" title="Not yet implemented">{{.Label}}</span>
           {{end}}
           {{end}}
+          <div><small>Jump to the <a href="#output">output</a> or the <a href="#recording">recording</a></small></div>
         </div>
 
         <div class="source-run">
-          <div class="links">
-            <img class="github-icon" src="/github-mark.svg" alt="GitHub Mark"/>
-            <a href="{{.SourceURL}}" target=_blank>Source code</a>
-          </div>
           <pre>$ nbe run {{.RunPath}}</pre>
-          <small><a target=_blank href="https://github.com/bruth/nats-by-example/#getting-started">Learn</a> how to run this example.</small>
+          <small>
+            View the <a href="{{.SourceURL}}" target=_blank>source code</a> or
+            <a target=_blank href="https://github.com/ConnectEverything/nats-by-example/#getting-started">learn</a> how to run this example yourself</small>
         </div>
-      </div>
 
-      <div class="highlight">Check out a <a href="#recording">recording</a> of the code executing and the <a href="#output">output</a> below!</div>
+      </div>
 
       <h3 id="code">Code</h3>
 
@@ -69,13 +78,12 @@
       {{end}}
       </div>
 
-      <h3 id="recording">Recording</h3>
-      <div class="quiet text-center">Note, playback is 1/5 the speed to make it a bit easier to follow.</div>
-      <div id="asciinema"></div>
-
       <h3 id="output">Output</h3>
-
       <pre class="output">{{.Output}}</pre>
+
+      <h3 id="recording">Recording</h3>
+      <div class="quiet text-center">Note, playback is half speed to make it a bit easier to follow.</div>
+      <div id="asciinema"></div>
 
     </div>
   </main>
@@ -87,8 +95,7 @@
       cols: 120,
       rows: 24,
       fit: false,
-      // TODO: make this user configurable?
-      speed: 0.2,
+      speed: 0.5,
       terminalFontSize: "14px",
       terminalFontFamily: "'Roboto Mono', 'JetBrains Mono', 'Source Code Pro', 'FreeMono', monospace",
       terminalFontHeight: 1.4,

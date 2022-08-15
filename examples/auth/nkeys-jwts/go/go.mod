@@ -1,4 +1,4 @@
-module github.com/bruth/nats-by-example/examples/auth/nkeys-jwts/go
+module github.com/ConnectEverything/nats-by-example/examples/auth/nkeys-jwts/go
 
 go 1.18
 

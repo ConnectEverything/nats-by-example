@@ -1,4 +1,4 @@
-module github.com/bruth/nats-by-example/go
+module github.com/ConnectEverything/nats-by-example/go
 
 go 1.18
 

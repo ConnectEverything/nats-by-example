@@ -1,4 +1,4 @@
-module github.com/bruth/nats-by-example/examples/jetstream/pull-consumer/go
+module github.com/ConnectEverything/nats-by-example/examples/jetstream/pull-consumer/go
 
 go 1.18
 

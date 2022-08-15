@@ -18,7 +18,7 @@ There are three primary goals of this repo:
 
 The recommended way to get started is to browse the [website](https://natsbyexample.com) which provides nicer navigation and presentation for the example code in this repo.
 
-When you want to actually execute the example code, you can clone this repo, download the [`nbe`](https://github.com/bruth/nats-by-example/releases) CLI and use the `run` command at the root of the repo. For example:
+When you want to actually execute the example code, you can clone this repo, download the [`nbe`](https://github.com/ConnectEverything/nats-by-example/releases) CLI and use the `run` command at the root of the repo. For example:
 
 ```sh
 $ nbe run messaging/pub-sub/cli
@@ -30,7 +30,7 @@ Currently, the `nbe` CLI depends on [Docker](https://docs.docker.com) and [Compo
 
 The name of the example corresponds to the directory structure under `examples/`, specifically `<category>/<example>/<client>`.
 
-Have questions, issues, or suggestions? Please open [start a discussion](https://github.com/bruth/nats-by-example/discussions) or open [an issue](https://github.com/bruth/nats-by-example/issues).
+Have questions, issues, or suggestions? Please open [start a discussion](https://github.com/ConnectEverything/nats-by-example/discussions) or open [an issue](https://github.com/ConnectEverything/nats-by-example/issues).
 
 ## Design
 
