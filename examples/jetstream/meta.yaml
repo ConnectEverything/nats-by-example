@@ -9,6 +9,6 @@ examples:
   - pull-consumer
   - pull-consumer-limits
   - push-consumer
-    #  - push-queue-consumer
+  - queue-push-consumer
     #  - workqueue-stream
     #  - interests-stream
