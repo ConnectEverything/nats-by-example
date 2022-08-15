@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"io/fs"
 	"io/ioutil"
@@ -30,6 +31,7 @@ var (
 			&imageCmd,
 			&serveCmd,
 			&generateCmd,
+			&ejectCmd,
 		},
 	}
 
@@ -57,6 +59,37 @@ var (
 
 			fmt.Println(image)
 			return nil
+		},
+	}
+
+	ejectCmd = cli.Command{
+		Name:  "eject",
+		Usage: "Eject the example source files to a new directory.",
+		Action: func(c *cli.Context) error {
+			example := c.Args().Get(0)
+			dir := c.Args().Get(1)
+
+			if example == "" {
+				return errors.New("example name is required")
+			}
+
+			if dir == "" {
+				return errors.New("output directory must be specified")
+			}
+
+			repo, err := os.Getwd()
+			if err != nil {
+				return err
+			}
+
+			b := Ejecter{
+				Repo:    repo,
+				Example: example,
+				Dir:     dir,
+				Verbose: true,
+			}
+
+			return b.Run()
 		},
 	}
 
