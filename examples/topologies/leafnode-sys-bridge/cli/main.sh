@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -xeuo pipefail
+set -euo pipefail
 
 NATS_HUB_URL="nats://0.0.0.0:4222"
 NATS_LEAF1_URL="nats://0.0.0.0:4223"
@@ -128,7 +128,7 @@ HUB_PID=$!
 sleep 1
 
 # Push the OPS account.
-nsc env -o hub > /dev/null
+nsc env -o hub 2> /dev/null
 nsc push -a OPS
 
 # Now start the two leaf nodes and ensure they startup.
@@ -142,7 +142,7 @@ sleep 2
 
 # Define a context which connects to the hub using
 # the ops user.
-nsc env -o hub > /dev/null
+nsc env -o hub 2> /dev/null
 nats context save \
   --server=$NATS_HUB_URL \
   --nsc=nsc://hub/OPS/ops \
