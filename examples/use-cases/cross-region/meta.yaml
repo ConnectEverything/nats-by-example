@@ -1,0 +1,11 @@
+title: Regional and Cross Region Streams
+description: |-
+  This example demonstrates a way to setup a cluster and server tags
+  for supporting both single-region and cross-region streams.
+
+  The use case is for streams that are resilient to regional failures
+  by having replicas spread out across three different regions. This
+  of course comes at a cost of latency, but this trade-off may be
+  appropriate for streams that are critical, but are not latency
+  sensitive.
+
