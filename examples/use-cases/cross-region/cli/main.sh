@@ -32,7 +32,15 @@ routes: [
 ] 
 EOF
 
-# Define nine server configurations 
+# Define nine server configurations modeling a cluster with three nodes
+# in each region across three availability zones (AZs). NATS does not
+# currently support declaring tags with logical OR, so valid
+# combinations can be precomputed as tags and then used when creating
+# streams. In this case, the `xr:` tag encodes the cluster/AZ combination.
+# Each index corresponds to a region (e.g us-east) and the value at the
+# index corresponds to an AZ, e.g. us-east4.
+# A tag `xr:231` can be read as a cross-region stream where the replica
+# in region 1 is AZ 2, region 2 is AZ 3and region 3 is AZ 1.
 cat <<- EOF > "rg1-az1.conf"
 server_name: rg1-az1
 server_tags: [rg:1, az:1, xr:111, xr:112, xr:113, xr:121, xr:122, xr:123, xr:131, xr:132, xr:133]
@@ -145,11 +153,6 @@ nats --user sys --password sys server list
 nats --user sys --password sys server report jetstream
 
 # Create a cross-region stream using one of the pre-defined `xr:` tags.
-# NATS does not currently support declaring tags with logical OR, so valid
-# combinations can be precomputed as tags and then used when creating
-# streams. In this case, the `xr:113` means _cross-region_ and each index
-# corresponds to a region and each value in that index corresponds to an
-# AZ, e.g a stream in AZ 1 for regions 1 and 2 and AZ 3 for region 3. 
 nats --user user --password user stream add \
   --tag=xr:113 \
   --retention=limits \
