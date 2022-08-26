@@ -1,3 +1,5 @@
 title: Use Cases
 description: |-
   Cross-functional examples satisfying a use case.
+examples:
+  - cross-region-streams-cluster
