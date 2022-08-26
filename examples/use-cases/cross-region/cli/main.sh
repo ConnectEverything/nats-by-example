@@ -48,6 +48,7 @@ cat <<- EOF > "rg1-az1.conf"
 server_name: rg1-az1
 server_tags: [rg:1, az:1, xr:123, xr:132]
 port: 4222
+http_port: 8222
 include shared.conf
 cluster: {
   port: 6222
@@ -150,9 +151,14 @@ for c in $(ls rg*.conf); do
   sleep 1
 done
 
-# Show the server lit and JetStream report to ensure the nodes are up
-# and JetStream is healthy.
-nats --user sys --password sys server info
+# Wait until the servers up and healthy.
+echo 'Healthy?'
+curl --fail --silent \
+  --retry 5 \
+  --retry-delay 1 \
+  http://localhost:8222/healthz; echo
+
+# Show the server lit and JetStream report.
 nats --user sys --password sys server list
 nats --user sys --password sys server report jetstream
 
