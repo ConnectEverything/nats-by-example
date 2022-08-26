@@ -147,6 +147,7 @@ EOF
 # Start a server for each configuration and sleep a second in
 # between so the seeds can startup and get healthy.
 for c in $(ls rg*.conf); do
+  echo "Starting server ${c%.*}"
   nats-server -c $c > /dev/null 2>&1 &
   sleep 1
 done
@@ -166,7 +167,7 @@ nats --user sys --password sys server report jetstream
 nats --user user --password user stream add \
   --tag=xr:123 \
   --retention=limits \
-  --storage=memory \
+  --storage=file \
   --replicas=3 \
   --discard=old \
   --dupe-window=2m \
@@ -188,7 +189,7 @@ nats --user user --password user stream add \
 nats --user user --password user stream add \
   --tag=rg:2 \
   --retention=limits \
-  --storage=memory \
+  --storage=file \
   --replicas=3 \
   --discard=old \
   --dupe-window=2m \
