@@ -152,6 +152,7 @@ done
 
 # Show the server lit and JetStream report to ensure the nodes are up
 # and JetStream is healthy.
+nats --user sys --password sys server info
 nats --user sys --password sys server list
 nats --user sys --password sys server report jetstream
 
