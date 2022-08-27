@@ -4,4 +4,3 @@ description: |-
   version. Rather than a supercluster, this relies on a nine
   node cluster spread out across three regions and three availability
   zones each.
-
