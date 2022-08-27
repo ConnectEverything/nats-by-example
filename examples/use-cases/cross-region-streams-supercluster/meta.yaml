@@ -1,0 +1,11 @@
+title: Regional and Cross Region Streams (Supercluster)
+description: |-
+  This example demonstrates the configuration required to setup a three
+  regional clusters and a cross-region cluster that form a supercluster.
+
+  The use case is for streams that are resilient to regional failures
+  by having replicas spread out across three different regions. This
+  of course comes at a cost of latency, but this trade-off may be appropriate
+  for streams that are critical for availability, but can tolerate slightly
+  higher latencies.
+
