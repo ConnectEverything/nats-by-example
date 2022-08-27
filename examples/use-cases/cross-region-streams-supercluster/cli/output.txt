@@ -1,0 +1,163 @@
+Network ee826424_default  Creating
+Network ee826424_default  Created
+Starting server rg1-az1-x
+Starting server rg1-az1
+Starting server rg1-az2
+Starting server rg1-az3
+Starting server rg2-az1
+Starting server rg2-az2-x
+Starting server rg2-az2
+Starting server rg2-az3
+Starting server rg3-az1
+Starting server rg3-az2
+Starting server rg3-az3-x
+Starting server rg3-az3
+Cluster 1 healthy?
+{"status":"ok"}
+Cluster 2 healthy?
+{"status":"ok"}
+Cluster 3 healthy?
+{"status":"ok"}
+Cluster 4 healthy?
+{"status":"ok"}
+Server information for rg2-az1 (NAV3DVFOA2F6EFPFLPQXVNPRHNTLLBUPSK3QWZUOE7WYLLMLJ3M4W2DB)
+
+Process Details:
+
+         Version: 2.9.0-RC.11
+      Git Commit: d73ca7d4
+      Go Version: go1.19
+      Start Time: 2022-08-27 10:01:24.241711315 +0000 UTC
+          Uptime: 10s
+
+Connection Details:
+
+   Auth Required: true
+    TLS Required: false
+            Host: 0.0.0.0:4225
+     Client URLs: 172.18.0.2:4225
+                  172.18.0.2:4226
+                  172.18.0.2:4227
+
+JetStream:
+
+              Domain: 
+   Storage Directory: /tmp/nats/jetstream
+          Max Memory: 5.1 GiB
+            Max File: 24 GiB
+      Active Acconts: 1
+       Memory In Use: 0 B
+         File In Use: 0 B
+        API Requests: 0
+          API Errors: 0
+
+Limits:
+
+        Max Conn: 65536
+        Max Subs: 0
+     Max Payload: 1.0 MiB
+     TLS Timeout: 2s
+  Write Deadline: 10s
+
+Statistics:
+
+       CPU Cores: 2 1.00%
+          Memory: 17 MiB
+     Connections: 0
+   Subscriptions: 144
+            Msgs: 246 in 488 out
+           Bytes: 159 KiB in 217 KiB out
+  Slow Consumers: 0
+
+Cluster:
+
+            Name: rg2
+            Tags: az:1
+            Host: 0.0.0.0:6225
+            URLs: 127.0.0.1:6225
+                  127.0.0.1:6226
+                  127.0.0.1:6227
+
+Super Cluster:
+
+            Name: rg2
+            Host: 0.0.0.0:7225
+        Clusters: rg1
+                  rg2
+                  rg3
+                  xr
+
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                       Server Overview                                                        │
+├───────────┬────────────┬────────────┬─────────────┬─────┬───────┬───────┬────────┬─────┬─────────┬─────┬──────┬────────┬─────┤
+│ Name      │ Cluster    │ IP         │ Version     │ JS  │ Conns │ Subs  │ Routes │ GWs │ Mem     │ CPU │ Slow │ Uptime │ RTT │
+├───────────┼────────────┼────────────┼─────────────┼─────┼───────┼───────┼────────┼─────┼─────────┼─────┼──────┼────────┼─────┤
+│ rg1-az1   │ rg1        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 1     │ 145   │ 2      │ 3   │ 16 MiB  │ 1.0 │ 0    │ 13.17s │ 3ms │
+│ rg2-az2-x │ xr         │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 153   │ 2      │ 3   │ 18 MiB  │ 1.0 │ 0    │ 9.16s  │ 3ms │
+│ rg1-az3   │ rg1        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 145   │ 2      │ 3   │ 16 MiB  │ 1.0 │ 0    │ 11.16s │ 3ms │
+│ rg1-az2   │ rg1        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 145   │ 2      │ 3   │ 16 MiB  │ 1.0 │ 0    │ 12.17s │ 3ms │
+│ rg1-az1-x │ xr         │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 153   │ 2      │ 3   │ 16 MiB  │ 1.0 │ 0    │ 14.17s │ 3ms │
+│ rg3-az2   │ rg3        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 16 MiB  │ 2.0 │ 0    │ 5.15s  │ 4ms │
+│ rg3-az3-x │ xr         │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 153   │ 2      │ 3   │ 17 MiB  │ 2.0 │ 0    │ 4.15s  │ 4ms │
+│ rg2-az2   │ rg2        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 16 MiB  │ 2.0 │ 0    │ 8.16s  │ 4ms │
+│ rg2-az1   │ rg2        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 17 MiB  │ 1.0 │ 0    │ 10.16s │ 4ms │
+│ rg2-az3   │ rg2        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 16 MiB  │ 1.0 │ 0    │ 7.16s  │ 4ms │
+│ rg3-az1   │ rg3        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 17 MiB  │ 1.0 │ 0    │ 6.16s  │ 4ms │
+│ rg3-az3   │ rg3        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 14 MiB  │ 1.0 │ 0    │ 3.14s  │ 4ms │
+├───────────┼────────────┼────────────┼─────────────┼─────┼───────┼───────┼────────┼─────┼─────────┼─────┼──────┼────────┼─────┤
+│           │ 4 Clusters │ 12 Servers │             │ 12  │ 1     │ 1,758 │        │     │ 195 MiB │     │ 0    │        │     │
+╰───────────┴────────────┴────────────┴─────────────┴─────┴───────┴───────┴────────┴─────┴─────────┴─────┴──────┴────────┴─────╯
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│                              Cluster Overview                              │
+├─────────┬────────────┬───────────────────┬───────────────────┬─────────────┤
+│ Cluster │ Node Count │ Outgoing Gateways │ Incoming Gateways │ Connections │
+├─────────┼────────────┼───────────────────┼───────────────────┼─────────────┤
+│ xr      │ 3          │ 9                 │ 9                 │ 0           │
+│ rg3     │ 3          │ 9                 │ 9                 │ 0           │
+│ rg2     │ 3          │ 9                 │ 9                 │ 0           │
+│ rg1     │ 3          │ 9                 │ 9                 │ 1           │
+├─────────┼────────────┼───────────────────┼───────────────────┼─────────────┤
+│         │ 12         │ 36                │ 36                │ 1           │
+╰─────────┴────────────┴───────────────────┴───────────────────┴─────────────╯
+╭───────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                         JetStream Summary                                         │
+├────────────┬─────────┬─────────┬───────────┬──────────┬───────┬────────┬──────┬─────────┬─────────┤
+│ Server     │ Cluster │ Streams │ Consumers │ Messages │ Bytes │ Memory │ File │ API Req │ API Err │
+├────────────┼─────────┼─────────┼───────────┼──────────┼───────┼────────┼──────┼─────────┼─────────┤
+│ rg1-az1    │ rg1     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg1-az2    │ rg1     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg1-az3    │ rg1     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg2-az1    │ rg2     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg2-az2    │ rg2     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg2-az3    │ rg2     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg3-az1    │ rg3     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg3-az2    │ rg3     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg3-az3    │ rg3     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg3-az3-x  │ xr      │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg2-az2-x  │ xr      │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg1-az1-x* │ xr      │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+├────────────┼─────────┼─────────┼───────────┼──────────┼───────┼────────┼──────┼─────────┼─────────┤
+│            │         │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+╰────────────┴─────────┴─────────┴───────────┴──────────┴───────┴────────┴──────┴─────────┴─────────╯
+
+╭──────────────────────────────────────────────────────╮
+│             RAFT Meta Group Information              │
+├───────────┬────────┬─────────┬────────┬────────┬─────┤
+│ Name      │ Leader │ Current │ Online │ Active │ Lag │
+├───────────┼────────┼─────────┼────────┼────────┼─────┤
+│ rg1-az1   │        │ true    │ true   │ 0.85s  │ 0   │
+│ rg1-az1-x │ yes    │ true    │ true   │ 0.00s  │ 0   │
+│ rg1-az2   │        │ true    │ true   │ 0.84s  │ 0   │
+│ rg1-az3   │        │ true    │ true   │ 0.85s  │ 0   │
+│ rg2-az1   │        │ true    │ true   │ 0.85s  │ 0   │
+│ rg2-az2   │        │ true    │ true   │ 0.83s  │ 0   │
+│ rg2-az2-x │        │ true    │ true   │ 0.85s  │ 0   │
+│ rg2-az3   │        │ true    │ true   │ 0.84s  │ 0   │
+│ rg3-az1   │        │ true    │ true   │ 0.84s  │ 0   │
+│ rg3-az2   │        │ true    │ true   │ 0.84s  │ 0   │
+│ rg3-az3   │        │ true    │ true   │ 0.84s  │ 0   │
+│ rg3-az3-x │        │ true    │ true   │ 0.84s  │ 0   │
+╰───────────┴────────┴─────────┴────────┴────────┴─────╯
+nats: error: could not create Stream: raft: corrupt peer state (10049)
+exit status 1
