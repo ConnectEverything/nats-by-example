@@ -1,0 +1,8 @@
+title: Iterating Over Multiple Subscriptions
+description: |-
+  Core NATS subscription support flexible subject model with tokens and wildcards, 
+  but there are cases that require setting up separate subscriptions
+  (i.e. user want `transport.cars`, `transport.planes` and `transport.ships`, but not `transport.spaceships`). 
+
+  Such approach works and is performant, but not very convenient when reading the messages.
+  This example shows how to achieve required behaviour without sacrificing usability.

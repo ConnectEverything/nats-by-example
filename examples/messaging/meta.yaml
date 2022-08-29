@@ -12,3 +12,4 @@ examples:
   - request-reply
   - json
   - concurrent
+  - multiple-subjects-subscription
