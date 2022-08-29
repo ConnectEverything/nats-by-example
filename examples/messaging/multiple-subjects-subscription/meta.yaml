@@ -4,5 +4,5 @@ description: |-
   but there are cases that require setting up separate subscriptions
   (i.e. user want `transport.cars`, `transport.planes` and `transport.ships`, but not `transport.spaceships`). 
 
-  Such approach works and is performant, but not very convinient when reading the messages.
+  Such approach works and is performant, but not very convenient when reading the messages.
   This example shows how to achieve required behaviour without sacrificing usability.
