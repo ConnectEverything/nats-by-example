@@ -1,4 +1,4 @@
-title: Iterating over many subscriptions
+title: Iterating Over Multiple Subscriptions
 description: |-
   Core NATS subscription support flexible subject model with tokens and wildcards, 
   but there are cases that require setting up separate subscriptions
