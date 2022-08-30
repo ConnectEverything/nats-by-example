@@ -85,9 +85,18 @@ func main() {
 	// limits, etc.
 	userClaims := jwt.NewUserClaims(userPub)
 	userClaims.Name = "my-user"
+
+	userClaims.Limits.Data = 1024 * 1024 * 1024
+
+	userClaims.Permissions.Pub.Allow.Add("foo.>", "bar.>")
+	userClaims.Permissions.Sub.Allow.Add("_INBOX.>")
+
 	fmt.Printf("userclaims: %s\n", userClaims)
 
 	// Sign and encode the claims as a JWT.
 	userJWT, _ := userClaims.Encode(accountKP)
 	fmt.Printf("user jwt: %s\n", userJWT)
+
+	creds, _ := jwt.FormatUserConfig(userJWT, userSeed)
+	fmt.Printf("creds file: %s\n", creds)
 }
