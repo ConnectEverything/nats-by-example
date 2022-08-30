@@ -1,0 +1,72 @@
+Network 2e8e6518_default  Creating
+Network 2e8e6518_default  Created
+Container 2e8e6518-nats-1  Creating
+Container 2e8e6518-nats-1  Created
+Container 2e8e6518-nats-1  Starting
+Container 2e8e6518-nats-1  Started
+operator pubkey: ODJYOQPYACIMINS44K57DE4QUJKCZGO4P4FGW4IXBOYHJCU3XEPG4VTO
+operator seed: SOACJRFYT7QVYHFLYNMU6CRJLOJHEF7FXENQY3EI6JQ77D5T7VGT4XLWPY
+
+account pubkey: AC5FLVXRZIJFL376IPDDHD5SVXG3UIOME3XKEQF33RP2IZRSC2GZH56R
+account seed: SAAOQIKWLPYG4N46FENZH5WGOAH7Y2CTL7FM5BRKTDAPPFP3B5NLPJQFR4
+account claims: {
+  "name": "my-account",
+  "sub": "AC5FLVXRZIJFL376IPDDHD5SVXG3UIOME3XKEQF33RP2IZRSC2GZH56R",
+  "nats": {
+    "limits": {
+      "subs": -1,
+      "data": -1,
+      "payload": -1,
+      "imports": -1,
+      "exports": -1,
+      "wildcards": true,
+      "conn": -1,
+      "leaf": -1,
+      "mem_storage": -1,
+      "disk_storage": -1
+    },
+    "default_permissions": {
+      "pub": {},
+      "sub": {}
+    }
+  }
+}
+account jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJRTEFOS1NRM1pGQlFQQTNFU0NaMkIzV0tUUE1BVE1MRjUzQUE0RUU1VEFTS1BUR1dKMk9BIiwiaWF0IjoxNjYxODU3MjEzLCJpc3MiOiJPREpZT1FQWUFDSU1JTlM0NEs1N0RFNFFVSktDWkdPNFA0RkdXNElYQk9ZSEpDVTNYRVBHNFZUTyIsIm5hbWUiOiJteS1hY2NvdW50Iiwic3ViIjoiQUM1RkxWWFJaSUpGTDM3NklQRERIRDVTVlhHM1VJT01FM1hLRVFGMzNSUDJJWlJTQzJHWkg1NlIiLCJuYXRzIjp7ImxpbWl0cyI6eyJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJpbXBvcnRzIjotMSwiZXhwb3J0cyI6LTEsIndpbGRjYXJkcyI6dHJ1ZSwiY29ubiI6LTEsImxlYWYiOi0xLCJtZW1fc3RvcmFnZSI6LTEsImRpc2tfc3RvcmFnZSI6LTF9LCJkZWZhdWx0X3Blcm1pc3Npb25zIjp7InB1YiI6e30sInN1YiI6e319LCJ0eXBlIjoiYWNjb3VudCIsInZlcnNpb24iOjJ9fQ.cNqsTEs2VwUDGnj2uR8rX9XJY6CS_ufFUZLa6b3aLSfq4J37_lFxJn42A5EyE83eoHENEDafYwQsilzVs78_Bg
+
+user pubkey: UBV7HZLSEQH36GYOWBEUYJM7SPE3GBVXVUMGH7VVN6MNSE7NZEATEHWL
+user seed: SUABGKWO4LNUFRZLEFE5WAMMOWONSX3EK6OHKNVUHWJ3WBNZNELB4BONBI
+userclaims: {
+  "name": "my-user",
+  "sub": "UBV7HZLSEQH36GYOWBEUYJM7SPE3GBVXVUMGH7VVN6MNSE7NZEATEHWL",
+  "nats": {
+    "pub": {
+      "allow": [
+        "foo.\u003e",
+        "bar.\u003e"
+      ]
+    },
+    "sub": {
+      "allow": [
+        "_INBOX.\u003e"
+      ]
+    },
+    "subs": -1,
+    "data": 1073741824,
+    "payload": -1
+  }
+}
+user jwt: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJVMzNQSUVKTjdGNElTSFBaN0NRRENaRlNOWE1WSVQyUVIyV1NXN1ZLS0pPQjVBT1VZT1pBIiwiaWF0IjoxNjYxODU3MjEzLCJpc3MiOiJBQzVGTFZYUlpJSkZMMzc2SVBEREhENVNWWEczVUlPTUUzWEtFUUYzM1JQMklaUlNDMkdaSDU2UiIsIm5hbWUiOiJteS11c2VyIiwic3ViIjoiVUJWN0haTFNFUUgzNkdZT1dCRVVZSk03U1BFM0dCVlhWVU1HSDdWVk42TU5TRTdOWkVBVEVIV0wiLCJuYXRzIjp7InB1YiI6eyJhbGxvdyI6WyJmb28uXHUwMDNlIiwiYmFyLlx1MDAzZSJdfSwic3ViIjp7ImFsbG93IjpbIl9JTkJPWC5cdTAwM2UiXX0sInN1YnMiOi0xLCJkYXRhIjoxMDczNzQxODI0LCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.mxbVHby1tQXP3FdfW-geoGJlKkONgH-l4nSjOTrpf0iZgoSU9VgRrEEmDdE569t6MvujgyBuYZrQyZ0yIiy9CQ
+creds file: -----BEGIN NATS USER JWT-----
+eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJVMzNQSUVKTjdGNElTSFBaN0NRRENaRlNOWE1WSVQyUVIyV1NXN1ZLS0pPQjVBT1VZT1pBIiwiaWF0IjoxNjYxODU3MjEzLCJpc3MiOiJBQzVGTFZYUlpJSkZMMzc2SVBEREhENVNWWEczVUlPTUUzWEtFUUYzM1JQMklaUlNDMkdaSDU2UiIsIm5hbWUiOiJteS11c2VyIiwic3ViIjoiVUJWN0haTFNFUUgzNkdZT1dCRVVZSk03U1BFM0dCVlhWVU1HSDdWVk42TU5TRTdOWkVBVEVIV0wiLCJuYXRzIjp7InB1YiI6eyJhbGxvdyI6WyJmb28uXHUwMDNlIiwiYmFyLlx1MDAzZSJdfSwic3ViIjp7ImFsbG93IjpbIl9JTkJPWC5cdTAwM2UiXX0sInN1YnMiOi0xLCJkYXRhIjoxMDczNzQxODI0LCJwYXlsb2FkIjotMSwidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyfX0.mxbVHby1tQXP3FdfW-geoGJlKkONgH-l4nSjOTrpf0iZgoSU9VgRrEEmDdE569t6MvujgyBuYZrQyZ0yIiy9CQ
+------END NATS USER JWT------
+
+************************* IMPORTANT *************************
+NKEY Seed printed below can be used to sign and prove identity.
+NKEYs are sensitive and should be treated as secrets.
+
+-----BEGIN USER NKEY SEED-----
+SUABGKWO4LNUFRZLEFE5WAMMOWONSX3EK6OHKNVUHWJ3WBNZNELB4BONBI
+------END USER NKEY SEED------
+
+*************************************************************
+
