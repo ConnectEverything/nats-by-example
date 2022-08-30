@@ -59,7 +59,7 @@ func main() {
 	// To activate this account, it must be pushed up to the server using a client
 	// connection authenticated as the SYS account user:
 	// ```go
-	// nc.Request("$SYS.REQ.CLAIMS.UPDATE", []byte(accountJWT))
+	// nc.Request("$SYS.REQ.CLAIMS.UPDATE", []byte(accountJWT), time.Second)
 	// ```
 	// If you copy the JWT output to https://jwt.io, you will notice the `iss`
 	// field is set to the operator public key.
@@ -97,6 +97,8 @@ func main() {
 	userJWT, _ := userClaims.Encode(accountKP)
 	fmt.Printf("user jwt: %s\n", userJWT)
 
+	// Produce the _decorated_ credentials that can be written to a file
+	// and used by connecting clients.
 	creds, _ := jwt.FormatUserConfig(userJWT, userSeed)
 	fmt.Printf("creds file: %s\n", creds)
 }
