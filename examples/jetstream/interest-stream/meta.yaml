@@ -1,0 +1,29 @@
+title: Interest-based Stream
+description: |-
+  As the name suggests, the interest retention policy for a stream retains
+  messages for as long as there are consumers which have interest in a particular
+  message.
+
+  The base case is where there are no consumers for the streams and messages are being
+  appended. What happens to those messages? By definition, they are immediately deleted
+  from the stream since there are no consumers.
+
+  An interest-based stream provides a middle ground between an *at-most-once*
+  quality of service (QoS) that core NATS provides, requiring all subscribers to be
+  connected to receive a message, and a pure [limits-based stream][limits]. As long as
+  there are consumers for the stream whose subject filter overlaps with a message
+  appended to a stream, the message won't be deleted until a subscription bound to each
+  consumer has successfully acks the messgae, terminates it, or the max redelivery has
+  been reached.
+
+  Note that this retention policy is _additive_ to any limits set on the stream. As a
+  contrived example, if `max-msgs` is set to one with old messages being discarded,
+  every new message that is received by the stream will result in the prior message being
+  deleted regardless if any of the consumer subscriptions were available to process
+  the message.
+
+  In this example, we will walk through the limits-based retention behaviors in code.
+  If you are new to streams, it is recommended to read the [limits-based stream][limits]
+  example prior to reading this one.
+
+  [limits]: /examples/jetstream/limits-stream/go
