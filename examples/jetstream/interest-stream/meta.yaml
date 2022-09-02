@@ -13,7 +13,7 @@ description: |-
   connected to receive a message, and a pure [limits-based stream][limits]. As long as
   there are consumers for the stream whose subject filter overlaps with a message
   appended to a stream, the message won't be deleted until a subscription bound to each
-  consumer has successfully acks the messgae, terminates it, or the max redelivery has
+  consumer has successfully acks the message, terminates it, or the max redelivery has
   been reached.
 
   Note that this retention policy is _additive_ to any limits set on the stream. As a
@@ -22,8 +22,10 @@ description: |-
   deleted regardless if any of the consumer subscriptions were available to process
   the message.
 
-  In this example, we will walk through the limits-based retention behaviors in code.
+  In this example, we will walk through the interest-based retention behaviors in code.
   If you are new to streams, it is recommended to read the [limits-based stream][limits]
-  example prior to reading this one.
+  example prior to reading this one. Alternatively, if you are in need
+  of a stream behaving as a *queue*, check out the [work-queue stream][workqueue].
 
   [limits]: /examples/jetstream/limits-stream/go
+  [workqueue]: /examples/jetstream/workqueue-stream/go
