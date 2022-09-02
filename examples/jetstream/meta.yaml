@@ -6,9 +6,9 @@ description: |-
 
 examples:
   - limits-stream
+  - interest-stream
+  - workqueue-stream
   - pull-consumer
   - pull-consumer-limits
   - push-consumer
   - queue-push-consumer
-    #  - workqueue-stream
-    #  - interests-stream
