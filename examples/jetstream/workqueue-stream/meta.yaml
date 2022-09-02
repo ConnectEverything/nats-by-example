@@ -1,0 +1,29 @@
+title: Work-queue Stream
+description: |-
+  A _work-queue_ retention policy satisfies a very common use case of
+  queuing up messages that are intended to be processed **once and only
+  once**.
+
+  This retention policy supports queuing up messages from publishers
+  independent of consummption. Since each message is intended to be
+  processed only once, this retention type allows for a set of consumers
+  that have **non-overlapping** interest on subjects. In other words, if
+  multiple consumers are bound to a work-queue stream, they must have
+  disjoint filter subjects.
+  This is in constrast to a standard [limits-based][limits] or
+  [interest-based][interest] stream which supports multiple consumers
+  with overlapping interest.
+
+  Like the [interest policy][interest] this retention policy is _additive_
+  to any limits set on the stream. As a contrived example, if `max-msgs`
+  is set to one with old messages being discarded, every new message that
+  is received by the stream will result in the prior message being deleted
+  regardless if any subscriptions were available to process the message.
+
+  In this example, we will walk through the work-queue retention setup
+  and behavior. If you are new to streams, it is recommended to read the
+  [limits-based stream][limits] example prior to reading this one.
+
+  [limits]: /examples/jetstream/limits-stream/go
+  [interest]: /examples/jetstream/interest-stream/go
+
