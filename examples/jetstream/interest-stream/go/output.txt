@@ -1,0 +1,74 @@
+Network 41fa9692_default  Creating
+Network 41fa9692_default  Created
+Container 41fa9692-nats-1  Creating
+Container 41fa9692-nats-1  Created
+Container 41fa9692-nats-1  Starting
+Container 41fa9692-nats-1  Started
+created the stream
+published 3 messages
+last message seq: 3
+# Stream info without any consumers
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 4,
+ "first_ts": "2022-09-02T16:45:11.994503237Z",
+ "last_seq": 3,
+ "last_ts": "2022-09-02T16:45:11.994503237Z",
+ "consumer_count": 0
+}
+
+# Stream info with one consumer
+{
+ "messages": 2,
+ "bytes": 100,
+ "first_seq": 4,
+ "first_ts": "2022-09-02T16:45:11.996210249Z",
+ "last_seq": 5,
+ "last_ts": "2022-09-02T16:45:11.99637755Z",
+ "consumer_count": 1
+}
+
+# Stream info with one consumer and acked messages
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 6,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 5,
+ "last_ts": "2022-09-02T16:45:11.99637755Z",
+ "consumer_count": 1
+}
+msg seqs 6 and 7
+# Stream info with two consumers, but only one set of acked messages
+{
+ "messages": 2,
+ "bytes": 100,
+ "first_seq": 6,
+ "first_ts": "2022-09-02T16:45:12.000898683Z",
+ "last_seq": 7,
+ "last_ts": "2022-09-02T16:45:12.001069284Z",
+ "consumer_count": 2
+}
+
+# Stream info with two consumers having both acked
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 8,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 7,
+ "last_ts": "2022-09-02T16:45:12.001069284Z",
+ "consumer_count": 2
+}
+
+# Stream info with three consumers with interest from two
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 9,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 8,
+ "last_ts": "2022-09-02T16:45:12.004017306Z",
+ "consumer_count": 3
+}
