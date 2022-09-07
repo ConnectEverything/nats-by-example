@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  nats:
+    image: docker.io/synadia/nats-server:nightly
+    command:
+      - "--debug"
+      - "--http_port=8222"
+      - "--js"
+    ports:
+      - "14222:4222"
+      - "18222:8222"
+
+  app:
+    image: ${IMAGE_TAG}
+    environment:
+      - NATS_URL=nats://nats:4222
+    depends_on:
+      - nats
+
