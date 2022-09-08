@@ -148,7 +148,7 @@ func spawnPullSubscriber(ctx context.Context, js nats.JetStreamContext, bindOpt 
 		}
 		i++
 		// Sample fetches...
-		if i%100 == 0 {
+		if i%10 == 0 {
 			fmt.Printf("received %d msgs\n", len(msgs))
 		}
 
