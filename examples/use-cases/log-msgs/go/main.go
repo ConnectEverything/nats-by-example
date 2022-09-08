@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"sync"
 	"time"
 
 	"github.com/nats-io/nats.go"
@@ -28,8 +29,9 @@ func main() {
 	})
 
 	js.AddConsumer("EVENTS", &nats.ConsumerConfig{
-		Durable:   "PROCESSOR",
-		AckPolicy: nats.AckExplicitPolicy,
+		Durable:       "PROCESSOR",
+		AckPolicy:     nats.AckExplicitPolicy,
+		MaxAckPending: 5000,
 	})
 
 	/* Push...
@@ -46,13 +48,14 @@ func main() {
 	// Context to stop publishers after an explicit amount of time.
 	pctx, pcancel := context.WithTimeout(ctx, 2*time.Second)
 	defer pcancel()
-	startPublishers(pctx, nc, 250000, "events", 200)
+	wg := &sync.WaitGroup{}
+	startPublishers(pctx, nc, 250000, "events", 200, wg)
 
 	// Wait for publishers to be done.
-	<-pctx.Done()
+	wg.Wait()
 
 	sctx, scancel := context.WithCancel(ctx)
-	startPullSubscribers(sctx, nc, 5, nats.Bind("EVENTS", "PROCESSOR"))
+	startPullSubscribers(sctx, nc, 2, nats.Bind("EVENTS", "PROCESSOR"))
 
 	for {
 		// Get the stream and consumer info to compare published and delivered count.
@@ -75,24 +78,26 @@ const (
 	asyncBatchSize  = 10000
 )
 
-func startPublishers(ctx context.Context, nc *nats.Conn, rate int, subject string, size int) {
+func startPublishers(ctx context.Context, nc *nats.Conn, rate int, subject string, size int, wg *sync.WaitGroup) {
 	numPublishers := rate / maxPubPerSecond
 	batchesPerSecond := maxPubPerSecond / asyncBatchSize
 	tickerDuration := time.Second / time.Duration(batchesPerSecond)
 
 	fmt.Printf("spawning %d publishers each with %d batches/s of %d msgs to achieve %d msgs/s, ticker duration is %s\n", numPublishers, batchesPerSecond, asyncBatchSize, rate, tickerDuration)
 
+	wg.Add(numPublishers)
+
 	for i := 0; i < numPublishers; i++ {
 		nx, _ := nats.Connect(nc.ConnectedUrl())
 		js, _ := nx.JetStream()
 
-		go spawnPublisher(ctx, js, subject, size, tickerDuration)
+		go spawnPublisher(ctx, js, subject, size, tickerDuration, wg)
 		// Jitter..
 		time.Sleep(50 * time.Millisecond)
 	}
 }
 
-func spawnPublisher(ctx context.Context, js nats.JetStreamContext, subject string, size int, d time.Duration) {
+func spawnPublisher(ctx context.Context, js nats.JetStreamContext, subject string, size int, d time.Duration, wg *sync.WaitGroup) {
 	data := make([]byte, size)
 
 	t := time.NewTicker(d)
@@ -109,6 +114,7 @@ func spawnPublisher(ctx context.Context, js nats.JetStreamContext, subject strin
 			}
 			<-js.PublishAsyncComplete()
 		case <-ctx.Done():
+			wg.Done()
 			d := time.Since(t0)
 			r := float64(c) / float64(d) * float64(time.Second)
 			fmt.Printf("published %d messages in %s (%f msgs/s)\n", c, d, r)
