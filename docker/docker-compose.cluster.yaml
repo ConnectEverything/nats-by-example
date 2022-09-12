@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   nats1:
-    image: docker.io/nats:2.8.4
+    image: docker.io/nats:2.9.0
     command:
       - "--debug"
       - "--name=nats1"
@@ -15,7 +15,7 @@ services:
       - "18222:8222"
 
   nats2:
-    image: docker.io/nats:2.8.4
+    image: docker.io/nats:2.9.0
     command:
       - "--debug"
       - "--name=nats2"
@@ -29,7 +29,7 @@ services:
       - "28222:8222"
 
   nats3:
-    image: docker.io/nats:2.8.4
+    image: docker.io/nats:2.9.0
     command:
       - "--debug"
       - "--name=nats3"
