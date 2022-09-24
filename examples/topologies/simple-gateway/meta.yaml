@@ -1,0 +1,8 @@
+title: Simple Gateway
+description: |-
+  [Gateways][gateways] can be used to form super-clusters which propagate the
+  subject-interest graph across clusters (typically across geographies).
+
+  This example shows how to setup a basic gateway connection.
+
+  [gateways]: https://docs.nats.io/running-a-nats-service/configuration/gateways
