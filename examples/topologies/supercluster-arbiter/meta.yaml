@@ -1,2 +1,11 @@
 title: Supercluster Arbiter
 description: |-
+  This example demonstrates a lighter-weight alternative for satisfying
+  the requirement of an odd number of servers (across clusters) described
+  in the [Supercluster with JetStream][sc-js] example.
+
+  Rather than deploying a full additional cluster, a single node cluster
+  that is not JetStream-enabled can be deployed which connects to both
+  clusters that are hosting the JetStream-enabled servers.
+
+  [sc-js]: /examples/topologies/supercluster-jetstream
