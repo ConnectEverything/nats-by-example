@@ -9,3 +9,4 @@ description: |-
 examples:
   - simple-leafnode
   - leafnode-jwt
+  - supercluster-arbiter

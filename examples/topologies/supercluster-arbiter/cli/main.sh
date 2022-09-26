@@ -13,28 +13,18 @@ gateway {
   name: arbiter
   port: 7228
   gateways: [
-    {name: rg1, urls: [
+    {name: east, urls: [
       nats://localhost:7222,
       nats://localhost:7223,
       nats://localhost:7224,
     ]},
-    {name: rg2, urls: [
+    {name: west, urls: [
       nats://localhost:7225,
       nats://localhost:7226,
       nats://localhost:7227,
     ]},
   ]
 }
-EOF
-
-# Partial config to be included in each server config in
-# each cluster. This is the connection back to the arbiter.
-cat <<- EOF > gateway-shared.conf
-gateways: [
-  {name: arbiter, urls: [
-    nats://localhost:7228,
-  ]},
-]
 EOF
 
 # General shared config for each server in the clusters.
@@ -55,15 +45,15 @@ accounts: {
 }
 EOF
 
-# Define the server configs for region 1 cluster.
-cat <<- EOF > "rg1-az1.conf"
-server_name: rg1-az1
+# Define the server configs for east cluster.
+cat <<- EOF > "east-az1.conf"
+server_name: east-az1
 server_tags: [az:1]
 port: 4222
 http_port: 8222
 include cluster-shared.conf
 cluster: {
-  name: rg1
+  name: east
   port: 6222
   routes: [
     nats-route://127.0.0.1:6222,
@@ -72,19 +62,18 @@ cluster: {
   ]
 }
 gateway {
-  name: rg1
+  name: east
   port: 7222
-  include gateway-shared.conf
 }
 EOF
 
-cat <<- EOF > "rg1-az2.conf"
-server_name: rg1-az2
+cat <<- EOF > "east-az2.conf"
+server_name: east-az2
 server_tags: [az:2]
 port: 4223
 include cluster-shared.conf
 cluster: {
-  name: rg1
+  name: east
   port: 6223
   routes: [
     nats-route://127.0.0.1:6222,
@@ -93,19 +82,18 @@ cluster: {
   ]
 }
 gateway {
-  name: rg1
+  name: east
   port: 7223
-  include gateway-shared.conf
 }
 EOF
 
-cat <<- EOF > "rg1-az3.conf"
-server_name: rg1-az3
+cat <<- EOF > "east-az3.conf"
+server_name: east-az3
 server_tags: [az:3]
 port: 4224
 include cluster-shared.conf
 cluster: {
-  name: rg1
+  name: east
   port: 6224
   routes: [
     nats-route://127.0.0.1:6222,
@@ -114,21 +102,20 @@ cluster: {
   ]
 }
 gateway {
-  name: rg1
+  name: east
   port: 7224
-  include gateway-shared.conf
 }
 EOF
 
-# Server configs for region 2 cluster.
-cat <<- EOF > "rg2-az1.conf"
-server_name: rg2-az1
+# Server configs for west cluster.
+cat <<- EOF > "west-az1.conf"
+server_name: west-az1
 server_tags: [az:1]
 port: 4225
 http_port: 8223
 include cluster-shared.conf
 cluster: {
-  name: rg2
+  name: west
   port: 6225
   routes: [
     nats-route://127.0.0.1:6225,
@@ -137,19 +124,18 @@ cluster: {
   ]
 }
 gateway {
-  name: rg2
+  name: west
   port: 7225
-  include gateway-shared.conf
 }
 EOF
 
-cat <<- EOF > "rg2-az2.conf"
-server_name: rg2-az2
+cat <<- EOF > "west-az2.conf"
+server_name: west-az2
 server_tags: [az:2]
 port: 4226
 include cluster-shared.conf
 cluster: {
-  name: rg2
+  name: west
   port: 6226
   routes: [
     nats-route://127.0.0.1:6225,
@@ -158,19 +144,18 @@ cluster: {
   ]
 }
 gateway {
-  name: rg2
+  name: west
   port: 7226
-  include gateway-shared.conf
 }
 EOF
 
-cat <<- EOF > "rg2-az3.conf"
-server_name: rg2-az3
+cat <<- EOF > "west-az3.conf"
+server_name: west-az3
 server_tags: [az:3]
 port: 4227
 include cluster-shared.conf
 cluster: {
-  name: rg2
+  name: west
   port: 6227
   routes: [
     nats-route://127.0.0.1:6225,
@@ -179,54 +164,52 @@ cluster: {
   ]
 }
 gateway {
-  name: rg2
+  name: west
   port: 7227
-  include gateway-shared.conf
 }
 EOF
 
-# Start a server for each configuration and sleep a second in
-# between so the seeds can startup and get healthy.
-echo "Starting arbiter"
+# Start all of the servers.
+echo 'Starting the servers...'
 nats-server -c arbiter.conf > /dev/null 2>&1 &
+nats-server -c east-az1.conf > /dev/null 2>&1 &
+nats-server -c east-az2.conf > /dev/null 2>&1 &
+nats-server -c east-az3.conf > /dev/null 2>&1 &
+nats-server -c west-az1.conf > /dev/null 2>&1 &
+nats-server -c west-az2.conf > /dev/null 2>&1 &
+nats-server -c west-az3.conf > /dev/null 2>&1 &
 
-for c in $(ls rg*.conf); do
-  echo "Starting server ${c%.*}"
-  nats-server -c $c > /dev/null 2>&1 &
-  sleep 1
-done
+sleep 3
 
 # Wait until the servers up and healthy.
-echo 'Cluster 1 healthy?'
 curl --fail --silent \
   --retry 5 \
   --retry-delay 1 \
-  http://localhost:8222/healthz; echo
+  http://localhost:8222/healthz > /dev/null
 
-echo 'Cluster 2 healthy?'
 curl --fail --silent \
   --retry 5 \
   --retry-delay 1 \
-  http://localhost:8223/healthz; echo
+  http://localhost:8223/healthz > /dev/null
 
-echo 'Arbiter healthy?'
 curl --fail --silent \
   --retry 5 \
   --retry-delay 1 \
-  http://localhost:8224/healthz; echo
+  http://localhost:8224/healthz > /dev/null
 
 # List the servers, show the JetStream report, and show the info
-# of an arbitrary server in region 2.
+# of an arbitrary server in west.
 nats --user sys --password sys server list
 nats --user sys --password sys server report jetstream
-nats --user sys --password sys server info rg2-az1
+nats --user sys --password sys server info west-az1
 
-# Connect to cluster 1 (port 4222), but request that a stream be
-# added to the cluster 2.
-nats --server nats://localhost:4222 \
-     --user user \
-     --password user stream add \
-  --cluster=rg2 \
+# Connect to east (port 4222), but request that a stream be
+# added to the west.
+nats stream add \
+  --server nats://localhost:4222 \
+  --user user \
+  --password user \
+  --cluster=west \
   --retention=limits \
   --storage=file \
   --replicas=3 \
