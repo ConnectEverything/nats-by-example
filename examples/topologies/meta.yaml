@@ -9,4 +9,6 @@ description: |-
 examples:
   - simple-leafnode
   - leafnode-jwt
+  - supercluster
+  - supercluster-jetstream
   - supercluster-arbiter

@@ -1,0 +1,10 @@
+title: Multi-Stream Consumption
+description: |-
+  There may be use cases where a _fan-in_ of messages across streams
+  may be desired. One way to achieve this is to create a push consumer
+  per stream and specify the same `DeliverSubject` and, optionally,
+  `DeliverGroup`. This will result in each consumer delivering messages
+  to clients subscribed to the subject and/or part of a queue group.
+
+  This example will demonstrate how to configure the consumers and
+  subscription to achieve this fan-in consumption.

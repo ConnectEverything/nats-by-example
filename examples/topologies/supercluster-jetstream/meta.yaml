@@ -1,0 +1,21 @@
+title: Supercluster with JetStream
+description: |-
+  When configuring and deploying a supercluster that contains
+  JetStream-enabled servers, one server across the entire supercluster
+  is elected to handle JetStream API requests specifically for the
+  placement of streams and consumers.
+
+  This server is considered the *leader* of this [meta/API layer][meta].
+  Since this is a Raft group as well, electing a leader requires a
+  quorum across servers. What this means in practice is that there needs
+  to be an odd number of servers across the supercluster.
+
+  Supercluster deployments with JetStream-enabled servers should include
+  at least three clusters or use the [arbiter][arbiter] pattern.
+
+  This example will demonstrate how to configure a minimal supercluster
+  of three single-node *clusters*. Of course, for a production deployment
+  it is recommended to have three nodes per cluster to support R3 streams.
+
+  [meta]: https://docs.nats.io/running-a-nats-service/configuration/clustering/jetstream_clustering#raft-groups-1
+  [arbiter]: /examples/topologies/supercluster-arbiter/cli
