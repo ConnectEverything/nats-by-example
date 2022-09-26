@@ -1,0 +1,17 @@
+title: Supercluster
+description: |-
+  A supercluster is a set of clusters that have [gateway][gateway] connections
+  established between them. A gateway connection bridges communication, specifically
+  by propagating the subject-interest graph across clusters.
+
+  In practice, this means a client connecting to cluster A that is interested in using
+  a service by a client connected to cluster B, messages will transparently flow across
+  clusters without the client needing to have any knowledge of physical location.
+
+  This example shows how to setup a basic supercluster with two clusters. Note, if you
+  are using [JetStream][js], please refer to the dedicated [Supercluster with JetStream][super-js]
+  example.
+
+  [gateway]: https://docs.nats.io/running-a-nats-service/configuration/gateways
+  [js]: https://docs.nats.io/nats-concepts/jetstream
+  [super-js]: /examples/topologies/supercluster-jetstream/cli
