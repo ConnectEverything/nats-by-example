@@ -12,3 +12,4 @@ examples:
   - pull-consumer-limits
   - push-consumer
   - queue-push-consumer
+  - multi-stream-consumption

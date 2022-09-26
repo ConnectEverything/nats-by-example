@@ -34,12 +34,14 @@ func main() {
 	js.AddConsumer("EVENTS-EU", &nats.ConsumerConfig{
 		Durable:        "processor",
 		DeliverSubject: "push.events",
+		DeliverGroup:   "processor",
 		AckPolicy:      nats.AckExplicitPolicy,
 	})
 
 	js.AddConsumer("EVENTS-US", &nats.ConsumerConfig{
 		Durable:        "processor",
 		DeliverSubject: "push.events",
+		DeliverGroup:   "processor",
 		AckPolicy:      nats.AckExplicitPolicy,
 	})
 
@@ -53,7 +55,7 @@ func main() {
 
 	// Subscribe to the deliver subject with core NATS subscription. Observe that
 	// messages from both streams are being received and can be ack'ed.
-	sub, _ := nc.SubscribeSync("push.events")
+	sub, _ := nc.QueueSubscribeSync("push.events", "processor")
 	defer sub.Drain()
 
 	for {
