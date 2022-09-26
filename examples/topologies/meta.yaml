@@ -11,3 +11,4 @@ examples:
   - leafnode-jwt
   - supercluster
   - supercluster-jetstream
+  - supercluster-arbiter
