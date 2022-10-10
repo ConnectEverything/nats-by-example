@@ -4,5 +4,6 @@ categories:
   - auth
   - topologies
   - use-cases
+  - kv
   #- operations
   #- connecting
