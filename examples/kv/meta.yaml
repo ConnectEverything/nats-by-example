@@ -1,0 +1,4 @@
+title: Key-Value
+description: |
+  A layer on top of JetStream for utilizing a stream as
+  a key-value store.
