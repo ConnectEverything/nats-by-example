@@ -1,0 +1,6 @@
+title: Key-Value Intro
+description: |
+  The key-value (KV) capability in NATS is an abstraction over a stream
+  which models message subjects as _keys_. It uses a standard set of
+  stream configuration to be optimized for KV workloads.
+
