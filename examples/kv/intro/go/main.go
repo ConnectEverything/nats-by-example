@@ -19,6 +19,7 @@ func main() {
 
 	js, _ := nc.JetStream()
 
+	// ### Bucket basics
 	// A key-value (KV) bucket is created by specifying a bucket name.
 	kv, _ := js.CreateKeyValue(&nats.KeyValueConfig{
 		Bucket: "profiles",
@@ -50,6 +51,7 @@ func main() {
 	entry, _ = kv.Get("sue.color")
 	fmt.Printf("%s @ %d -> %q\n", entry.Key(), entry.Revision(), string(entry.Value()))
 
+	// ### Stream abstraction
 	// Before moving on, it is important to understand that a KV bucket is
 	// light abstraction over a standard stream. This is by design since it
 	// enables some powerful features which we will observe in a minute.
@@ -99,6 +101,7 @@ func main() {
 	// header.
 	fmt.Printf("headers: %v\n", msg.Header)
 
+	// ### Watching for changes
 	// Although one could subscribe to the stream directly, it is more convenient
 	// to use a `KeyWatcher` which provides a deliberate API and types for tracking
 	// changes over time. Notice that we can use a wildcard which we will come back to..
