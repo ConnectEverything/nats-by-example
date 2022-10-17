@@ -1,0 +1,18 @@
+title: Request-Reply
+description: |
+  This is an experimental preview of a possible request-reply API
+  for JetStream. With core NATS, if a given client is not showing
+  interest in a subject at the time a message is published on that
+  subject, the message will not be received.
+
+  In general, this behavior is expected of request-reply since these
+  are expected to behave like a *phone call* where someone needs to
+  *pick up* in order to talk. The alternative is relying on a mailbox
+  which is essentially what a peristent stream enables.
+
+  The question is what happens with the reply if a message can be
+  sent, queued, and the responder comes online later when the original
+  requester is now offline?
+
+  These are some active questions the NATS team are evaluating if you
+  want to show your interest and use cases!
