@@ -145,6 +145,8 @@ nats stream list
 # Force a step down of the leader.
 nats stream cluster step-down ORDERS
 
+sleep 2
+
 # Report the new leader.
 nats --user sys --password sys server report jetstream
 
@@ -170,6 +172,8 @@ case $LEADER in
     kill $N3_PID
     ;;
 esac
+
+sleep 2
 
 # Publish more messages.
 nats req orders --count=100 'Message {{Count}}'
