@@ -2,8 +2,8 @@
 
 set -euo pipefail
 
-# Define the system account to be included by all configurations.
-cat <<- EOF > sys.conf
+# Share accounts configuration for all nodes.
+cat <<- EOF > accounts.conf
 accounts: {
   SYS: {
     users: [{user: sys, password: sys}]
@@ -17,21 +17,13 @@ accounts: {
 system_account: SYS
 EOF
 
-# Create the *east* and *west* server configurations.
-# A requirement of JetStream is to have a cluster block defined
-# since this is how available storage resources are determined
-# for placement of streams and consumers.
-#
-# In a production deployment, at least three nodes per cluster
-# are recommended which supports creating R3 streams. In this
-# test setup, only R1 streams can be created since streams replicas
-# do not cross gateway connections.
+# Configuration for each node in the cluster.
 cat <<- EOF > n1.conf
 port: 4222
 http_port: 8222
 server_name: n1
 
-include sys.conf
+include accounts.conf
 
 jetstream: {
   store_dir: "./n1"
@@ -53,7 +45,7 @@ port: 4223
 http_port: 8223
 server_name: n2
 
-include sys.conf
+include accounts.conf
 
 jetstream: {
   store_dir: "./n2"
@@ -75,7 +67,7 @@ port: 4224
 http_port: 8224
 server_name: n3
 
-include sys.conf
+include accounts.conf
 
 jetstream: {
   store_dir: "./n3"
@@ -105,22 +97,27 @@ N3_PID=$!
 
 sleep 3
 
-# Save and select the default context to use all seed servers.
+# Create the app and sys contexts.
 nats context save \
   --server "nats://localhost:4222,nats://localhost:4223,nats://localhost:4224" \
   --user app \
   --password app \
   app 
 
-nats context select app
+nats context save \
+  --server "nats://localhost:4222,nats://localhost:4223,nats://localhost:4224" \
+  --user sys \
+  --password sys \
+  sys  
 
+nats context select app
 
 # Show the server list which will indicate the clusters and
 # gateway connections as well as the JetStream server report.
-nats --user sys --password sys server list
-nats --user sys --password sys server report jetstream
+nats --context sys server list
+nats --context sys server report jetstream
 
-# Add a stream.
+# Add a basic R3 stream.
 nats stream add \
   --retention=limits \
   --storage=file \
@@ -142,6 +139,9 @@ nats stream add \
 # Publish some messages.
 nats req orders --count=100 'Message {{Count}}'
 
+# List the streams to show the written messages.
+nats stream list
+
 # Force a step down of the leader.
 nats stream cluster step-down ORDERS
 
@@ -151,9 +151,11 @@ nats --user sys --password sys server report jetstream
 # Publish more messages.
 nats req orders --count=100 'Message {{Count}}'
 
+# 200 messages...
 nats stream list
 
-# Now determine the leader and kill the server.
+# Now we actually kill the leader node completely.
+# This will force a re-election among the two remaining nodes.
 LEADER=$(nats stream info ORDERS --json | jq -r '.cluster.leader')
 echo "$LEADER is the leader"
 
@@ -172,6 +174,9 @@ esac
 # Publish more messages.
 nats req orders --count=100 'Message {{Count}}'
 
+# Ensure we have 300 in the stream.
 nats stream list
 
+# Report the new leader...
 nats --user sys --password sys server report jetstream
+
