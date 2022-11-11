@@ -22,38 +22,14 @@ nsc add account APP
 nsc edit account APP --sk generate
 nsc add user --account APP user
 
-# Check out the current settings of nsc.
-nsc env
-
-# The `nats` CLI provides a way to manage different _contexts_ by name.
-# Here we define the server and the credentials (via `nsc` integration)
-# (notice the operator/account/user hierarchy).
-# We save two one for the main server and one for the leaf node. Note
-# how didn't provide credentials for the leaf node..
-nats context save main-user \
-  --nsc nsc://local/APP/user 
-
-nats context save main-sys \
-  --nsc nsc://local/SYS/sys
-
 # This command generates the bit of configuration to be used by the server
 # to setup the embedded JWT resolver.
 nsc generate config --nats-resolver --sys-account SYS > resolver.conf
 
-# Define the system account to be included by all configurations.
 cat <<- EOF > sys.conf
 include resolver.conf
 EOF
 
-# Create the *east* and *west* server configurations.
-# A requirement of JetStream is to have a cluster block defined
-# since this is how available storage resources are determined
-# for placement of streams and consumers.
-#
-# In a production deployment, at least three nodes per cluster
-# are recommended which supports creating R3 streams. In this
-# test setup, only R1 streams can be created since streams replicas
-# do not cross gateway connections.
 cat <<- EOF > n1.conf
 port: 4222
 http_port: 8222
@@ -117,8 +93,8 @@ EOF
 
 # Start the servers and sleep for a few seconds to startup.
 nats-server -c n1.conf &
-nats-server -c n2.conf  &
-nats-server -c n3.conf  &
+nats-server -c n2.conf &
+nats-server -c n3.conf &
 
 sleep 3
 
@@ -128,14 +104,18 @@ nats context save user \
 nats context select user
 
 
+# Add a mapping.. 
 nsc add mapping --from "foo" --to "bar" --weight "50"
 nsc add mapping --from "foo" --to "baz" --weight "50"
 
 nsc push
 
+# Reply on both bar and baz
 nats reply bar 'from bar' &
 nats reply baz 'from baz' &
 
 sleep 0.5
 
+# Send 10 requests that should be roughly 50/50, but more
+# importantly no errors..
 nats req --count 10 foo
