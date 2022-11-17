@@ -39,9 +39,7 @@ sleep 1
 # Push the account up to the server.
 nsc push -a APP
 
-# The next two users emulate consumers of the service. They can publish
-# on their own prefixed subject as well as publish to services scoped the
-# their respective name.
+# Create two users with pub/sub permissions for their own subject.
 nsc add user --account APP joe \
   --allow-pub 'joe' \
   --allow-sub 'joe' \
@@ -49,10 +47,6 @@ nsc add user --account APP joe \
 nsc add user --account APP pam \
   --allow-pub 'pam' \
   --allow-sub 'pam'
-
-# A nice side effect of this is that now, joe and pam can't subscribe
-# to each other's subjects, however, what about `_INBOX.>`? Let's observe
-# the current behavior and then see how we can address this.
 
 # First, let's save a few contexts for easier reference.
 nats context save joe \
@@ -64,6 +58,7 @@ nats context save pam \
 # Attempt to subscribe to the other user.. should get permission violation.
 echo 'Attempting to subscribe to pam by joe..'
 nats --context joe sub 'pam'
+
 echo 'Attempting to subscribe to joe by pam..'
 nats --context pam sub 'joe'
 
@@ -72,8 +67,10 @@ nats --context joe sub 'joe' &
 nats --context pam sub 'pam' &
 
 # Publish to the wrong user..
+echo 'Publishing to pam as joe'
 nats --context joe pub 'pam' ''
-nats --context pam pub 'sue' ''
+echo 'Publishing to joe as pam'
+nats --context pam pub 'joe' ''
 
 # Publish to the right user..
 nats --context joe pub 'joe' ''
