@@ -27,7 +27,6 @@ nsc generate config --nats-resolver --sys-account SYS > resolver.conf
 # Create the most basic config that simply include the generated
 # resolver config.
 cat <<- EOF > server.conf
-include resolver.conf
 EOF
 
 # Start the server.
@@ -57,21 +56,28 @@ nats context save pam \
 
 # Attempt to subscribe to the other user.. should get permission violation.
 echo 'Attempting to subscribe to pam by joe..'
-nats --context joe sub 'pam'
+nats --context joe sub 'pam' &
 
 echo 'Attempting to subscribe to joe by pam..'
-nats --context pam sub 'joe'
+nats --context pam sub 'joe' &
+
+sleep 1
 
 # Subscribe to the correct user..
 nats --context joe sub 'joe' &
+
 nats --context pam sub 'pam' &
+
+sleep 1
 
 # Publish to the wrong user..
 echo 'Publishing to pam as joe'
 nats --context joe pub 'pam' ''
+
 echo 'Publishing to joe as pam'
 nats --context pam pub 'joe' ''
 
 # Publish to the right user..
 nats --context joe pub 'joe' ''
+
 nats --context pam pub 'pam' ''
