@@ -1,0 +1,7 @@
+Network 06f9aae1_default  Creating
+Network 06f9aae1_default  Created
+Container 06f9aae1-nats-1  Creating
+Container 06f9aae1-nats-1  Created
+Container 06f9aae1-nats-1  Starting
+Error response from daemon: driver failed programming external connectivity on endpoint 06f9aae1-nats-1 (0b1af6ca9e0ea9e08581a3bb99d97a132c9264246ea446bec193354a95a7e3bb): Bind for 0.0.0.0:18222 failed: port is already allocated
+exit status 1

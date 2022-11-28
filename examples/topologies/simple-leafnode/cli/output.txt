@@ -1,0 +1,7 @@
+Network a2c6eebf_default  Creating
+Network a2c6eebf_default  Created
+Container a2c6eebf-nats-1  Creating
+Container a2c6eebf-nats-1  Created
+Container a2c6eebf-nats-1  Starting
+Error response from daemon: driver failed programming external connectivity on endpoint a2c6eebf-nats-1 (72a2a0144acf58914632139f7d9d1b6ec6d5c2525f8e3488800da40a03b168ab): Bind for 0.0.0.0:18222 failed: port is already allocated
+exit status 1

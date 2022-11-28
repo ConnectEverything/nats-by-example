@@ -1,0 +1,9 @@
+Network 9f73132e_default  Creating
+Network 9f73132e_default  Created
+Container 9f73132e-nats-1  Creating
+Container 9f73132e-nats-1  Created
+Container 9f73132e-nats-1  Starting
+Container 9f73132e-nats-1  Started
+hello on subject greet.joe
+hello on subject greet.pam
+hello on subject greet.sue

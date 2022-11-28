@@ -1,0 +1,8 @@
+Network fede1cfd_default  Creating
+Network fede1cfd_default  Created
+Container fede1cfd-nats-1  Creating
+Container fede1cfd-nats-1  Created
+Container fede1cfd-nats-1  Starting
+Container fede1cfd-nats-1  Started
+received valid JSON payload: foo="bar" bar=27
+received invalid JSON payload: b"not json"

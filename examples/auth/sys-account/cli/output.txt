@@ -1,0 +1,31 @@
+Network 4146a2bc_default  Creating
+Network 4146a2bc_default  Created
+Container 4146a2bc-nats-1  Creating
+Container 4146a2bc-nats-1  Created
+Container 4146a2bc-nats-1  Starting
+Container 4146a2bc-nats-1  Started
++ touch server.conf
++ SERVER_PID=8
++ sleep 0.5
++ nats-server -c server.conf -l log.txt
++ nats server info
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions
++ cat
++ nats-server --signal reload=8
++ nats context save sys --user sys --password pass
+NATS Configuration Context "sys"
+
+      Server URLs: nats://nats:4222
+         Username: sys
+         Password: *********
+            Token: sys
+             Path: /nsc/.config/nats/context/sys.json
+
+WARNING: Shell environment overrides in place using NATS_URL
++ nats --context sys server info
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions
++ cat
++ nats-server --signal reload=8
++ nats --context sys server info
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions
++ kill 8

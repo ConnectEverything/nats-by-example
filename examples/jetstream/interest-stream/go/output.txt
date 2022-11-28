@@ -1,0 +1,98 @@
+Network 05d999d7_default  Creating
+Network 05d999d7_default  Created
+Container 05d999d7-nats-1  Creating
+Container 05d999d7-nats-1  Created
+Container 05d999d7-nats-1  Starting
+Container 05d999d7-nats-1  Started
+created the stream
+published 3 messages
+last message seq: 3
+# Stream info without any consumers
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 4,
+ "first_ts": "2022-11-28T15:10:00.157481599Z",
+ "last_seq": 3,
+ "last_ts": "2022-11-28T15:10:00.157481599Z",
+ "consumer_count": 0,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}
+
+# Stream info with one consumer
+{
+ "messages": 2,
+ "bytes": 100,
+ "first_seq": 4,
+ "first_ts": "2022-11-28T15:10:00.15848298Z",
+ "last_seq": 5,
+ "last_ts": "2022-11-28T15:10:00.158557871Z",
+ "consumer_count": 1,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 2,
+ "subjects": null
+}
+
+# Stream info with one consumer and acked messages
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 6,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 5,
+ "last_ts": "2022-11-28T15:10:00.158557871Z",
+ "consumer_count": 1,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}
+msg seqs 6 and 7
+# Stream info with two consumers, but only one set of acked messages
+{
+ "messages": 2,
+ "bytes": 100,
+ "first_seq": 6,
+ "first_ts": "2022-11-28T15:10:00.160147973Z",
+ "last_seq": 7,
+ "last_ts": "2022-11-28T15:10:00.160227429Z",
+ "consumer_count": 2,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 2,
+ "subjects": null
+}
+
+# Stream info with two consumers having both acked
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 8,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 7,
+ "last_ts": "2022-11-28T15:10:00.160227429Z",
+ "consumer_count": 2,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}
+
+# Stream info with three consumers with interest from two
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 9,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 8,
+ "last_ts": "2022-11-28T15:10:00.161690094Z",
+ "consumer_count": 3,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}

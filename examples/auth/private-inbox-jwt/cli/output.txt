@@ -1,0 +1,7 @@
+Network fb4f8574_default  Creating
+Network fb4f8574_default  Created
+Container fb4f8574-nats-1  Creating
+Container fb4f8574-nats-1  Created
+Container fb4f8574-nats-1  Starting
+Error response from daemon: driver failed programming external connectivity on endpoint fb4f8574-nats-1 (be49b1873f0fd8efe9b99918472b1c4e30a4446e2b5ef440d15b6e026143b7a0): Bind for 0.0.0.0:18222 failed: port is already allocated
+exit status 1

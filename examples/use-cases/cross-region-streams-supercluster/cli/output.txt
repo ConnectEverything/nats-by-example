@@ -1,0 +1,7 @@
+Network 91393348_default  Creating
+Network 91393348_default  Created
+Container 91393348-nats-1  Creating
+Container 91393348-nats-1  Created
+Container 91393348-nats-1  Starting
+Error response from daemon: driver failed programming external connectivity on endpoint 91393348-nats-1 (dbf9869d7f947445f701fe65dac7aad75eba822984469dd50723f0fc9bd47f3c): Bind for 0.0.0.0:18222 failed: port is already allocated
+exit status 1

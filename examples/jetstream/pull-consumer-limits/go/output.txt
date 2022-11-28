@@ -1,0 +1,16 @@
+Network 92b21fe7_default  Creating
+Network 92b21fe7_default  Created
+Container 92b21fe7-nats-1  Creating
+Container 92b21fe7-nats-1  Created
+Container 92b21fe7-nats-1  Starting
+Container 92b21fe7-nats-1  Started
+--- max in-flight messages (n=1) ---
+requested 3, got 2
+nats: timeout
+requested 1, got 0
+panic: runtime error: index out of range [0] with length 0
+
+goroutine 1 [running]:
+main.main()
+	/opt/app/main.go:95 +0xd9e
+exit status 2

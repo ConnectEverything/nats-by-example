@@ -1,0 +1,16 @@
+Network eaba061e_default  Creating
+Network eaba061e_default  Created
+Container eaba061e-nats-1  Creating
+Container eaba061e-nats-1  Created
+Container eaba061e-nats-1  Starting
+Container eaba061e-nats-1  Started
+got message on subject events.0 with payload "data"
+got message on subject events.1 with payload "data"
+got message on subject events.2 with payload "data"
+got message on subject events.3 with payload "data"
+got message on subject events.4 with payload "data"
+got message on subject events.5 with payload "data"
+got message on subject events.6 with payload "data"
+got message on subject events.7 with payload "data"
+got message on subject events.8 with payload "data"
+got message on subject events.9 with payload "data"

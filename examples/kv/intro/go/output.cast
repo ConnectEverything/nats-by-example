@@ -1,0 +1,8 @@
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669648517, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: kv/intro/go"}
+[0.49216, "o", "Network 06f9aae1_default  Creating\r\n"]
+[0.516738, "o", "Network 06f9aae1_default  Created\r\n"]
+[0.516885, "o", "Container 06f9aae1-nats-1  Creating\r\n"]
+[0.532376, "o", "Container 06f9aae1-nats-1  Created\r\n"]
+[0.53324, "o", "Container 06f9aae1-nats-1  Starting\r\n"]
+[0.601306, "o", "Error response from daemon: driver failed programming external connectivity on endpoint 06f9aae1-nats-1 (0b1af6ca9e0ea9e08581a3bb99d97a132c9264246ea446bec193354a95a7e3bb): Bind for 0.0.0.0:18222 failed: port is already allocated\r\n"]
+[0.742696, "o", "exit status 1\r\n"]

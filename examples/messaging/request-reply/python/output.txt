@@ -1,0 +1,10 @@
+Network 929cc7ad_default  Creating
+Network 929cc7ad_default  Created
+Container 929cc7ad-nats-1  Creating
+Container 929cc7ad-nats-1  Created
+Container 929cc7ad-nats-1  Starting
+Container 929cc7ad-nats-1  Started
+b'hello, joe'
+b'hello, sue'
+b'hello, bob'
+no responders

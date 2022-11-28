@@ -1,0 +1,10 @@
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669647869, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/rust"}
+[0.522766, "o", "Network 86e57d08_default  Creating\r\n"]
+[0.547024, "o", "Network 86e57d08_default  Created\r\n"]
+[0.547136, "o", "Container 86e57d08-nats-1  Creating\r\n"]
+[0.573136, "o", "Container 86e57d08-nats-1  Created\r\n"]
+[0.573829, "o", "Container 86e57d08-nats-1  Starting\r\n"]
+[0.886776, "o", "Container 86e57d08-nats-1  Started\r\n"]
+[1.173039, "o", "got a response: \"hello, sue\"\r\n"]
+[1.274361, "o", "got a response: \"hello, john\"\r\n"]
+[1.375015, "o", "got a response: \"hello, bob\"\r\n"]

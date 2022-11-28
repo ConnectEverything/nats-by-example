@@ -1,0 +1,11 @@
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669647876, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/go"}
+[0.54755, "o", "Network 8988bede_default  Creating\r\n"]
+[0.56904, "o", "Network 8988bede_default  Created\r\n"]
+[0.569192, "o", "Container 8988bede-nats-1  Creating\r\n"]
+[0.583148, "o", "Container 8988bede-nats-1  Created\r\n"]
+[0.583798, "o", "Container 8988bede-nats-1  Starting\r\n"]
+[0.861352, "o", "Container 8988bede-nats-1  Started\r\n"]
+[1.116926, "o", "hello, joe\r\n"]
+[1.117057, "o", "hello, sue\r\n"]
+[1.117102, "o", "hello, bob\r\n"]
+[1.117188, "o", "nats: no responders available for request\r\n"]

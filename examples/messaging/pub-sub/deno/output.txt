@@ -1,0 +1,9 @@
+Network bdc5037c_default  Creating
+Network bdc5037c_default  Created
+Container bdc5037c-nats-1  Creating
+Container bdc5037c-nats-1  Created
+Container bdc5037c-nats-1  Starting
+Container bdc5037c-nats-1  Started
+hello on subject greet.joe
+hello on subject greet.pam
+hello on subject greet.sue

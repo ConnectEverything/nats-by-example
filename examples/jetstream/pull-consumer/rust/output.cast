@@ -1,0 +1,9 @@
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669648317, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/pull-consumer/rust"}
+[0.530768, "o", "Network eaba061e_default  Creating\r\n"]
+[0.55348, "o", "Network eaba061e_default  Created\r\n"]
+[0.553597, "o", "Container eaba061e-nats-1  Creating\r\n"]
+[0.594775, "o", "Container eaba061e-nats-1  Created\r\n"]
+[0.595462, "o", "Container eaba061e-nats-1  Starting\r\n"]
+[0.874147, "o", "Container eaba061e-nats-1  Started\r\n"]
+[1.160427, "o", "got message on subject events.0 with payload \"data\"\r\ngot message on subject events.1 with payload \"data\"\r\ngot message on subject events.2 with payload \"data\"\r\ngot message on subject events.3 with payload \"data\"\r\ngot message on subject events.4 with payload \"data\"\r\ngot message on subject events.5 with payload \"data\"\r\n"]
+[1.16056, "o", "got message on subject events.6 with payload \"data\"\r\ngot message on subject events.7 with payload \"data\"\r\ngot message on subject events.8 with payload \"data\"\r\ngot message on subject events.9 with payload \"data\"\r\n"]
