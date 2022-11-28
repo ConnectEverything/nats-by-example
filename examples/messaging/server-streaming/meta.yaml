@@ -1,0 +1,5 @@
+title: Server-side streaming
+description: |-
+  This messaging pattern is initiated by a client request which will result in one or more messages replied from the server.
+
+  This is achieved by the client generating a one-off, random subject and subscribing to it. The subject is include in the initial request that the service can publish messages back to.
