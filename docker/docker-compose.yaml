@@ -6,9 +6,6 @@ services:
       - "--debug"
       - "--http_port=8222"
       - "--js"
-    ports:
-      - "14222:4222"
-      - "18222:8222"
 
   app:
     image: ${IMAGE_TAG}
