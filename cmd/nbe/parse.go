@@ -356,6 +356,9 @@ func readClientDir(path, name string) (*Client, error) {
 	defer f.Close()
 
 	blocks, source, err := parseReader(lang, f)
+	if err != nil {
+		return nil, err
+	}
 	x.Language = lang
 	x.MainFile = mainFile
 	x.Blocks = blocks

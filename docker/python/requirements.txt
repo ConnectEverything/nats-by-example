@@ -1,1 +1,1 @@
-nats-py[nkeys]==2.1.4
+nats-py[nkeys]==2.2.0
