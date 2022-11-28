@@ -1,0 +1,31 @@
+title: Service streaming pattern
+description: |-
+  This messaging pattern builds upon the built-in [request-reply][req-rep] API.
+
+  Prior to the client sending the request, it must generate a unique subject
+  to be the dedicated *inbox* for receiving the stream of messages from the
+  service.
+
+  The simpliest way to achieve this is to use the client connection's
+  `NewInbox()` method which also ensures any connection-level inbox prefix
+  is already prepended.
+
+  This unique subject is then added as a header, such as `x-stream-subject`.
+  Prior to sending the request, the subscription on that subject must be setup
+  by the client so it can receive messages as soon as the client sends the
+  request.
+
+  When the service receives the request, it can do any request validation, etc.
+  and perform the standard reply indicating the streaming will be begin.
+  Now the service can freely publish messages (or send requests if acks are desired)
+  on the subject passed within the header.
+
+  To indicate the end-of-stream, the last message provides an empty message body
+  with an optional set of headers indicating any status, such as an error
+  had occurred mid-stream.
+
+  For those familiar with gRPC, this is analogous to the
+  [server streaming RPC][grpc].
+
+  [req-rep]: /examples/messaging/request-reply/go
+  [grpc]: https://grpc.io/docs/what-is-grpc/core-concepts/#server-streaming-rpc
