@@ -1,0 +1,20 @@
+Network 9123e333_default  Creating
+Network 9123e333_default  Created
+Container 9123e333-nats-1  Creating
+Container 9123e333-nats-1  Created
+Container 9123e333-nats-1  Starting
+Container 9123e333-nats-1  Started
+# Durable (implicit)
+deliver group: "event-processor"
+deliver subject: "_INBOX.3PK2fvr3Dj4vhWPrm6rs6w"
+sub1: received message "events.1"
+sub2: received message "events.2"
+sub3: received message "events.4"
+
+# Durable (explicit)
+sub3: received message "events.2"
+sub2: received message "events.1"
+sub3: received message "events.3"
+sub3: received message "events.4"
+sub3: received message "events.5"
+sub3: received message "events.6"

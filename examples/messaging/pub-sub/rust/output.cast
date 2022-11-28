@@ -1,0 +1,8 @@
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669647767, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/rust"}
+[0.563771, "o", "Network debd5b0e_default  Creating\r\n"]
+[0.587401, "o", "Network debd5b0e_default  Created\r\n"]
+[0.58752, "o", "Container debd5b0e-nats-1  Creating\r\n"]
+[0.624249, "o", "Container debd5b0e-nats-1  Created\r\n"]
+[0.625067, "o", "Container debd5b0e-nats-1  Starting\r\n"]
+[0.840402, "o", "Container debd5b0e-nats-1  Started\r\n"]
+[1.298241, "o", "Ok(\"hello\") received on \"greet.sue\"\r\nOk(\"hello\") received on \"greet.bob\"\r\nOk(\"hello\") received on \"greet.pam\"\r\n"]

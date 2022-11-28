@@ -1,0 +1,10 @@
+Network 8988bede_default  Creating
+Network 8988bede_default  Created
+Container 8988bede-nats-1  Creating
+Container 8988bede-nats-1  Created
+Container 8988bede-nats-1  Starting
+Container 8988bede-nats-1  Started
+hello, joe
+hello, sue
+hello, bob
+nats: no responders available for request

@@ -1,0 +1,9 @@
+Network 86e57d08_default  Creating
+Network 86e57d08_default  Created
+Container 86e57d08-nats-1  Creating
+Container 86e57d08-nats-1  Created
+Container 86e57d08-nats-1  Starting
+Container 86e57d08-nats-1  Started
+got a response: "hello, sue"
+got a response: "hello, john"
+got a response: "hello, bob"

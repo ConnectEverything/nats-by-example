@@ -1,0 +1,8 @@
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669648451, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: topologies/simple-leafnode/cli"}
+[0.452739, "o", "Network a2c6eebf_default  Creating\r\n"]
+[0.476978, "o", "Network a2c6eebf_default  Created\r\n"]
+[0.477085, "o", "Container a2c6eebf-nats-1  Creating\r\n"]
+[0.492064, "o", "Container a2c6eebf-nats-1  Created\r\n"]
+[0.492721, "o", "Container a2c6eebf-nats-1  Starting\r\n"]
+[0.556532, "o", "Error response from daemon: driver failed programming external connectivity on endpoint a2c6eebf-nats-1 (72a2a0144acf58914632139f7d9d1b6ec6d5c2525f8e3488800da40a03b168ab): Bind for 0.0.0.0:18222 failed: port is already allocated\r\n"]
+[0.706268, "o", "exit status 1\r\n"]

@@ -1,0 +1,9 @@
+Network debd5b0e_default  Creating
+Network debd5b0e_default  Created
+Container debd5b0e-nats-1  Creating
+Container debd5b0e-nats-1  Created
+Container debd5b0e-nats-1  Starting
+Container debd5b0e-nats-1  Started
+Ok("hello") received on "greet.sue"
+Ok("hello") received on "greet.bob"
+Ok("hello") received on "greet.pam"

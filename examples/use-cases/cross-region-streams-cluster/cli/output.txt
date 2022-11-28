@@ -1,0 +1,7 @@
+Network e48ee9a3_default  Creating
+Network e48ee9a3_default  Created
+Container e48ee9a3-nats-1  Creating
+Container e48ee9a3-nats-1  Created
+Container e48ee9a3-nats-1  Starting
+Error response from daemon: driver failed programming external connectivity on endpoint e48ee9a3-nats-1 (a6c18327a36da708d0e26678b27e023dd13386c638c031d4dd2c968fe67d1b97): Bind for 0.0.0.0:18222 failed: port is already allocated
+exit status 1

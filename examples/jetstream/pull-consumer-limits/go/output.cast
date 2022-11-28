@@ -1,0 +1,13 @@
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669648323, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/pull-consumer-limits/go"}
+[0.528205, "o", "Network 92b21fe7_default  Creating\r\n"]
+[0.551214, "o", "Network 92b21fe7_default  Created\r\n"]
+[0.551352, "o", "Container 92b21fe7-nats-1  Creating\r\n"]
+[0.564371, "o", "Container 92b21fe7-nats-1  Created\r\n"]
+[0.565033, "o", "Container 92b21fe7-nats-1  Starting\r\n"]
+[0.81289, "o", "Container 92b21fe7-nats-1  Started\r\n"]
+[1.072885, "o", "--- max in-flight messages (n=1) ---\r\n"]
+[1.073445, "o", "requested 3, got 2\r\n"]
+[2.073815, "o", "nats: timeout\r\n"]
+[7.074649, "o", "requested 1, got 0\r\n"]
+[7.076651, "o", "panic: runtime error: index out of range [0] with length 0\r\n\r\ngoroutine 1 [running]:\r\nmain.main()\r\n\t/opt/app/main.go:95 +0xd9e\r\n"]
+[7.495375, "o", "exit status 2\r\n"]

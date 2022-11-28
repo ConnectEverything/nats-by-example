@@ -1,0 +1,61 @@
+Network c38b940e_default  Creating
+Network c38b940e_default  Created
+Container c38b940e-nats-1  Creating
+Container c38b940e-nats-1  Created
+Container c38b940e-nats-1  Starting
+Container c38b940e-nats-1  Started
+created the stream
+published 6 messages
+published another 6 messages
+{
+  messages: 12,
+  bytes: 594,
+  first_seq: 1,
+  first_ts: '2022-11-28T15:09:46.352771726Z',
+  last_seq: 12,
+  last_ts: '2022-11-28T15:09:46.361869771Z',
+  num_subjects: 6,
+  consumer_count: 0
+}
+{
+  messages: 10,
+  bytes: 496,
+  first_seq: 3,
+  first_ts: '2022-11-28T15:09:46.355841761Z',
+  last_seq: 12,
+  last_ts: '2022-11-28T15:09:46.361869771Z',
+  num_subjects: 6,
+  consumer_count: 0
+}
+{
+  messages: 6,
+  bytes: 298,
+  first_seq: 7,
+  first_ts: '2022-11-28T15:09:46.361837989Z',
+  last_seq: 12,
+  last_ts: '2022-11-28T15:09:46.361869771Z',
+  num_subjects: 4,
+  consumer_count: 0
+}
+/opt/app/node_modules/nats/lib/nats-base-client/jsutil.js:187
+            return new error_1.NatsError(description, `${code}`);
+                   ^
+
+NatsError: duplicates window can not be larger then max age
+    at checkJsErrorCode (/opt/app/node_modules/nats/lib/nats-base-client/jsutil.js:187:20)
+    at StreamAPIImpl.parseJsResponse (/opt/app/node_modules/nats/lib/nats-base-client/jsbaseclient_api.js:89:55)
+    at StreamAPIImpl.<anonymous> (/opt/app/node_modules/nats/lib/nats-base-client/jsbaseclient_api.js:71:25)
+    at Generator.next (<anonymous>)
+    at fulfilled (/opt/app/node_modules/nats/lib/nats-base-client/jsbaseclient_api.js:19:58)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  code: '500',
+  chainedError: undefined,
+  api_error: {
+    code: 500,
+    err_code: 10052,
+    description: 'duplicates window can not be larger then max age'
+  }
+}
+
+Node.js v19.1.0
+exit status 1

@@ -1,0 +1,7 @@
+Network 31fb0d7e_default  Creating
+Network 31fb0d7e_default  Created
+Container 31fb0d7e-nats-1  Creating
+Container 31fb0d7e-nats-1  Created
+Container 31fb0d7e-nats-1  Starting
+Error response from daemon: driver failed programming external connectivity on endpoint 31fb0d7e-nats-1 (cff794c45b734caa55d97520334e7e5a88717570e10fb854104c8621980e656a): Bind for 0.0.0.0:18222 failed: port is already allocated
+exit status 1

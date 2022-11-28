@@ -1,0 +1,21 @@
+Network 6e8ab3db_default  Creating
+Network 6e8ab3db_default  Created
+Container 6e8ab3db-nats-1  Creating
+Container 6e8ab3db-nats-1  Created
+Container 6e8ab3db-nats-1  Starting
+Container 6e8ab3db-nats-1  Started
+14:59:30 Published 5 bytes to "greet.joe"
+14:59:30 Subscribing on greet.* 
+14:59:30 Published 5 bytes to "greet.joe"
+[#1] Received on "greet.joe"
+hello
+
+[#2] Received on "greet.pam"
+hello
+
+14:59:30 Published 5 bytes to "greet.pam"
+[#3] Received on "greet.bob"
+hello
+
+14:59:30 Published 5 bytes to "greet.bob"
+14:59:30 Published 5 bytes to "greet.bob"

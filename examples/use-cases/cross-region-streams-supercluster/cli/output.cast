@@ -1,0 +1,8 @@
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669648483, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: use-cases/cross-region-streams-supercluster/cli"}
+[0.501577, "o", "Network 91393348_default  Creating\r\n"]
+[0.52479, "o", "Network 91393348_default  Created\r\n"]
+[0.524888, "o", "Container 91393348-nats-1  Creating\r\n"]
+[0.539238, "o", "Container 91393348-nats-1  Created\r\n"]
+[0.539927, "o", "Container 91393348-nats-1  Starting\r\n"]
+[0.609323, "o", "Error response from daemon: driver failed programming external connectivity on endpoint 91393348-nats-1 (dbf9869d7f947445f701fe65dac7aad75eba822984469dd50723f0fc9bd47f3c): Bind for 0.0.0.0:18222 failed: port is already allocated\r\n"]
+[0.735127, "o", "exit status 1\r\n"]

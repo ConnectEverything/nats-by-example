@@ -1,0 +1,11 @@
+Network d42d9a81_default  Creating
+Network d42d9a81_default  Created
+Container d42d9a81-nats-1  Creating
+Container d42d9a81-nats-1  Created
+Container d42d9a81-nats-1  Starting
+Container d42d9a81-nats-1  Started
+subscribed after a publish...
+msg is nil? true
+msg data: "hello" on subject "greet.joe"
+msg data: "hello" on subject "greet.pam"
+msg data: "hello" on subject "greet.bob"

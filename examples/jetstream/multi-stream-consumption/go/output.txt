@@ -1,0 +1,14 @@
+Network 74876d33_default  Creating
+Network 74876d33_default  Created
+Container 74876d33-nats-1  Creating
+Container 74876d33-nats-1  Created
+Container 74876d33-nats-1  Starting
+Container 74876d33-nats-1  Started
+events.us.page_loaded
+events.us.mouse_clicked
+events.us.input_focused
+events.eu.page_loaded
+events.eu.input_focused
+events.eu.mouse_clicked
+eu: last delivered: 3, num pending: 0
+us: last delivered: 3, num pending: 0
