@@ -1,9 +1,3 @@
-Network eaba061e_default  Creating
-Network eaba061e_default  Created
-Container eaba061e-nats-1  Creating
-Container eaba061e-nats-1  Created
-Container eaba061e-nats-1  Starting
-Container eaba061e-nats-1  Started
 got message on subject events.0 with payload "data"
 got message on subject events.1 with payload "data"
 got message on subject events.2 with payload "data"

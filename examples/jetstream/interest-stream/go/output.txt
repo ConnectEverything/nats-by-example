@@ -1,9 +1,3 @@
-Network 05d999d7_default  Creating
-Network 05d999d7_default  Created
-Container 05d999d7-nats-1  Creating
-Container 05d999d7-nats-1  Created
-Container 05d999d7-nats-1  Starting
-Container 05d999d7-nats-1  Started
 created the stream
 published 3 messages
 last message seq: 3
@@ -12,9 +6,9 @@ last message seq: 3
  "messages": 0,
  "bytes": 0,
  "first_seq": 4,
- "first_ts": "2022-11-28T15:10:00.157481599Z",
+ "first_ts": "2022-11-28T16:11:09.199325492Z",
  "last_seq": 3,
- "last_ts": "2022-11-28T15:10:00.157481599Z",
+ "last_ts": "2022-11-28T16:11:09.199325492Z",
  "consumer_count": 0,
  "deleted": null,
  "num_deleted": 0,
@@ -27,9 +21,9 @@ last message seq: 3
  "messages": 2,
  "bytes": 100,
  "first_seq": 4,
- "first_ts": "2022-11-28T15:10:00.15848298Z",
+ "first_ts": "2022-11-28T16:11:09.200397665Z",
  "last_seq": 5,
- "last_ts": "2022-11-28T15:10:00.158557871Z",
+ "last_ts": "2022-11-28T16:11:09.200493747Z",
  "consumer_count": 1,
  "deleted": null,
  "num_deleted": 0,
@@ -44,7 +38,7 @@ last message seq: 3
  "first_seq": 6,
  "first_ts": "1970-01-01T00:00:00Z",
  "last_seq": 5,
- "last_ts": "2022-11-28T15:10:00.158557871Z",
+ "last_ts": "2022-11-28T16:11:09.200493747Z",
  "consumer_count": 1,
  "deleted": null,
  "num_deleted": 0,
@@ -57,9 +51,9 @@ msg seqs 6 and 7
  "messages": 2,
  "bytes": 100,
  "first_seq": 6,
- "first_ts": "2022-11-28T15:10:00.160147973Z",
+ "first_ts": "2022-11-28T16:11:09.202044186Z",
  "last_seq": 7,
- "last_ts": "2022-11-28T15:10:00.160227429Z",
+ "last_ts": "2022-11-28T16:11:09.202127104Z",
  "consumer_count": 2,
  "deleted": null,
  "num_deleted": 0,
@@ -74,7 +68,7 @@ msg seqs 6 and 7
  "first_seq": 8,
  "first_ts": "1970-01-01T00:00:00Z",
  "last_seq": 7,
- "last_ts": "2022-11-28T15:10:00.160227429Z",
+ "last_ts": "2022-11-28T16:11:09.202127104Z",
  "consumer_count": 2,
  "deleted": null,
  "num_deleted": 0,
@@ -89,7 +83,7 @@ msg seqs 6 and 7
  "first_seq": 9,
  "first_ts": "1970-01-01T00:00:00Z",
  "last_seq": 8,
- "last_ts": "2022-11-28T15:10:00.161690094Z",
+ "last_ts": "2022-11-28T16:11:09.203541763Z",
  "consumer_count": 3,
  "deleted": null,
  "num_deleted": 0,

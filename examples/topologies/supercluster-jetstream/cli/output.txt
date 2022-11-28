@@ -1,7 +1,2 @@
-Network bda190e0_default  Creating
-Network bda190e0_default  Created
-Container bda190e0-nats-1  Creating
-Container bda190e0-nats-1  Created
-Container bda190e0-nats-1  Starting
-Error response from daemon: driver failed programming external connectivity on endpoint bda190e0-nats-1 (47b0459bafa010489da9736e200d4983d032f20d55d9fe443216d11851b7d7de): Bind for 0.0.0.0:18222 failed: port is already allocated
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions
 exit status 1

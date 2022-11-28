@@ -1,7 +1,13 @@
-Network e48ee9a3_default  Creating
-Network e48ee9a3_default  Created
-Container e48ee9a3-nats-1  Creating
-Container e48ee9a3-nats-1  Created
-Container e48ee9a3-nats-1  Starting
-Error response from daemon: driver failed programming external connectivity on endpoint e48ee9a3-nats-1 (a6c18327a36da708d0e26678b27e023dd13386c638c031d4dd2c968fe67d1b97): Bind for 0.0.0.0:18222 failed: port is already allocated
+Starting server rg1-az1
+Starting server rg1-az2
+Starting server rg1-az3
+Starting server rg2-az1
+Starting server rg2-az2
+Starting server rg2-az3
+Starting server rg3-az1
+Starting server rg3-az2
+Starting server rg3-az3
+Healthy?
+{"status":"ok"}
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions
 exit status 1

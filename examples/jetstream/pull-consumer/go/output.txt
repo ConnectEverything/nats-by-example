@@ -1,10 +1,4 @@
-Network 60ce4760_default  Creating
-Network 60ce4760_default  Created
-Container 60ce4760-nats-1  Creating
-Container 60ce4760-nats-1  Created
-Container 60ce4760-nats-1  Starting
-Container 60ce4760-nats-1  Started
-ephemeral name is "IB4t47JU"
+ephemeral name is "OZS82hE4"
 got 2 messages
 got 1 messages
 timeout? true

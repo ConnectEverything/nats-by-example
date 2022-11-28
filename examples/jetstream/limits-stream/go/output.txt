@@ -1,9 +1,4 @@
-Network 62ad5d49_default  Creating
-Network 62ad5d49_default  Created
-Container 62ad5d49-nats-1  Creating
-Container 62ad5d49-nats-1  Created
-Container 62ad5d49-nats-1  Starting
-Container 62ad5d49-nats-1  Started
+
 created the stream
 published 6 messages
 published 6 messages
@@ -12,9 +7,9 @@ inspecting stream info
  "messages": 12,
  "bytes": 594,
  "first_seq": 1,
- "first_ts": "2022-11-28T15:09:42.133118312Z",
+ "first_ts": "2022-11-28T16:11:03.623393509Z",
  "last_seq": 12,
- "last_ts": "2022-11-28T15:09:42.133696589Z",
+ "last_ts": "2022-11-28T16:11:03.623840598Z",
  "consumer_count": 0,
  "deleted": null,
  "num_deleted": 0,
@@ -27,9 +22,9 @@ inspecting stream info
  "messages": 10,
  "bytes": 496,
  "first_seq": 3,
- "first_ts": "2022-11-28T15:09:42.133351107Z",
+ "first_ts": "2022-11-28T16:11:03.623583582Z",
  "last_seq": 12,
- "last_ts": "2022-11-28T15:09:42.133696589Z",
+ "last_ts": "2022-11-28T16:11:03.623840598Z",
  "consumer_count": 0,
  "deleted": null,
  "num_deleted": 0,
@@ -42,9 +37,9 @@ inspecting stream info
  "messages": 6,
  "bytes": 298,
  "first_seq": 7,
- "first_ts": "2022-11-28T15:09:42.133639938Z",
+ "first_ts": "2022-11-28T16:11:03.623817987Z",
  "last_seq": 12,
- "last_ts": "2022-11-28T15:09:42.133696589Z",
+ "last_ts": "2022-11-28T16:11:03.623840598Z",
  "consumer_count": 0,
  "deleted": null,
  "num_deleted": 0,
@@ -57,9 +52,9 @@ inspecting stream info
  "messages": 6,
  "bytes": 298,
  "first_seq": 7,
- "first_ts": "2022-11-28T15:09:42.133639938Z",
+ "first_ts": "2022-11-28T16:11:03.623817987Z",
  "last_seq": 12,
- "last_ts": "2022-11-28T15:09:42.133696589Z",
+ "last_ts": "2022-11-28T16:11:03.623840598Z",
  "consumer_count": 0,
  "deleted": null,
  "num_deleted": 0,
@@ -74,7 +69,7 @@ inspecting stream info
  "first_seq": 13,
  "first_ts": "1970-01-01T00:00:00Z",
  "last_seq": 12,
- "last_ts": "2022-11-28T15:09:42.133696589Z",
+ "last_ts": "2022-11-28T16:11:03.623840598Z",
  "consumer_count": 0,
  "deleted": null,
  "num_deleted": 0,

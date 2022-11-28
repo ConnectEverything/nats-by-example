@@ -1,10 +1,4 @@
-{"version": 2, "width": 92, "height": 58, "timestamp": 1669647623, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/java"}
-[0.450764, "o", "Network cbcfe759_default  Creating\r\n"]
-[0.475332, "o", "Network cbcfe759_default  Created\r\n"]
-[0.475423, "o", "Container cbcfe759-nats-1  Creating\r\n"]
-[0.51143, "o", "Container cbcfe759-nats-1  Created\r\n"]
-[0.512416, "o", "Container cbcfe759-nats-1  Starting\r\n"]
-[0.785045, "o", "Container cbcfe759-nats-1  Started\r\n"]
-[1.239841, "o", "hello on subject greet.bob\r\n"]
-[1.239983, "o", "hello on subject greet.sue\r\nhello on subject "]
-[1.240033, "o", "greet.pam\r\n"]
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669651437, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/java"}
+[1.237915, "o", "hello on subject greet.bob\r\n"]
+[1.237947, "o", "hello on subject greet.sue\r\n"]
+[1.238045, "o", "hello on subject greet.pam\r\n"]
