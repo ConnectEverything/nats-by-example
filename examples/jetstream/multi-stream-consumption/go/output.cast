@@ -1,10 +1,4 @@
-{"version": 2, "width": 92, "height": 58, "timestamp": 1669648348, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/multi-stream-consumption/go"}
-[0.508356, "o", "Network 74876d33_default  Creating\r\n"]
-[0.531446, "o", "Network 74876d33_default  Created\r\n"]
-[0.531625, "o", "Container 74876d33-nats-1  Creating\r\n"]
-[0.545237, "o", "Container 74876d33-nats-1  Created\r\n"]
-[0.546439, "o", "Container 74876d33-nats-1  Starting\r\n"]
-[0.799885, "o", "Container 74876d33-nats-1  Started\r\n"]
-[1.054798, "o", "events.us.page_loaded\r\nevents.us.mouse_clicked\r\nevents.us.input_focused\r\nevents.eu.page_loaded\r\nevents.eu.input_focused\r\nevents.eu.mouse_clicked\r\n"]
-[2.055588, "o", "eu: last delivered: 3, num pending: 0\r\n"]
-[2.05574, "o", "us: last delivered: 3, num pending: 0\r\n"]
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669652001, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/multi-stream-consumption/go"}
+[1.042573, "o", "events.us.page_loaded\r\nevents.us.mouse_clicked\r\nevents.us.input_focused\r\nevents.eu.page_loaded\r\nevents.eu.input_focused\r\nevents.eu.mouse_clicked\r\n"]
+[2.044024, "o", "eu: last delivered: 3, num pending: 0\r\n"]
+[2.044393, "o", "us: last delivered: 3, num pending: 0\r\n"]

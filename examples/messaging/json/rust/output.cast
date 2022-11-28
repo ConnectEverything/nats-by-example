@@ -1,8 +1,2 @@
-{"version": 2, "width": 92, "height": 58, "timestamp": 1669647976, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/json/rust"}
-[0.456311, "o", "Network fede1cfd_default  Creating\r\n"]
-[0.479914, "o", "Network fede1cfd_default  Created\r\n"]
-[0.480015, "o", "Container fede1cfd-nats-1  Creating\r\n"]
-[0.526313, "o", "Container fede1cfd-nats-1  Created\r\n"]
-[0.526983, "o", "Container fede1cfd-nats-1  Starting\r\n"]
-[0.747885, "o", "Container fede1cfd-nats-1  Started\r\n"]
-[1.037525, "o", "received valid JSON payload: foo=\"bar\" bar=27\r\nreceived invalid JSON payload: b\"not json\"\r\n"]
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669651648, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/json/rust"}
+[1.268692, "o", "received valid JSON payload: foo=\"bar\" bar=27\r\nreceived invalid JSON payload: b\"not json\"\r\n"]

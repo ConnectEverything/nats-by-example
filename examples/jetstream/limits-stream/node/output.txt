@@ -1,9 +1,3 @@
-Network c38b940e_default  Creating
-Network c38b940e_default  Created
-Container c38b940e-nats-1  Creating
-Container c38b940e-nats-1  Created
-Container c38b940e-nats-1  Starting
-Container c38b940e-nats-1  Started
 created the stream
 published 6 messages
 published another 6 messages
@@ -11,9 +5,9 @@ published another 6 messages
   messages: 12,
   bytes: 594,
   first_seq: 1,
-  first_ts: '2022-11-28T15:09:46.352771726Z',
+  first_ts: '2022-11-28T16:10:52.262780742Z',
   last_seq: 12,
-  last_ts: '2022-11-28T15:09:46.361869771Z',
+  last_ts: '2022-11-28T16:10:52.271768465Z',
   num_subjects: 6,
   consumer_count: 0
 }
@@ -21,9 +15,9 @@ published another 6 messages
   messages: 10,
   bytes: 496,
   first_seq: 3,
-  first_ts: '2022-11-28T15:09:46.355841761Z',
+  first_ts: '2022-11-28T16:10:52.265882059Z',
   last_seq: 12,
-  last_ts: '2022-11-28T15:09:46.361869771Z',
+  last_ts: '2022-11-28T16:10:52.271768465Z',
   num_subjects: 6,
   consumer_count: 0
 }
@@ -31,9 +25,9 @@ published another 6 messages
   messages: 6,
   bytes: 298,
   first_seq: 7,
-  first_ts: '2022-11-28T15:09:46.361837989Z',
+  first_ts: '2022-11-28T16:10:52.271730355Z',
   last_seq: 12,
-  last_ts: '2022-11-28T15:09:46.361869771Z',
+  last_ts: '2022-11-28T16:10:52.271768465Z',
   num_subjects: 4,
   consumer_count: 0
 }

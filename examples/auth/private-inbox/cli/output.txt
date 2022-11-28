@@ -1,9 +1,3 @@
-Network 50bd8d7f_default  Creating
-Network 50bd8d7f_default  Created
-Container 50bd8d7f-nats-1  Creating
-Container 50bd8d7f-nats-1  Created
-Container 50bd8d7f-nats-1  Starting
-Container 50bd8d7f-nats-1  Started
 NATS Configuration Context "greeter"
 
       Server URLs: nats://nats:4222
@@ -31,39 +25,36 @@ NATS Configuration Context "pam"
              Path: /nsc/.config/nats/context/pam.json
 
 WARNING: Shell environment overrides in place using NATS_URL
-15:13:20 Listening on "services.greet" in group "NATS-RPLY-22"
-15:13:20 Sending request on "services.greet"
-15:13:20 [#0] Received on subject "services.greet":
+16:15:40 Listening on "services.greet" in group "NATS-RPLY-22"
+16:15:40 Sending request on "services.greet"
+16:15:40 [#0] Received on subject "services.greet":
 
 
-15:13:20 Received with rtt 766.809µs
-Reply 6S8BvxAOOLTywE52XnhFkc
+Reply g2vqMMymrMh7KrRKGcpbXP
 
-15:13:20 Sending request on "services.greet"
-15:13:20 [#1] Received on subject "services.greet":
-
-
-Reply 6S8BvxAOOLTywE52XnhFpu
-
-15:13:20 Received with rtt 220.193µs
-15:13:20 Subscribing on _INBOX.> 
-15:13:20 Sending request on "services.greet"
-15:13:20 [#2] Received on subject "services.greet":
+16:15:40 Received with rtt 373.115µs
+16:15:40 Sending request on "services.greet"
 
 
-15:13:20 Received with rtt 305.222µs
-Reply 6S8BvxAOOLTywE52XnhFvC
+16:15:40 [#1] Received on subject "services.greet":
+16:15:40 Received with rtt 238.862µs
+Reply g2vqMMymrMh7KrRKGcpbcj
 
-[#1] Received on "_INBOX.MTz8iLk53DrfZ4VZyXXFNB.QodZPXpE"
-Reply 6S8BvxAOOLTywE52XnhFvC
-
-15:13:20 Sending request on "services.greet"
-15:13:20 [#3] Received on subject "services.greet":
+16:15:40 Sending request on "services.greet"
 
 
-Reply 6S8BvxAOOLTywE52XnhG0U
+16:15:40 [#2] Received on subject "services.greet":
+16:15:40 Received with rtt 377.717µs
+Reply g2vqMMymrMh7KrRKGcpbi3
 
-15:13:20 Received with rtt 245.806µs
+16:15:40 Subscribing on _INBOX.> 
+16:15:41 Sending request on "services.greet"
+16:15:41 [#3] Received on subject "services.greet":
+
+
+Reply g2vqMMymrMh7KrRKGcpbnN
+
+16:15:41 Received with rtt 272.384µs
 Reloading the server with new config...
-15:13:20 Subscribing on _INBOX.> 
+16:15:41 Subscribing on _INBOX.> 
 ^C

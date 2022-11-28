@@ -1,11 +1,5 @@
-Network 31720370_default  Creating
-Network 31720370_default  Created
-Container 31720370-nats-1  Creating
-Container 31720370-nats-1  Created
-Container 31720370-nats-1  Starting
-Container 31720370-nats-1  Started
 # Ephemeral
-ephemeral name is "mpKRrfwC"
+ephemeral name is "N3j5K2Db"
 3 messages queued
 6 messages queued
 received "events.1"
@@ -21,7 +15,7 @@ received "events.1"
 5 messages queued
 max stream sequence delivered: 6
 max consumer sequence delivered: 6
-num ack pending: 5
+num ack pending: 6
 num redelivered: 0
 received timeout? true
 received "events.2" (delivery #2)

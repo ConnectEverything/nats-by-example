@@ -1,7 +1,22 @@
-Network 91393348_default  Creating
-Network 91393348_default  Created
-Container 91393348-nats-1  Creating
-Container 91393348-nats-1  Created
-Container 91393348-nats-1  Starting
-Error response from daemon: driver failed programming external connectivity on endpoint 91393348-nats-1 (dbf9869d7f947445f701fe65dac7aad75eba822984469dd50723f0fc9bd47f3c): Bind for 0.0.0.0:18222 failed: port is already allocated
+Starting server rg1-az1-x
+Starting server rg1-az1
+Starting server rg1-az2
+Starting server rg1-az3
+Starting server rg2-az1
+Starting server rg2-az2-x
+Starting server rg2-az2
+Starting server rg2-az3
+Starting server rg3-az1
+Starting server rg3-az2
+Starting server rg3-az3-x
+Starting server rg3-az3
+Cluster 1 healthy?
+{"status":"ok"}
+Cluster 2 healthy?
+{"status":"ok"}
+Cluster 3 healthy?
+{"status":"ok"}
+Cluster 4 healthy?
+{"status":"ok"}
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions
 exit status 1

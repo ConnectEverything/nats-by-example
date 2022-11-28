@@ -1,7 +1,79 @@
-Network a2c6eebf_default  Creating
-Network a2c6eebf_default  Created
-Container a2c6eebf-nats-1  Creating
-Container a2c6eebf-nats-1  Created
-Container a2c6eebf-nats-1  Starting
-Error response from daemon: driver failed programming external connectivity on endpoint a2c6eebf-nats-1 (72a2a0144acf58914632139f7d9d1b6ec6d5c2525f8e3488800da40a03b168ab): Bind for 0.0.0.0:18222 failed: port is already allocated
-exit status 1
++ NATS_MAIN_URL=nats://0.0.0.0:4222
++ NATS_LEAF_URL=nats://0.0.0.0:4223
++ nats context save main --server nats://0.0.0.0:4222
+NATS Configuration Context "main"
+
+      Server URLs: nats://0.0.0.0:4222
+             Path: /nsc/.config/nats/context/main.json
+
+WARNING: Shell environment overrides in place using NATS_URL
++ nats context save leaf --server nats://0.0.0.0:4223
+NATS Configuration Context "leaf"
+
+      Server URLs: nats://0.0.0.0:4223
+             Path: /nsc/.config/nats/context/leaf.json
+
+WARNING: Shell environment overrides in place using NATS_URL
++ echo 'Creating the main server conf...'
++ cat
+Creating the main server conf...
+Creating the leaf node conf...
++ echo 'Creating the leaf node conf...'
++ cat
++ MAIN_PID=31
++ sleep 1
++ nats-server -c main.conf
++ + nats-server -c LEAF_PID=41
+leaf.conf
++ sleep 1
++ SERVICE_PID=51
++ + nats sleep --context 1
+main reply greet 'hello from main'
+16:32:17 Listening on "greet" in group "NATS-RPLY-22"
++ nats --context leaf request greet ''
+16:32:18 Sending request on "greet"
+16:32:18 [#0] Received on subject "greet":
+
+
+hello from main
+
+16:32:18 Received with rtt 268.509µs
++ SERVICE2_PID=74
++ nats --context leaf request greet ''
++ nats --context leaf reply greet 'hello from leaf'
+16:32:18 Sending request on "greet"
+
+
+hello from main
+
+16:32:18 [#1] Received on subject "greet":
+16:32:18 Received with rtt 287.714µs
++ nats --context leaf request greet ''
+16:32:18 Listening on "greet" in group "NATS-RPLY-22"
+16:32:18 Sending request on "greet"
+16:32:18 [#2] Received on subject "greet":
+
+
+hello from main
+
+16:32:18 Received with rtt 402.772µs
++ nats --context leaf request greet ''
+16:32:18 Sending request on "greet"
+
+
+16:32:18 [#0] Received on subject "greet":
+16:32:18 Received with rtt 337.057µs
+hello from leaf
+
++ kill 74
++ nats --context leaf request greet ''
+16:32:18 Sending request on "greet"
+16:32:18 [#3] Received on subject "greet":
+
+
+16:32:18 Received with rtt 407.417µs
+hello from main
+
++ kill 51
++ kill 41
++ kill 31

@@ -1,8 +1,3 @@
-{"version": 2, "width": 92, "height": 58, "timestamp": 1669648463, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: topologies/supercluster-jetstream/cli"}
-[0.450941, "o", "Network bda190e0_default  Creating\r\n"]
-[0.483303, "o", "Network bda190e0_default  Created\r\n"]
-[0.48343, "o", "Container bda190e0-nats-1  Creating\r\n"]
-[0.498887, "o", "Container bda190e0-nats-1  Created\r\n"]
-[0.499993, "o", "Container bda190e0-nats-1  Starting\r\n"]
-[0.576845, "o", "Error response from daemon: driver failed programming external connectivity on endpoint bda190e0-nats-1 (47b0459bafa010489da9736e200d4983d032f20d55d9fe443216d11851b7d7de): Bind for 0.0.0.0:18222 failed: port is already allocated\r\n"]
-[0.741424, "o", "exit status 1\r\n"]
+{"version": 2, "width": 92, "height": 58, "timestamp": 1669653159, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: topologies/supercluster-jetstream/cli"}
+[4.209836, "o", "nats: error: no results received, ensure the account used has system privileges and appropriate permissions\r\n"]
+[4.726645, "o", "exit status 1\r\n"]

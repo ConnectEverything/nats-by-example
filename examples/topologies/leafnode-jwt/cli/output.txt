@@ -1,7 +1,107 @@
-Network 0b7cc74b_default  Creating
-Network 0b7cc74b_default  Created
-Container 0b7cc74b-nats-1  Creating
-Container 0b7cc74b-nats-1  Created
-Container 0b7cc74b-nats-1  Starting
-Error response from daemon: driver failed programming external connectivity on endpoint 0b7cc74b-nats-1 (46fb553045c9915d8d1e67638cfa96bb830202241927f3ed1ffbb542e950cf6e): Bind for 0.0.0.0:18222 failed: port is already allocated
-exit status 1
++ NATS_MAIN_URL=nats://0.0.0.0:4222
++ NATS_LEAF_URL=nats://0.0.0.0:4223
++ nsc add operator --generate-signing-key --sys --name local
+[ OK ] generated and stored operator key "OACNKX3BTBGNJZJMOFWUQNSZXNUEDJYHU5TMIB6MHFEREKTWWJBPRSYM"
+[ OK ] added operator "local"
+[ OK ] When running your own nats-server, make sure they run at least version 2.2.0
+[ OK ] created operator signing key: OCIQZF4HFOG4UPDWUXPAAEK7ZF74YO2OBR364JXFM4RTKKTDDONAZGLI
+[ OK ] created system_account: name:SYS id:AC7EHSC4YWGU2VNJSBFTWO2QQZFYXYPVA2RW3G5ZLQAXSCEAEESDBXNG
+[ OK ] created system account user: name:sys id:UCCYKLEDEBMU3EBNFLG5BIDQFYKFOPJTI6Q45COWSWPLIB4N2HKRGMFW
+[ OK ] system account user creds file stored in `/nsc/nkeys/creds/local/SYS/sys.creds`
++ nsc edit operator --require-signing-keys --account-jwt-server-url nats://0.0.0.0:4222
+[ OK ] strict signing key usage set to: true
+[ OK ] set account jwt server url to "nats://0.0.0.0:4222"
+[ OK ] edited operator "local"
++ nsc add account APP
+[ OK ] generated and stored account key "AAU7IHCFQFI4C4ACZOFAN2HGVVZTY3WQOAVBYIZCYUMEAMQW42OJB44R"
+[ OK ] added account "APP"
++ nsc edit account APP --sk generate
+[ OK ] added signing key "ACGU6K6VVWGW6RXU7CKFIBWZFXVWP5PSGO277QNAE3TX672OAKHTXWR2"
+[ OK ] edited account "APP"
++ nsc add user --account APP user
+[ OK ] generated and stored user key "UCABFPW2AJOCASHBEGNF5RLPBAVOMFD2YPXBIMN6F7UKI2JOWUTDKHZD"
+[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/user.creds`
+[ OK ] added user "user" to account "APP"
++ nsc env
++----------------------------------------------------------------------------------------------------------+
+|                                             NSC Environment                                              |
++--------------------+-----+-------------------------------------------------------------------------------+
+| Setting            | Set | Effective Value                                                               |
++--------------------+-----+-------------------------------------------------------------------------------+
+| $NSC_CWD_ONLY      | No  | If set, default operator/account from cwd only                                |
+| $NSC_NO_GIT_IGNORE | No  | If set, no .gitignore files written                                           |
+| $NKEYS_PATH        | Yes | /nsc/nkeys                                                                    |
+| $NSC_HOME          | No  | /nsc/.config/nats/nsc                                                         |
+| $NATS_CA           | No  | If set, root CAs in the referenced file will be used for nats connections     |
+|                    |     | If not set, will default to the system trust store                            |
+| $NATS_KEY          | No  | If set, the tls key in the referenced file will be used for nats connections  |
+| $NATS_CERT         | No  | If set, the tls cert in the referenced file will be used for nats connections |
++--------------------+-----+-------------------------------------------------------------------------------+
+| From CWD           |     | No                                                                            |
+| Default Stores Dir |     | /nsc/nats/nsc/stores                                                          |
+| Current Store Dir  |     | /nsc/nats/nsc/stores                                                          |
+| Current Operator   |     | local                                                                         |
+| Current Account    |     | APP                                                                           |
+| Root CAs to trust  |     | Default: System Trust Store                                                   |
++--------------------+-----+-------------------------------------------------------------------------------+
+
++ nats context save main-user --server nats://0.0.0.0:4222 --nsc nsc://local/APP/user
+NATS Configuration Context "main-user"
+
+      Server URLs: nats://0.0.0.0:4222
+      Credentials: /nsc/nkeys/creds/local/APP/user.creds (OK)
+       NSC Lookup: nsc://local/APP/user
+             Path: /nsc/.config/nats/context/main-user.json
+
+WARNING: Shell environment overrides in place using NATS_URL
++ nats context save main-sys --server nats://0.0.0.0:4222 --nsc nsc://local/SYS/sys
+NATS Configuration Context "main-sys"
+
+      Server URLs: nats://0.0.0.0:4222
+      Credentials: /nsc/nkeys/creds/local/SYS/sys.creds (OK)
+       NSC Lookup: nsc://local/SYS/sys
+             Path: /nsc/.config/nats/context/main-sys.json
+
+WARNING: Shell environment overrides in place using NATS_URL
++ nats context save leaf-user --server nats://0.0.0.0:4223
+NATS Configuration Context "leaf-user"
+
+      Server URLs: nats://0.0.0.0:4223
+             Path: /nsc/.config/nats/context/leaf-user.json
+
+WARNING: Shell environment overrides in place using NATS_URL
++ nsc generate config --nats-resolver --sys-account SYS
+Creating the main server conf...
++ echo 'Creating the main server conf...'
++ cat
++ echo 'Creating the leaf node conf...'
++ cat
+Creating the leaf node conf...
++ MAIN_PID=93
++ sleep 1
++ nats-server -c main.conf
++ echo 'Pushing the account JWT...'
++ nsc push -a APP
+Pushing the account JWT...
+[ OK ] push to nats-server "nats://0.0.0.0:4222" using system account "SYS":
+       [ OK ] push APP to nats-server with nats account resolver:
+              [ OK ] pushed "APP" to nats-server NAOVXXWDAQNC2IDHZDBEWXT2TLYNO3YUM6EBNPZ54DUXLLVLENQRKP33: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
++ LEAF_PID=109
++ sleep 1
++ nats-server -c leaf.conf
++ SERVICE_PID=119
++ sleep 1
++ nats --context main-user reply greet hello
+16:32:26 Listening on "greet" in group "NATS-RPLY-22"
++ nats --context leaf-user request greet ''
+16:32:27 Sending request on "greet"
+
+
+16:32:27 [#0] Received on subject "greet":
+hello
+
+16:32:27 Received with rtt 655.5µs
++ kill 119
++ kill 109
++ kill 93
