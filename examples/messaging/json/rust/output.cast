@@ -1,8 +1,0 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1671713326, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/json/rust"}
-[0.688013, "o", "Network 259d03dd_default  Creating\r\n"]
-[0.733867, "o", "Network 259d03dd_default  Created\r\nContainer 259d03dd-nats-1  Creating\r\n"]
-[0.761074, "o", "Container 259d03dd-nats-1  Created\r\n"]
-[0.762138, "o", "Container 259d03dd-nats-1  Starting\r\n"]
-[1.0812, "o", "Container 259d03dd-nats-1  Started\r\n"]
-[1.415843, "o", "received valid JSON payload: foo=\"bar\" bar=27"]
-[1.415916, "o", "\r\nreceived invalid JSON payload: b\"not json\"\r\n"]

@@ -1,9 +1,0 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1671713365, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/pull-consumer/rust"}
-[0.711506, "o", "Network b34a02cf_default  Creating\r\n"]
-[0.752172, "o", "Network b34a02cf_default  Created\r\n"]
-[0.752225, "o", "Container b34a02cf-nats-1  Creating\r\n"]
-[0.785897, "o", "Container b34a02cf-nats-1  Created\r\n"]
-[0.787116, "o", "Container b34a02cf-nats-1  Starting"]
-[0.787261, "o", "\r\n"]
-[1.114109, "o", "Container b34a02cf-nats-1  Started\r\n"]
-[1.4554, "o", "got message on subject events.0 with payload \"data\"\r\ngot message on subject events.1 with payload \"data\"\r\ngot message on subject events.2 with payload \"data\"\r\ngot message on subject events.3 with payload \"data\"\r\ngot message on subject events.4 with payload \"data\"\r\ngot message on subject events.5 with payload \"data\"\r\ngot message on subject events.6 with payload \"data\"\r\ngot message on subject events.7 with payload \"data\"\r\ngot message on subject events.8 with payload \"data\"\r\ngot message on subject events.9 with payload \"data\"\r\n"]
