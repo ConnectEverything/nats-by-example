@@ -1,4 +1,4 @@
-FROM rust:1.62-slim AS build
+FROM rust:1.65.0-slim AS build
 
 WORKDIR /opt/app
 

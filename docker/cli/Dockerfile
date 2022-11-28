@@ -1,6 +1,11 @@
-FROM natsio/nats-box:0.13.0
+FROM natsio/nats-box:0.13.2
+
+RUN apk add bash curl
+
+COPY --from=nats:2.9.8 /nats-server /usr/local/bin/
 
 COPY . .
 
-CMD ["main.sh"]
+ENTRYPOINT ["bash"]
 
+CMD ["main.sh"]
