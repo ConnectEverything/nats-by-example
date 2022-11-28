@@ -1,9 +1,0 @@
-Network 4cc20542_default  Creating
-Network 4cc20542_default  Created
-Container 4cc20542-nats-1  Creating
-Container 4cc20542-nats-1  Created
-Container 4cc20542-nats-1  Starting
-Container 4cc20542-nats-1  Started
-b'hello' on subject greet.joe
-b'hello' on subject greet.pam
-b'hello' on subject greet.bob
