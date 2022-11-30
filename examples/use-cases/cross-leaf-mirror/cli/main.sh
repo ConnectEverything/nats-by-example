@@ -1,8 +1,10 @@
 #!/bin/bash
 
-#set -euo pipefail
+set -euo pipefail
 
 unset NATS_URL
+
+# ### Bootstrap the operator
 
 # Create the operator, generate a signing key (which is a best practice),
 # and initialize the default SYS account and sys user.
@@ -17,6 +19,11 @@ nsc edit operator --require-signing-keys \
 # This command generates the bit of configuration to be used by the server
 # to setup the embedded JWT resolver.
 nsc generate config --nats-resolver --sys-account SYS > resolver.conf
+
+# ### Server configs for supercluster
+#
+# This emulates a supercluster consisting of three clusters with
+# three nodes each.
 
 cat <<- EOF > hub-shared.conf
 jetstream: {
@@ -45,7 +52,7 @@ gateways: [
 ]
 EOF
 
-# Define the server configs for region 1 cluster.
+# Define the server configs for east cluster.
 cat <<- EOF > "east-az1.conf"
 server_name: east-az1
 port: 4222
@@ -116,7 +123,7 @@ leafnodes {
 }
 EOF
 
-# Server configs for region 2 cluster.
+# Server configs for west cluster.
 cat <<- EOF > "west-az1.conf"
 server_name: west-az1
 port: 4225
@@ -187,7 +194,7 @@ leafnodes {
 }
 EOF
 
-# Server configs for region 3 cluster.
+# Server configs for central cluster.
 cat <<- EOF > "central-az1.conf"
 server_name: central-az1
 port: 4228
@@ -258,28 +265,7 @@ leafnodes {
 }
 EOF
 
-cat <<- EOF > "central-az3.conf"
-server_name: central-az3
-port: 4230
-include hub-shared.conf
-cluster: {
-  name: central
-  port: 6230
-  routes: [
-    nats-route://127.0.0.1:6228,
-    nats-route://127.0.0.1:6229,
-    nats-route://127.0.0.1:6230,
-  ]
-}
-gateway {
-  name: central
-  port: 7230
-  include gateway-routes.conf
-}
-leafnodes {
-  port: 7431
-}
-EOF
+# ### Bring up the supercluster
 
 # Start a server for each configuration and sleep a second in
 # between so the seeds can startup and get healthy.
@@ -319,7 +305,6 @@ nsc edit account APP \
   --js-disk-storage -1 \
   --js-mem-storage -1
 
-
 # Push to the cluster.
 nsc push -a APP
 
@@ -328,30 +313,33 @@ nsc push -a APP
 # The `leaf-east` user has restricted permissions to allow for mirrors
 # of the "events" stream to be created. The sub is required since
 # creating a stream with a mirror internally sends a "create consumer"
-# request which needs to traverse the leaf node. The `$JS.M.*` pub
-# permission is required since this this is the default "deliver subject"
-# structure for mirrors. A concrete subject may look like this `$JS.M.iRg4nabNe`.
-# There is an option to override the deliver prefix in the mirror config
-# to have more control over permissions. The `_GR_.>` pub permission is the
-# standard reply subject across gateways(?).
+# request which needs to traverse the leaf node. The two forms account for
+# the non-filtered and filtered forms.
+# The `$JS.M.*` pub permission is required since this this is the default
+# "deliver subject" structure for mirrors. A concrete subject may look like
+# this `$JS.M.iRg4nabNe`. There is an option to override the deliver prefix
+# in the mirror config to have more control over permissions.
+# The `_GR_.>` pub permission is the standard reply subject across gateways.
 nsc add user --account APP leaf-east \
   --allow-sub '$JS.leaf-east.API.CONSUMER.CREATE.events' \
+  --allow-sub '$JS.leaf-east.API.CONSUMER.CREATE.events.>' \
   --allow-pub '$JS.M.*' \
   --allow-pub '_GR_.>'
 
 # The `leaf-west` user needs to be able to create a consumer (implicitly)
 # when the local stream mirror is setup and subscribe to the deliver subject
-# `$JS.M.*`. The `$JSC.R.*` subject is the default reply subject(?).
+# `$JS.M.*`. The `$JSC.R.*` subject is the default reply subject between a
+# leaf node to a cluster.
 nsc add user --account APP leaf-west \
   --allow-pub '$JS.leaf-east.API.CONSUMER.CREATE.events' \
+  --allow-pub '$JS.leaf-east.API.CONSUMER.CREATE.events.>' \
   --allow-sub '$JS.M.*' \
   --allow-sub '$JSC.R.*'
 
 # ### Create the leaf configurations
-#
+
 # The leafs do not have their own authentication nor
 # do they extend the operator of the hub.
-
 cat <<- EOF > "leaf-east.conf"
 server_name: leaf-east
 port: 4231
