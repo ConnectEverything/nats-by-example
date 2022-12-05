@@ -323,8 +323,10 @@ nsc push -a APP
 nsc add user --account APP leaf-east \
   --allow-sub '$JS.leaf-east.API.CONSUMER.CREATE.events' \
   --allow-sub '$JS.leaf-east.API.CONSUMER.CREATE.events.>' \
-  --allow-pub '$JS.M.*' \
-  --allow-pub '_GR_.>'
+  --allow-sub 'leaf-east.>' \
+  --allow-pub 'leaf-west.events.M.*' \
+  --allow-pub '_GR_.>' \
+  --allow-pub '_INBOX_west.>'
 
 # The `leaf-west` user needs to be able to create a consumer (implicitly)
 # when the local stream mirror is setup and subscribe to the deliver subject
@@ -333,7 +335,9 @@ nsc add user --account APP leaf-east \
 nsc add user --account APP leaf-west \
   --allow-pub '$JS.leaf-east.API.CONSUMER.CREATE.events' \
   --allow-pub '$JS.leaf-east.API.CONSUMER.CREATE.events.>' \
-  --allow-sub '$JS.M.*' \
+  --allow-pub 'leaf-east.hello' \
+  --allow-sub '_INBOX_west.>' \
+  --allow-sub 'leaf-west.events.M.*' \
   --allow-sub '$JSC.R.*'
 
 # ### Create the leaf configurations
@@ -447,7 +451,7 @@ cat <<- EOF > leaf-west-mirror.json
     "name": "events",
     "external": {
       "api": "\$JS.leaf-east.API",
-      "deliver": ""
+      "deliver": "leaf-west.events"
     }
   },
   "sealed": false,
@@ -470,3 +474,16 @@ nats --context leaf-east req 'events.3' ''
 # List the streams in both east and west to observe the state.
 nats --context leaf-east stream list
 nats --context leaf-west stream list
+
+# Start up a reply service in east.
+nats --context leaf-east reply \
+  leaf-east.hello 'hello from leaf-east' &
+sleep 1
+
+# Send a request to the `leaf-east.hello` subject
+# that only exists in the leaf-east. This also uses an
+# inbox-prefix so the pub permission in east can be constrained.
+nats --context leaf-west \
+  --inbox-prefix _INBOX_west \
+  request leaf-east.hello \
+  'hi from leaf-west!'
