@@ -1,0 +1,29 @@
+title: Protobuf for Message Payloads
+description: |-
+  NATS message payloads are byte slices, so any kind of serialization strategy
+  can be applied. This example shows a simple way to define message types
+  using the Protocol Buffers IDL, generate code for the target language, and then
+  use it with NATS.
+
+  If you are new to Protobuf, you can get started using one of the [official
+  tutorials](https://developers.google.com/protocol-buffers/docs/tutorials).
+
+  The protobuf file for example looks as follows:
+
+    ```protobuf
+    syntax = "proto3";
+
+    option go_package = ".;main";
+
+    package main;
+
+    message GreetRequest {
+      string name = 1;
+    }
+
+    message GreetReply {
+      string text = 1;
+    }
+    ```
+
+  Click the link to the example's source code to view the generated code.
