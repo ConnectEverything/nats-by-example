@@ -11,5 +11,6 @@ examples:
   - pub-sub
   - request-reply
   - json
+  - protobuf
   - concurrent
   - multiple-subjects-subscription
