@@ -1,0 +1,36 @@
+version: '3.9'
+services:
+  hub:
+    image: docker.io/synadia/nats-server:nightly
+    command:
+      - "--debug"
+      - "--http_port=8222"
+      - "--config=/nats.conf"
+    ports:
+      - "14222:4222"
+      - "18222:8222"
+    volumes:
+      - "./hub.conf:/nats.conf"
+      - "./accounts.conf:/accounts.conf"
+
+  leaf:
+    image: docker.io/synadia/nats-server:nightly
+    command:
+      - "--debug"
+      - "--http_port=8222"
+      - "--config=/nats.conf"
+    ports:
+      - "14223:4222"
+      - "18223:8222"
+    volumes:
+      - "./leaf.conf:/nats.conf"
+      - "./accounts.conf:/accounts.conf"
+
+  app:
+    image: ${IMAGE_TAG}
+    environment:
+      - NATS_URL=nats://app:app@leaf:4222
+    depends_on:
+      - leaf
+      - hub
+
