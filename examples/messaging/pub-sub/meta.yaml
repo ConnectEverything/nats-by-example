@@ -1,4 +1,4 @@
-title: Core Publish-Subcribe
+title: Core Publish-Subscribe
 description: |-
   This example demonstrates the core NATS [publish-subscribe][pubsub]
   behavior. This is the fundamental pattern that all other NATS
