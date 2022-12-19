@@ -98,7 +98,7 @@ public class Main {
       System.out.printf("%s %d -> %s\n", m.getSubject(), m.metaData().streamSequence(), new String(m.getData()));
 
       // Unsurprisingly, we get the new updated value as a message.
-      // Since it's KV interface, we should be able to delete a key as well.
+      // Since it's a KV interface, we should be able to delete a key as well.
       // Does this result in a new message?
       kv.delete("sue.color");
       m = sub.nextMessage(100);
@@ -119,15 +119,14 @@ public class Main {
       // ### Watching for changes
       // Although one could subscribe to the stream directly, it is more convenient
       // to use a `KeyValueWatcher` which provides a deliberate API and types for tracking
-      // changes over time. Notice that we can use a wildcard which we will come back to..
+      // changes over time.
       KeyValueWatcher watcher = new KeyValueWatcher() {
         @Override
         public void watch(KeyValueEntry entry) {
           System.out.printf("Watcher: %s %d -> %s\n", entry.getKey(), entry.getRevision(), entry.getValueAsString());
         }
 
-        // The first value was an *initial value* which is then followed by a nil entry, so we will ignore this.
-        // however, this can be useful to known when the watcher has _caught up_ with the current updates before
+        // The end od data signal can be useful to known when the watcher has _caught up_ with the current updates before
         // tracking the new ones.
         @Override
         public void endOfData() {
@@ -135,10 +134,11 @@ public class Main {
         }
       };
 
+      // Notice that we can use a wildcard for watching keys.
       kv.watch("sue.*", watcher, KeyValueWatchOption.UPDATES_ONLY);
 
       // Even though we deleted the key, of course we can put a new value.
-      // In java, there are a variety of put signatures also, so here just put a string
+      // In Java, there are a variety of `Put` signatures also, so here just put a string
       kv.put("sue.color", "purple");
 
       // To finish this short intro, since we know that keys are subjects under the covers, if we
