@@ -1,11 +1,11 @@
 package example;
 
-import io.nats.client.Connection;
-import io.nats.client.Nats;
-import io.nats.client.Dispatcher;
+import io.nats.client.*;
+import io.nats.client.api.*;
+import io.nats.client.impl.Headers;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class Main {
   public static void main(String[] args) {
