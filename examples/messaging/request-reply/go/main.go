@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	// Use the env varibale if running in the container, otherwise use the default.
+	// Use the env variable if running in the container, otherwise use the default.
 	url := os.Getenv("NATS_URL")
 	if url == "" {
 		url = nats.DefaultURL
