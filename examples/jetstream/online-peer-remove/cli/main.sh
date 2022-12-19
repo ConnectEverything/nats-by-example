@@ -7,8 +7,7 @@ nats --version
 
 NATS_URL="nats://localhost:4222"
 
-# Define the shared config which enables JetStream
-# and defines the partitioning behavior.
+# Shared config.
 cat <<- EOF > shared.conf
 accounts: {
   SYS: {
