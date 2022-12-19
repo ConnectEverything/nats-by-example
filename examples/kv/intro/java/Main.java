@@ -126,7 +126,7 @@ public class Main {
           System.out.printf("Watcher: %s %d -> %s\n", entry.getKey(), entry.getRevision(), entry.getValueAsString());
         }
 
-        // The end od data signal can be useful to known when the watcher has _caught up_ with the current updates before
+        // The end of data signal can be useful to known when the watcher has _caught up_ with the current updates before
         // tracking the new ones.
         @Override
         public void endOfData() {
@@ -138,7 +138,7 @@ public class Main {
       kv.watch("sue.*", watcher, KeyValueWatchOption.UPDATES_ONLY);
 
       // Even though we deleted the key, of course we can put a new value.
-      // In Java, there are a variety of `Put` signatures also, so here just put a string
+      // In Java, there are a variety of `Put` signatures also, so here just put a string.
       kv.put("sue.color", "purple");
 
       // To finish this short intro, since we know that keys are subjects under the covers, if we
