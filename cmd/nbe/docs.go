@@ -389,6 +389,8 @@ func chromaFormat(code, lang string) (string, error) {
 		lang = "js"
 	case WebSocket:
 		lang = "js"
+	case DotNet:
+		lang = "cs"
 	}
 
 	lexer := lexers.Get(lang)
