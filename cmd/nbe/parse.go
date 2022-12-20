@@ -21,7 +21,7 @@ const (
 	Go        = "go"
 	Rust      = "rust"
 	Java      = "java"
-	CSharp    = "csharp"
+	DotNet    = "dotnet"
 	Deno      = "deno"
 	Node      = "node"
 	Bun       = "bun"
@@ -40,7 +40,7 @@ var (
 		Go:        "Go",
 		Rust:      "Rust",
 		Java:      "Java",
-		CSharp:    "C#",
+		DotNet:    "C#",
 		Deno:      "Deno",
 		Node:      "Node",
 		Bun:       "Bun",
@@ -63,6 +63,7 @@ var (
 		Node:      "main.js",
 		WebSocket: "main.js",
 		Java:      "Main.java",
+		DotNet:    "Main.cs",
 	}
 
 	languageMultiCommentDelims = map[string][2]string{
@@ -70,7 +71,7 @@ var (
 		// TODO: java has a few conventions..
 		// https://www.oracle.com/java/technologies/javase/codeconventions-comments.html
 		Java:      {"/*", "*/"},
-		CSharp:    {"/**", "**/"},
+		DotNet:    {"/**", "**/"},
 		Deno:      {"/*", "*/"},
 		Node:      {"/*", "*/"},
 		Bun:       {"/*", "*/"},
@@ -84,7 +85,7 @@ var (
 		Go:        "//",
 		Rust:      "//",
 		Java:      "//",
-		CSharp:    "///",
+		DotNet:    "//",
 		Deno:      "//",
 		Node:      "//",
 		Bun:       "//",
@@ -162,10 +163,12 @@ var (
 
 // One limitiation is that it does not currently handle trailing multi-line
 // comments, such as:
-//	func() int {/*
-//    a := 1
-//  */
-//    b := 2
+//
+//		func() int {/*
+//	   a := 1
+//	 */
+//	   b := 2
+//
 // Since this code is scoped to well written examples, it should not be an issue
 // in practice.
 func parseLineType(lang, line string) LineType {
@@ -183,7 +186,7 @@ func parseLineType(lang, line string) LineType {
 		}
 		return NormalLine
 
-	case Go, CSharp, Java, Rust, C, Deno, Node, Bun:
+	case Go, DotNet, Java, Rust, C, Deno, Node, Bun:
 		if cStyleSingleCommentLineRe.MatchString(line) {
 			return SingleCommentLine
 		}

@@ -27,7 +27,7 @@ var (
 		Deno,
 		Node,
 		Rust,
-		CSharp,
+		DotNet,
 		Java,
 		Ruby,
 		Elixir,
