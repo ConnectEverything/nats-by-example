@@ -1,74 +1,79 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using NATS.Client;
 
 using NATS.Client;
 
-// Create a new connection factory to create
-// a connection.
+string natsURL = Environment.GetEnvironmentVariable("NATS_URL");
+if (natsURL == null)
+{
+    natsURL = "nats://127.0.0.1:4222";
+}
+
+// Create a new connection factory to create a connection.
 Options opts = ConnectionFactory.GetDefaultOptions();
-opts.Url = "nats://nats:4222";
+opts.Url = natsURL;
 
 // Creates a live connection to the default
 // NATS Server running locally
 ConnectionFactory cf = new ConnectionFactory();
 IConnection c = cf.CreateConnection(opts);
 
+// Here are some of the accessible properties from
+// the Msg object:
+//   Msg.Data;
+//   Msg.Reply;
+//   Msg.Subject;
+//   Msg.Header;
+//   Msg.MetaData;
+
 // Setup an event handler to process incoming messages.
 // An anonymous delegate function is used for brevity.
-EventHandler<MsgHandlerEventArgs> h = (sender, args) =>
+EventHandler<MsgHandlerEventArgs> handler = (sender, args) =>
 {
     // print the message
-    Console.WriteLine(args.Message);
-
-    // Here are some of the accessible properties from
-    // the message:
-    // args.Message.Data;
-    // args.Message.Reply;
-    // args.Message.Subject;
-    // args.Message.ArrivalSubcription.Subject;
-    // args.Message.ArrivalSubcription.QueuedMessageCount;
-    // args.Message.ArrivalSubcription.Queue;
-
-    // Unsubscribing from within the delegate function is supported.
-    args.Message.ArrivalSubcription.Unsubscribe();
+    Msg m = args.Message;
+    string text = Encoding.UTF8.GetString(m.Data);
+    Console.WriteLine($"Async handler received the message '{text}' from subject '{m.Subject}'");
 };
 
+// Subscriptions will only receive messages that are
+// published after the subscription is made, so for this
+// example, we'll publish a message before we are subscribed
+// which will not be received.
+c.Publish("greet.joe", Encoding.UTF8.GetBytes("hello joe 1"));
+
 // The simple way to create an asynchronous subscriber
-// is to simply pass the event in.  Messages will start
-// arriving immediately.
-IAsyncSubscription s = c.SubscribeAsync("foo", h);
+// is to simply pass the handler in. Messages will start
+// arriving immediately. We are subscribing to anything that
+// matches the greet.* pattern. You will see that this
+// subscription will not receive the "hello joe 1" message
+IAsyncSubscription subAsync = c.SubscribeAsync("greet.*", handler);
 
-// Alternatively, create an asynchronous subscriber on subject foo,
-// assign a message handler, then start the subscriber.   When
-// multicasting delegates, this allows all message handlers
-// to be setup before messages start arriving.
-IAsyncSubscription sAsync = c.SubscribeAsync("foo");
-sAsync.MessageHandler += h;
-sAsync.Start();
+// Simple synchronous subscriber. In this case we are only
+// subscribing to greetings to pam.
+ISyncSubscription subSync = c.SubscribeSync("greet.pam");
 
-// Simple synchronous subscriber
-ISyncSubscription sSync = c.SubscribeSync("foo");
+// lets publish to 2 different greeting messages
+c.Publish("greet.pam", Encoding.UTF8.GetBytes("hello pam 1"));
+c.Publish("greet.joe", Encoding.UTF8.GetBytes("hello joe 2"));
 
-// Using a synchronous subscriber, gets the first message available,
-// waiting up to 1000 milliseconds (1 second)
-Msg m = sSync.NextMessage(1000);
-
-c.Publish("foo", Encoding.UTF8.GetBytes("hello world"));
-
-// Unsubscribing
-sAsync.Unsubscribe();
-
-// Publish requests to the given reply subject:
-c.Publish("foo", "bar", Encoding.UTF8.GetBytes("help!"));
-
-// Sends a request (internally creates an inbox) and Auto-Unsubscribe the
-// internal subscriber, which means that the subscriber is unsubscribed
-// when receiving the first response from potentially many repliers.
-// This call will wait for the reply for up to 1000 milliseconds (1 second).
-m = c.Request("foo", Encoding.UTF8.GetBytes("help"), 1000);
+// Using a synchronous subscriber, try to get some messages,
+// waiting up to 1000 milliseconds (1 second).
+try
+{
+    Msg m = subSync.NextMessage(1000);
+    string text = Encoding.UTF8.GetString(m.Data);
+    Console.WriteLine($"Sync subscription received the message '{text}' from subject '{m.Subject}'");
+    m = subSync.NextMessage(100);
+}
+// Catching the NATSTimeoutException will let you know there were no
+// messages available. In this case, there was only one message,
+// so the second NextMessage timed out.
+catch (NATSTimeoutException)
+{
+    Console.WriteLine($"Sync subscription no messages currently available");
+}
 
 // Draining and closing a connection
 c.Drain();
