@@ -233,7 +233,7 @@ the runtime.`,
 			},
 			&cli.BoolFlag{
 				Name:  "exit-on-error",
-				Usage: "If true, exists on the first generate error that occurs.",
+				Usage: "If true, exits on the first error that occurs.",
 			},
 		},
 		Action: func(c *cli.Context) error {
