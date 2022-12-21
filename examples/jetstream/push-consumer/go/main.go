@@ -80,7 +80,7 @@ func main() {
 	fmt.Printf("received %q\n", msg.Subject)
 
 	// By default, the underlying consumer requires explicit acknowlegements,
-	// otherwise messges will get redelivered.
+	// otherwise messages will get redelivered.
 	msg.Ack()
 
 	// Let's receive and ack another.
