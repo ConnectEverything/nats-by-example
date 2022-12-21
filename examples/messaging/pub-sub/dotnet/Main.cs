@@ -2,36 +2,34 @@ using System;
 using System.Text;
 using NATS.Client;
 
-using NATS.Client;
-
-string natsURL = Environment.GetEnvironmentVariable("NATS_URL");
-if (natsURL == null)
+string natsUrl = Environment.GetEnvironmentVariable("NATS_URL");
+if (natsUrl == null)
 {
-    natsURL = "nats://127.0.0.1:4222";
+    natsUrl = "nats://127.0.0.1:4222";
 }
 
 // Create a new connection factory to create a connection.
 Options opts = ConnectionFactory.GetDefaultOptions();
-opts.Url = natsURL;
+opts.Url = natsUrl;
 
-// Creates a live connection to the default
-// NATS Server running locally
+// Creates a connection to nats server at the `natsUrl`
+// An `IConnection` is `IDisposable` so it can be use
+// within `using` statement.
 ConnectionFactory cf = new ConnectionFactory();
 IConnection c = cf.CreateConnection(opts);
 
 // Here are some of the accessible properties from
 // the Msg object:
-//   Msg.Data;
-//   Msg.Reply;
-//   Msg.Subject;
-//   Msg.Header;
-//   Msg.MetaData;
+//   - Msg.Data;
+//   - Msg.Reply;
+//   - Msg.Subject;
+//   - Msg.Header;
+//   - Msg.MetaData;
 
 // Setup an event handler to process incoming messages.
 // An anonymous delegate function is used for brevity.
 EventHandler<MsgHandlerEventArgs> handler = (sender, args) =>
 {
-    // print the message
     Msg m = args.Message;
     string text = Encoding.UTF8.GetString(m.Data);
     Console.WriteLine($"Async handler received the message '{text}' from subject '{m.Subject}'");
@@ -39,14 +37,14 @@ EventHandler<MsgHandlerEventArgs> handler = (sender, args) =>
 
 // Subscriptions will only receive messages that are
 // published after the subscription is made, so for this
-// example, we'll publish a message before we are subscribed
+// example, we will publish a message before we are subscribed
 // which will not be received.
 c.Publish("greet.joe", Encoding.UTF8.GetBytes("hello joe 1"));
 
 // The simple way to create an asynchronous subscriber
 // is to simply pass the handler in. Messages will start
 // arriving immediately. We are subscribing to anything that
-// matches the greet.* pattern. You will see that this
+// matches the `greet.*` pattern. You will see that this
 // subscription will not receive the "hello joe 1" message
 IAsyncSubscription subAsync = c.SubscribeAsync("greet.*", handler);
 
@@ -54,7 +52,7 @@ IAsyncSubscription subAsync = c.SubscribeAsync("greet.*", handler);
 // subscribing to greetings to pam.
 ISyncSubscription subSync = c.SubscribeSync("greet.pam");
 
-// lets publish to 2 different greeting messages
+// Lets publish to two different greeting messages
 c.Publish("greet.pam", Encoding.UTF8.GetBytes("hello pam 1"));
 c.Publish("greet.joe", Encoding.UTF8.GetBytes("hello joe 2"));
 
@@ -75,8 +73,8 @@ catch (NATSTimeoutException)
     Console.WriteLine($"Sync subscription no messages currently available");
 }
 
-// Draining and closing a connection
+// Calling drain directly on the connection also closes the
+// connection. If you want to keep the connection open and do
+// other things, you could call drain directly on the subscription,
+// in this example either `subAsync.Drain();` or `subSync.Drain();`
 c.Drain();
-
-// Closing a connection
-c.Close();
