@@ -252,7 +252,32 @@ cat <<- EOF > origin.json
 }
 EOF
 
-cat <<- EOF > mirror.json
+cat <<- EOF > hub-mirror.json
+{
+  "name": "events-m",
+  "retention": "limits",
+  "max_consumers": -1,
+  "max_msgs_per_subject": -1,
+  "max_msgs": -1,
+  "max_bytes": -1,
+  "max_age": 0,
+  "max_msg_size": -1,
+  "storage": "file",
+  "discard": "old",
+  "num_replicas": 1,
+  "mirror": {
+    "name": "events"
+  },
+  "sealed": false,
+  "deny_delete": false,
+  "deny_purge": false,
+  "allow_rollup_hdrs": false,
+  "allow_direct": false,
+  "mirror_direct": false
+}
+EOF
+
+cat <<- EOF > leaf-mirror.json
 {
   "name": "events",
   "retention": "limits",
@@ -264,9 +289,9 @@ cat <<- EOF > mirror.json
   "max_msg_size": -1,
   "storage": "file",
   "discard": "old",
-  "num_replicas": 2,
+  "num_replicas": 1,
   "mirror": {
-    "name": "events",
+    "name": "events-m",
     "external": {
       "api": "\$JS.hub.API"
     }
@@ -281,10 +306,8 @@ cat <<- EOF > mirror.json
 EOF
 
 nats --context hub-app stream add --config origin.json
-nats --context leaf-app stream add --config mirror.json
-
-nats --context hub-app stream report
-nats --context leaf-app stream report
+nats --context hub-app stream add --config hub-mirror.json
+nats --context leaf-app stream add --config leaf-mirror.json
 
 echo 'Starting bench...'
 nats bench \
@@ -299,7 +322,7 @@ nats bench \
   --multisubject \
   events
 
-sleep 1
+sleep 2
 
 # Report the streams
 nats --context hub-app stream report
