@@ -20,11 +20,11 @@ IConnection c = cf.CreateConnection(opts);
 
 // Here are some of the accessible properties from
 // the Msg object:
-//   - Msg.Data;
-//   - Msg.Reply;
-//   - Msg.Subject;
-//   - Msg.Header;
-//   - Msg.MetaData;
+// - Msg.Data
+// - Msg.Reply
+// - Msg.Subject
+// - Msg.Header
+// - Msg.MetaData
 
 // Setup an event handler to process incoming messages.
 // An anonymous delegate function is used for brevity.
