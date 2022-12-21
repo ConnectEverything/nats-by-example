@@ -6,25 +6,6 @@ using NATS.Client;
 using NATS.Client.JetStream;
 using NATS.Client.KeyValue;
 
-// ### Watching for changes
-// Although one could subscribe to the stream directly, it is more convenient
-// to use an `IKeyValueWatcher` which provides a deliberate API and types for tracking
-// changes over time. This implementation will be used later in the example.
-class IntroKeyValueWatcher : IKeyValueWatcher
-{
-    public void Watch(KeyValueEntry entry)
-    {
-        Console.WriteLine("Watcher: {0} {1} -> {2}", entry.Key, entry.Revision, entry.ValueAsString());
-    }
-
-    // The end of data signal can be useful to known when the watcher has _caught up_ with the current updates before
-    // tracking the new ones.
-    public void EndOfData()
-    {
-        Console.WriteLine("Watcher: Received End Of Data Signal");
-    }
-}
-
 string natsUrl = Environment.GetEnvironmentVariable("NATS_URL");
 if (natsUrl == null)
 {
@@ -144,6 +125,7 @@ using (IConnection c = cf.CreateConnection(opts))
     }
 
     // Notice that we can use a wildcard for watching keys.
+    // See the implementation of `IntroKeyValueWatcher` down below.
     IntroKeyValueWatcher watcher = new IntroKeyValueWatcher();
     kv.Watch("sue.*", watcher, KeyValueWatchOption.UpdatesOnly);
 
@@ -162,4 +144,23 @@ using (IConnection c = cf.CreateConnection(opts))
     // Sleep this thread a little so the program has time
     // to receive all the messages before the program quits.
     Thread.Sleep(500);
+}
+
+// ### Watching for changes
+// Although one could subscribe to the stream directly, it is more convenient
+// to use an `IKeyValueWatcher` which provides a deliberate API and types for tracking
+// changes over time. This implementation will be used later in the example.
+class IntroKeyValueWatcher : IKeyValueWatcher
+{
+    public void Watch(KeyValueEntry entry)
+    {
+        Console.WriteLine("Watcher: {0} {1} -> {2}", entry.Key, entry.Revision, entry.ValueAsString());
+    }
+
+    // The end of data signal can be useful to known when the watcher has _caught up_ with the current updates before
+    // tracking the new ones.
+    public void EndOfData()
+    {
+        Console.WriteLine("Watcher: Received End Of Data Signal");
+    }
 }
