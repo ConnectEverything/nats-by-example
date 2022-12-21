@@ -1,0 +1,10 @@
+version: 2.0
+shards:
+  base32:
+    git: https://github.com/jgaskins/base32.git
+    version: 0.1.1+git.commit.18f5647c42dae4de654e3003825fab43dc95b029
+
+  nats:
+    git: https://github.com/jgaskins/nats.git
+    version: 1.2.0+git.commit.712d910ab340d52390e2325a8d3ae4699a3d873a
+

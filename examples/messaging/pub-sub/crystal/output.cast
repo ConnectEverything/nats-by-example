@@ -1,0 +1,9 @@
+{"version": 2, "width": 75, "height": 42, "timestamp": 1671652548, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/pub-sub/crystal"}
+[0.821114, "o", "Network 45f4c610_default  Creating\r\n"]
+[0.852925, "o", "Network 45f4c610_default  Created\r\n"]
+[0.853058, "o", "Container 45f4c610-nats-1  Creating\r\n"]
+[0.893634, "o", "Container 45f4c610-nats-1  Created\r\n"]
+[0.898707, "o", "Container 45f4c610-nats-1  Starting\r\n"]
+[1.153758, "o", "Container 45f4c610-nats-1  Started\r\n"]
+[1.529317, "o", "hello on subject greet.joe\r\n"]
+[1.531924, "o", "hello on subject greet.pam\r\nhello on subject greet.sue\r\n"]

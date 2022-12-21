@@ -1,0 +1,10 @@
+Network c2de532d_default  Creating
+Network c2de532d_default  Created
+Container c2de532d-nats-1  Creating
+Container c2de532d-nats-1  Created
+Container c2de532d-nats-1  Starting
+Container c2de532d-nats-1  Started
+hello, joe
+hello, sue
+hello, bob
+No response

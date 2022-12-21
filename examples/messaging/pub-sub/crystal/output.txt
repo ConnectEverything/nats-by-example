@@ -1,0 +1,9 @@
+Network 45f4c610_default  Creating
+Network 45f4c610_default  Created
+Container 45f4c610-nats-1  Creating
+Container 45f4c610-nats-1  Created
+Container 45f4c610-nats-1  Starting
+Container 45f4c610-nats-1  Started
+hello on subject greet.joe
+hello on subject greet.pam
+hello on subject greet.sue
