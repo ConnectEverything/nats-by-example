@@ -20,6 +20,7 @@ IConnection c = cf.CreateConnection(opts);
 
 // Here are some of the accessible properties from
 // the Msg object:
+//
 // - Msg.Data
 // - Msg.Reply
 // - Msg.Subject
