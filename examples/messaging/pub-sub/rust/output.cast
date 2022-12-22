@@ -1,0 +1,8 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1671711820, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/pub-sub/rust"}
+[3.484267, "o", "Network 27485868_default  Creating\r\n"]
+[3.530813, "o", "Network 27485868_default  Created\r\n"]
+[3.531111, "o", "Container 27485868-nats-1  Creating\r\n"]
+[3.563339, "o", "Container 27485868-nats-1  Created\r\n"]
+[3.56472, "o", "Container 27485868-nats-1  Starting\r\n"]
+[4.061553, "o", "Container 27485868-nats-1  Started\r\n"]
+[4.369486, "o", "Ok(\"hello\") received on \"greet.sue\"\r\nOk(\"hello\") received on \"greet.bob\"\r\nOk(\"hello\") received on \"greet.pam\"\r\n"]

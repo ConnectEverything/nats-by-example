@@ -1,0 +1,9 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1671711930, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/request-reply/rust"}
+[0.341623, "o", "Network cb89888b_default  Creating\r\n"]
+[0.393518, "o", "Network cb89888b_default  Created\r\nContainer cb89888b-nats-1  Creating\r\n"]
+[0.43427, "o", "Container cb89888b-nats-1  Created\r\n"]
+[0.443226, "o", "Container cb89888b-nats-1  Starting\r\n"]
+[0.749598, "o", "Container cb89888b-nats-1  Started\r\n"]
+[1.151195, "o", "got a response: \"hello, sue\"\r\n"]
+[1.252718, "o", "got a response: \"hello, john\"\r\n"]
+[1.355872, "o", "got a response: \"hello, bob\"\r\n"]

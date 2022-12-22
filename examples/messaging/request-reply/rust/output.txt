@@ -1,0 +1,9 @@
+Network cb89888b_default  Creating
+Network cb89888b_default  Created
+Container cb89888b-nats-1  Creating
+Container cb89888b-nats-1  Created
+Container cb89888b-nats-1  Starting
+Container cb89888b-nats-1  Started
+got a response: "hello, sue"
+got a response: "hello, john"
+got a response: "hello, bob"

@@ -1,0 +1,9 @@
+Network 27485868_default  Creating
+Network 27485868_default  Created
+Container 27485868-nats-1  Creating
+Container 27485868-nats-1  Created
+Container 27485868-nats-1  Starting
+Container 27485868-nats-1  Started
+Ok("hello") received on "greet.sue"
+Ok("hello") received on "greet.bob"
+Ok("hello") received on "greet.pam"

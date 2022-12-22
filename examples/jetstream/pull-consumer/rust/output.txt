@@ -1,0 +1,16 @@
+Network 9f2ba469_default  Creating
+Network 9f2ba469_default  Created
+Container 9f2ba469-nats-1  Creating
+Container 9f2ba469-nats-1  Created
+Container 9f2ba469-nats-1  Starting
+Container 9f2ba469-nats-1  Started
+got message on subject events.0 with payload "data"
+got message on subject events.1 with payload "data"
+got message on subject events.2 with payload "data"
+got message on subject events.3 with payload "data"
+got message on subject events.4 with payload "data"
+got message on subject events.5 with payload "data"
+got message on subject events.6 with payload "data"
+got message on subject events.7 with payload "data"
+got message on subject events.8 with payload "data"
+got message on subject events.9 with payload "data"
