@@ -1,9 +1,0 @@
-Network 00b5d1e6_default  Creating
-Network 00b5d1e6_default  Created
-Container 00b5d1e6-nats-1  Creating
-Container 00b5d1e6-nats-1  Created
-Container 00b5d1e6-nats-1  Starting
-Container 00b5d1e6-nats-1  Started
-got a response: "hello, sue"
-got a response: "hello, john"
-got a response: "hello, bob"
