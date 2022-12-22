@@ -32,6 +32,8 @@ jobs:
         run: |
           go install ./cmd/nbe
 
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+
       - name: Generate recordings
         shell: 'script -q -e -c "bash {0}"'
         run: |
