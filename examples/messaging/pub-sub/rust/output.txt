@@ -1,0 +1,6 @@
+Network f4bcd974_default  Creating
+Network f4bcd974_default  Created
+Container f4bcd974-nats-1  Creating
+Container f4bcd974-nats-1  Created
+Container f4bcd974-nats-1  Starting
+Container f4bcd974-nats-1  Started
