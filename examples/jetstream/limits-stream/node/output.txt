@@ -1,3 +1,9 @@
+Network 33f69911_default  Creating
+Network 33f69911_default  Created
+Container 33f69911-nats-1  Creating
+Container 33f69911-nats-1  Created
+Container 33f69911-nats-1  Starting
+Container 33f69911-nats-1  Started
 created the stream
 published 6 messages
 published another 6 messages
@@ -5,9 +11,9 @@ published another 6 messages
   messages: 12,
   bytes: 594,
   first_seq: 1,
-  first_ts: '2022-11-28T16:10:52.262780742Z',
+  first_ts: '2022-12-22T02:04:33.369876577Z',
   last_seq: 12,
-  last_ts: '2022-11-28T16:10:52.271768465Z',
+  last_ts: '2022-12-22T02:04:33.378795748Z',
   num_subjects: 6,
   consumer_count: 0
 }
@@ -15,9 +21,9 @@ published another 6 messages
   messages: 10,
   bytes: 496,
   first_seq: 3,
-  first_ts: '2022-11-28T16:10:52.265882059Z',
+  first_ts: '2022-12-22T02:04:33.373141088Z',
   last_seq: 12,
-  last_ts: '2022-11-28T16:10:52.271768465Z',
+  last_ts: '2022-12-22T02:04:33.378795748Z',
   num_subjects: 6,
   consumer_count: 0
 }
@@ -25,18 +31,18 @@ published another 6 messages
   messages: 6,
   bytes: 298,
   first_seq: 7,
-  first_ts: '2022-11-28T16:10:52.271730355Z',
+  first_ts: '2022-12-22T02:04:33.37874042Z',
   last_seq: 12,
-  last_ts: '2022-11-28T16:10:52.271768465Z',
+  last_ts: '2022-12-22T02:04:33.378795748Z',
   num_subjects: 4,
   consumer_count: 0
 }
-/opt/app/node_modules/nats/lib/nats-base-client/jsutil.js:187
+/opt/app/node_modules/nats/lib/nats-base-client/jsutil.js:190
             return new error_1.NatsError(description, `${code}`);
                    ^
 
 NatsError: duplicates window can not be larger then max age
-    at checkJsErrorCode (/opt/app/node_modules/nats/lib/nats-base-client/jsutil.js:187:20)
+    at checkJsErrorCode (/opt/app/node_modules/nats/lib/nats-base-client/jsutil.js:190:20)
     at StreamAPIImpl.parseJsResponse (/opt/app/node_modules/nats/lib/nats-base-client/jsbaseclient_api.js:89:55)
     at StreamAPIImpl.<anonymous> (/opt/app/node_modules/nats/lib/nats-base-client/jsbaseclient_api.js:71:25)
     at Generator.next (<anonymous>)

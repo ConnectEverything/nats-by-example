@@ -1,0 +1,23 @@
+Network 14c5fa95_default  Creating
+Network 14c5fa95_default  Created
+Container 14c5fa95-nats-1  Creating
+Container 14c5fa95-nats-1  Created
+Container 14c5fa95-nats-1  Starting
+Container 14c5fa95-nats-1  Started
+Starting.. central-az1.conf
+Starting.. central-az2.conf
+Starting.. central-az3.conf
+Starting.. east-az1.conf
+Starting.. east-az2.conf
+Starting.. east-az3.conf
+Starting.. west-az1.conf
+Starting.. west-az2.conf
+Starting.. west-az3.conf
+East cluster healthy?
+{"status":"ok"}
+West cluster healthy?
+{"status":"ok"}
+Central cluster healthy?
+{"status":"ok"}
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions
+exit status 1

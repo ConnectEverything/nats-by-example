@@ -1,3 +1,9 @@
+Network c14c69d3_default  Creating
+Network c14c69d3_default  Created
+Container c14c69d3-nats-1  Creating
+Container c14c69d3-nats-1  Created
+Container c14c69d3-nats-1  Starting
+Container c14c69d3-nats-1  Started
 Starting server rg1-az1-x
 Starting server rg1-az1
 Starting server rg1-az2

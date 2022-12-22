@@ -1,3 +1,9 @@
+Network 7f981d93_default  Creating
+Network 7f981d93_default  Created
+Container 7f981d93-nats-1  Creating
+Container 7f981d93-nats-1  Created
+Container 7f981d93-nats-1  Starting
+Container 7f981d93-nats-1  Started
 Starting server rg1-az1
 Starting server rg1-az2
 Starting server rg1-az3

@@ -1,3 +1,9 @@
+Network f6845987_default  Creating
+Network f6845987_default  Created
+Container f6845987-nats-1  Creating
+Container f6845987-nats-1  Created
+Container f6845987-nats-1  Starting
+Container f6845987-nats-1  Started
 b'hello' on subject greet.joe
 b'hello' on subject greet.pam
 b'hello' on subject greet.bob

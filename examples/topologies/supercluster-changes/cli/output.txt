@@ -1,0 +1,68 @@
+Network 7fa92590_default  Creating
+Network 7fa92590_default  Created
+Container 7fa92590-nats-1  Creating
+Container 7fa92590-nats-1  Created
+Container 7fa92590-nats-1  Starting
+Container 7fa92590-nats-1  Started
+Cluster 1 healthy?
+{"status":"ok"}
+Cluster 2 healthy?
+{"status":"ok"}
+Cluster 3 healthy?
+{"status":"ok"}
+NATS Configuration Context "sys"
+
+      Server URLs: nats://nats:4222
+         Username: sys
+         Password: *********
+            Token: sys
+             Path: /nsc/.config/nats/context/sys.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+NATS Configuration Context "user"
+
+      Server URLs: nats://nats:4222
+         Username: user
+         Password: *********
+            Token: user
+             Path: /nsc/.config/nats/context/user.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+NATS Configuration Context "user-east"
+
+      Server URLs: nats://127.0.0.1:4222,nats://127.0.0.1:4223,nats://127.0.0.1:4224
+         Username: user
+         Password: *********
+            Token: user
+             Path: /nsc/.config/nats/context/user-east.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+NATS Configuration Context "user-central"
+
+      Server URLs: nats://127.0.0.1:4225,nats://127.0.0.1:4226,nats://127.0.0.1:4227
+         Username: user
+         Password: *********
+            Token: user
+             Path: /nsc/.config/nats/context/user-central.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+NATS Configuration Context "user-west"
+
+      Server URLs: nats://127.0.0.1:4228,nats://127.0.0.1:4229,nats://127.0.0.1:4230
+         Username: user
+         Password: *********
+            Token: user
+             Path: /nsc/.config/nats/context/user-west.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+NATS Configuration Context "user"
+
+      Server URLs: nats://nats:4222
+         Username: user
+         Password: *********
+            Token: user
+             Path: /nsc/.config/nats/context/user.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+nats: error: no results received, ensure the account used has system privileges and appropriate permissions
+exit status 1

@@ -1,2 +1,7 @@
-{"version": 2, "width": 92, "height": 58, "timestamp": 1669651444, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/python"}
-[1.331905, "o", "b'hello' on subject greet.joe\r\nb'hello' on subject greet.pam\r\nb'hello' on subject greet.bob\r\n"]
+{"version": 2, "width": 103, "height": 53, "timestamp": 1671674342, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/python"}
+[0.574911, "o", "Network f6845987_default  Creating\r\n"]
+[0.602827, "o", "Network f6845987_default  Created\r\nContainer f6845987-nats-1  Creating\r\n"]
+[0.617677, "o", "Container f6845987-nats-1  Created\r\n"]
+[0.61854, "o", "Container f6845987-nats-1  Starting\r\n"]
+[0.854085, "o", "Container f6845987-nats-1  Started\r\n"]
+[1.312063, "o", "b'hello' on subject greet.joe\r\nb'hello' on subject greet.pam\r\nb'hello' on subject greet.bob\r\n"]

@@ -1,0 +1,265 @@
+Network 884c623f_default  Creating
+Network 884c623f_default  Created
+Container 884c623f-nats-1  Creating
+Container 884c623f-nats-1  Created
+Container 884c623f-nats-1  Starting
+Container 884c623f-nats-1  Started
+Starting n1...
+[11] 2022/12/22 02:14:12.221990 [INF] Starting nats-server
+[11] 2022/12/22 02:14:12.222022 [INF]   Version:  2.9.10
+[11] 2022/12/22 02:14:12.222024 [INF]   Git:      [4caf6aa]
+[11] 2022/12/22 02:14:12.222025 [INF]   Cluster:  hub
+[11] 2022/12/22 02:14:12.222026 [INF]   Name:     n1
+[11] 2022/12/22 02:14:12.222027 [INF]   Node:     fjFyEjc1
+[11] 2022/12/22 02:14:12.222028 [INF]   ID:       NBEUVRSNQJNR4FJUABQ3W5NQETZ3EK4JVFOHCJDF44VQ5DIEEVC3LFTL
+[11] 2022/12/22 02:14:12.222029 [WRN] Plaintext passwords detected, use nkeys or bcrypt
+[11] 2022/12/22 02:14:12.222032 [INF] Using configuration file: n1.conf
+[11] 2022/12/22 02:14:12.222415 [INF] Starting http monitor on 0.0.0.0:8222
+[11] 2022/12/22 02:14:12.222455 [INF] Starting JetStream
+[11] 2022/12/22 02:14:12.222614 [INF]     _ ___ _____ ___ _____ ___ ___   _   __  __
+[11] 2022/12/22 02:14:12.222617 [INF]  _ | | __|_   _/ __|_   _| _ \ __| /_\ |  \/  |
+[11] 2022/12/22 02:14:12.222618 [INF] | || | _|  | | \__ \ | | |   / _| / _ \| |\/| |
+[11] 2022/12/22 02:14:12.222619 [INF]  \__/|___| |_| |___/ |_| |_|_\___/_/ \_\_|  |_|
+[11] 2022/12/22 02:14:12.222619 [INF] 
+[11] 2022/12/22 02:14:12.222620 [INF]          https://docs.nats.io/jetstream
+[11] 2022/12/22 02:14:12.222621 [INF] 
+[11] 2022/12/22 02:14:12.222622 [INF] ---------------- JETSTREAM ----------------
+[11] 2022/12/22 02:14:12.222624 [INF]   Max Memory:      23.36 GB
+[11] 2022/12/22 02:14:12.222626 [INF]   Max Storage:     236.79 GB
+[11] 2022/12/22 02:14:12.222627 [INF]   Store Directory: "n1/jetstream"
+[11] 2022/12/22 02:14:12.222628 [INF] -------------------------------------------
+[11] 2022/12/22 02:14:12.222837 [INF] Starting JetStream cluster
+[11] 2022/12/22 02:14:12.222843 [INF] Creating JetStream metadata controller
+[11] 2022/12/22 02:14:12.223153 [INF] JetStream cluster bootstrapping
+[11] 2022/12/22 02:14:12.223350 [INF] Listening for client connections on 0.0.0.0:4222
+[11] 2022/12/22 02:14:12.223461 [INF] Server is ready
+[11] 2022/12/22 02:14:12.223530 [INF] Cluster name is hub
+[11] 2022/12/22 02:14:12.223556 [INF] Listening for route connections on 0.0.0.0:6222
+[11] 2022/12/22 02:14:12.223890 [ERR] Error trying to connect to route (attempt 1): dial tcp 127.0.0.1:6224: connect: connection refused
+[11] 2022/12/22 02:14:12.223890 [ERR] Error trying to connect to route (attempt 1): dial tcp 127.0.0.1:6223: connect: connection refused
+[11] 2022/12/22 02:14:12.224019 [INF] 127.0.0.1:41766 - rid:7 - Route connection created
+[11] 2022/12/22 02:14:12.224128 [INF] 127.0.0.1:6222 - rid:8 - Route connection created
+[11] 2022/12/22 02:14:12.224175 [INF] 127.0.0.1:6222 - rid:8 - Router connection closed: Duplicate Route
+[11] 2022/12/22 02:14:12.224278 [INF] 127.0.0.1:41766 - rid:7 - Router connection closed: Duplicate Route
+[11] 2022/12/22 02:14:12.323439 [WRN] Waiting for routing to be established...
+Starting n2...
+[22] 2022/12/22 02:14:13.223923 [INF] Starting nats-server
+[22] 2022/12/22 02:14:13.223948 [INF]   Version:  2.9.10
+[22] 2022/12/22 02:14:13.223951 [INF]   Git:      [4caf6aa]
+[22] 2022/12/22 02:14:13.223953 [INF]   Cluster:  hub
+[22] 2022/12/22 02:14:13.223954 [INF]   Name:     n2
+[22] 2022/12/22 02:14:13.223956 [INF]   Node:     44jzkV9D
+[22] 2022/12/22 02:14:13.223958 [INF]   ID:       NAXEABSRHS5YUP57C376Q54PS7KKGC5T2LVKVPEHMZFJAV6WJE6BCEAN
+[22] 2022/12/22 02:14:13.223961 [WRN] Plaintext passwords detected, use nkeys or bcrypt
+[22] 2022/12/22 02:14:13.223964 [INF] Using configuration file: n2.conf
+[22] 2022/12/22 02:14:13.224346 [INF] Starting JetStream
+[22] 2022/12/22 02:14:13.224541 [INF]     _ ___ _____ ___ _____ ___ ___   _   __  __
+[22] 2022/12/22 02:14:13.224544 [INF]  _ | | __|_   _/ __|_   _| _ \ __| /_\ |  \/  |
+[22] 2022/12/22 02:14:13.224545 [INF] | || | _|  | | \__ \ | | |   / _| / _ \| |\/| |
+[22] 2022/12/22 02:14:13.224546 [INF]  \__/|___| |_| |___/ |_| |_|_\___/_/ \_\_|  |_|
+[22] 2022/12/22 02:14:13.224548 [INF] 
+[22] 2022/12/22 02:14:13.224549 [INF]          https://docs.nats.io/jetstream
+[22] 2022/12/22 02:14:13.224550 [INF] 
+[22] 2022/12/22 02:14:13.224550 [INF] ---------------- JETSTREAM ----------------
+[22] 2022/12/22 02:14:13.224553 [INF]   Max Memory:      23.36 GB
+[22] 2022/12/22 02:14:13.224556 [INF]   Max Storage:     236.79 GB
+[22] 2022/12/22 02:14:13.224558 [INF]   Store Directory: "n2/jetstream"
+[22] 2022/12/22 02:14:13.224559 [INF] -------------------------------------------
+[22] 2022/12/22 02:14:13.224763 [INF] Starting JetStream cluster
+[22] 2022/12/22 02:14:13.224767 [INF] Creating JetStream metadata controller
+[22] 2022/12/22 02:14:13.225064 [INF] JetStream cluster bootstrapping
+[22] 2022/12/22 02:14:13.225357 [INF] Listening for client connections on 0.0.0.0:4223
+[22] 2022/12/22 02:14:13.225443 [INF] Server is ready
+[22] 2022/12/22 02:14:13.225552 [INF] Cluster name is hub
+[22] 2022/12/22 02:14:13.225580 [INF] Listening for route connections on 0.0.0.0:6223
+[22] 2022/12/22 02:14:13.225878 [ERR] Error trying to connect to route (attempt 1): dial tcp 127.0.0.1:6224: connect: connection refused
+[22] 2022/12/22 02:14:13.225913 [INF] 127.0.0.1:50624 - rid:9 - Route connection created
+[22] 2022/12/22 02:14:13.225916 [INF] 127.0.0.1:6223 - rid:8 - Route connection created
+[22] 2022/12/22 02:14:13.225913 [INF] 127.0.0.1:6222 - rid:7 - Route connection created
+[22] 2022/12/22 02:14:13.225989 [INF] 127.0.0.1:6223 - rid:8 - Router connection closed: Duplicate Route
+[22] 2022/12/22 02:14:13.226077 [INF] 127.0.0.1:50624 - rid:9 - Router connection closed: Duplicate Route
+[11] 2022/12/22 02:14:13.226138 [INF] 127.0.0.1:41774 - rid:9 - Route connection created
+[22] 2022/12/22 02:14:13.326196 [WRN] Waiting for routing to be established...
+Starting n3...
+[34] 2022/12/22 02:14:14.223504 [INF] Starting nats-server
+[34] 2022/12/22 02:14:14.223522 [INF]   Version:  2.9.10
+[34] 2022/12/22 02:14:14.223524 [INF]   Git:      [4caf6aa]
+[34] 2022/12/22 02:14:14.223525 [INF]   Cluster:  hub
+[34] 2022/12/22 02:14:14.223525 [INF]   Name:     n3
+[34] 2022/12/22 02:14:14.223527 [INF]   Node:     BXScrY9i
+[34] 2022/12/22 02:14:14.223528 [INF]   ID:       ND532JXTOETDBVS56ODLIPZGYYDML62OMIZGTOC2JVHTGY4EGIRKXFG2
+[34] 2022/12/22 02:14:14.223531 [WRN] Plaintext passwords detected, use nkeys or bcrypt
+[34] 2022/12/22 02:14:14.223535 [INF] Using configuration file: n3.conf
+[34] 2022/12/22 02:14:14.223942 [INF] Starting JetStream
+[34] 2022/12/22 02:14:14.224126 [INF]     _ ___ _____ ___ _____ ___ ___   _   __  __
+[34] 2022/12/22 02:14:14.224129 [INF]  _ | | __|_   _/ __|_   _| _ \ __| /_\ |  \/  |
+[34] 2022/12/22 02:14:14.224130 [INF] | || | _|  | | \__ \ | | |   / _| / _ \| |\/| |
+[34] 2022/12/22 02:14:14.224131 [INF]  \__/|___| |_| |___/ |_| |_|_\___/_/ \_\_|  |_|
+[34] 2022/12/22 02:14:14.224133 [INF] 
+[34] 2022/12/22 02:14:14.224134 [INF]          https://docs.nats.io/jetstream
+[34] 2022/12/22 02:14:14.224135 [INF] 
+[34] 2022/12/22 02:14:14.224136 [INF] ---------------- JETSTREAM ----------------
+[34] 2022/12/22 02:14:14.224139 [INF]   Max Memory:      23.36 GB
+[34] 2022/12/22 02:14:14.224141 [INF]   Max Storage:     236.79 GB
+[34] 2022/12/22 02:14:14.224143 [INF]   Store Directory: "n3/jetstream"
+[34] 2022/12/22 02:14:14.224144 [INF] -------------------------------------------
+[34] 2022/12/22 02:14:14.224338 [INF] Starting JetStream cluster
+[34] 2022/12/22 02:14:14.224341 [INF] Creating JetStream metadata controller
+[34] 2022/12/22 02:14:14.224629 [INF] JetStream cluster bootstrapping
+[34] 2022/12/22 02:14:14.224867 [INF] Listening for client connections on 0.0.0.0:4224
+[34] 2022/12/22 02:14:14.224951 [INF] Server is ready
+[34] 2022/12/22 02:14:14.224972 [INF] Cluster name is hub
+[34] 2022/12/22 02:14:14.224992 [INF] Listening for route connections on 0.0.0.0:6224
+[22] 2022/12/22 02:14:14.225305 [INF] 127.0.0.1:50634 - rid:10 - Route connection created
+[34] 2022/12/22 02:14:14.225332 [INF] 127.0.0.1:36350 - rid:7 - Route connection created
+[34] 2022/12/22 02:14:14.225382 [INF] 127.0.0.1:6222 - rid:8 - Route connection created
+[34] 2022/12/22 02:14:14.225452 [INF] 127.0.0.1:6224 - rid:9 - Route connection created
+[11] 2022/12/22 02:14:14.225477 [INF] 127.0.0.1:41778 - rid:10 - Route connection created
+[34] 2022/12/22 02:14:14.225524 [INF] 127.0.0.1:6223 - rid:10 - Route connection created
+[34] 2022/12/22 02:14:14.225578 [INF] 127.0.0.1:6224 - rid:9 - Router connection closed: Duplicate Route
+[22] 2022/12/22 02:14:14.225581 [INF] 127.0.0.1:50646 - rid:11 - Route connection created
+[11] 2022/12/22 02:14:14.225607 [INF] 127.0.0.1:6223 - rid:11 - Route connection created
+[11] 2022/12/22 02:14:14.225621 [INF] 127.0.0.1:6224 - rid:12 - Route connection created
+[11] 2022/12/22 02:14:14.225673 [INF] 127.0.0.1:6223 - rid:11 - Router connection closed: Duplicate Route
+[34] 2022/12/22 02:14:14.225777 [INF] 127.0.0.1:36350 - rid:7 - Router connection closed: Duplicate Route
+[22] 2022/12/22 02:14:14.225797 [INF] 127.0.0.1:50646 - rid:11 - Router connection closed: Duplicate Route
+[34] 2022/12/22 02:14:14.225840 [INF] 127.0.0.1:36352 - rid:11 - Route connection created
+[34] 2022/12/22 02:14:14.225951 [INF] 127.0.0.1:36352 - rid:11 - Router connection closed: Duplicate Route
+[11] 2022/12/22 02:14:14.225976 [INF] 127.0.0.1:6224 - rid:12 - Router connection closed: Duplicate Route
+[22] 2022/12/22 02:14:14.226024 [INF] 127.0.0.1:6224 - rid:12 - Route connection created
+[34] 2022/12/22 02:14:14.226063 [INF] 127.0.0.1:36368 - rid:12 - Route connection created
+[22] 2022/12/22 02:14:14.226113 [INF] 127.0.0.1:6224 - rid:12 - Router connection closed: Duplicate Route
+[34] 2022/12/22 02:14:14.226116 [INF] 127.0.0.1:36368 - rid:12 - Router connection closed: Duplicate Route
+[34] 2022/12/22 02:14:14.325697 [WRN] Waiting for routing to be established...
+Cluster healthy?
+[11] 2022/12/22 02:14:15.223832 [WRN] Healthcheck failed: "JetStream has not established contact with a meta leader"
+[11] 2022/12/22 02:14:16.225167 [WRN] Healthcheck failed: "JetStream has not established contact with a meta leader"
+[11] 2022/12/22 02:14:17.225881 [WRN] Healthcheck failed: "JetStream has not established contact with a meta leader"
+[11] 2022/12/22 02:14:18.227434 [WRN] Healthcheck failed: "JetStream has not established contact with a meta leader"
+[22] 2022/12/22 02:14:19.102647 [INF] Self is new JetStream cluster metadata leader
+[11] 2022/12/22 02:14:19.102970 [INF] JetStream cluster new metadata leader: n2/hub
+[34] 2022/12/22 02:14:19.103019 [INF] JetStream cluster new metadata leader: n2/hub
+{"status":"ok"}
+NATS Configuration Context "sys"
+
+      Server URLs: nats://localhost:4222
+         Username: sys
+         Password: *********
+            Token: sys
+             Path: /nsc/.config/nats/context/sys.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+NATS Configuration Context "app"
+
+      Server URLs: nats://localhost:4222
+         Username: app
+         Password: *********
+            Token: app
+             Path: /nsc/.config/nats/context/app.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+NATS Configuration Context "app"
+
+      Server URLs: nats://localhost:4222
+         Username: app
+         Password: *********
+            Token: app
+             Path: /nsc/.config/nats/context/app.json
+
+WARNING: Shell environment overrides in place using NATS_URL
+[11] 2022/12/22 02:14:19.835425 [INF] JetStream cluster new stream leader for 'APP > events'
+╭───────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                       JetStream Summary                                       │
+├────────┬─────────┬─────────┬───────────┬──────────┬───────┬────────┬──────┬─────────┬─────────┤
+│ Server │ Cluster │ Streams │ Consumers │ Messages │ Bytes │ Memory │ File │ API Req │ API Err │
+├────────┼─────────┼─────────┼───────────┼──────────┼───────┼────────┼──────┼─────────┼─────────┤
+│ n1     │ hub     │ 1       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 1       │ 0       │
+│ n3     │ hub     │ 1       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ n2*    │ hub     │ 1       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 1       │ 0       │
+├────────┼─────────┼─────────┼───────────┼──────────┼───────┼────────┼──────┼─────────┼─────────┤
+│        │         │ 3       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 2       │ 0       │
+╰────────┴─────────┴─────────┴───────────┴──────────┴───────┴────────┴──────┴─────────┴─────────╯
+
+╭────────────────────────────────────────────────────────────╮
+│                RAFT Meta Group Information                 │
+├──────┬──────────┬────────┬─────────┬────────┬────────┬─────┤
+│ Name │ ID       │ Leader │ Current │ Online │ Active │ Lag │
+├──────┼──────────┼────────┼─────────┼────────┼────────┼─────┤
+│ n1   │ fjFyEjc1 │        │ true    │ true   │ 0.56s  │ 0   │
+│ n2   │ 44jzkV9D │ yes    │ true    │ true   │ 0.00s  │ 0   │
+│ n3   │ BXScrY9i │        │ true    │ true   │ 0.56s  │ 0   │
+╰──────┴──────────┴────────┴─────────┴────────┴────────┴─────╯
+Starting bench...
+[34] 2022/12/22 02:14:20.185237 [INF] JetStream cluster new consumer leader for 'APP > events > HINEeN0y'
+Obtaining Stream stats
+
+╭─────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                        Stream Report                                        │
+├────────┬─────────┬───────────┬───────────┬──────────┬────────┬──────┬─────────┬─────────────┤
+│ Stream │ Storage │ Placement │ Consumers │ Messages │ Bytes  │ Lost │ Deleted │ Replicas    │
+├────────┼─────────┼───────────┼───────────┼──────────┼────────┼──────┼─────────┼─────────────┤
+│ events │ File    │           │ 1         │ 94       │ 98 KiB │ 0    │ 0       │ n1*, n2, n3 │
+╰────────┴─────────┴───────────┴───────────┴──────────┴────────┴──────┴─────────┴─────────────╯
+
+Stopping and resetting node n2...
+[11] 2022/12/22 02:14:21.193898 [INF] 127.0.0.1:41774 - rid:9 - Router connection closed: Client Closed
+[34] 2022/12/22 02:14:21.193911 [INF] 127.0.0.1:6223 - rid:10 - Router connection closed: Client Closed
+main.sh: line 166:    22 Killed                  nats-server -c n2.conf -P n2.pid
+Starting n2...
+[143] 2022/12/22 02:14:21.198260 [INF] Starting nats-server
+[143] 2022/12/22 02:14:21.198286 [INF]   Version:  2.9.10
+[143] 2022/12/22 02:14:21.198288 [INF]   Git:      [4caf6aa]
+[143] 2022/12/22 02:14:21.198289 [INF]   Cluster:  hub
+[143] 2022/12/22 02:14:21.198290 [INF]   Name:     n2
+[143] 2022/12/22 02:14:21.198293 [INF]   Node:     44jzkV9D
+[143] 2022/12/22 02:14:21.198294 [INF]   ID:       NA2I6KO24GPO6U3JYSOGIAB3HYUOESTGLDY6A3DNDNPMG5EMY5XA7T3S
+[143] 2022/12/22 02:14:21.198298 [WRN] Plaintext passwords detected, use nkeys or bcrypt
+[143] 2022/12/22 02:14:21.198305 [INF] Using configuration file: n2.conf
+[143] 2022/12/22 02:14:21.198925 [INF] Starting JetStream
+[143] 2022/12/22 02:14:21.199147 [INF]     _ ___ _____ ___ _____ ___ ___   _   __  __
+[143] 2022/12/22 02:14:21.199151 [INF]  _ | | __|_   _/ __|_   _| _ \ __| /_\ |  \/  |
+[143] 2022/12/22 02:14:21.199152 [INF] | || | _|  | | \__ \ | | |   / _| / _ \| |\/| |
+[143] 2022/12/22 02:14:21.199153 [INF]  \__/|___| |_| |___/ |_| |_|_\___/_/ \_\_|  |_|
+[143] 2022/12/22 02:14:21.199154 [INF] 
+[143] 2022/12/22 02:14:21.199157 [INF]          https://docs.nats.io/jetstream
+[143] 2022/12/22 02:14:21.199158 [INF] 
+[143] 2022/12/22 02:14:21.199159 [INF] ---------------- JETSTREAM ----------------
+[143] 2022/12/22 02:14:21.199162 [INF]   Max Memory:      23.36 GB
+[143] 2022/12/22 02:14:21.199164 [INF]   Max Storage:     236.79 GB
+[143] 2022/12/22 02:14:21.199165 [INF]   Store Directory: "n2/jetstream"
+[143] 2022/12/22 02:14:21.199167 [INF] -------------------------------------------
+[143] 2022/12/22 02:14:21.199407 [INF] Starting JetStream cluster
+[143] 2022/12/22 02:14:21.199411 [INF] Creating JetStream metadata controller
+[143] 2022/12/22 02:14:21.199776 [INF] JetStream cluster bootstrapping
+[143] 2022/12/22 02:14:21.200090 [INF] Listening for client connections on 0.0.0.0:4223
+[143] 2022/12/22 02:14:21.200196 [INF] Server is ready
+[143] 2022/12/22 02:14:21.200233 [INF] Cluster name is hub
+[143] 2022/12/22 02:14:21.200271 [INF] Listening for route connections on 0.0.0.0:6223
+[34] 2022/12/22 02:14:21.200624 [INF] 127.0.0.1:60980 - rid:19 - Route connection created
+[143] 2022/12/22 02:14:21.200736 [INF] 127.0.0.1:6222 - rid:7 - Route connection created
+[143] 2022/12/22 02:14:21.200762 [INF] 127.0.0.1:6223 - rid:8 - Route connection created
+[143] 2022/12/22 02:14:21.200876 [INF] 127.0.0.1:6224 - rid:9 - Route connection created
+[143] 2022/12/22 02:14:21.200930 [INF] 127.0.0.1:60124 - rid:10 - Route connection created
+[143] 2022/12/22 02:14:21.201334 [INF] 127.0.0.1:6223 - rid:8 - Router connection closed: Duplicate Route
+[143] 2022/12/22 02:14:21.201431 [INF] 127.0.0.1:60124 - rid:10 - Router connection closed: Duplicate Route
+[11] 2022/12/22 02:14:21.201607 [INF] 127.0.0.1:39066 - rid:24 - Route connection created
+[11] 2022/12/22 02:14:21.201887 [INF] 127.0.0.1:6223 - rid:25 - Route connection created
+[143] 2022/12/22 02:14:21.201953 [INF] 127.0.0.1:60138 - rid:11 - Route connection created
+[11] 2022/12/22 02:14:21.202016 [INF] 127.0.0.1:6223 - rid:25 - Router connection closed: Duplicate Route
+[143] 2022/12/22 02:14:21.202034 [INF] 127.0.0.1:60138 - rid:11 - Router connection closed: Duplicate Route
+[143] 2022/12/22 02:14:21.300972 [WRN] Waiting for routing to be established...
+[143] 2022/12/22 02:14:22.267152 [INF] 127.0.0.1:60144 - rid:12 - Route connection created
+[34] 2022/12/22 02:14:22.267176 [INF] 127.0.0.1:6223 - rid:20 - Route connection created
+[34] 2022/12/22 02:14:22.267242 [INF] 127.0.0.1:6223 - rid:20 - Router connection closed: Duplicate Route
+[143] 2022/12/22 02:14:22.267407 [INF] 127.0.0.1:60144 - rid:12 - Router connection closed: Duplicate Route
+[11] 2022/12/22 02:14:22.284404 [INF] 127.0.0.1:6223 - rid:26 - Route connection created
+[143] 2022/12/22 02:14:22.284421 [INF] 127.0.0.1:60156 - rid:13 - Route connection created
+[11] 2022/12/22 02:14:22.284492 [INF] 127.0.0.1:6223 - rid:26 - Router connection closed: Duplicate Route
+[143] 2022/12/22 02:14:22.284534 [INF] 127.0.0.1:60156 - rid:13 - Router connection closed: Duplicate Route
+Obtaining Stream stats
+
+[11] 2022/12/22 02:14:26.090132 [INF] Self is new JetStream cluster metadata leader
+[34] 2022/12/22 02:14:26.090210 [INF] JetStream cluster new metadata leader: n1/hub
+[143] 2022/12/22 02:14:26.090380 [INF] JetStream cluster new metadata leader: n1/hub
+nats: error: context deadline exceeded
+exit status 1

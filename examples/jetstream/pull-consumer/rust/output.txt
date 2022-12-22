@@ -1,10 +1,8 @@
-got message on subject events.0 with payload "data"
-got message on subject events.1 with payload "data"
-got message on subject events.2 with payload "data"
-got message on subject events.3 with payload "data"
-got message on subject events.4 with payload "data"
-got message on subject events.5 with payload "data"
-got message on subject events.6 with payload "data"
-got message on subject events.7 with payload "data"
-got message on subject events.8 with payload "data"
-got message on subject events.9 with payload "data"
+Network fea2d700_default  Creating
+Network fea2d700_default  Created
+Container fea2d700-nats-1  Creating
+Container fea2d700-nats-1  Created
+Container fea2d700-nats-1  Starting
+Container fea2d700-nats-1  Started
+Error: Error("data did not match any variant of untagged enum Response", line: 0, column: 0)
+exit status 1

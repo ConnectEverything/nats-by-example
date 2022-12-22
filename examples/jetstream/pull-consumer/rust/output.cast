@@ -1,4 +1,9 @@
-{"version": 2, "width": 92, "height": 58, "timestamp": 1669651972, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/pull-consumer/rust"}
-[1.131861, "o", "got message on subject events.0 with payload \"data\"\r\ngot message on subject events.1 with payload \"data\"\r\ngot message on subject events.2 with payload \"data\"\r\ngot message on subject events.3 with payload \"data\"\r\ngot message on subject events.4 with payload \"data\"\r\ngot message on subject events.5 with payload \"data\"\r\n"]
-[1.131974, "o", "got message on subject events.6 with payload \"data\"\r\ngot message on subject events.7 with payload \"data\"\r\ngot message on subject events.8 with payload \"data\"\r\n"]
-[1.13199, "o", "got message on subject events.9 with payload \"data\"\r\n"]
+{"version": 2, "width": 103, "height": 53, "timestamp": 1671674775, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/pull-consumer/rust"}
+[0.568538, "o", "Network fea2d700_default  Creating\r\n"]
+[0.593177, "o", "Network fea2d700_default  Created\r\n"]
+[0.593222, "o", "Container fea2d700-nats-1  Creating\r\n"]
+[0.623193, "o", "Container fea2d700-nats-1  Created\r\n"]
+[0.623923, "o", "Container fea2d700-nats-1  Starting\r\n"]
+[0.809834, "o", "Container fea2d700-nats-1  Started\r\n"]
+[1.103762, "o", "Error: Error(\"data did not match any variant of untagged enum Response\", line: 0, column: 0)\r\n"]
+[1.561526, "o", "exit status 1\r\n"]

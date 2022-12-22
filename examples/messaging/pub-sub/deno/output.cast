@@ -1,2 +1,8 @@
-{"version": 2, "width": 92, "height": 58, "timestamp": 1669651419, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/deno"}
-[1.116497, "o", "hello on subject greet.joe\r\nhello on subject greet.pam\r\nhello on subject greet.sue\r\n"]
+{"version": 2, "width": 103, "height": 53, "timestamp": 1671674295, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/deno"}
+[0.527615, "o", "Network 8f3f8c98_default  Creating\r\n"]
+[0.552851, "o", "Network 8f3f8c98_default  Created\r\n"]
+[0.552967, "o", "Container 8f3f8c98-nats-1  Creating\r\n"]
+[0.589522, "o", "Container 8f3f8c98-nats-1  Created\r\n"]
+[0.590327, "o", "Container 8f3f8c98-nats-1  Starting\r\n"]
+[0.794519, "o", "Container 8f3f8c98-nats-1  Started\r\n"]
+[1.098493, "o", "hello on subject greet.joe\r\nhello on subject greet.pam\r\nhello on subject greet.sue\r\n"]

@@ -1,3 +1,9 @@
+Network 0fbee31d_default  Creating
+Network 0fbee31d_default  Created
+Container 0fbee31d-nats-1  Creating
+Container 0fbee31d-nats-1  Created
+Container 0fbee31d-nats-1  Starting
+Container 0fbee31d-nats-1  Started
 events.us.page_loaded
 events.us.mouse_clicked
 events.us.input_focused

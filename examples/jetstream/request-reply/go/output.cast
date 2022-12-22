@@ -1,0 +1,9 @@
+{"version": 2, "width": 103, "height": 53, "timestamp": 1671674900, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/request-reply/go"}
+[0.569305, "o", "Network d7163341_default  Creating\r\n"]
+[0.594965, "o", "Network d7163341_default  Created\r\n"]
+[0.595073, "o", "Container d7163341-nats-1  Creating\r\n"]
+[0.64925, "o", "Container d7163341-nats-1  Created\r\n"]
+[0.650091, "o", "Container d7163341-nats-1  Starting\r\n"]
+[0.837276, "o", "Container d7163341-nats-1  Started\r\n"]
+[2.100032, "o", "panic: runtime error: invalid memory address or nil pointer dereference\r\n[signal SIGSEGV: segmentation violation code=0x1 addr=0x28 pc=0x660fb2]\r\n\r\ngoroutine 1 [running]:\r\nmain.main()\r\n\t/opt/app/main.go:29 +0x172\r\n"]
+[2.584759, "o", "exit status 2\r\n"]

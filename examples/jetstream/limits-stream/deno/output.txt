@@ -1,3 +1,9 @@
+Network 14ab4589_default  Creating
+Network 14ab4589_default  Created
+Container 14ab4589-nats-1  Creating
+Container 14ab4589-nats-1  Created
+Container 14ab4589-nats-1  Starting
+Container 14ab4589-nats-1  Started
 created the stream
 published 6 messages
 published another 6 messages
@@ -5,9 +11,9 @@ published another 6 messages
   messages: 12,
   bytes: 594,
   first_seq: 1,
-  first_ts: "2022-11-28T16:10:58.250632123Z",
+  first_ts: "2022-12-22T02:04:40.399083675Z",
   last_seq: 12,
-  last_ts: "2022-11-28T16:10:58.260396015Z",
+  last_ts: "2022-12-22T02:04:40.408656955Z",
   num_subjects: 6,
   consumer_count: 0
 }
@@ -15,9 +21,9 @@ published another 6 messages
   messages: 10,
   bytes: 496,
   first_seq: 3,
-  first_ts: "2022-11-28T16:10:58.254137056Z",
+  first_ts: "2022-12-22T02:04:40.402160703Z",
   last_seq: 12,
-  last_ts: "2022-11-28T16:10:58.260396015Z",
+  last_ts: "2022-12-22T02:04:40.408656955Z",
   num_subjects: 6,
   consumer_count: 0
 }
@@ -25,9 +31,9 @@ published another 6 messages
   messages: 6,
   bytes: 298,
   first_seq: 7,
-  first_ts: "2022-11-28T16:10:58.260347904Z",
+  first_ts: "2022-12-22T02:04:40.408586142Z",
   last_seq: 12,
-  last_ts: "2022-11-28T16:10:58.260396015Z",
+  last_ts: "2022-12-22T02:04:40.408656955Z",
   num_subjects: 4,
   consumer_count: 0
 }
@@ -37,6 +43,6 @@ published another 6 messages
   first_seq: 13,
   first_ts: "1970-01-01T00:00:00Z",
   last_seq: 12,
-  last_ts: "2022-11-28T16:10:58.260396015Z",
+  last_ts: "2022-12-22T02:04:40.408656955Z",
   consumer_count: 0
 }

@@ -1,25 +1,31 @@
+Network b176da20_default  Creating
+Network b176da20_default  Created
+Container b176da20-nats-1  Creating
+Container b176da20-nats-1  Created
+Container b176da20-nats-1  Starting
+Container b176da20-nats-1  Started
 + NATS_MAIN_URL=nats://0.0.0.0:4222
 + NATS_LEAF_URL=nats://0.0.0.0:4223
 + nsc add operator --generate-signing-key --sys --name local
-[ OK ] generated and stored operator key "OACNKX3BTBGNJZJMOFWUQNSZXNUEDJYHU5TMIB6MHFEREKTWWJBPRSYM"
+[ OK ] generated and stored operator key "ODD7ST4AHMWRMKAPJVGAE6FK6VAPEYD6GWQC3XMKPPOLO6KHMS2HF2F6"
 [ OK ] added operator "local"
 [ OK ] When running your own nats-server, make sure they run at least version 2.2.0
-[ OK ] created operator signing key: OCIQZF4HFOG4UPDWUXPAAEK7ZF74YO2OBR364JXFM4RTKKTDDONAZGLI
-[ OK ] created system_account: name:SYS id:AC7EHSC4YWGU2VNJSBFTWO2QQZFYXYPVA2RW3G5ZLQAXSCEAEESDBXNG
-[ OK ] created system account user: name:sys id:UCCYKLEDEBMU3EBNFLG5BIDQFYKFOPJTI6Q45COWSWPLIB4N2HKRGMFW
+[ OK ] created operator signing key: OAEZDHX7T4FSBNTAQKYTD557VAEF673UK3PVQIVGVYXIZHETZLIEAVVA
+[ OK ] created system_account: name:SYS id:ACUCK6L52U5NB5XAT4CRMHLYTRONKFWYDMYMB7ALQZJHGM47DKHYW2FA
+[ OK ] created system account user: name:sys id:UCLZ3NR5VFDY26Q6NQCFRKITMDIW7SG45NF5TDU4LJCIZRWT5VEOQF7D
 [ OK ] system account user creds file stored in `/nsc/nkeys/creds/local/SYS/sys.creds`
 + nsc edit operator --require-signing-keys --account-jwt-server-url nats://0.0.0.0:4222
 [ OK ] strict signing key usage set to: true
 [ OK ] set account jwt server url to "nats://0.0.0.0:4222"
 [ OK ] edited operator "local"
 + nsc add account APP
-[ OK ] generated and stored account key "AAU7IHCFQFI4C4ACZOFAN2HGVVZTY3WQOAVBYIZCYUMEAMQW42OJB44R"
+[ OK ] generated and stored account key "ADFPYYP55AC3AUSNV664DMTSO6ZA4ESESQYQHAPAUUQZRPUAM4M3NF7J"
 [ OK ] added account "APP"
 + nsc edit account APP --sk generate
-[ OK ] added signing key "ACGU6K6VVWGW6RXU7CKFIBWZFXVWP5PSGO277QNAE3TX672OAKHTXWR2"
+[ OK ] added signing key "ADJ5JSC6BJ2GYMNZEIVI2PIZBLSRMTRBLDJI2CPXSXBBFRHCMQ3DHSYD"
 [ OK ] edited account "APP"
 + nsc add user --account APP user
-[ OK ] generated and stored user key "UCABFPW2AJOCASHBEGNF5RLPBAVOMFD2YPXBIMN6F7UKI2JOWUTDKHZD"
+[ OK ] generated and stored user key "UC7XHVG3MV6GPOYD7SCBUHO3XRI4QUNOXLOIZOED27RSZSXDVSCU2AAA"
 [ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/user.creds`
 [ OK ] added user "user" to account "APP"
 + nsc env
@@ -71,37 +77,37 @@ NATS Configuration Context "leaf-user"
 
 WARNING: Shell environment overrides in place using NATS_URL
 + nsc generate config --nats-resolver --sys-account SYS
-Creating the main server conf...
 + echo 'Creating the main server conf...'
 + cat
+Creating the main server conf...
+Creating the leaf node conf...
 + echo 'Creating the leaf node conf...'
 + cat
-Creating the leaf node conf...
 + MAIN_PID=93
 + sleep 1
 + nats-server -c main.conf
+Pushing the account JWT...
 + echo 'Pushing the account JWT...'
 + nsc push -a APP
-Pushing the account JWT...
 [ OK ] push to nats-server "nats://0.0.0.0:4222" using system account "SYS":
        [ OK ] push APP to nats-server with nats account resolver:
-              [ OK ] pushed "APP" to nats-server NAOVXXWDAQNC2IDHZDBEWXT2TLYNO3YUM6EBNPZ54DUXLLVLENQRKP33: jwt updated
+              [ OK ] pushed "APP" to nats-server NDRIQUWRXYK5SKC4O4ONCM4SOXKNQU6NBREQ55UJ46SZVYAB2XFTOLEJ: jwt updated
               [ OK ] pushed to a total of 1 nats-server
-+ LEAF_PID=109
++ LEAF_PID=110
 + sleep 1
 + nats-server -c leaf.conf
-+ SERVICE_PID=119
-+ sleep 1
 + nats --context main-user reply greet hello
-16:32:26 Listening on "greet" in group "NATS-RPLY-22"
++ SERVICE_PID=120
++ sleep 1
+02:11:09 Listening on "greet" in group "NATS-RPLY-22"
 + nats --context leaf-user request greet ''
-16:32:27 Sending request on "greet"
+02:11:10 Sending request on "greet"
+02:11:10 [#0] Received on subject "greet":
 
 
-16:32:27 [#0] Received on subject "greet":
 hello
 
-16:32:27 Received with rtt 655.5µs
-+ kill 119
-+ kill 109
+02:11:10 Received with rtt 233.924µs
++ kill 120
++ kill 110
 + kill 93

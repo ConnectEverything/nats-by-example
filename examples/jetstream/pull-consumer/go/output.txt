@@ -1,4 +1,10 @@
-ephemeral name is "OZS82hE4"
+Network 5f05eca9_default  Creating
+Network 5f05eca9_default  Created
+Container 5f05eca9-nats-1  Creating
+Container 5f05eca9-nats-1  Created
+Container 5f05eca9-nats-1  Starting
+Container 5f05eca9-nats-1  Started
+ephemeral name is "E4EvsyDY"
 got 2 messages
 got 1 messages
 timeout? true

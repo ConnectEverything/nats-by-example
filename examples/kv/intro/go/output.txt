@@ -1,3 +1,9 @@
+Network 1fddce54_default  Creating
+Network 1fddce54_default  Created
+Container 1fddce54-nats-1  Creating
+Container 1fddce54-nats-1  Created
+Container 1fddce54-nats-1  Starting
+Container 1fddce54-nats-1  Started
 sue.color @ 1 -> "blue"
 sue.color @ 2 -> "green"
 expected error: nats: wrong last sequence: 2

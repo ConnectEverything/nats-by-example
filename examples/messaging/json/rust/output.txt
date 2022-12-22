@@ -1,2 +1,8 @@
+Network 3b231910_default  Creating
+Network 3b231910_default  Created
+Container 3b231910-nats-1  Creating
+Container 3b231910-nats-1  Created
+Container 3b231910-nats-1  Starting
+Container 3b231910-nats-1  Started
 received valid JSON payload: foo="bar" bar=27
 received invalid JSON payload: b"not json"

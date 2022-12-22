@@ -1,0 +1,8 @@
+Network 01a44388_default  Creating
+Network 01a44388_default  Created
+Container 01a44388-nats-1  Creating
+Container 01a44388-nats-1  Created
+Container 01a44388-nats-1  Starting
+Container 01a44388-nats-1  Started
+Error: Error("data did not match any variant of untagged enum Response", line: 0, column: 0)
+exit status 1

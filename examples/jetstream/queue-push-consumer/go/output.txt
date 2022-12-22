@@ -1,14 +1,20 @@
+Network 264c9105_default  Creating
+Network 264c9105_default  Created
+Container 264c9105-nats-1  Creating
+Container 264c9105-nats-1  Created
+Container 264c9105-nats-1  Starting
+Container 264c9105-nats-1  Started
 # Durable (implicit)
 deliver group: "event-processor"
-deliver subject: "_INBOX.ty4KkTYOtmSgsDSf5MN2p2"
-sub1: received message "events.3"
-sub2: received message "events.5"
-sub3: received message "events.1"
+deliver subject: "_INBOX.2W7V2iLLywvyLtE0sqJJJX"
+sub1: received message "events.1"
+sub2: received message "events.3"
+sub3: receive timeout
 
 # Durable (explicit)
-sub1: received message "events.6"
-sub3: received message "events.1"
-sub2: received message "events.3"
+sub1: received message "events.3"
+sub2: received message "events.1"
+sub3: received message "events.5"
+sub2: received message "events.2"
 sub2: received message "events.4"
-sub3: received message "events.2"
-sub2: received message "events.5"
+sub3: received message "events.6"

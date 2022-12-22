@@ -1,15 +1,21 @@
-16:03:33 Published 5 bytes to "greet.joe"
-16:03:33 Subscribing on greet.* 
-16:03:33 Published 5 bytes to "greet.joe"
+Network fe4ecf1c_default  Creating
+Network fe4ecf1c_default  Created
+Container fe4ecf1c-nats-1  Creating
+Container fe4ecf1c-nats-1  Created
+Container fe4ecf1c-nats-1  Starting
+Container fe4ecf1c-nats-1  Started
+01:57:58 Published 5 bytes to "greet.joe"
+01:57:58 Subscribing on greet.* 
+01:57:58 Published 5 bytes to "greet.joe"
 [#1] Received on "greet.joe"
 hello
 
-16:03:33 Published 5 bytes to "greet.pam"
+01:57:58 Published 5 bytes to "greet.pam"
 [#2] Received on "greet.pam"
 hello
 
-16:03:33 Published 5 bytes to "greet.bob"
+01:57:58 Published 5 bytes to "greet.bob"
 [#3] Received on "greet.bob"
 hello
 
-16:03:33 Published 5 bytes to "greet.bob"
+01:57:58 Published 5 bytes to "greet.bob"

@@ -1,2 +1,7 @@
-nats: error: no results received, ensure the account used has system privileges and appropriate permissions
-exit status 1
+Network 871eb940_default  Creating
+Network 871eb940_default  Created
+Container 871eb940-nats-1  Creating
+Container 871eb940-nats-1  Created
+Container 871eb940-nats-1  Starting
+Container 871eb940-nats-1  Started
+exit status 7

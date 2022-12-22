@@ -1,3 +1,9 @@
+Network 865b59b9_default  Creating
+Network 865b59b9_default  Created
+Container 865b59b9-nats-1  Creating
+Container 865b59b9-nats-1  Created
+Container 865b59b9-nats-1  Starting
+Container 865b59b9-nats-1  Started
 subscribed after a publish...
 msg is nil? true
 msg data: "hello" on subject "greet.joe"

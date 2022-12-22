@@ -1,3 +1,9 @@
+Network e1091596_default  Creating
+Network e1091596_default  Created
+Container e1091596-nats-1  Creating
+Container e1091596-nats-1  Created
+Container e1091596-nats-1  Starting
+Container e1091596-nats-1  Started
 --- max in-flight messages (n=1) ---
 requested 3, got 2
 nats: timeout

@@ -1,2 +1,8 @@
+Network a1cf31f6_default  Creating
+Network a1cf31f6_default  Created
+Container a1cf31f6-nats-1  Creating
+Container a1cf31f6-nats-1  Created
+Container a1cf31f6-nats-1  Starting
+Container a1cf31f6-nats-1  Started
 Starting the servers...
 exit status 22

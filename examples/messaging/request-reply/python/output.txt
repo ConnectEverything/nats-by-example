@@ -1,3 +1,9 @@
+Network 22bfe81c_default  Creating
+Network 22bfe81c_default  Created
+Container 22bfe81c-nats-1  Creating
+Container 22bfe81c-nats-1  Created
+Container 22bfe81c-nats-1  Starting
+Container 22bfe81c-nats-1  Started
 b'hello, joe'
 b'hello, sue'
 b'hello, bob'

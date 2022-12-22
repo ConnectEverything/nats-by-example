@@ -1,3 +1,9 @@
+Network f343907f_default  Creating
+Network f343907f_default  Created
+Container f343907f-nats-1  Creating
+Container f343907f-nats-1  Created
+Container f343907f-nats-1  Starting
+Container f343907f-nats-1  Started
 hello, joe
 hello, sue
 hello, bob
