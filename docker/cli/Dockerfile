@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 FROM golang:1.19-alpine3.17 AS build
 
 RUN apk update && apk add git

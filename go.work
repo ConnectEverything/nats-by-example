@@ -1,3 +1,6 @@
-go 1.18
+go 1.19
 
-use ./cmd/nbe
+use (
+	./cmd/nbe
+	./docker/go
+)

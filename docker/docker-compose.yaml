@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   nats:
-    image: docker.io/nats:2.9.8
+    image: docker.io/nats:2.9.10
     command:
       - "--debug"
       - "--http_port=8222"
