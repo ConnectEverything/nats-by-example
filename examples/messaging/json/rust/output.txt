@@ -1,8 +1,0 @@
-Network a68a3dea_default  Creating
-Network a68a3dea_default  Created
-Container a68a3dea-nats-1  Creating
-Container a68a3dea-nats-1  Created
-Container a68a3dea-nats-1  Starting
-Container a68a3dea-nats-1  Started
-received valid JSON payload: foo="bar" bar=27
-received invalid JSON payload: b"not json"
