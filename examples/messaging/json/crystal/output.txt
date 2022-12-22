@@ -1,0 +1,8 @@
+Network bbc337cb_default  Creating
+Network bbc337cb_default  Created
+Container bbc337cb-nats-1  Creating
+Container bbc337cb-nats-1  Created
+Container bbc337cb-nats-1  Starting
+Container bbc337cb-nats-1  Started
+received valid JSON: Payload(@foo="bar", @bar=27)
+received invalid JSON: not json
