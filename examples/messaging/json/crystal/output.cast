@@ -1,9 +1,8 @@
-{"version": 2, "width": 75, "height": 13, "timestamp": 1671667020, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/json/crystal"}
-[0.796703, "o", "Network bbc337cb_default  Creating\r\n"]
-[0.828258, "o", "Network bbc337cb_default  Created\r\n"]
-[0.828347, "o", "Container bbc337cb-nats-1  Creating\r\n"]
-[0.864358, "o", "Container bbc337cb-nats-1  Created\r\n"]
-[0.86839, "o", "Container bbc337cb-nats-1  Starting\r\n"]
-[1.124737, "o", "Container bbc337cb-nats-1  Started\r\n"]
-[1.485158, "o", "received valid JSON: Payload(@foo=\"bar\", @bar=27)\r\n"]
-[1.522546, "o", "received invalid JSON: not json\r\n"]
+{"version": 2, "width": 75, "height": 21, "timestamp": 1671752124, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/json/crystal"}
+[0.59033, "o", "Network 01140475_default  Creating\r\n"]
+[0.620492, "o", "Network 01140475_default  Created\r\nContainer 01140475-nats-1  Creating\r\n"]
+[0.658072, "o", "Container 01140475-nats-1  Created\r\n"]
+[0.663308, "o", "Container 01140475-nats-1  Starting\r\n"]
+[0.92865, "o", "Container 01140475-nats-1  Started\r\n"]
+[1.300392, "o", "received valid JSON: Payload(@foo=\"bar\", @bar=27)\r\n"]
+[1.339766, "o", "received invalid JSON: not json\r\n"]
