@@ -13,8 +13,8 @@ Options opts = ConnectionFactory.GetDefaultOptions();
 opts.Url = natsUrl;
 
 // Creates a connection to nats server at the `natsUrl`
-// An `IConnection` is `IDisposable` so it can be use
-// within `using` statement.
+// An `IConnection` is `IDisposable` so it can be used
+// within a `using` statement.
 ConnectionFactory cf = new ConnectionFactory();
 IConnection c = cf.CreateConnection(opts);
 
