@@ -1,0 +1,11 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1671794495, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/request-reply/dotnet"}
+[0.709271, "o", "Network 72154e16_default  Creating\r\n"]
+[0.755061, "o", "Network 72154e16_default  Created\r\n"]
+[0.755373, "o", "Container 72154e16-nats-1  Creating\r\n"]
+[0.778928, "o", "Container 72154e16-nats-1  Created\r\n"]
+[0.779519, "o", "Container 72154e16-nats-1  Starting\r\n"]
+[1.089717, "o", "Container 72154e16-nats-1  Started\r\n"]
+[1.577589, "o", "Response received: hello bob\r\n"]
+[1.580589, "o", "Response received: hello pam\r\n"]
+[1.627699, "o", "NATSNoRespondersException: There were no responders listening for the subject.\r\n"]
+[1.630853, "o", "NATSNoRespondersException: There were no responders listening for the subject.\r\n"]
