@@ -6,5 +6,5 @@ shards:
 
   nats:
     git: https://github.com/jgaskins/nats.git
-    version: 1.2.0+git.commit.712d910ab340d52390e2325a8d3ae4699a3d873a
+    version: 1.2.1
 
