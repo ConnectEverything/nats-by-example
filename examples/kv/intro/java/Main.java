@@ -79,7 +79,7 @@ public class Main {
       // fetch messages.
       // If we look at the subject, we will notice that first token is a
       // special reserved prefix, the second token is the bucket name, and
-      // remaining suffix is the actualy key. The bucket name is inherently
+      // remaining suffix is the actually key. The bucket name is inherently
       // a namespace for all keys and thus there is no concern for conflict
       // across buckets. This is different from what we need to do for a stream
       // which is to bind a set of _public_ subjects to a stream.

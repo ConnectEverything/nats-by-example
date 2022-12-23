@@ -1,0 +1,12 @@
+Network 0e2ecd29_default  Creating
+Network 0e2ecd29_default  Created
+Container 0e2ecd29-nats-1  Creating
+Container 0e2ecd29-nats-1  Created
+Container 0e2ecd29-nats-1  Starting
+Container 0e2ecd29-nats-1  Started
+Async handler received the message 'hello pam 1' from subject 'greet.pam'
+Sync subscription received the message 'hello pam 1' from subject 'greet.pam'
+Async handler received the message 'hello joe 2' from subject 'greet.joe'
+Sync subscription no messages currently available
+DisconnectedEvent, Connection: 4
+ClosedEvent, Connection: 4

@@ -1,8 +1,8 @@
-Network e5cea0e3_default  Creating
-Network e5cea0e3_default  Created
-Container e5cea0e3-nats-1  Creating
-Container e5cea0e3-nats-1  Created
-Container e5cea0e3-nats-1  Starting
-Container e5cea0e3-nats-1  Started
+Network 259d03dd_default  Creating
+Network 259d03dd_default  Created
+Container 259d03dd-nats-1  Creating
+Container 259d03dd-nats-1  Created
+Container 259d03dd-nats-1  Starting
+Container 259d03dd-nats-1  Started
 received valid JSON payload: foo="bar" bar=27
 received invalid JSON payload: b"not json"

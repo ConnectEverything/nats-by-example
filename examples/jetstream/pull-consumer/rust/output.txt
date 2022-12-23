@@ -1,9 +1,9 @@
-Network aafc2f58_default  Creating
-Network aafc2f58_default  Created
-Container aafc2f58-nats-1  Creating
-Container aafc2f58-nats-1  Created
-Container aafc2f58-nats-1  Starting
-Container aafc2f58-nats-1  Started
+Network b34a02cf_default  Creating
+Network b34a02cf_default  Created
+Container b34a02cf-nats-1  Creating
+Container b34a02cf-nats-1  Created
+Container b34a02cf-nats-1  Starting
+Container b34a02cf-nats-1  Started
 got message on subject events.0 with payload "data"
 got message on subject events.1 with payload "data"
 got message on subject events.2 with payload "data"

@@ -1,9 +1,6 @@
-Network 5408da7b_default  Creating
-Network 5408da7b_default  Created
-Container 5408da7b-nats-1  Creating
-Container 5408da7b-nats-1  Created
-Container 5408da7b-nats-1  Starting
-Container 5408da7b-nats-1  Started
-Ok("hello") received on "greet.sue"
-Ok("hello") received on "greet.bob"
-Ok("hello") received on "greet.pam"
+Network f4bcd974_default  Creating
+Network f4bcd974_default  Created
+Container f4bcd974-nats-1  Creating
+Container f4bcd974-nats-1  Created
+Container f4bcd974-nats-1  Starting
+Container f4bcd974-nats-1  Started

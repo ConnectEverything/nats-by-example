@@ -1,8 +1,7 @@
-{"version": 2, "width": 86, "height": 24, "timestamp": 1658146225, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/rust"}
-[0.106763, "o", "Network 5408da7b_default  Creating\r\n"]
-[0.159014, "o", "Network 5408da7b_default  Created\r\n"]
-[0.159217, "o", "Container 5408da7b-nats-1  Creating\r\n"]
-[0.239051, "o", "Container 5408da7b-nats-1  Created\r\n"]
-[0.240925, "o", "Container 5408da7b-nats-1  Starting\r\n"]
-[0.65642, "o", "Container 5408da7b-nats-1  Started\r\n"]
-[3.585825, "o", "Ok(\"hello\") received on \"greet.sue\"\r\nOk(\"hello\") received on \"greet.bob\"\r\nOk(\"hello\") received on \"greet.pam\"\r\n"]
+{"version": 2, "width": 0, "height": 0, "timestamp": 1671713300, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/pub-sub/rust"}
+[1.695377, "o", "Network f4bcd974_default  Creating\r\n"]
+[1.747874, "o", "Network f4bcd974_default  Created\r\n"]
+[1.747997, "o", "Container f4bcd974-nats-1  Creating\r\n"]
+[1.777253, "o", "Container f4bcd974-nats-1  Created\r\n"]
+[1.778183, "o", "Container f4bcd974-nats-1  Starting\r\n"]
+[2.121315, "o", "Container f4bcd974-nats-1  Started\r\n"]

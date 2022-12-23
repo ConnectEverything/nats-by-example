@@ -231,6 +231,10 @@ the runtime.`,
 				Name:  "recreate",
 				Usage: "If true, recreate all previously generated files.",
 			},
+			&cli.BoolFlag{
+				Name:  "exit-on-error",
+				Usage: "If true, exits on the first error that occurs.",
+			},
 		},
 		Action: func(c *cli.Context) error {
 			repo, err := os.Getwd()
@@ -240,6 +244,7 @@ the runtime.`,
 
 			source := c.String("source")
 			recreate := c.Bool("recreate")
+			exitOnError := c.Bool("exit-on-error")
 
 			path := c.Args().First()
 
@@ -272,7 +277,11 @@ the runtime.`,
 						if _, ok := matches[i.Path]; ok || !useMatch {
 							log.Printf("%s: recording", i.Path)
 							if err := generateRecording(repo, i.Path, recreate); err != nil {
-								log.Printf("%s: %s", i.Path, err)
+								if exitOnError {
+									return fmt.Errorf("%s: %s", i.Path, err)
+								} else {
+									log.Printf("%s: %s", i.Path, err)
+								}
 							}
 						}
 					}
