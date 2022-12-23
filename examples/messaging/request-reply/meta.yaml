@@ -1,0 +1,24 @@
+title: Request-Reply
+description: |-
+  The [request-reply][reqrep] pattern allows a client to send a message and
+  expect a reply of some kind. In practice, the request message will either
+  be a *command*, which is an intention for service to carry out some work
+  that results in a state change, or a *query*, which is a request for
+  information.
+
+  Unlike request-reply constrained protocols like HTTP, NATS is not limited
+  to a strict point-to-point interfaction between a client and server. The
+  request-reply pattern is built on top of the core [publish-subscribe][pubsub]
+  model.
+
+  By default, this means that any one of subscribers could be a _responder_
+  and reply to the client. However, because NATS is not limited to point-to-point
+  interactions, the client could indicate to NATS that multiple replies should
+  be allowed.
+
+  This example shows the basics of the request-reply pattern including the
+  standard "no responders" error if there are no subscribers available to
+  handle and reply to the requesting message.
+
+  [reqrep]: https://docs.nats.io/nats-concepts/core-nats/reqreply
+  [pubsub]: https://docs.nats.io/nats-concepts/core-nats/pubsub
