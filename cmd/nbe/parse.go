@@ -30,6 +30,7 @@ const (
 	Python    = "python"
 	Ruby      = "ruby"
 	Elixir    = "elixir"
+	Crystal   = "crystal"
 )
 
 var (
@@ -49,6 +50,7 @@ var (
 		Python:    "Python",
 		Ruby:      "Ruby",
 		Elixir:    "Elixir",
+		Crystal:   "Crystal",
 	}
 
 	// TODO: add more as they become supported..
@@ -63,6 +65,7 @@ var (
 		Node:      "main.js",
 		WebSocket: "main.js",
 		Java:      "Main.java",
+		Crystal:   "main.cr",
 		DotNet:    "Main.cs",
 	}
 
@@ -94,6 +97,7 @@ var (
 		Python:    "#",
 		Ruby:      "#",
 		Elixir:    "#",
+		Crystal:   "#",
 	}
 )
 
@@ -202,7 +206,7 @@ func parseLineType(lang, line string) LineType {
 		}
 		return NormalLine
 
-	case Python, Ruby, Elixir:
+	case Python, Ruby, Elixir, Crystal:
 		if hashLineCommentRe.MatchString(line) {
 			return SingleCommentLine
 		}

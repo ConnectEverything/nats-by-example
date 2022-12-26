@@ -1,0 +1,10 @@
+name: nats-by-example
+version: 1.0.0
+
+targets:
+  app:
+    main: main.cr
+
+dependencies:
+  nats:
+    github: jgaskins/nats

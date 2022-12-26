@@ -31,6 +31,7 @@ var (
 		Java,
 		Ruby,
 		Elixir,
+		Crystal,
 		C,
 	}
 )
