@@ -8,8 +8,8 @@ name = "app"
 path = "main.rs"
 
 [dependencies]
-async-nats = { git = "https://github.com/nats-io/nats.rs", branch = "main" }
-tokio = { version = "1.16.1", features = ["full"] }
+async-nats = "0.25.1"
+tokio = { version = "1.20.0", features = ["full"] }
 futures = "0.3.21"
 serde_json = "1.0.82"
 serde = "1.0.139"
