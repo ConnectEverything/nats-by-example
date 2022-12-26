@@ -5,7 +5,7 @@ RUN apk update && apk add git
 RUN go install github.com/nats-io/natscli/nats@v0.0.35
 RUN go install github.com/nats-io/nats-server/v2@v2.9.11
 
-FROM alpine:3.17
+FROM alpine3.17
 
 RUN apk add bash curl
 
