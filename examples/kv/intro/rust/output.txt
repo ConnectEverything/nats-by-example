@@ -1,0 +1,6 @@
+Network 45a750bb_default  Creating
+Network 45a750bb_default  Created
+Container 45a750bb-nats-1  Creating
+Container 45a750bb-nats-1  Created
+Container 45a750bb-nats-1  Starting
+Container 45a750bb-nats-1  Started
