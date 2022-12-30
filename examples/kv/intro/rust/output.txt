@@ -1,6 +1,16 @@
-Network 45a750bb_default  Creating
-Network 45a750bb_default  Created
-Container 45a750bb-nats-1  Creating
-Container 45a750bb-nats-1  Created
-Container 45a750bb-nats-1  Starting
-Container 45a750bb-nats-1  Started
+Network 99836af1_default  Creating
+Network 99836af1_default  Created
+Container 99836af1-nats-1  Creating
+Container 99836af1-nats-1  Created
+Container 99836af1-nats-1  Starting
+Container 99836af1-nats-1  Started
+sue.color @ 1 -> blue
+sue.color @ 2 -> green
+sue.color @ 3 -> red
+KV stream name: KV_profiles
+$KV.profiles.sue.color @ 3 -> red
+$KV.profiles.sue.color @ 4 -> yellow
+$KV.profiles.sue.color @ 5 -> 
+headers: HeaderMap { inner: {HeaderName { value: "KV-Operation" }: HeaderValue { value: ["DEL"] }} }
+sue.color @ 6 -> purple (op: Put)
+sue.food @ 7 -> pizza (op: Put)
