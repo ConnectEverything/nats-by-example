@@ -4,85 +4,269 @@ set -euo pipefail
 
 unset NATS_URL
 
-cat <<- EOF > hub-shared.conf
-accounts: {
-  SYS: {
-    users: [{user: sys, pass: sys}]
-  }
-  APP: {
-    jetstream: true
-    users: [{user: app, pass: app}]
+cat <<- EOF > a_1.conf
+cluster: {
+  name: hengli
+  port: 15333
+  routes: [nats-route://127.0.0.1:15333,nats-route://127.0.0.1:15334,nats-route://127.0.0.1:15335]
+}
+http_port: 18222
+jetstream: {
+  domain: hengli
+  store_dir: "./jetstream/hengli_1"
+}
+leafnodes: {
+  port: 14333
+  remotes: [{
+    account: hengli
+    urls: [nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24333,nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24334,nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24335]
+  }]
+}
+port: 14222
+server_name: hengli_1
+
+accounts:{
+  hengli:{
+    jetstream: enabled
+    users:[
+      {user: _hengliConnUser_, password: _hengliConnUser_}
+      {user: hengli, password: hengli, permissions: {
+        publish:{
+          allow:["hengli.to.wsw.test","\$JS.API.>"]
+        },
+        subscribe:{
+          allow:["\$JS.ACK.hengli_to_wsw_test.>","_INBOX.>"]
+        }
+      }}
+    ]
   }
 }
+EOF
 
-system_account: SYS
+cat <<- EOF > a_2.conf
+
+cluster: {
+  name: hengli
+  port: 15334
+  routes: [nats-route://127.0.0.1:15333,nats-route://127.0.0.1:15334,nats-route://127.0.0.1:15335]
+}
+http_port: 18223
+jetstream: {
+  domain: hengli
+  store_dir: "./jetstream/hengli_2"
+}
+leafnodes: {
+  port: 14334
+  remotes: [{
+    account: hengli
+    urls: [nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24333,nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24334,nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24335]
+  }]
+}
+port: 14223
+server_name: hengli_2
+
+accounts:{
+  hengli:{
+    jetstream: enabled
+    users:[
+      {user: _hengliConnUser_, password: _hengliConnUser_},
+      {user: hengli, password: hengli, permissions: {
+        publish:{
+          allow:["hengli.to.wsw.test","\$JS.API.>"]
+        },
+        subscribe:{
+          allow:["\$JS.ACK.hengli_to_wsw_test.>","_INBOX.>"]
+        }
+      }}
+    ]
+  }
+}
 EOF
 
 # Define the server configs for cluster.
-cat <<- EOF > "n1.conf"
-server_name: n1
-port: 4222
-http_port: 8222
-include hub-shared.conf
-jetstream {
-  domain: hub
-  store_dir: "./n1"
-}
+cat <<- EOF > "a_3.conf"
+
 cluster: {
-  name: hub 
-  port: 6222
-  routes: [
-    nats-route://127.0.0.1:6222,
-    nats-route://127.0.0.1:6223,
-    nats-route://127.0.0.1:6224,
-  ]
+  name: hengli
+  port: 15335
+  routes: [nats-route://127.0.0.1:15333,nats-route://127.0.0.1:15334,nats-route://127.0.0.1:15335]
 }
-leafnodes {
-  port: 7422
+http_port: 18224
+jetstream: {
+  domain: hengli
+  store_dir: "./jetstream/hengli_3"
+}
+leafnodes: {
+  port: 14335
+  remotes: [{
+    account: hengli
+    urls: [nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24333,nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24334,nats-leaf://_hengliConnUser_:_hengliConnUser_@127.0.0.1:24335]
+  }]
+}
+port: 14224
+server_name: hengli_3
+
+accounts:{
+  hengli:{
+    jetstream: enabled
+    users:[
+      {user: _hengliConnUser_, password: _hengliConnUser_},
+      {user: hengli, password: hengli, permissions: {
+        publish:{
+          allow:["hengli.to.wsw.test","\$JS.API.>"]
+        },
+        subscribe:{
+          allow:["\$JS.ACK.hengli_to_wsw_test.>","_INBOX.>"]
+        }
+      }}
+    ]
+  }
 }
 EOF
 
-cat <<- EOF > "n2.conf"
-server_name: n2
-port: 4223
-include hub-shared.conf
-jetstream {
-  domain: hub
-  store_dir: "./n2"
-}
+cat <<- EOF > "b_1.conf"
+http_port: 28222
 cluster: {
-  name: hub
-  port: 6223
-  routes: [
-    nats-route://127.0.0.1:6222,
-    nats-route://127.0.0.1:6223,
-    nats-route://127.0.0.1:6224,
-  ]
+  name: wsw
+  port: 25333
+  routes: [nats-route://127.0.0.1:25333,nats-route://127.0.0.1:25334,nats-route://127.0.0.1:25335]
 }
-leafnodes {
-  port: 7423
+jetstream: {
+  domain: wsw
+  store_dir: "./jetstream/wsw_1"
+}
+leafnodes: {
+  port: 24333
+}
+port: 24222
+server_name: wsw_1
+
+accounts:{
+  hengli:{
+    jetstream: enabled
+    users:[
+      {user: _hengliConnUser_, password: _hengliConnUser_}
+    ]
+    exports:[
+      {service: "\$JS.hengli.API.>", response: stream},
+      {stream: "deliver.hengli.wsw.>", accounts: ["wsw"]}
+    ]
+  },
+  wsw:{
+    jetstream: enabled
+    users:[
+      {user: _wswConnUser_, password: _wswConnUser_},
+      {user: wsw, password: wsw, permissions: {
+        publish:{
+          allow:["\$JS.ACK.hengli_to_wsw_test.>"]
+        },
+        subscribe:{
+          allow:["_recv_wsw.hengli.to.wsw.test"]
+        }
+      }}
+    ]
+    imports:[
+      {service:{account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
+      {stream:{account:"hengli", subject:"deliver.hengli.wsw.>"}}
+    ]
+  }
 }
 EOF
 
-cat <<- EOF > "n3.conf"
-server_name: n3
-port: 4224
-include hub-shared.conf
-jetstream {
-  domain: hub
-  store_dir: "./n3"
-}
+cat <<- EOF > "b_2.conf"
+
 cluster: {
-  name: hub
-  port: 6224
-  routes: [
-    nats-route://127.0.0.1:6222,
-    nats-route://127.0.0.1:6223,
-    nats-route://127.0.0.1:6224,
-  ]
+  name: wsw
+  port: 25334
+  routes: [nats-route://127.0.0.1:25333,nats-route://127.0.0.1:25334,nats-route://127.0.0.1:25335]
 }
-leafnodes {
-  port: 7424
+jetstream: {
+  domain: wsw
+  store_dir: "./jetstream/wsw_2"
+}
+leafnodes: {
+  port: 24334
+}
+port: 24223
+server_name: wsw_2
+
+accounts:{
+  hengli:{
+    jetstream: enabled
+    users:[
+      {user: _hengliConnUser_, password: _hengliConnUser_}
+    ]
+    exports:[
+      {service: "\$JS.hengli.API.>", response: stream},
+      {stream: "deliver.hengli.wsw.>", accounts: ["wsw"]}
+    ]
+  },
+  wsw:{
+    jetstream: enabled
+    users:[
+      {user: _wswConnUser_, password: _wswConnUser_},
+      {user: wsw, password: wsw, permissions: {
+        publish:{
+          allow:["\$JS.ACK.hengli_to_wsw_test.>"]
+        },
+        subscribe:{
+          allow:["_recv_wsw.hengli.to.wsw.test"]
+        }
+      }}
+    ]
+    imports:[
+      {service:{account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
+      {stream:{account:"hengli", subject:"deliver.hengli.wsw.>"}}
+    ]
+  }
+}
+EOF
+
+cat <<- EOF > "b_3.conf"
+cluster: {
+  name: wsw
+  port: 25335
+  routes: [nats-route://127.0.0.1:25333,nats-route://127.0.0.1:25334,nats-route://127.0.0.1:25335]
+}
+jetstream: {
+  domain: wsw
+  store_dir: "./jetstream/wsw_3"
+}
+leafnodes: {
+  port: 24335
+}
+port: 24224
+server_name: wsw_3
+
+accounts:{
+  hengli:{
+    jetstream: enabled
+    users:[
+      {user: _hengliConnUser_, password: _hengliConnUser_}
+    ]
+    exports:[
+      {service: "\$JS.hengli.API.>", response: stream},
+      {stream: "deliver.hengli.wsw.>", accounts: ["wsw"]}
+    ]
+  },
+  wsw:{
+    jetstream: enabled
+    users:[
+      {user: _wswConnUser_, password: _wswConnUser_},
+      {user: wsw, password: wsw, permissions: {
+        publish:{
+          allow:["\$JS.ACK.hengli_to_wsw_test.>"]
+        },
+        subscribe:{
+          allow:["_recv_wsw.hengli.to.wsw.test"]
+        }
+      }}
+    ]
+    imports:[
+      {service:{account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
+      {stream:{account:"hengli", subject:"deliver.hengli.wsw.>"}}
+    ]
+  }
 }
 EOF
 
@@ -90,16 +274,16 @@ EOF
 
 # Start a server for each configuration and sleep a second in
 # between so the seeds can startup and get healthy.
-echo "Starting n1..."
-nats-server -c n1.conf -P n1.pid > /dev/null 2>&1 &
+echo "Starting b_1..."
+nats-server -c b_1.conf -P b_1.pid & #> /dev/null 2>&1 &
 sleep 1
 
-echo "Starting n2..."
-nats-server -c n2.conf -P n2.pid > /dev/null 2>&1 &
+echo "Starting b_2..."
+nats-server -c b_2.conf -P b_2.pid & #> /dev/null 2>&1 &
 sleep 1
 
-echo "Starting n3..."
-nats-server -c n3.conf -P n3.pid > /dev/null 2>&1 &
+echo "Starting b_3..."
+nats-server -c b_3.conf -P b_3.pid & #> /dev/null 2>&1 &
 sleep 1
 
 # Wait until the servers up and healthy.
@@ -107,224 +291,121 @@ echo 'Hub cluster healthy?'
 curl --fail --silent \
   --retry 5 \
   --retry-delay 1 \
-  http://localhost:8222/healthz; echo
+  http://localhost:28222/healthz; echo
 
-cat <<- EOF > leaf-shared.conf
-accounts: {
-  SYS: {
-    users: [{user: sys, pass: sys}]
-  }
-  APP: {
-    jetstream: true
-    users: [{user: app, pass: app}]
-  }
-}
-
-system_account: SYS
-
-leafnodes {
-  remotes [
-    {
-      urls: [
-        nats-leaf://app:app@localhost:7422,
-        nats-leaf://app:app@localhost:7423,
-        nats-leaf://app:app@localhost:7424,
-      ]
-      account: APP
-    }
-  ]
-}
-EOF
-
-
-# Define the server configs for cluster.
-cat <<- EOF > "l1.conf"
-server_name: l1
-port: 4225
-http_port: 8223
-include leaf-shared.conf
-jetstream {
-  domain: leaf
-  store_dir: "./l1"
-}
-cluster: {
-  name: leaf
-  port: 6225
-  routes: [
-    nats-route://127.0.0.1:6225,
-    nats-route://127.0.0.1:6226,
-    nats-route://127.0.0.1:6227,
-  ]
-}
-EOF
-
-cat <<- EOF > "l2.conf"
-server_name: l2
-port: 4226
-include leaf-shared.conf
-jetstream {
-  domain: leaf
-  store_dir: "./l2"
-}
-cluster: {
-  name: leaf
-  port: 6226
-  routes: [
-    nats-route://127.0.0.1:6225,
-    nats-route://127.0.0.1:6226,
-    nats-route://127.0.0.1:6227,
-  ]
-}
-EOF
-
-cat <<- EOF > "l3.conf"
-server_name: l3
-port: 4227
-include leaf-shared.conf
-jetstream {
-  domain: leaf
-  store_dir: "./l3"
-}
-cluster: {
-  name: leaf
-  port: 6227
-  routes: [
-    nats-route://127.0.0.1:6225,
-    nats-route://127.0.0.1:6226,
-    nats-route://127.0.0.1:6227,
-  ]
-}
-EOF
-
-# ### Bring up the leaf cluster
-
-echo "Starting l1..."
-nats-server -c l1.conf -P l1.pid > /dev/null 2>&1 &
+echo "Starting a_1..."
+nats-server -c a_1.conf -P a_1.pid & #> /dev/null 2>&1 &
 sleep 1
 
-echo "Starting l2..."
-nats-server -c l2.conf -P l2.pid > /dev/null 2>&1 &
+echo "Starting a_2..."
+nats-server -c a_2.conf -P a_2.pid & #> /dev/null 2>&1 &
 sleep 1
 
-echo "Starting l3..."
-nats-server -c l3.conf -P l3.pid > /dev/null 2>&1 &
+echo "Starting a_3..."
+nats-server -c a_3.conf -P a_3.pid & #> /dev/null 2>&1 &
 sleep 1
+
 
 # Wait until the servers up and healthy.
 echo 'Leaf cluster healthy?'
 curl --fail --silent \
   --retry 5 \
   --retry-delay 1 \
-  http://localhost:8223/healthz; echo
+  http://localhost:18222/healthz; echo
 
-nats context save --user app --password app -s nats://localhost:4222 hub-app
-
-nats context save --user app --password app -s nats://localhost:4225 leaf-app
-
-
-nats context save --user sys --password sys -s nats://localhost:4222 hub-sys
-
-nats context save --user sys --password sys -s nats://localhost:4225 leaf-sys
-
-cat <<- EOF > origin.json
+cat <<- EOF > origin-stream.json
 {
-  "name": "events",
+  "name": "hengli_to_wsw_test",
   "subjects": [
-    "events.*"
+    "hengli.to.wsw.test"
   ],
   "retention": "limits",
   "max_consumers": -1,
-  "max_msgs_per_subject": -1,
   "max_msgs": -1,
   "max_bytes": -1,
   "max_age": 0,
+  "max_msgs_per_subject": -1,
   "max_msg_size": -1,
-  "storage": "file",
   "discard": "old",
+  "storage": "file",
   "num_replicas": 2,
   "duplicate_window": 120000000000,
+  "allow_direct": false,
+  "mirror_direct": false,
   "sealed": false,
   "deny_delete": false,
   "deny_purge": false,
-  "allow_rollup_hdrs": false,
-  "allow_direct": false,
-  "mirror_direct": false
+  "allow_rollup_hdrs": false
 }
 EOF
 
-cat <<- EOF > hub-mirror.json
+cat <<- EOF > mirror-stream.json
 {
-  "name": "events-m",
+  "name": "_mirror_hengli_to_wsw_test_hengli",
   "retention": "limits",
   "max_consumers": -1,
-  "max_msgs_per_subject": -1,
   "max_msgs": -1,
   "max_bytes": -1,
-  "max_age": 0,
-  "max_msg_size": -1,
-  "storage": "file",
-  "discard": "old",
-  "num_replicas": 1,
-  "mirror": {
-    "name": "events"
-  },
-  "sealed": false,
-  "deny_delete": false,
-  "deny_purge": false,
-  "allow_rollup_hdrs": false,
-  "allow_direct": false,
-  "mirror_direct": false
-}
-EOF
-
-cat <<- EOF > leaf-mirror.json
-{
-  "name": "events",
-  "retention": "limits",
-  "max_consumers": -1,
+  "max_age": 3600000000000,
   "max_msgs_per_subject": -1,
-  "max_msgs": -1,
-  "max_bytes": -1,
-  "max_age": 0,
   "max_msg_size": -1,
-  "storage": "file",
   "discard": "old",
-  "num_replicas": 1,
+  "storage": "file",
+  "num_replicas": 2,
   "mirror": {
-    "name": "events-m",
+    "name": "hengli_to_wsw_test",
     "external": {
-      "api": "\$JS.hub.API"
+      "api": "\$JS.hengli.wsw.API",
+      "deliver": "deliver.hengli.wsw"
     }
   },
+  "allow_direct": false,
+  "mirror_direct": true,
   "sealed": false,
   "deny_delete": false,
   "deny_purge": false,
-  "allow_rollup_hdrs": false,
-  "allow_direct": false,
-  "mirror_direct": false
+  "allow_rollup_hdrs": false
 }
 EOF
 
-nats --context hub-app stream add --config origin.json
-nats --context hub-app stream add --config hub-mirror.json
-nats --context leaf-app stream add --config leaf-mirror.json
+nats -s "nats://_hengliConnUser_:_hengliConnUser_@127.0.0.1:14222" \
+  stream add --config origin-stream.json
+
+nats -s "nats://_hengliConnUser_:_hengliConnUser_@127.0.0.1:14222" \
+  stream report
+
+nats -s "nats://_wswConnUser_:_wswConnUser_@127.0.0.1:24222" \
+  stream add --config mirror-stream.json
+
+nats -s "nats://_wswConnUser_:_wswConnUser_@127.0.0.1:24222" \
+  stream report
 
 echo 'Starting bench...'
 nats bench \
-  --context hub-app \
+  -s "nats://hengli:hengli@127.0.0.1:14222" \
   --pub 1 \
   --js \
-  --size 10k \
-  --stream events \
-  --msgs 10000 \
-  --pubbatch 100 \
+  --stream hengli_to_wsw_test \
+  --msgs 60000 \
   --no-progress \
-  --multisubject \
-  events
+  hengli.to.wsw.test
+
+nats bench \
+  -s "nats://hengli:hengli@127.0.0.1:14222" \
+  --pub 1 \
+  --js \
+  --stream hengli_to_wsw_test \
+  --msgs 60000 \
+  --no-progress \
+  hengli.to.wsw.test
 
 sleep 2
 
 # Report the streams
-nats --context hub-app stream report
-nats --context leaf-app stream report
+nats -s "nats://_hengliConnUser_:_hengliConnUser_@127.0.0.1:14222" \
+  stream report
 
+sleep 2
+
+nats -s "nats://_wswConnUser_:_wswConnUser_@127.0.0.1:24222" \
+  stream report
