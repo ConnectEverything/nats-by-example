@@ -1,4 +1,4 @@
-title: mTLS
+title: Mutual TLS
 description: |-
   This examples demonstrates a basic embedded server and client
   connection setup utilizing [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
