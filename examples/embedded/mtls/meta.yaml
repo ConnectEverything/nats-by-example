@@ -3,6 +3,10 @@ description: |-
   This examples demonstrates a basic embedded server and client
   connection setup utilizing [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
 
+  This example relies on the [mkcert](https://github.com/FiloSottile/mkcert) tool using
+  the commands below to generate the necessary server and client certs. The CA is
+  installed in the default location and symlinked for this example.
+
   ```sh
   mkcert \
     -key-file key.pem \
