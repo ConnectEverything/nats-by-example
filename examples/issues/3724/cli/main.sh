@@ -25,16 +25,16 @@ leafnodes: {
 port: 14222
 server_name: hengli_1
 
-accounts:{
-  hengli:{
+accounts: {
+  hengli: {
     jetstream: enabled
     users:[
       {user: _hengliConnUser_, password: _hengliConnUser_}
       {user: hengli, password: hengli, permissions: {
-        publish:{
+        publish: {
           allow:["hengli.to.wsw.test","\$JS.API.>"]
         },
-        subscribe:{
+        subscribe: {
           allow:["\$JS.ACK.hengli_to_wsw_test.>","_INBOX.>"]
         }
       }}
@@ -44,7 +44,6 @@ accounts:{
 EOF
 
 cat <<- EOF > a_2.conf
-
 cluster: {
   name: hengli
   port: 15334
@@ -65,16 +64,16 @@ leafnodes: {
 port: 14223
 server_name: hengli_2
 
-accounts:{
-  hengli:{
+accounts: {
+  hengli: {
     jetstream: enabled
     users:[
       {user: _hengliConnUser_, password: _hengliConnUser_},
       {user: hengli, password: hengli, permissions: {
-        publish:{
+        publish: {
           allow:["hengli.to.wsw.test","\$JS.API.>"]
         },
-        subscribe:{
+        subscribe: {
           allow:["\$JS.ACK.hengli_to_wsw_test.>","_INBOX.>"]
         }
       }}
@@ -106,16 +105,16 @@ leafnodes: {
 port: 14224
 server_name: hengli_3
 
-accounts:{
-  hengli:{
+accounts: {
+  hengli: {
     jetstream: enabled
     users:[
       {user: _hengliConnUser_, password: _hengliConnUser_},
       {user: hengli, password: hengli, permissions: {
-        publish:{
+        publish: {
           allow:["hengli.to.wsw.test","\$JS.API.>"]
         },
-        subscribe:{
+        subscribe: {
           allow:["\$JS.ACK.hengli_to_wsw_test.>","_INBOX.>"]
         }
       }}
@@ -124,6 +123,7 @@ accounts:{
 }
 EOF
 
+# Setup the hub cluster.
 cat <<- EOF > "b_1.conf"
 http_port: 28222
 cluster: {
@@ -141,33 +141,35 @@ leafnodes: {
 port: 24222
 server_name: wsw_1
 
-accounts:{
-  hengli:{
+accounts: {
+  hengli: {
     jetstream: enabled
     users:[
       {user: _hengliConnUser_, password: _hengliConnUser_}
     ]
     exports:[
       {service: "\$JS.hengli.API.>", response: stream},
+      {service: "\$JS.FC.>"},
       {stream: "deliver.hengli.wsw.>", accounts: ["wsw"]}
     ]
   },
-  wsw:{
+  wsw: {
     jetstream: enabled
     users:[
       {user: _wswConnUser_, password: _wswConnUser_},
       {user: wsw, password: wsw, permissions: {
-        publish:{
+        publish: {
           allow:["\$JS.ACK.hengli_to_wsw_test.>"]
         },
-        subscribe:{
+        subscribe: {
           allow:["_recv_wsw.hengli.to.wsw.test"]
         }
       }}
     ]
     imports:[
-      {service:{account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
-      {stream:{account:"hengli", subject:"deliver.hengli.wsw.>"}}
+      {service: {account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
+      {service: {account: "hengli", subject: "\$JS.FC.>"}},
+      {stream: {account:"hengli", subject:"deliver.hengli.wsw.>"}}
     ]
   }
 }
@@ -190,33 +192,35 @@ leafnodes: {
 port: 24223
 server_name: wsw_2
 
-accounts:{
-  hengli:{
+accounts: {
+  hengli: {
     jetstream: enabled
     users:[
       {user: _hengliConnUser_, password: _hengliConnUser_}
     ]
     exports:[
       {service: "\$JS.hengli.API.>", response: stream},
+      {service: "\$JS.FC.>"},
       {stream: "deliver.hengli.wsw.>", accounts: ["wsw"]}
     ]
   },
-  wsw:{
+  wsw: {
     jetstream: enabled
     users:[
       {user: _wswConnUser_, password: _wswConnUser_},
       {user: wsw, password: wsw, permissions: {
-        publish:{
+        publish: {
           allow:["\$JS.ACK.hengli_to_wsw_test.>"]
         },
-        subscribe:{
+        subscribe: {
           allow:["_recv_wsw.hengli.to.wsw.test"]
         }
       }}
     ]
     imports:[
-      {service:{account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
-      {stream:{account:"hengli", subject:"deliver.hengli.wsw.>"}}
+      {service: {account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
+      {service: {account: "hengli", subject: "\$JS.FC.>"}},
+      {stream: {account:"hengli", subject:"deliver.hengli.wsw.>"}}
     ]
   }
 }
@@ -238,33 +242,35 @@ leafnodes: {
 port: 24224
 server_name: wsw_3
 
-accounts:{
-  hengli:{
+accounts: {
+  hengli: {
     jetstream: enabled
     users:[
       {user: _hengliConnUser_, password: _hengliConnUser_}
     ]
     exports:[
       {service: "\$JS.hengli.API.>", response: stream},
+      {service: "\$JS.FC.>"},
       {stream: "deliver.hengli.wsw.>", accounts: ["wsw"]}
     ]
   },
-  wsw:{
+  wsw: {
     jetstream: enabled
     users:[
       {user: _wswConnUser_, password: _wswConnUser_},
       {user: wsw, password: wsw, permissions: {
-        publish:{
+        publish: {
           allow:["\$JS.ACK.hengli_to_wsw_test.>"]
         },
-        subscribe:{
+        subscribe: {
           allow:["_recv_wsw.hengli.to.wsw.test"]
         }
       }}
     ]
     imports:[
-      {service:{account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
-      {stream:{account:"hengli", subject:"deliver.hengli.wsw.>"}}
+      {service: {account:"hengli", subject: "\$JS.hengli.API.>"}, to: "\$JS.hengli.wsw.API.>"},
+      {service: {account: "hengli", subject: "\$JS.FC.>"}},
+      {stream: {account:"hengli", subject:"deliver.hengli.wsw.>"}}
     ]
   }
 }
@@ -275,34 +281,34 @@ EOF
 # Start a server for each configuration and sleep a second in
 # between so the seeds can startup and get healthy.
 echo "Starting b_1..."
-nats-server -c b_1.conf -P b_1.pid & #> /dev/null 2>&1 &
+nats-server -c b_1.conf -P b_1.pid > /dev/null 2>&1 &
 sleep 1
 
 echo "Starting b_2..."
-nats-server -c b_2.conf -P b_2.pid & #> /dev/null 2>&1 &
+nats-server -c b_2.conf -P b_2.pid > /dev/null 2>&1 &
 sleep 1
 
 echo "Starting b_3..."
-nats-server -c b_3.conf -P b_3.pid & #> /dev/null 2>&1 &
+nats-server -c b_3.conf -P b_3.pid > /dev/null 2>&1 &
 sleep 1
 
 # Wait until the servers up and healthy.
 echo 'Hub cluster healthy?'
 curl --fail --silent \
   --retry 5 \
-  --retry-delay 1 \
+  --retry-delay 2 \
   http://localhost:28222/healthz; echo
 
 echo "Starting a_1..."
-nats-server -c a_1.conf -P a_1.pid & #> /dev/null 2>&1 &
+nats-server -c a_1.conf -P a_1.pid > /dev/null 2>&1 &
 sleep 1
 
 echo "Starting a_2..."
-nats-server -c a_2.conf -P a_2.pid & #> /dev/null 2>&1 &
+nats-server -c a_2.conf -P a_2.pid > /dev/null 2>&1 &
 sleep 1
 
 echo "Starting a_3..."
-nats-server -c a_3.conf -P a_3.pid & #> /dev/null 2>&1 &
+nats-server -c a_3.conf -P a_3.pid > /dev/null 2>&1 &
 sleep 1
 
 
@@ -310,7 +316,7 @@ sleep 1
 echo 'Leaf cluster healthy?'
 curl --fail --silent \
   --retry 5 \
-  --retry-delay 1 \
+  --retry-delay 2 \
   http://localhost:18222/healthz; echo
 
 cat <<- EOF > origin-stream.json
@@ -399,13 +405,9 @@ nats bench \
   --no-progress \
   hengli.to.wsw.test
 
-sleep 2
-
 # Report the streams
 nats -s "nats://_hengliConnUser_:_hengliConnUser_@127.0.0.1:14222" \
   stream report
-
-sleep 2
 
 nats -s "nats://_wswConnUser_:_wswConnUser_@127.0.0.1:24222" \
   stream report
