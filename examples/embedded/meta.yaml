@@ -1,0 +1,3 @@
+title: Embedded
+description: |
+  The NATS server can be embedded in the Go language.
