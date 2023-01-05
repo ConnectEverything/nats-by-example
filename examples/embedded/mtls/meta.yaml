@@ -1,0 +1,19 @@
+title: mTLS
+description: |-
+  This examples demonstrates a basic embedded server and client
+  connection setup utilizing [mTLS](https://en.wikipedia.org/wiki/Mutual_authentication#mTLS).
+
+  ```sh
+  mkcert \
+    -key-file key.pem \
+    -cert-file cert.pem \
+    localhost
+
+  mkcert \
+    -client \
+    -key-file client-key.pem \
+    -cert-file client-cert.pem \
+    localhost
+
+  ln -s /root/.local/share/mkcert/rootCA.pem ca.pem
+  ```
