@@ -1,0 +1,7 @@
+Network 7cc9c8fe_default  Creating
+Network 7cc9c8fe_default  Created
+Container 7cc9c8fe-nats-1  Creating
+Container 7cc9c8fe-nats-1  Created
+Container 7cc9c8fe-nats-1  Starting
+Container 7cc9c8fe-nats-1  Started
+world
