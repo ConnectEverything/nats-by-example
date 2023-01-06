@@ -323,7 +323,7 @@ nsc push -a APP
 nsc add user --account APP leaf-east \
   --allow-sub '$JS.leaf-east.API.CONSUMER.CREATE.events' \
   --allow-sub '$JS.leaf-east.API.CONSUMER.CREATE.events.>' \
-  --allow-sub 'leaf-east.>' \
+  --allow-sub 'leaf-east.hello' \
   --allow-pub 'leaf-west.events.M.*' \
   --allow-pub '_GR_.>' \
   --allow-pub '_INBOX_west.>'
