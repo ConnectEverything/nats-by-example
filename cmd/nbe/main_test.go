@@ -2,8 +2,10 @@ package main
 
 import (
 	"bytes"
+	"strings"
 	"testing"
 
+	"github.com/google/go-cmp/cmp"
 	"gopkg.in/yaml.v3"
 )
 
@@ -47,9 +49,13 @@ func ReadStream(js nats.JetStreamContext, name string) ([]*nats.Msg, error) {
 }
 
 `
-	blocks, err := parseReader(Go, bytes.NewBuffer([]byte(goCode)))
+	blocks, source, err := parseReader(Go, bytes.NewBuffer([]byte(goCode)))
 	if err != nil {
 		t.Fatal(err)
+	}
+	expectedGoSource := strings.TrimSuffix(goCode, "\n") // Remove the last empty line
+	if diff := cmp.Diff(expectedGoSource, source); diff != "" {
+		t.Error(diff)
 	}
 	checkEqual(t, len(blocks), 4)
 
@@ -70,9 +76,13 @@ with open('somefile.txt') as f:
 
 `
 
-	blocks, err = parseReader(Python, bytes.NewBuffer([]byte(pythonCode)))
+	blocks, source, err = parseReader(Python, bytes.NewBuffer([]byte(pythonCode)))
 	if err != nil {
 		t.Fatal(err)
+	}
+	expectedPythonCode := strings.TrimSuffix(pythonCode, "\n") // Remove the last empty line
+	if diff := cmp.Diff(expectedPythonCode, source); diff != "" {
+		t.Error(diff)
 	}
 	checkEqual(t, len(blocks), 6)
 }
