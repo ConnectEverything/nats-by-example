@@ -4,8 +4,8 @@ set -euo pipefail
 
 unset NATS_URL
 
-# Define a accounts.config included in each of the individual
-# node configs.
+# Define an `accounts.conf` file which is included in each of the
+# individual node configs.
 #
 # Notice the `mappings` option defined on the `APP` account
 # which takes a published message such as `events.1` and
@@ -15,7 +15,9 @@ unset NATS_URL
 # partitions).
 #
 # *Note: you can have more than one token when defining the
-# partitioning.*
+# partitioning. If you require a `>` wildcard, then you need at
+# least one token `*` token for the partitioning. For example:
+# `"events.*.>": "events.{{partition(5,1)}}.{{wildcard(1)}}.>"`
 cat <<- EOF > accounts.conf
 accounts: {
   SYS: {
