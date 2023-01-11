@@ -147,7 +147,7 @@ nats bench \
   --js \
   --multisubject \
   --pub 1 \
-  --msgs 500000 \
+  --msgs 200000 \
   --syncpub \
   --no-progress \
   --stream "events-0" \
@@ -164,7 +164,23 @@ nats bench \
   --multisubject \
   --pub 1 \
   --pubbatch 100 \
-  --msgs 500000 \
+  --msgs 200000 \
+  --no-progress \
+  --stream "events-0" \
+  "events"
+
+nats stream report
+
+for i in $(seq 0 4); do
+  nats stream purge -f "events-$i" > /dev/null
+done
+
+nats bench \
+  --js \
+  --multisubject \
+  --pub 10 \
+  --pubbatch 100 \
+  --msgs 200000 \
   --no-progress \
   --stream "events-0" \
   "events"
