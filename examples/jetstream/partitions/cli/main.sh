@@ -4,17 +4,19 @@ set -euo pipefail
 
 unset NATS_URL
 
-# Define a shared config included in each of the individual
+# Define a accounts.config included in each of the individual
 # node configs.
+#
 # Notice the `mappings` option defined on the `APP` account
 # which takes a published message such as `events.1` and
 # will map it to `events.1.4`, where the last token indicate
 # the deterministic partition number. In this case, the second
 # token `1` is mapped to a partition between 0 and 4 (five total
 # partitions).
+#
 # *Note: you can have more than one token when defining the
 # partitioning.*
-cat <<- EOF > shared.conf
+cat <<- EOF > accounts.conf
 accounts: {
   SYS: {
     users: [{user: sys, password: sys}]
@@ -41,7 +43,7 @@ port: 4222
 http_port: 8222
 server_name: n1
 
-include shared.conf
+include accounts.conf
 
 jetstream: {
   store_dir: "./n1"
@@ -63,7 +65,7 @@ port: 4223
 http_port: 8223
 server_name: n2
 
-include shared.conf
+include accounts.conf
 
 jetstream: {
   store_dir: "./n2"
@@ -85,7 +87,7 @@ port: 4224
 http_port: 8224
 server_name: n3
 
-include shared.conf
+include accounts.conf
 
 jetstream: {
   store_dir: "./n3"
@@ -115,9 +117,9 @@ nats context save \
   --server "nats://localhost:4222,nats://localhost:4223,nats://localhost:4224" \
   --user app \
   --password app \
-  default
+  default > /dev/null
 
-nats context select default
+nats context select default > /dev/null
 
 # Create five streams modeling partitions.
 # Note the `--subjects` option correponds to the subject mapping
@@ -186,7 +188,7 @@ nats bench \
 nats stream report
 
 # Purging one more time, we will also increase the number of
-# concurrent publishers to 10.
+# concurrent publishers to 5.
 for i in $(seq 0 4); do
   nats stream purge -f "events-$i" > /dev/null
 done
@@ -194,7 +196,7 @@ done
 nats bench \
   --js \
   --multisubject \
-  --pub 10 \
+  --pub 5 \
   --pubbatch 100 \
   --msgs 200000 \
   --no-progress \

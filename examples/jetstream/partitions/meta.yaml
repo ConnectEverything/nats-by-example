@@ -1,0 +1,26 @@
+title: Subject-Mapped Partitions
+description: |-
+  A stream provides total order over the set of messages
+  it stores. If configured with replicas, each stream has a
+  dedicated Raft group to ensure every message published to
+  the stream is replicated to the majority of servers having a
+  replica. On successful a publish, every replica of the stream
+  is guaranteed to have the same order of messages. Similiarly,
+  consumers on that stream will always receive the messages in
+  the order they are stored.
+
+  This single, serialized stream is highly performant, however
+  for some use cases, there may be a need to scale-out message
+  publishing or consumption. This can be achieved by creating
+  N streams, each of which represent a *partition* of the total
+  set of messages. The trade-off introduced here is the ability
+  to support concurrent publishes to N streams, while giving up
+  total order across streams.
+
+  However, can we ensure *deterministic* distribution of messages
+  to a given stream using a subject-mapping feature called
+  [deterministic subject token partitioning](https://docs.nats.io/nats-concepts/subject_mapping#deterministic-subject-token-partitioning).
+
+  This example shows how to configure the subject mapping, streams,
+  and demonstrates the behavior of messages being transparently
+  routed and written to each stream partition.
