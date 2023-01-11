@@ -99,14 +99,9 @@ EOF
 
 
 # Start the servers and sleep for a few seconds to startup.
-nats-server -c n1.conf &
-N1_PID=$?
-
-nats-server -c n2.conf  &
-N2_PID=$?
-
-nats-server -c n3.conf  &
-N3_PID=$?
+nats-server -c n1.conf > /dev/null 2>&1 &
+nats-server -c n2.conf > /dev/null 2>&1 &
+nats-server -c n3.conf > /dev/null 2>&1 &
 
 sleep 3
 
