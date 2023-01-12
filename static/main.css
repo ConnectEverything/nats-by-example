@@ -261,6 +261,10 @@ pre, code {
   user-select: none;
 }
 
+.example-comment * {
+  margin-bottom: 15px;
+}
+
 .example-comment pre {
   overflow-x: scroll;
 }
