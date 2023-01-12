@@ -24,3 +24,12 @@ description: |-
   This example shows how to configure the subject mapping, streams,
   and demonstrates the behavior of messages being transparently
   routed and written to each stream partition.
+
+  As a reminder when working with subject mapping, the NATS CLI
+  provides a command to test mappings. This will take the source subject,
+  the destination subject, and one or more subjects to test.
+
+  ```sh
+  $ nats server mapping "events.*" "events.{{wildcard(1)}}.{{partition(5,1)}}" "events.1"
+  events.1.4
+  ```
