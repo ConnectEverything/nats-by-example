@@ -28,6 +28,10 @@ jobs:
           cache-dependency-path: cmd/nbe/go.sum
           cache: true
 
+      - name: Test nbe
+        run: |
+          go test -v -race ./cmd/nbe
+
       - name: Build nbe
         run: |
           go install ./cmd/nbe
