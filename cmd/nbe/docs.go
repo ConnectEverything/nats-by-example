@@ -269,10 +269,9 @@ func generateDocs(root *Root, dir string) error {
 				var castFile string
 				outputBytes, err := ioutil.ReadFile(outputFile)
 				if err != nil {
-					if !os.IsNotExist(err) {
+					if os.IsNotExist(err) {
 						log.Printf("%s: %s", outputFile, err)
-					} else {
-						return err
+						continue
 					}
 				} else {
 					castFile = filepath.Join(i.Path, "output.cast")
