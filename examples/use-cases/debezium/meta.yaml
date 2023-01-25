@@ -1,0 +1,6 @@
+title: Postgres CDC via Debezium
+description: |-
+  This example highlights a minimal setup to leverage Debezium for performing
+  change data capture (CDC) from a Postgres database, via the logical
+  replication API, to a NATS stream.
+
