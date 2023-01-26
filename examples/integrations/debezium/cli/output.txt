@@ -1,0 +1,178 @@
+Network f26f624e_default  Creating
+Network f26f624e_default  Created
+Container f26f624e-postgres-1  Creating
+Container f26f624e-nats-1  Creating
+Container f26f624e-nats-1  Created
+Container f26f624e-postgres-1  Created
+Container f26f624e-debezium-1  Creating
+Container f26f624e-debezium-1  Created
+Container f26f624e-postgres-1  Starting
+Container f26f624e-nats-1  Starting
+Container f26f624e-postgres-1  Started
+Container f26f624e-nats-1  Started
+Container f26f624e-debezium-1  Starting
+Container f26f624e-debezium-1  Started
+Create and populate the database.
+CREATE TABLE
+INSERT 0 1
+INSERT 0 1
+UPDATE 1
+UPDATE 1
+DELETE 1
+CREATE TABLE
+INSERT 0 1
+
+Stream subjects.
+           postgres.public.books: 1        postgres.public.profile: 5
+
+Change events.
+{
+  "before": null,
+  "after": {
+    "id": 1,
+    "name": "Joe",
+    "color": "blue"
+  },
+  "source": {
+    "version": "2.1.1.Final",
+    "connector": "postgresql",
+    "name": "postgres",
+    "ts_ms": 1674745740268,
+    "snapshot": "false",
+    "db": "postgres",
+    "sequence": "[\"22991416\",\"22991520\"]",
+    "schema": "public",
+    "table": "profile",
+    "txId": 727,
+    "lsn": 22991520,
+    "xmin": null
+  },
+  "op": "c",
+  "ts_ms": 1674745740595,
+  "transaction": null
+}
+{
+  "before": null,
+  "after": {
+    "id": 2,
+    "name": "Pam",
+    "color": "green"
+  },
+  "source": {
+    "version": "2.1.1.Final",
+    "connector": "postgresql",
+    "name": "postgres",
+    "ts_ms": 1674745740296,
+    "snapshot": "false",
+    "db": "postgres",
+    "sequence": "[\"22991800\",\"22991800\"]",
+    "schema": "public",
+    "table": "profile",
+    "txId": 728,
+    "lsn": 22991800,
+    "xmin": null
+  },
+  "op": "c",
+  "ts_ms": 1674745740601,
+  "transaction": null
+}
+{
+  "before": null,
+  "after": {
+    "id": 1,
+    "name": "Joe",
+    "color": "red"
+  },
+  "source": {
+    "version": "2.1.1.Final",
+    "connector": "postgresql",
+    "name": "postgres",
+    "ts_ms": 1674745740326,
+    "snapshot": "false",
+    "db": "postgres",
+    "sequence": "[\"22991984\",\"22991984\"]",
+    "schema": "public",
+    "table": "profile",
+    "txId": 729,
+    "lsn": 22991984,
+    "xmin": null
+  },
+  "op": "u",
+  "ts_ms": 1674745740605,
+  "transaction": null
+}
+{
+  "before": null,
+  "after": {
+    "id": 2,
+    "name": "Pam",
+    "color": "yellow"
+  },
+  "source": {
+    "version": "2.1.1.Final",
+    "connector": "postgresql",
+    "name": "postgres",
+    "ts_ms": 1674745740354,
+    "snapshot": "false",
+    "db": "postgres",
+    "sequence": "[\"22992112\",\"22992112\"]",
+    "schema": "public",
+    "table": "profile",
+    "txId": 730,
+    "lsn": 22992112,
+    "xmin": null
+  },
+  "op": "u",
+  "ts_ms": 1674745740607,
+  "transaction": null
+}
+{
+  "before": {
+    "id": 1,
+    "name": null,
+    "color": null
+  },
+  "after": null,
+  "source": {
+    "version": "2.1.1.Final",
+    "connector": "postgresql",
+    "name": "postgres",
+    "ts_ms": 1674745740381,
+    "snapshot": "false",
+    "db": "postgres",
+    "sequence": "[\"22992248\",\"22992248\"]",
+    "schema": "public",
+    "table": "profile",
+    "txId": 731,
+    "lsn": 22992248,
+    "xmin": null
+  },
+  "op": "d",
+  "ts_ms": 1674745740608,
+  "transaction": null
+}
+{
+  "before": null,
+  "after": {
+    "id": 1,
+    "title": "NATS Diaries",
+    "author": "Pam"
+  },
+  "source": {
+    "version": "2.1.1.Final",
+    "connector": "postgresql",
+    "name": "postgres",
+    "ts_ms": 1674745740439,
+    "snapshot": "false",
+    "db": "postgres",
+    "sequence": "[\"23044696\",\"23044800\"]",
+    "schema": "public",
+    "table": "books",
+    "txId": 733,
+    "lsn": 23044800,
+    "xmin": null
+  },
+  "op": "c",
+  "ts_ms": 1674745740617,
+  "transaction": null
+}
