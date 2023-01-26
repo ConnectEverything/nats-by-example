@@ -21,7 +21,10 @@ description: |-
   table, for example, `postgres.public.test`. The first token is an optional prefix
   specified in the Debezium configuration.
 
+  See the [source repo][repo] for the Docker Compose file and Debezium configuration.
+
   [cdc]: https://en.wikipedia.org/wiki/Change_data_capture
   [deb]: https://debezium.io
   [deb-server]: https://debezium.io/documentation/reference/stable/operations/debezium-server.html
   [lr]: https://www.postgresql.org/docs/current/logical-replication.html
+  [repo]: https://github.com/ConnectEverything/nats-by-example/tree/main/examples/integrations/debezium/cli
