@@ -1,0 +1,77 @@
+Network 4225953d_default  Creating
+Network 4225953d_default  Created
+Container 4225953d-postgres-1  Creating
+Container 4225953d-nats-1  Creating
+Container 4225953d-nats-1  Created
+Container 4225953d-postgres-1  Created
+Container 4225953d-debezium-1  Creating
+Container 4225953d-debezium-1  Created
+Container 4225953d-nats-1  Starting
+Container 4225953d-postgres-1  Starting
+Container 4225953d-nats-1  Started
+Container 4225953d-postgres-1  Started
+Container 4225953d-debezium-1  Starting
+Container 4225953d-debezium-1  Started
+Create and populate the database.
+CREATE TABLE
+INSERT 0 1
+INSERT 0 1
+UPDATE 1
+UPDATE 1
+DELETE 1
+CREATE TABLE
+INSERT 0 1
+
+Stream subjects.
+postgres.public.books
+postgres.public.profile
+
+Change events.
+{
+  "before": null,
+  "after": {
+    "id": 1,
+    "name": "Joe",
+    "color": "blue"
+  }
+}
+{
+  "before": null,
+  "after": {
+    "id": 2,
+    "name": "Pam",
+    "color": "green"
+  }
+}
+{
+  "before": null,
+  "after": {
+    "id": 1,
+    "name": "Joe",
+    "color": "red"
+  }
+}
+{
+  "before": null,
+  "after": {
+    "id": 2,
+    "name": "Pam",
+    "color": "yellow"
+  }
+}
+{
+  "before": {
+    "id": 1,
+    "name": null,
+    "color": null
+  },
+  "after": null
+}
+{
+  "before": null,
+  "after": {
+    "id": 1,
+    "title": "NATS Diaries",
+    "author": "Pam"
+  }
+}
