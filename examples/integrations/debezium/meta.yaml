@@ -1,0 +1,30 @@
+title: Change Data Capture via Debezium
+description: |-
+  [Change data capture][cdc] (CDC) can be desirable to setup on databases
+  in order to stream granular change events to other parts of the system
+  as data changes.
+
+  A fairly popular open source project that handles the intricacies
+  of interfacing with a variety of databases to *capture* changes is
+  [Debezium][deb].
+
+  This example highlights a minimal setup to leverage the new
+  standalone [Debezium Server][deb-server] for performing
+  change data capture (CDC) from a Postgres database to a NATS stream.
+
+  For Postgres, Debzium leverages the [logical replication][lr] API and
+  registers itself as a replication target. It then takes this raw representation
+  of the change and converts it to a standard event data model. Finally, it
+  publishes to the configured NATS stream, by default, called `DebeziumStream`.
+
+  Each event is published to a subject corresponding to the Postgres schema and
+  table, for example, `postgres.public.test`. The first token is an optional prefix
+  specified in the Debezium configuration.
+
+  See the [source repo][repo] for the Docker Compose file and Debezium configuration.
+
+  [cdc]: https://en.wikipedia.org/wiki/Change_data_capture
+  [deb]: https://debezium.io
+  [deb-server]: https://debezium.io/documentation/reference/stable/operations/debezium-server.html
+  [lr]: https://www.postgresql.org/docs/current/logical-replication.html
+  [repo]: https://github.com/ConnectEverything/nats-by-example/tree/main/examples/integrations/debezium/cli

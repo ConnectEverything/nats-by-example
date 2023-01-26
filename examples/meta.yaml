@@ -6,5 +6,4 @@ categories:
   - use-cases
   - kv
   - embedded
-  #- operations
-  #- connecting
+  - integrations
