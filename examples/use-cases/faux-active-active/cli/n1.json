@@ -1,11 +1,11 @@
 {
-  "name": "n1",
+  "name": "KV_n1",
   "subjects": [
     "n1.\u003e"
   ],
   "retention": "limits",
   "max_consumers": -1,
-  "max_msgs_per_subject": -1,
+  "max_msgs_per_subject": 10,
   "max_msgs": -1,
   "max_bytes": -1,
   "max_age": 0,

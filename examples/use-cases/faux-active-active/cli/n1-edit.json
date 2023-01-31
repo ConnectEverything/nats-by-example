@@ -1,30 +1,29 @@
 {
-  "name": "n1",
+  "name": "KV_n1",
   "subjects": [
-    "n1.\u003e"
+    "$KV.n1.\u003e"
   ],
   "retention": "limits",
   "max_consumers": -1,
-  "max_msgs_per_subject": -1,
+  "max_msgs_per_subject": 5,
   "max_msgs": -1,
   "max_bytes": -1,
   "max_age": 0,
   "max_msg_size": -1,
   "storage": "file",
-  "discard": "old",
+  "discard": "new",
   "num_replicas": 1,
   "duplicate_window": 12000000000,
   "sealed": false,
-  "deny_delete": false,
+  "deny_delete": true,
   "deny_purge": false,
   "allow_rollup_hdrs": true,
+  "allow_direct": true,
   "sources": [
     {
-      "name": "n2",
-      "filter_subject": "n2.\u003e",
-      "opt_start_seq": 0,
-      "opt_start_time": "0001-01-01T00:00:00Z",
-      "external": null
+      "name": "KV_n2",
+      "filter_subject": "$KV.n2.\u003e",
+      "subject_transform_dest": "$KV.n1.\u003e"
     }
   ]
 }

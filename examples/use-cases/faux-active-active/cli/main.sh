@@ -51,17 +51,26 @@ curl --fail --silent \
   http://localhost:8222/healthz > /dev/null
 
 # Create the two streams with their own respective subjects.
-nats stream add --config n1.json
-nats stream add --config n2.json
+nats kv add n1 --history=10
+nats kv add n2 --history=10
 
 # Edit the streams to source from each other, filtered to the
 # stream's bounded subject.
-nats stream edit --force --config n1-edit.json n1
-nats stream edit --force --config n2-edit.json n2
+nats stream edit --force --config n1-edit.json KV_n1
+nats stream edit --force --config n2-edit.json KV_n2
 
 # Publish a message to each stream.
-nats req 'n1.1' ''
-nats req 'n2.1' ''
+nats kv put n1 foo
+nats kv put n2 bar
 
 # Both streams should have two messages (in different orders).
+echo 'List n1:'
+nats kv list n1
+nats stream view KV_n1
+
+echo 'List n2:'
+nats kv list n2
+nats stream view KV_n2
+
+nats stream report
 nats stream report
