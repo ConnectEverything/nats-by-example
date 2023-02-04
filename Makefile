@@ -25,7 +25,10 @@ zip:
 
 dist:
 	GOOS=linux GOARCH=amd64 make build zip
+	GOOS=linux GOARCH=arm64 make build zip
 	GOOS=darwin GOARCH=amd64 make build zip
+	GOOS=darwin GOARCH=arm64 make build zip
 	GOOS=windows GOARCH=amd64 make build zip
+	GOOS=windows GOARCH=arm64 make build zip
 
 .PHONY: dist
