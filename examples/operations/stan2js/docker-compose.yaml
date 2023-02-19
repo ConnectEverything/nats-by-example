@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  nats:
+    image: docker.io/nats:2.9.14
+    command:
+      - "--debug"
+      - "--js"
+
+  stan:
+    image: docker.io/nats-streaming:0.25.3
+    command:
+      - "--debug"
+      - "--config"
+      - "/stan.conf"
+    volumes:
+      - "./stan.conf:/stan.conf"
+
+  app:
+    image: ${IMAGE_TAG}
+    environment:
+      NATS_URL: nats://nats:4222
+      STAN_URL: nats://stan:4222
+      STAN_CLUSTER: test-cluster
+    depends_on:
+      - nats
+      - stan
+

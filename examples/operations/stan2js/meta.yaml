@@ -1,0 +1,7 @@
+title: NATS Streaming to JetStream Migration
+description: |-
+  This example demonstrates how to perform a migration of NATS Streaming
+  channels and subscriptions to NATS JetStream streams and consumers
+  using the [stan2js][1] migration tool.
+
+  [1]: https://github.com/nats-io/stan2js
