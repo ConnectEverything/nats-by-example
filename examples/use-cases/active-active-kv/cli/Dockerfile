@@ -1,0 +1,19 @@
+FROM golang:1.19-alpine3.17 AS build
+
+RUN apk update && apk add git
+
+RUN go install github.com/nats-io/natscli/nats@main
+RUN go install github.com/nats-io/nats-server/v2@dev
+
+FROM alpine:3.17
+
+RUN apk add bash curl
+
+COPY --from=build /go/bin/nats-server /usr/local/bin/
+COPY --from=build /go/bin/nats /usr/local/bin/
+
+COPY . .
+
+ENTRYPOINT ["bash"]
+
+CMD ["main.sh"]

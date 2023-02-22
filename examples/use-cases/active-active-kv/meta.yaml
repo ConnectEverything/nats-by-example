@@ -1,0 +1,5 @@
+title: Active-active KV
+description: |-
+  This example shows how to model two KV streams, placed on
+  separate nodes (on a two-node cluster) that will source
+  entries from each other.

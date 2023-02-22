@@ -1,11 +1,12 @@
 {
-  "name": "KV_n2",
+  "name": "KV_mykv",
   "subjects": [
-    "$KV.n2.\u003e"
+    "$KV.mykv.\u003e"
   ],
+  "placement": {},
   "retention": "limits",
   "max_consumers": -1,
-  "max_msgs_per_subject": 5,
+  "max_msgs_per_subject": 10,
   "max_msgs": -1,
   "max_bytes": -1,
   "max_age": 0,
@@ -13,7 +14,7 @@
   "storage": "file",
   "discard": "new",
   "num_replicas": 1,
-  "duplicate_window": 12000000000,
+  "duplicate_window": 120000000000,
   "sealed": false,
   "deny_delete": true,
   "deny_purge": false,
@@ -21,9 +22,11 @@
   "allow_direct": true,
   "sources": [
     {
-      "name": "KV_n1",
-      "filter_subject": "$KV.n1.\u003e",
-      "subject_transform_dest": "$KV.n2.\u003e"
+      "name": "KV_mykv",
+      "filter_subject": "$KV.mykv.n2.\u003e",
+      "external": {
+        "api": "$JS.n2.API"
+      }
     }
   ]
 }
