@@ -2,7 +2,7 @@
 
 set -uo pipefail
 
-NATS_URL="${NATS_URL:-nats://localhost:4222}"
+NATS_URL="nats://localhost:4222"
 
 # For this example, we will create three users. The first one called
 # `greeter` will be used for the `greet` service. It can subscribe to a

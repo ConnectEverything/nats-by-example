@@ -1,9 +1,3 @@
-Network cb225c3a_default  Creating
-Network cb225c3a_default  Created
-Container cb225c3a-nats-1  Creating
-Container cb225c3a-nats-1  Created
-Container cb225c3a-nats-1  Starting
-Container cb225c3a-nats-1  Started
 --- max in-flight messages (n=1) ---
 requested 3, got 1
 nats: timeout
@@ -15,10 +9,13 @@ requested 2, got 2
 
 --- max waiting requests (n=1) ---
 is valid? true
-fetch 1: nats: Exceeded MaxWaiting
 fetch 3: nats: Exceeded MaxWaiting
+fetch 1: nats: Exceeded MaxWaiting
 fetch 2: nats: timeout
 
 --- max fetch timeout (d=1s) ---
-timeout occured? true in 1.000437048s
-nats: Exceeded MaxRequestExpires of 1s in 339.805µs
+timeout occured? true in 1.000643734s
+nats: Exceeded MaxRequestExpires of 1s in 419.095µs
+
+--- max total bytes per fetch (n=4) ---
+nats: Exceeded MaxRequestMaxBytes of 3

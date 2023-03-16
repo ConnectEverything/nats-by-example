@@ -1,9 +1,2 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1670538107, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/protobuf/go"}
-[0.974394, "o", "Network 60e7166b_default  Creating\r\n"]
-[1.01221, "o", "Network 60e7166b_default  Created\r\n"]
-[1.013142, "o", "Container 60e7166b-nats-1  Creating\r\n"]
-[1.03574, "o", "Container 60e7166b-nats-1  Created\r\n"]
-[1.036547, "o", "Container 60e7166b-nats-1  Starting\r\n"]
-[1.331565, "o", "Container 60e7166b-nats-1  Started\r\n"]
-[1.618585, "o", "reply: hello \"joe\"!"]
-[1.618648, "o", "\r\n"]
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973769, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/protobuf/go"}
+[1.076925, "o", "reply: hello \"joe\"!\r\n"]

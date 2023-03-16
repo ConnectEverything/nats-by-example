@@ -2,7 +2,7 @@
 
 set -uo pipefail
 
-NATS_URL="${NATS_URL:-nats://localhost:4222}"
+NATS_URL="nats://localhost:4222"
 
 # Create the operator, generate a signing key (which is a best practice),
 # and initialize the default SYS account and sys user.

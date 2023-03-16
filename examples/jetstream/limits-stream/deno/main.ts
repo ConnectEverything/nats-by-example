@@ -5,7 +5,7 @@ import {
   StreamConfig,
   StreamInfo,
   PubAck,
-} from "https://deno.land/x/nats@v1.7.1/src/mod.ts";
+} from "https://deno.land/x/nats@v1.10.2/src/mod.ts";
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string.
@@ -87,7 +87,7 @@ console.log(info.state);
 
 // Finally the last limit of max_age can be applied. Note the age
 // is in nanoseconds, so 1000 milliseconds (1 second) converted to nanos.
-await jsm.streams.update(cfg.name, {max_age: nanos(1000)});
+await jsm.streams.update(cfg.name, {max_age: nanos(1000), duplicate_window: nanos(1000)});
 
 // Sleep for a second to ensure the message age in the stream has lapsed.
 await new Promise(r => setTimeout(r, 1000));

@@ -1,9 +1,3 @@
-Network 99836af1_default  Creating
-Network 99836af1_default  Created
-Container 99836af1-nats-1  Creating
-Container 99836af1-nats-1  Created
-Container 99836af1-nats-1  Starting
-Container 99836af1-nats-1  Started
 sue.color @ 1 -> blue
 sue.color @ 2 -> green
 sue.color @ 3 -> red

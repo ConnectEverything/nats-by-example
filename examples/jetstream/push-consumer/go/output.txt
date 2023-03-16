@@ -1,11 +1,5 @@
-Network dbfddaae_default  Creating
-Network dbfddaae_default  Created
-Container dbfddaae-nats-1  Creating
-Container dbfddaae-nats-1  Created
-Container dbfddaae-nats-1  Starting
-Container dbfddaae-nats-1  Started
 # Ephemeral
-ephemeral name is "5OHvxDcR"
+ephemeral name is "4rpMXs7g"
 3 messages queued
 6 messages queued
 received "events.1"
@@ -13,7 +7,7 @@ received "events.2"
 4 messages queued
 
 # Durable (Helper)
-6 messages queued
+0 messages queued
 nats: consumer not found
 
 # Durable (AddConsumer)

@@ -1,9 +1,3 @@
-Network f621f53b_default  Creating
-Network f621f53b_default  Created
-Container f621f53b-nats-1  Creating
-Container f621f53b-nats-1  Created
-Container f621f53b-nats-1  Starting
-Container f621f53b-nats-1  Started
 hello on subject greet.joe
 hello on subject greet.pam
 hello on subject greet.sue

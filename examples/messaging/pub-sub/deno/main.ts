@@ -1,4 +1,4 @@
-import {connect, StringCodec} from "https://deno.land/x/nats@v1.7.1/src/mod.ts";
+import {connect, StringCodec} from "https://deno.land/x/nats@v1.10.2/src/mod.ts";
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string.

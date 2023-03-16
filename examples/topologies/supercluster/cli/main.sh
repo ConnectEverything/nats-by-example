@@ -5,12 +5,10 @@ set -euo pipefail
 # Define the system account to be included by all configurations.
 cat <<- EOF > sys.conf
 accounts: {
-  SYS: {
+  \$SYS: {
     users: [{user: sys, password: sys}]
   }
 }
-
-system_account: SYS
 EOF
 
 # Create the *east* and *west* single-node server configurations
@@ -74,15 +72,15 @@ curl --fail --silent \
 
 # Save a couple NATS CLI contexts for convenience.
 nats context save east \
-  --server "nats://localhost:4222" > /dev/null
+  --server "nats://localhost:4222"
 
 nats context save east-sys \
   --server "nats://localhost:4222" \
   --user sys \
-  --password sys > /dev/null
+  --password sys
 
 nats context save west \
-  --server "nats://localhost:4223" > /dev/null
+  --server "nats://localhost:4223"
 
 
 # Show the server list which will indicate the clusters and

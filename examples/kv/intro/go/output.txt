@@ -1,9 +1,3 @@
-Network b99bdd80_default  Creating
-Network b99bdd80_default  Created
-Container b99bdd80-nats-1  Creating
-Container b99bdd80-nats-1  Created
-Container b99bdd80-nats-1  Starting
-Container b99bdd80-nats-1  Started
 sue.color @ 1 -> "blue"
 sue.color @ 2 -> "green"
 expected error: nats: wrong last sequence: 2

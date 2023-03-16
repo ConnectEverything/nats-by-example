@@ -1,5 +1,3 @@
-// NOTE: This example requires a fix that came after the v1.16.0 release
-// of the Go client which corrected an issue with ephemeral pull consumers.
 package main
 
 import (

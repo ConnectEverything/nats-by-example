@@ -1,9 +1,3 @@
-Network e7f0bc79_default  Creating
-Network e7f0bc79_default  Created
-Container e7f0bc79-nats-1  Creating
-Container e7f0bc79-nats-1  Created
-Container e7f0bc79-nats-1  Starting
-Container e7f0bc79-nats-1  Started
 got a response: "hello, sue"
 got a response: "hello, john"
 got a response: "hello, bob"

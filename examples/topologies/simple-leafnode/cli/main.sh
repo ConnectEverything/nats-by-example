@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -xeuo pipefail
+set -euo pipefail
 
 # For this example, we are going to have a service connected
 # to the main server and then another client send a request

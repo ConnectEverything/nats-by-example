@@ -1,21 +1,19 @@
-Network 3b88712f_default  Creating
-Network 3b88712f_default  Created
 Starting the servers...
-╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                                   Server Overview                                                    │
-├──────────┬────────────┬───────────┬─────────┬─────┬───────┬──────┬────────┬─────┬────────┬─────┬──────┬────────┬─────┤
-│ Name     │ Cluster    │ IP        │ Version │ JS  │ Conns │ Subs │ Routes │ GWs │ Mem    │ CPU │ Slow │ Uptime │ RTT │
-├──────────┼────────────┼───────────┼─────────┼─────┼───────┼──────┼────────┼─────┼────────┼─────┼──────┼────────┼─────┤
-│ east-az1 │ east       │ 0.0.0.0   │ 2.9.0   │ yes │ 1     │ 145  │ 2      │ 2   │ 16 MiB │ 2.0 │ 0    │ 3.04s  │ 2ms │
-│ east-az2 │ east       │ 0.0.0.0   │ 2.9.0   │ yes │ 0     │ 145  │ 2      │ 2   │ 14 MiB │ 0.0 │ 0    │ 3.05s  │ 2ms │
-│ east-az3 │ east       │ 0.0.0.0   │ 2.9.0   │ yes │ 0     │ 145  │ 2      │ 2   │ 11 MiB │ 1.0 │ 0    │ 3.04s  │ 2ms │
-│ arbiter  │ arbiter    │ 0.0.0.0   │ 2.9.0   │ no  │ 0     │ 44   │ 0      │ 2   │ 12 MiB │ 1.0 │ 0    │ 3.05s  │ 2ms │
-│ west-az1 │ west       │ 0.0.0.0   │ 2.9.0   │ yes │ 0     │ 153  │ 2      │ 2   │ 14 MiB │ 0.0 │ 0    │ 3.05s  │ 2ms │
-│ west-az2 │ west       │ 0.0.0.0   │ 2.9.0   │ yes │ 0     │ 153  │ 2      │ 2   │ 13 MiB │ 1.0 │ 0    │ 3.05s  │ 2ms │
-│ west-az3 │ west       │ 0.0.0.0   │ 2.9.0   │ yes │ 0     │ 153  │ 2      │ 2   │ 13 MiB │ 0.0 │ 0    │ 3.05s  │ 2ms │
-├──────────┼────────────┼───────────┼─────────┼─────┼───────┼──────┼────────┼─────┼────────┼─────┼──────┼────────┼─────┤
-│          │ 3 Clusters │ 7 Servers │         │ 6   │ 1     │ 938  │        │     │ 93 MiB │     │ 0    │        │     │
-╰──────────┴────────────┴───────────┴─────────┴─────┴───────┴──────┴────────┴─────┴────────┴─────┴──────┴────────┴─────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                     Server Overview                                                     │
+├──────────┬─────────┬──────┬─────────┬─────┬───────┬──────┬────────┬─────┬─────────┬───────┬───────┬──────┬────────┬─────┤
+│ Name     │ Cluster │ Host │ Version │ JS  │ Conns │ Subs │ Routes │ GWs │ Mem     │ CPU % │ Cores │ Slow │ Uptime │ RTT │
+├──────────┼─────────┼──────┼─────────┼─────┼───────┼──────┼────────┼─────┼─────────┼───────┼───────┼──────┼────────┼─────┤
+│ east-az1 │ east    │ 0    │ 2.9.15  │ yes │ 1     │ 154  │ 2      │ 2   │ 19 MiB  │ 0     │ 8     │ 0    │ 8.03s  │ 1ms │
+│ east-az3 │ east    │ 0    │ 2.9.15  │ yes │ 0     │ 154  │ 2      │ 2   │ 19 MiB  │ 0     │ 8     │ 0    │ 6.02s  │ 1ms │
+│ arbiter  │ arbiter │ 0    │ 2.9.15  │ no  │ 0     │ 44   │ 0      │ 2   │ 16 MiB  │ 0     │ 8     │ 0    │ 9.03s  │ 1ms │
+│ west-az1 │ west    │ 0    │ 2.9.15  │ yes │ 0     │ 144  │ 2      │ 2   │ 17 MiB  │ 0     │ 8     │ 0    │ 5.02s  │ 1ms │
+│ east-az2 │ east    │ 0    │ 2.9.15  │ yes │ 0     │ 154  │ 2      │ 2   │ 17 MiB  │ 0     │ 8     │ 0    │ 7.03s  │ 1ms │
+│ west-az3 │ west    │ 0    │ 2.9.15  │ yes │ 0     │ 144  │ 2      │ 2   │ 19 MiB  │ 1     │ 8     │ 0    │ 3.02s  │ 1ms │
+│ west-az2 │ west    │ 0    │ 2.9.15  │ yes │ 0     │ 144  │ 2      │ 2   │ 18 MiB  │ 0     │ 8     │ 0    │ 4.02s  │ 1ms │
+├──────────┼─────────┼──────┼─────────┼─────┼───────┼──────┼────────┼─────┼─────────┼───────┼───────┼──────┼────────┼─────┤
+│          │ 3       │ 7    │         │ 6   │ 1     │ 938  │        │     │ 126 MiB │       │       │ 0    │        │     │
+╰──────────┴─────────┴──────┴─────────┴─────┴───────┴──────┴────────┴─────┴─────────┴───────┴───────┴──────┴────────┴─────╯
 
 ╭────────────────────────────────────────────────────────────────────────────╮
 │                              Cluster Overview                              │
@@ -34,53 +32,53 @@ Starting the servers...
 │ Server    │ Cluster │ Streams │ Consumers │ Messages │ Bytes │ Memory │ File │ API Req │ API Err │
 ├───────────┼─────────┼─────────┼───────────┼──────────┼───────┼────────┼──────┼─────────┼─────────┤
 │ arbiter   │ arbiter │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
-│ east-az1  │ east    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
-│ east-az3  │ east    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ east-az1* │ east    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ east-az2  │ east    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ east-az3  │ east    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ west-az3  │ west    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ west-az1  │ west    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
-│ west-az2* │ west    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ west-az2  │ west    │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 ├───────────┼─────────┼─────────┼───────────┼──────────┼───────┼────────┼──────┼─────────┼─────────┤
 │           │         │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 ╰───────────┴─────────┴─────────┴───────────┴──────────┴───────┴────────┴──────┴─────────┴─────────╯
 
-╭─────────────────────────────────────────────────────╮
-│             RAFT Meta Group Information             │
-├──────────┬────────┬─────────┬────────┬────────┬─────┤
-│ Name     │ Leader │ Current │ Online │ Active │ Lag │
-├──────────┼────────┼─────────┼────────┼────────┼─────┤
-│ east-az1 │        │ true    │ true   │ 0.99s  │ 0   │
-│ east-az2 │        │ true    │ true   │ 0.99s  │ 0   │
-│ east-az3 │        │ true    │ true   │ 0.99s  │ 0   │
-│ west-az1 │        │ true    │ true   │ 0.99s  │ 0   │
-│ west-az2 │ yes    │ true    │ true   │ 0.00s  │ 0   │
-│ west-az3 │        │ true    │ true   │ 0.99s  │ 0   │
-╰──────────┴────────┴─────────┴────────┴────────┴─────╯
-Server information for west-az1 (NAQAJGQPFTTHDSEIGMGHR2MINRGDNXKWVZHZRTMIJUZLQQH4JFGY4PS4)
+╭────────────────────────────────────────────────────────────────╮
+│                  RAFT Meta Group Information                   │
+├──────────┬──────────┬────────┬─────────┬────────┬────────┬─────┤
+│ Name     │ ID       │ Leader │ Current │ Online │ Active │ Lag │
+├──────────┼──────────┼────────┼─────────┼────────┼────────┼─────┤
+│ east-az1 │ 6arG4jtP │ yes    │ true    │ true   │ 0.00s  │ 0   │
+│ east-az2 │ Pl1TTxO3 │        │ true    │ true   │ 0.25s  │ 0   │
+│ east-az3 │ 5KQHX3nc │        │ true    │ true   │ 0.25s  │ 0   │
+│ west-az1 │ uZO7rd5U │        │ true    │ true   │ 0.25s  │ 0   │
+│ west-az2 │ hTiOv8JU │        │ true    │ true   │ 0.25s  │ 0   │
+│ west-az3 │ 8uI3CcsK │        │ true    │ true   │ 0.25s  │ 0   │
+╰──────────┴──────────┴────────┴─────────┴────────┴────────┴─────╯
+Server information for west-az1 (NAIVZ6NMILTCUKGFW6ZPROMUZ4IKYKFFATLZGIFVPV6IEIMZAPT6LHQ2)
 
 Process Details:
 
-         Version: 2.9.0
-      Git Commit: 517d9b3
-      Go Version: go1.19.1
-      Start Time: 2022-09-26 21:36:47.066513568 +0000 UTC
-          Uptime: 3s
+         Version: 2.9.15
+      Git Commit: 
+      Go Version: go1.19.4
+      Start Time: 2023-03-16 13:40:11.909535414 +0000 UTC
+          Uptime: 5s
 
 Connection Details:
 
    Auth Required: true
     TLS Required: false
             Host: 0.0.0.0:4225
-     Client URLs: 172.18.0.2:4225
-                  172.18.0.2:4226
-                  172.18.0.2:4227
+     Client URLs: 172.30.0.2:4225
+                  172.30.0.2:4226
+                  172.30.0.2:4227
 
 JetStream:
 
               Domain: 
    Storage Directory: /tmp/nats/jetstream
-          Max Memory: 5.1 GiB
-            Max File: 23 GiB
+          Max Memory: 23 GiB
+            Max File: 118 GiB
       Active Acconts: 1
        Memory In Use: 0 B
          File In Use: 0 B
@@ -97,12 +95,12 @@ Limits:
 
 Statistics:
 
-       CPU Cores: 2 0.00%
-          Memory: 14 MiB
+       CPU Cores: 8 0.00%
+          Memory: 17 MiB
      Connections: 0
-   Subscriptions: 153
-            Msgs: 95 in 101 out
-           Bytes: 55 KiB in 57 KiB out
+   Subscriptions: 144
+            Msgs: 67 in 108 out
+           Bytes: 50 KiB in 60 KiB out
   Slow Consumers: 0
 
 Cluster:
@@ -116,25 +114,31 @@ Cluster:
 
 Stream ORDERS was created
 
-Information for Stream ORDERS created 2022-09-26T21:36:50Z
-
-Configuration:
+Information for Stream ORDERS created 2023-03-16 13:40:17
 
              Subjects: orders.*
-     Acknowledgements: true
-            Retention: File - Limits
              Replicas: 3
+              Storage: File
+    Placement Cluster: west
+
+Options:
+
+            Retention: Limits
+     Acknowledgements: true
        Discard Policy: Old
      Duplicate Window: 2m0s
     Allows Msg Delete: true
          Allows Purge: true
        Allows Rollups: true
+
+Limits:
+
      Maximum Messages: unlimited
+  Maximum Per Subject: unlimited
         Maximum Bytes: unlimited
           Maximum Age: unlimited
  Maximum Message Size: unlimited
     Maximum Consumers: unlimited
-    Placement Cluster: west
 
 
 Cluster Information:

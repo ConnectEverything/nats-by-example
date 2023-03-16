@@ -1,20 +1,14 @@
-Network d7077068_default  Creating
-Network d7077068_default  Created
-Container d7077068-nats-1  Creating
-Container d7077068-nats-1  Created
-Container d7077068-nats-1  Starting
-Container d7077068-nats-1  Started
 # Durable (implicit)
 deliver group: "event-processor"
-deliver subject: "_INBOX.CYOssaH1azfwRG0Z9sLLFJ"
-sub1: received message "events.2"
+deliver subject: "_INBOX.ELpxpVZgyrSSX5ZJihHWJE"
+sub1: receive timeout
 sub2: received message "events.1"
-sub3: received message "events.3"
+sub3: received message "events.2"
 
 # Durable (explicit)
-sub2: received message "events.4"
-sub1: received message "events.1"
-sub1: received message "events.2"
-sub1: received message "events.3"
-sub1: received message "events.5"
+sub2: received message "events.1"
+sub2: received message "events.2"
+sub2: received message "events.5"
+sub3: received message "events.3"
+sub1: received message "events.4"
 sub1: received message "events.6"

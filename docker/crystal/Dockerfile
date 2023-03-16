@@ -2,7 +2,7 @@ FROM crystallang/crystal:1.6.2-alpine AS build
 
 WORKDIR /opt/app
 
-COPY shard.yml shard.lock .
+COPY shard.yml shard.lock ./
 RUN shards
 
 COPY . .

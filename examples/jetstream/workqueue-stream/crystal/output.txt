@@ -1,9 +1,3 @@
-Network 98b636a5_default  Creating
-Network 98b636a5_default  Created
-Container 98b636a5-nats-1  Creating
-Container 98b636a5-nats-1  Created
-Container 98b636a5-nats-1  Starting
-Container 98b636a5-nats-1  Started
 Created the stream
 Published 3 messages
 
@@ -12,9 +6,9 @@ NATS::JetStream::API::V1::StreamState(
  @bytes=205,
  @consumer_count=0,
  @first_seq=1,
- @first_ts=2022-12-23 05:45:35.668822002 UTC,
+ @first_ts=2023-03-16 13:37:24.550721827 UTC,
  @last_seq=3,
- @last_ts=2022-12-23 05:45:35.671148502 UTC,
+ @last_ts=2023-03-16 13:37:24.551020697 UTC,
  @messages=3)
 Stream info with 1 consumer:
 NATS::JetStream::API::V1::StreamState(
@@ -23,7 +17,7 @@ NATS::JetStream::API::V1::StreamState(
  @first_seq=4,
  @first_ts=1970-01-01 00:00:00.0 UTC,
  @last_seq=3,
- @last_ts=2022-12-23 05:45:35.671148502 UTC,
+ @last_ts=2023-03-16 13:37:24.551020697 UTC,
  @messages=0)
 
 Creating an overlapping consumer
@@ -55,7 +49,7 @@ NATS::JetStream::API::V1::Consumer(
    @rate_limit_bps=nil,
    @replay_policy=Instant,
    @sample_frequency=nil),
- @created=2022-12-23 05:45:35.709376919 UTC,
+ @created=2023-03-16 13:37:24.555030218 UTC,
  @delivered=
   NATS::JetStream::API::V1::Consumer::Sequence(@consumer_seq=0, @stream_seq=3),
  @name="processor-2",

@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+NATS_URL="nats://localhost:4222"
+
 # Create a shared configuration which enables JetStream and defines the
 # `unique_tag` option which enforces all replicas for a given stream or
 # consumer to be placed on nodes with different availability zones (AZ).
@@ -11,7 +13,7 @@ jetstream: {
 }
 
 accounts: {
-  '\$SYS': {
+  \$SYS: {
     users: [{user: sys, password: sys}]
   }
   APP: {

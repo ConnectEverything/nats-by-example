@@ -1,6 +1,6 @@
 #!/bin/sh
 
-set -xeuo pipefail
+set -euo pipefail
 
 # For this example, we are going to have a service connected
 # to the main server and then another client send a request
@@ -71,7 +71,7 @@ leafnodes: {
   remotes: [
     {
       url: "nats-leaf://0.0.0.0:7422",
-      credentials: "$NKEYS_PATH/creds/local/APP/user.creds"
+      credentials: "/root/.local/share/nats/nsc/keys/creds/local/APP/user.creds"
     }
   ]
 }

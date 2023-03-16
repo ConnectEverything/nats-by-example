@@ -1,37 +1,20 @@
-Network 65af27f1_default  Creating
-Network 65af27f1_default  Created
-             _             _               
- _ __   __ _| |_ ___      | |__   _____  __
-| '_ \ / _` | __/ __|_____| '_ \ / _ \ \/ /
-| | | | (_| | |_\__ \_____| |_) | (_) >  < 
-|_| |_|\__,_|\__|___/     |_.__/ \___/_/\_\
-                                           
-nats-box v0.12.0
-+ NATS_MAIN_URL=nats://0.0.0.0:4222
-+ NATS_LEAF_URL=nats://0.0.0.0:4223
-+ nsc add operator --generate-signing-key --sys --name local
-[ OK ] generated and stored operator key "OBA4MEJE33O7FM2IHCHSPDK362OP3EQ7U54UFM6UB3VIMWBPZMNPUC7N"
+[ OK ] generated and stored operator key "OA3OXA7A5QCHVLLSWEFMEQKBHF45COWCG5ASRY4CCI5HOEKXMHZVPGKD"
 [ OK ] added operator "local"
 [ OK ] When running your own nats-server, make sure they run at least version 2.2.0
-[ OK ] created operator signing key: OBGXY46O6M7D5MPR75SLTK5AWN5P2R34SZFAYWWIEURNDIREIULAD22S
-[ OK ] created system_account: name:SYS id:ADMPNQC7QE2LFABYBGEA7AEN37O2T5Z26GQPAVNB4P43RGF3KDAGFYIW
-[ OK ] created system account user: name:sys id:UAOJIINY45JT5JLI7FYWRX5HEBBFXVOVOIVTKM5MFH2T2VSAFLH4DJSZ
-[ OK ] system account user creds file stored in `/nsc/nkeys/creds/local/SYS/sys.creds`
-+ nsc edit operator --require-signing-keys --account-jwt-server-url nats://0.0.0.0:4222
+[ OK ] created operator signing key: OCMY7K6YT5C6ANETDZ2ZGNGOYML4SK4DJ2GEQTFEDWE5R7UICVG2NYE5
+[ OK ] created system_account: name:SYS id:ACLB2KKRNVAS3U455DSZVAAPSEY6H2QVTML3DAYBGFLATH5M6N2EUV5J
+[ OK ] created system account user: name:sys id:UDWNUHBXQWDL6Q5IZODWSI3PRG3GKJTGAITP2CPPXJJJWWBWGRHV5FMD
+[ OK ] system account user creds file stored in `~/.local/share/nats/nsc/keys/creds/local/SYS/sys.creds`
 [ OK ] strict signing key usage set to: true
 [ OK ] set account jwt server url to "nats://0.0.0.0:4222"
 [ OK ] edited operator "local"
-+ nsc add account APP
-[ OK ] generated and stored account key "ADBFUJSUHBMTN67HZJD327RCTLRGIYKSTWAZIUXS5U2H3CDGW5FCG7T7"
+[ OK ] generated and stored account key "ADTBS7PIIH3UUU62N4FVWHY7LO44ZNK5WVZXUBFHMMDNCPIYW7TDYRNN"
 [ OK ] added account "APP"
-+ nsc edit account APP --sk generate
-[ OK ] added signing key "AB65VFZBW4RN34LQCHICB3BTGQ6YVDAC653CAP2S4OIWHEUU7KQ444MI"
+[ OK ] added signing key "ADTV2Q4YIYR5PI3WYYGUBSDMIE3BNXJRYKRQ5FWBSDATTHFOF5Z4S5BL"
 [ OK ] edited account "APP"
-+ nsc add user --account APP user
-[ OK ] generated and stored user key "UDEMHMTMMGCNTKAK5T532WGAMEDHBFF77CPDRSTHYV7ZIDMY2Y6HQN3E"
-[ OK ] generated user creds file `/nsc/nkeys/creds/local/APP/user.creds`
+[ OK ] generated and stored user key "UAPYRVBFK7EBRNGFMVOY5LZWJOT6AMT2TEJGSA4MKYNNLYIKEOKEQBKI"
+[ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/APP/user.creds`
 [ OK ] added user "user" to account "APP"
-+ nsc env
 +----------------------------------------------------------------------------------------------------------+
 |                                             NSC Environment                                              |
 +--------------------+-----+-------------------------------------------------------------------------------+
@@ -39,75 +22,52 @@ nats-box v0.12.0
 +--------------------+-----+-------------------------------------------------------------------------------+
 | $NSC_CWD_ONLY      | No  | If set, default operator/account from cwd only                                |
 | $NSC_NO_GIT_IGNORE | No  | If set, no .gitignore files written                                           |
-| $NKEYS_PATH        | Yes | /nsc/nkeys                                                                    |
-| $NSC_HOME          | No  | /nsc/.config/nats/nsc                                                         |
+| $NKEYS_PATH        | No  | ~/.local/share/nats/nsc/keys                                                  |
+| $NSC_HOME          | No  | ~/.config/nats/nsc                                                            |
 | $NATS_CA           | No  | If set, root CAs in the referenced file will be used for nats connections     |
 |                    |     | If not set, will default to the system trust store                            |
 | $NATS_KEY          | No  | If set, the tls key in the referenced file will be used for nats connections  |
 | $NATS_CERT         | No  | If set, the tls cert in the referenced file will be used for nats connections |
 +--------------------+-----+-------------------------------------------------------------------------------+
 | From CWD           |     | No                                                                            |
-| Default Stores Dir |     | /nsc/nats/nsc/stores                                                          |
-| Current Store Dir  |     | /nsc/nats/nsc/stores                                                          |
+| Default Stores Dir |     | ~/.local/share/nats/nsc/stores                                                |
+| Current Store Dir  |     | ~/.local/share/nats/nsc/stores                                                |
 | Current Operator   |     | local                                                                         |
 | Current Account    |     | APP                                                                           |
 | Root CAs to trust  |     | Default: System Trust Store                                                   |
 +--------------------+-----+-------------------------------------------------------------------------------+
 
-+ nats context save main-user --server nats://0.0.0.0:4222 --nsc nsc://local/APP/user
 NATS Configuration Context "main-user"
 
       Server URLs: nats://0.0.0.0:4222
-      Credentials: /nsc/nkeys/creds/local/APP/user.creds (OK)
+      Credentials: /root/.local/share/nats/nsc/keys/creds/local/APP/user.creds (OK)
        NSC Lookup: nsc://local/APP/user
-             Path: /nsc/.config/nats/context/main-user.json
+             Path: /root/.config/nats/context/main-user.json
 
-+ nats context save main-sys --server nats://0.0.0.0:4222 --nsc nsc://local/SYS/sys
 NATS Configuration Context "main-sys"
 
       Server URLs: nats://0.0.0.0:4222
-      Credentials: /nsc/nkeys/creds/local/SYS/sys.creds (OK)
+      Credentials: /root/.local/share/nats/nsc/keys/creds/local/SYS/sys.creds (OK)
        NSC Lookup: nsc://local/SYS/sys
-             Path: /nsc/.config/nats/context/main-sys.json
+             Path: /root/.config/nats/context/main-sys.json
 
-+ nats context save leaf-user --server nats://0.0.0.0:4223
 NATS Configuration Context "leaf-user"
 
       Server URLs: nats://0.0.0.0:4223
-             Path: /nsc/.config/nats/context/leaf-user.json
+             Path: /root/.config/nats/context/leaf-user.json
 
-+ nsc generate config --nats-resolver --sys-account SYS
 Creating the main server conf...
-+ echo 'Creating the main server conf...'
-+ cat
-+ echo 'Creating the leaf node conf...'
 Creating the leaf node conf...
-+ cat
-+ MAIN_PID=99
-+ sleep 1
-+ nats-server -c main.conf
 Pushing the account JWT...
-+ echo 'Pushing the account JWT...'
-+ nsc push -a APP
 [ OK ] push to nats-server "nats://0.0.0.0:4222" using system account "SYS":
        [ OK ] push APP to nats-server with nats account resolver:
-              [ OK ] pushed "APP" to nats-server NB6YKJ4ZAT3MYWMHMY2UYRSX6DXPUHPOJQOAHPJ4ZW2PN2BHIMS7ID4T: jwt updated
+              [ OK ] pushed "APP" to nats-server NDMOTRWUQLZEECONNOBQMSYJCSJLSDWHY2UYHAZ22NROKLP4EVY74SPH: jwt updated
               [ OK ] pushed to a total of 1 nats-server
-+ LEAF_PID=115
-+ sleep 1
-+ nats-server -c leaf.conf
-+ SERVICE_PID=125
-+ sleep 1
-+ nats --context main-user reply greet hello
-12:12:21 Listening on "greet" in group "NATS-RPLY-22"
-+ nats --context leaf-user request greet 
-12:12:22 Sending request on "greet"
+13:39:46 Listening on "greet" in group "NATS-RPLY-22"
+13:39:47 Sending request on "greet"
+13:39:47 [#0] Received on subject "greet":
 
 
-12:12:22 [#0] Received on subject "greet":
-12:12:22 Received with rtt 861.64µs
 hello
 
-+ kill 125
-+ kill 115
-+ kill 99
+13:39:47 Received with rtt 332.349µs
