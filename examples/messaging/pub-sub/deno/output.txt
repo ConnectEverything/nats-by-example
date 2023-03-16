@@ -1,9 +1,0 @@
-Network 8f3f8c98_default  Creating
-Network 8f3f8c98_default  Created
-Container 8f3f8c98-nats-1  Creating
-Container 8f3f8c98-nats-1  Created
-Container 8f3f8c98-nats-1  Starting
-Container 8f3f8c98-nats-1  Started
-hello on subject greet.joe
-hello on subject greet.pam
-hello on subject greet.sue

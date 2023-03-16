@@ -1,9 +1,0 @@
-Network 16e8b20f_default  Creating
-Network 16e8b20f_default  Created
-Container 16e8b20f-nats-1  Creating
-Container 16e8b20f-nats-1  Created
-Container 16e8b20f-nats-1  Starting
-Container 16e8b20f-nats-1  Started
-hello on subject greet.joe
-hello on subject greet.pam
-hello on subject greet.sue

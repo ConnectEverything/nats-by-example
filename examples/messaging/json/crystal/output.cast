@@ -1,8 +1,0 @@
-{"version": 2, "width": 75, "height": 21, "timestamp": 1671752124, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/json/crystal"}
-[0.59033, "o", "Network 01140475_default  Creating\r\n"]
-[0.620492, "o", "Network 01140475_default  Created\r\nContainer 01140475-nats-1  Creating\r\n"]
-[0.658072, "o", "Container 01140475-nats-1  Created\r\n"]
-[0.663308, "o", "Container 01140475-nats-1  Starting\r\n"]
-[0.92865, "o", "Container 01140475-nats-1  Started\r\n"]
-[1.300392, "o", "received valid JSON: Payload(@foo=\"bar\", @bar=27)\r\n"]
-[1.339766, "o", "received invalid JSON: not json\r\n"]

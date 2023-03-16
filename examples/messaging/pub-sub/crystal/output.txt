@@ -1,9 +1,0 @@
-Network 068da419_default  Creating
-Network 068da419_default  Created
-Container 068da419-nats-1  Creating
-Container 068da419-nats-1  Created
-Container 068da419-nats-1  Starting
-Container 068da419-nats-1  Started
-hello on subject greet.joe
-hello on subject greet.pam
-hello on subject greet.sue

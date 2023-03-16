@@ -1,9 +1,0 @@
-Network 7158dcd7_default  Creating
-Network 7158dcd7_default  Created
-Container 7158dcd7-nats-1  Creating
-Container 7158dcd7-nats-1  Created
-Container 7158dcd7-nats-1  Starting
-Container 7158dcd7-nats-1  Started
-Ok("hello") received on "greet.sue"
-Ok("hello") received on "greet.bob"
-Ok("hello") received on "greet.pam"

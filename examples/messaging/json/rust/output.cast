@@ -1,8 +1,0 @@
-{"version": 2, "width": 103, "height": 53, "timestamp": 1671674537, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/json/rust"}
-[0.759343, "o", "Network 3b231910_default  Creating\r\n"]
-[0.78707, "o", "Network 3b231910_default  Created\r\n"]
-[0.787197, "o", "Container 3b231910-nats-1  Creating\r\n"]
-[0.824027, "o", "Container 3b231910-nats-1  Created\r\n"]
-[0.824831, "o", "Container 3b231910-nats-1  Starting\r\n"]
-[1.059456, "o", "Container 3b231910-nats-1  Started\r\n"]
-[1.342327, "o", "received valid JSON payload: foo=\"bar\" bar=27\r\nreceived invalid JSON payload: b\"not json\"\r\n"]

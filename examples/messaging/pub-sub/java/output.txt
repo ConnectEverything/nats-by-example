@@ -1,9 +1,0 @@
-Network e5067ff5_default  Creating
-Network e5067ff5_default  Created
-Container e5067ff5-nats-1  Creating
-Container e5067ff5-nats-1  Created
-Container e5067ff5-nats-1  Starting
-Container e5067ff5-nats-1  Started
-hello on subject greet.bob
-hello on subject greet.sue
-hello on subject greet.pam

@@ -1,9 +1,0 @@
-{"version": 2, "width": 103, "height": 53, "timestamp": 1671675089, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: topologies/supercluster-arbiter/cli"}
-[0.563933, "o", "Network a1cf31f6_default  Creating\r\n"]
-[0.588555, "o", "Network a1cf31f6_default  Created\r\n"]
-[0.588687, "o", "Container a1cf31f6-nats-1  Creating\r\n"]
-[0.602057, "o", "Container a1cf31f6-nats-1  Created\r\n"]
-[0.603001, "o", "Container a1cf31f6-nats-1  Starting\r\n"]
-[0.809754, "o", "Container a1cf31f6-nats-1  Started\r\n"]
-[1.089785, "o", "Starting the servers...\r\n"]
-[9.565373, "o", "exit status 22\r\n"]

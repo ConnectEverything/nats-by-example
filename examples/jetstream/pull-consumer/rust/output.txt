@@ -1,8 +1,0 @@
-Network fea2d700_default  Creating
-Network fea2d700_default  Created
-Container fea2d700-nats-1  Creating
-Container fea2d700-nats-1  Created
-Container fea2d700-nats-1  Starting
-Container fea2d700-nats-1  Started
-Error: Error("data did not match any variant of untagged enum Response", line: 0, column: 0)
-exit status 1

@@ -1,8 +1,0 @@
-Network 99e545fa_default  Creating
-Network 99e545fa_default  Created
-Container 99e545fa-nats-1  Creating
-Container 99e545fa-nats-1  Created
-Container 99e545fa-nats-1  Starting
-Container 99e545fa-nats-1  Started
-nats: error: no results received, ensure the account used has system privileges and appropriate permissions
-exit status 1

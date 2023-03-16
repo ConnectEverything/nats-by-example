@@ -1,9 +1,0 @@
-{"version": 2, "width": 103, "height": 53, "timestamp": 1671675101, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: topologies/mirror-failover/cli"}
-[0.525924, "o", "Network 99e545fa_default  Creating\r\n"]
-[0.552929, "o", "Network 99e545fa_default  Created\r\n"]
-[0.553094, "o", "Container 99e545fa-nats-1  Creating\r\n"]
-[0.568185, "o", "Container 99e545fa-nats-1  Created\r\n"]
-[0.56912, "o", "Container 99e545fa-nats-1  Starting\r\n"]
-[0.795063, "o", "Container 99e545fa-nats-1  Started\r\n"]
-[4.119321, "o", "nats: error: no results received, ensure the account used has system privileges and appropriate permissions\r\n"]
-[4.586544, "o", "exit status 1\r\n"]

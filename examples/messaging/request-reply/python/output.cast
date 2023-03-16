@@ -1,8 +1,0 @@
-{"version": 2, "width": 103, "height": 53, "timestamp": 1671674415, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/python"}
-[0.57194, "o", "Network 22bfe81c_default  Creating\r\n"]
-[0.600503, "o", "Network 22bfe81c_default  Created\r\n"]
-[0.600635, "o", "Container 22bfe81c-nats-1  Creating\r\n"]
-[0.615975, "o", "Container 22bfe81c-nats-1  Created\r\n"]
-[0.616754, "o", "Container 22bfe81c-nats-1  Starting\r\n"]
-[0.862703, "o", "Container 22bfe81c-nats-1  Started\r\n"]
-[1.242604, "o", "b'hello, joe'\r\nb'hello, sue'\r\nb'hello, bob'\r\nno responders\r\n"]
