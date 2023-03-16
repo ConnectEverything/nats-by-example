@@ -1,7 +1,0 @@
-Network 60e7166b_default  Creating
-Network 60e7166b_default  Created
-Container 60e7166b-nats-1  Creating
-Container 60e7166b-nats-1  Created
-Container 60e7166b-nats-1  Starting
-Container 60e7166b-nats-1  Started
-reply: hello "joe"!
