@@ -1,0 +1,5 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973743, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/crystal"}
+[1.116743, "o", "hello, joe\r\n"]
+[1.120038, "o", "hello, sue\r\n"]
+[1.123342, "o", "hello, bob\r\n"]
+[1.123429, "o", "No response\r\n"]

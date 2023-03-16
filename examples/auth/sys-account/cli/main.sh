@@ -1,8 +1,8 @@
 #!/bin/sh
 
-NATS_URL=nats://localhost:4222
+set -uo pipefail
 
-set -euo pipefail
+NATS_URL=nats://localhost:4222
 
 # First, we will create an empty configuration file
 # and startup a server in the background.
@@ -15,7 +15,7 @@ sleep 0.5
 # If we try to run a command requests server info, we will get back
 # an error indicating we need "system privileges" and "appropriate
 # permissions" 🤔.
-nats server info || true
+nats server info
 
 # NATS has this default _system account_ named `$SYS` which is dedicated
 # for server operations and monitoring. To activate we need to define

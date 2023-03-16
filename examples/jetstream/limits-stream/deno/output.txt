@@ -1,0 +1,42 @@
+created the stream
+published 6 messages
+published another 6 messages
+{
+  messages: 12,
+  bytes: 594,
+  first_seq: 1,
+  first_ts: "2023-03-16T13:36:44.263785233Z",
+  last_seq: 12,
+  last_ts: "2023-03-16T13:36:44.273875923Z",
+  num_subjects: 6,
+  consumer_count: 0
+}
+{
+  messages: 10,
+  bytes: 496,
+  first_seq: 3,
+  first_ts: "2023-03-16T13:36:44.266984573Z",
+  last_seq: 12,
+  last_ts: "2023-03-16T13:36:44.273875923Z",
+  num_subjects: 6,
+  consumer_count: 0
+}
+{
+  messages: 6,
+  bytes: 298,
+  first_seq: 7,
+  first_ts: "2023-03-16T13:36:44.273813303Z",
+  last_seq: 12,
+  last_ts: "2023-03-16T13:36:44.273875923Z",
+  num_subjects: 4,
+  consumer_count: 0
+}
+{
+  messages: 0,
+  bytes: 0,
+  first_seq: 13,
+  first_ts: "1970-01-01T00:00:00Z",
+  last_seq: 12,
+  last_ts: "2023-03-16T13:36:44.273875923Z",
+  consumer_count: 0
+}

@@ -1,0 +1,3 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973763, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/json/crystal"}
+[1.024319, "o", "received valid JSON: Payload(@foo=\"bar\", @bar=27)\r\n"]
+[1.027849, "o", "received invalid JSON: not json\r\n"]

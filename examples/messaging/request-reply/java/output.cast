@@ -1,0 +1,5 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973724, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/java"}
+[1.187496, "o", "Response received: hello bob\r\n"]
+[1.18781, "o", "Response received: hello pam\r\n"]
+[1.189425, "o", "Response was null? true\r\n"]
+[1.189609, "o", "The request was cancelled due to no responders.\r\n"]

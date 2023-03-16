@@ -1,0 +1,8 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973788, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/limits-stream/node"}
+[1.179889, "o", "created the stream\r\n"]
+[1.189471, "o", "published 6 messages\r\n"]
+[1.190499, "o", "published another 6 messages\r\n"]
+[1.192504, "o", "{\r\n  messages: 12,\r\n  bytes: 594,\r\n  first_seq: 1,\r\n  first_ts: '2023-03-16T13:36:29.277904098Z',\r\n  last_seq: 12,\r\n  last_ts: '2023-03-16T13:36:29.286356014Z',\r\n  num_subjects: 6,\r\n  consumer_count: 0\r\n}\r\n"]
+[1.198181, "o", "{\r\n  messages: 10,\r\n  bytes: 496,\r\n  first_seq: 3,\r\n  first_ts: '2023-03-16T13:36:29.28106031Z',\r\n  last_seq: 12,\r\n  last_ts: '2023-03-16T13:36:29.286356014Z',\r\n  num_subjects: 6,\r\n  consumer_count: 0\r\n}\r\n"]
+[1.201837, "o", "{\r\n  messages: 6,\r\n  bytes: 298,\r\n  first_seq: 7,\r\n  first_ts: '2023-03-16T13:36:29.28630626Z',\r\n  last_seq: 12,\r\n  last_ts: '2023-03-16T13:36:29.286356014Z',\r\n  num_subjects: 4,\r\n  consumer_count: 0\r\n}\r\n"]
+[2.208697, "o", "{\r\n  messages: 0,\r\n  bytes: 0,\r\n  first_seq: 13,\r\n  first_ts: '1970-01-01T00:00:00Z',\r\n  last_seq: 12,\r\n  last_ts: '2023-03-16T13:36:29.286356014Z',\r\n  consumer_count: 0\r\n}\r\n"]

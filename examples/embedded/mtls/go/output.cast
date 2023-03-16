@@ -1,0 +1,2 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678974096, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: embedded/mtls/go"}
+[2.10678, "o", "world\r\n"]

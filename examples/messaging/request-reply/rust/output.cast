@@ -1,0 +1,4 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973736, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/rust"}
+[1.256514, "o", "got a response: \"hello, sue\"\r\n"]
+[1.3589, "o", "got a response: \"hello, john\"\r\n"]
+[1.460758, "o", "got a response: \"hello, bob\"\r\n"]

@@ -1,0 +1,4 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973866, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/pull-consumer/rust"}
+[1.13342, "o", "got message on subject events.0 with payload \"data\"\r\ngot message on subject events.1 with payload \"data\"\r\ngot message on subject events.2 with payload \"data\"\r\ngot message on subject events.3 with payload \"data\"\r\ngot message on subject events.4 with payload \"data\"\r\ngot message on subject events.5 with payload \"data\"\r\n"]
+[1.133466, "o", "got message on subject events.6 with payload \"data\"\r\ngot message on subject events.7 with payload \"data\"\r\ngot message on subject events.8 with payload \"data\"\r\n"]
+[1.133553, "o", "got message on subject events.9 with payload \"data\"\r\n"]

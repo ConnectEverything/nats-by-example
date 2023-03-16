@@ -1,0 +1,49 @@
+NATS Configuration Context "main"
+
+      Server URLs: nats://0.0.0.0:4222
+             Path: /root/.config/nats/context/main.json
+
+NATS Configuration Context "leaf"
+
+      Server URLs: nats://0.0.0.0:4223
+             Path: /root/.config/nats/context/leaf.json
+
+Creating the main server conf...
+Creating the leaf node conf...
+13:39:37 Listening on "greet" in group "NATS-RPLY-22"
+13:39:38 Sending request on "greet"
+
+
+13:39:38 [#0] Received on subject "greet":
+hello from main
+
+13:39:38 Received with rtt 310.147µs
+13:39:38 Sending request on "greet"
+13:39:38 Listening on "greet" in group "NATS-RPLY-22"
+13:39:38 [#1] Received on subject "greet":
+
+
+hello from main
+
+13:39:38 Received with rtt 346.954µs
+13:39:39 Sending request on "greet"
+13:39:39 [#0] Received on subject "greet":
+
+
+hello from leaf
+
+13:39:39 Received with rtt 253.344µs
+13:39:39 Sending request on "greet"
+
+
+13:39:39 [#1] Received on subject "greet":
+13:39:39 Received with rtt 208.806µs
+hello from leaf
+
+13:39:39 Sending request on "greet"
+13:39:39 [#2] Received on subject "greet":
+
+
+hello from main
+
+13:39:39 Received with rtt 334.981µs

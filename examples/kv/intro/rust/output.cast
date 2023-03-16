@@ -1,0 +1,10 @@
+{"version": 2, "width": 174, "height": 39, "timestamp": 1678974707, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: kv/intro/rust"}
+[1.076355, "o", "sue.color @ 1 -> blue\r\n"]
+[1.076855, "o", "sue.color @ 2 -> green\r\n"]
+[1.077524, "o", "sue.color @ 3 -> red\r\n"]
+[1.077802, "o", "KV stream name: KV_profiles\r\n"]
+[1.079975, "o", "$KV.profiles.sue.color @ 3 -> red\r\n"]
+[1.08031, "o", "$KV.profiles.sue.color @ 4 -> yellow\r\n"]
+[1.080622, "o", "$KV.profiles.sue.color @ 5 -> \r\nheaders: HeaderMap { inner: {HeaderName { value: \"KV-Operation\" }: HeaderValue { value: [\"DEL\"] }} }\r\n"]
+[1.081474, "o", "sue.color @ 6 -> purple (op: Put)\r\n"]
+[1.081706, "o", "sue.food @ 7 -> pizza (op: Put)\r\n"]

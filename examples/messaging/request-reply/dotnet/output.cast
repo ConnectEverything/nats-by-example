@@ -1,0 +1,5 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973749, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/dotnet"}
+[1.242853, "o", "Response received: hello bob\r\n"]
+[1.245692, "o", "Response received: hello pam\r\n"]
+[1.295076, "o", "NATSNoRespondersException: There were no responders listening for the subject.\r\n"]
+[1.299993, "o", "NATSNoRespondersException: There were no responders listening for the subject.\r\n"]

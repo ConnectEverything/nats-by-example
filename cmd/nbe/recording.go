@@ -83,7 +83,7 @@ func generateRecording(repo, example string, recreate bool) error {
 }
 
 func removeComposeLines(output []byte) []byte {
-	re := regexp.MustCompile(`"(Network|Container)\s+[^\s]+\s+(Creating|Created|Starting|Started)`)
+	re := regexp.MustCompile(`(Network|Container)\s+[^\s]+\s+(Creating|Created|Starting|Started)`)
 
 	buf := bytes.NewBuffer(nil)
 	sc := bufio.NewScanner(bytes.NewReader(output))

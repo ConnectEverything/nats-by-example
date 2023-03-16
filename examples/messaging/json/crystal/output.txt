@@ -1,0 +1,2 @@
+received valid JSON: Payload(@foo="bar", @bar=27)
+received invalid JSON: not json

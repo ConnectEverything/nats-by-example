@@ -1,0 +1,13 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973797, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/limits-stream/crystal"}
+[1.139049, "o", "Publishing events.input_focused...\r\n"]
+[1.139202, "o", "Publishing events.input_focused...\r\n"]
+[1.139296, "o", "Publishing events.page_loaded...\r\n"]
+[1.139411, "o", "Publishing events.input_focused...\r\n"]
+[1.139583, "o", "Publishing events.mouse_clicked...\r\n"]
+[1.139714, "o", "Publishing events.mouse_clicked...\r\n"]
+[1.139832, "o", "Publishing events.page_loaded...\r\n"]
+[1.139931, "o", "Publishing events.page_loaded...\r\n"]
+[1.140027, "o", "Publishing events.page_loaded...\r\n"]
+[1.140154, "o", "Publishing events.page_loaded...\r\n"]
+[1.140454, "o", "Publishing events.page_loaded...\r\n"]
+[1.141005, "o", "NATS::JetStream::API::V1::StreamState(\r\n @bytes=648,\r\n @consumer_count=0,\r\n @first_seq=2,\r\n @first_ts=2023-03-16 13:36:38.572160660 UTC,\r\n @last_seq=11,\r\n @last_ts=2023-03-16 13:36:38.573442838 UTC,\r\n @messages=10)\r\n"]

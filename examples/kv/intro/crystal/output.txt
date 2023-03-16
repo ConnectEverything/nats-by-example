@@ -1,0 +1,24 @@
+{key: "sue.color", revision: 1, value: "blue"}
+{key: "sue.color", revision: 2, value: "green"}
+Updating sue.color: 'red' from revision 1
+Could not update, invalid revision
+{key: "sue.color", revision: 3, value: "red"}
+"pink"
+{key: "sue.color", revision: 1, value: "blue"}
+{key: "sue.color", revision: 2, value: "green"}
+{keys: Set{"sue.color", "sue.food"}}
+{filtered_keys: Set{"nats.kv"}}
+
+History:
+{key: "sue.color", revision: 1, value: "blue"}
+{key: "sue.color", revision: 2, value: "green"}
+{key: "sue.color", revision: 3, value: "red"}
+{key: "sue.color", revision: 4, value: "pink"}
+{key: "sue.color", revision: 5, value: "purple"}
+{key: "sue.food", revision: 6, value: "pizza"}
+{key: "sue.color", revision: 1, value: "blue"}
+{key: "sue.color", revision: 2, value: "green"}
+{key: "sue.color", revision: 3, value: "red"}
+{key: "sue.color", revision: 4, value: "pink"}
+{key: "sue.color", revision: 5, value: "purple"}
+{key: "sue.food", revision: 6, value: "pizza"}

@@ -229,7 +229,8 @@ func (r *ComposeRunner) Run(imageTag string) error {
 	exampleDir := filepath.Dir(clientDir)
 	lang := filepath.Base(example)
 
-	// Check client directory first, fallback to example directory, finally the defaults.
+	// Check client directory first, fallback to example directory, then
+	// the language directory, finally the defaults.
 	composeFile := filepath.Join(clientDir, "docker-compose.yaml")
 	if _, err := os.Stat(composeFile); err != nil {
 		if !os.IsNotExist(err) {
@@ -240,10 +241,16 @@ func (r *ComposeRunner) Run(imageTag string) error {
 			if !os.IsNotExist(err) {
 				return err
 			}
-			if r.Cluster {
-				composeFile = filepath.Join(r.Repo, "docker", "docker-compose.cluster.yaml")
-			} else {
-				composeFile = filepath.Join(r.Repo, "docker", "docker-compose.yaml")
+			composeFile = filepath.Join(r.Repo, "docker", lang, "docker-compose.yaml")
+			if _, err := os.Stat(composeFile); err != nil {
+				if !os.IsNotExist(err) {
+					return err
+				}
+				if r.Cluster {
+					composeFile = filepath.Join(r.Repo, "docker", "docker-compose.cluster.yaml")
+				} else {
+					composeFile = filepath.Join(r.Repo, "docker", "docker-compose.yaml")
+				}
 			}
 		}
 	}

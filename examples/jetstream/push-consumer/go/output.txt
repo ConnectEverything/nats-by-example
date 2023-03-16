@@ -1,0 +1,25 @@
+# Ephemeral
+ephemeral name is "4rpMXs7g"
+3 messages queued
+6 messages queued
+received "events.1"
+received "events.2"
+4 messages queued
+
+# Durable (Helper)
+0 messages queued
+nats: consumer not found
+
+# Durable (AddConsumer)
+received "events.1"
+5 messages queued
+max stream sequence delivered: 6
+max consumer sequence delivered: 6
+num ack pending: 5
+num redelivered: 0
+received timeout? true
+received "events.2" (delivery #2)
+max stream sequence delivered: 6
+max consumer sequence delivered: 11
+num ack pending: 4
+num redelivered: 4

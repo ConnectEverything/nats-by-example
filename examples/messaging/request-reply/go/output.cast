@@ -1,0 +1,5 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973710, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/go"}
+[1.016478, "o", "hello, joe\r\n"]
+[1.016593, "o", "hello, sue\r\n"]
+[1.016633, "o", "hello, bob\r\n"]
+[1.016752, "o", "nats: no responders available for request\r\n"]

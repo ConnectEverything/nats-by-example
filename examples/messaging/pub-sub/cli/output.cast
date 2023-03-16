@@ -1,0 +1,9 @@
+{"version": 2, "width": 174, "height": 39, "timestamp": 1678975032, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/cli"}
+[1.067872, "o", "13:57:13 Published 5 bytes to \"greet.joe\"\r\n"]
+[1.085624, "o", "13:57:13 Subscribing on greet.* \r\n"]
+[1.589581, "o", "13:57:13 Published 5 bytes to \"greet.joe\"\r\n"]
+[1.589698, "o", "[#1] Received on \"greet.joe\"\r\nhello\r\n\r\n"]
+[1.608492, "o", "13:57:13 Published 5 bytes to \"greet.pam\"\r\n[#2] Received on \"greet.pam\"\r\nhello\r\n\r\n"]
+[1.62789, "o", "13:57:13 Published 5 bytes to \"greet.bob\"\r\n"]
+[1.628021, "o", "[#3] Received on \"greet.bob\"\r\nhello\r\n\r\n"]
+[1.647769, "o", "13:57:13 Published 5 bytes to \"greet.bob\"\r\n"]

@@ -1,0 +1,76 @@
+NATS Configuration Context "greeter"
+
+      Server URLs: nats://127.0.0.1:4222
+         Username: greeter
+         Password: *********
+            Token: greeter
+             Path: /root/.config/nats/context/greeter.json
+
+NATS Configuration Context "joe"
+
+      Server URLs: nats://127.0.0.1:4222
+         Username: joe
+         Password: *********
+            Token: joe
+             Path: /root/.config/nats/context/joe.json
+
+NATS Configuration Context "pam"
+
+      Server URLs: nats://127.0.0.1:4222
+         Username: pam
+         Password: *********
+            Token: pam
+             Path: /root/.config/nats/context/pam.json
+
+13:39:14 Listening on "services.greet" in group "NATS-RPLY-22"
+13:39:14 Sending request on "services.greet"
+13:39:14 [#0] Received on subject "services.greet":
+
+
+Reply q466R03Th1C7fU2LwduDq9
+
+13:39:14 Received with rtt 251.818µs
+13:39:14 Sending request on "services.greet"
+13:39:14 [#1] Received on subject "services.greet":
+
+
+Reply q466R03Th1C7fU2LwduDsM
+
+13:39:14 Received with rtt 216.773µs
+13:39:14 Sending request on "services.greet"
+13:39:14 Subscribing on _INBOX.> 
+13:39:14 [#2] Received on subject "services.greet":
+
+
+13:39:14 Received with rtt 299.777µs
+Reply q466R03Th1C7fU2LwduDuZ
+
+[#1] Received on "_INBOX.CO8Yi7Y0SKb6QwYIKz49nB.AZMlYGjs"
+Reply q466R03Th1C7fU2LwduDuZ
+
+13:39:14 Sending request on "services.greet"
+13:39:14 [#3] Received on subject "services.greet":
+13:39:14 Unexpected NATS error from server nats://127.0.0.1:4222: nats: Permissions Violation for Subscription to "_INBOX_joe.OORqVGVKD23FnOtift15Uy.AvnOVbhy"
+
+
+Reloading the server with new config...
+13:39:19 Subscribing on _INBOX.> 
+13:39:19 Unexpected NATS error: nats: Permissions Violation for Subscription to "_INBOX.>"
+nats: error: nats: Permissions Violation for Subscription to "_INBOX.>"
+13:39:19 Subscribing on _INBOX_joe.> 
+13:39:19 Unexpected NATS error from server nats://127.0.0.1:4222: nats: Permissions Violation for Subscription to "_INBOX_joe.>"
+nats: error: nats: Permissions Violation for Subscription to "_INBOX_joe.>"
+13:39:19 Sending request on "services.greet"
+
+
+13:39:19 [#4] Received on subject "services.greet":
+Reply q466R03Th1C7fU2LwduDyz
+
+13:39:19 Received with rtt 435.293µs
+13:39:19 Sending request on "services.greet"
+13:39:19 [#5] Received on subject "services.greet":
+
+
+13:39:19 Received with rtt 387.497µs
+Reply q466R03Th1C7fU2LwduE1C
+

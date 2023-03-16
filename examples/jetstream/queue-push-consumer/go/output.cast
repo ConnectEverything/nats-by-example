@@ -1,0 +1,7 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973890, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/queue-push-consumer/go"}
+[1.183368, "o", "# Durable (implicit)\r\n"]
+[1.184789, "o", "deliver group: \"event-processor\"\r\n"]
+[1.185164, "o", "deliver subject: \"_INBOX.ELpxpVZgyrSSX5ZJihHWJE\"\r\n"]
+[2.188789, "o", "sub1: receive timeout\r\nsub2: received message \"events.1\"\r\nsub3: received message \"events.2\"\r\n\r\n# Durable (explicit)\r\n"]
+[2.188936, "o", "sub2: received message \"events.1\"\r\nsub2: received message \"events.2\"\r\nsub2: received message \"events.5\"\r\nsub3: received message \"events.3\"\r\nsub1: received message \"events.4\"\r\n"]
+[2.189174, "o", "sub1: received message \"events.6\"\r\n"]

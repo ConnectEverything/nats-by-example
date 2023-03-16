@@ -1,0 +1,22 @@
+Created stream EVENTS
+
+Published 3 messages
+msgs in stream: 3
+
+Received event: events.us.page_loaded
+Received event: events.eu.mouse_clicked
+Received event: events.us.input_focused
+msgs in stream: 0
+
+Failed to create an overlapping consumer:
+multiple non-filtered consumers not allowed on workqueue stream [10099]
+
+Deleting the first consumer
+Succeeded to create a new consumer
+Deleting the new consumer
+
+Created two filtered consumers
+Published 3 more messages
+Received event via 'processor-us': events.us.page_loaded
+Received event via 'processor-us': events.us.input_focused
+Received event via 'processor-eu': events.eu.mouse_clicked

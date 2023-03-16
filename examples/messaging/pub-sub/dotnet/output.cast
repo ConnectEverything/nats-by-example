@@ -1,0 +1,4 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973686, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/dotnet"}
+[1.313772, "o", "Async handler received the message 'hello pam 1' from subject 'greet.pam'\r\nSync subscription received the message 'hello pam 1' from subject 'greet.pam'\r\nAsync handler received the message 'hello joe 2' from subject 'greet.joe'\r\n"]
+[1.414488, "o", "Sync subscription no messages currently available\r\n"]
+[1.426791, "o", "DisconnectedEvent, Connection: 4\r\nClosedEvent, Connection: 4\r\n"]

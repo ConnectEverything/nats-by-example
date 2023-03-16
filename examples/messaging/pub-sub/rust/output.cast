@@ -1,0 +1,2 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973680, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/rust"}
+[1.114006, "o", "Ok(\"hello\") received on \"greet.sue\"\r\nOk(\"hello\") received on \"greet.bob\"\r\nOk(\"hello\") received on \"greet.pam\"\r\n"]

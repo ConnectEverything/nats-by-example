@@ -1,0 +1,15 @@
+13:57:13 Published 5 bytes to "greet.joe"
+13:57:13 Subscribing on greet.* 
+13:57:13 Published 5 bytes to "greet.joe"
+[#1] Received on "greet.joe"
+hello
+
+13:57:13 Published 5 bytes to "greet.pam"
+[#2] Received on "greet.pam"
+hello
+
+13:57:13 Published 5 bytes to "greet.bob"
+[#3] Received on "greet.bob"
+hello
+
+13:57:13 Published 5 bytes to "greet.bob"

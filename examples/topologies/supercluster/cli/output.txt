@@ -1,0 +1,47 @@
+NATS Configuration Context "east"
+
+      Server URLs: nats://localhost:4222
+             Path: /root/.config/nats/context/east.json
+
+NATS Configuration Context "east-sys"
+
+      Server URLs: nats://localhost:4222
+         Username: sys
+         Password: *********
+            Token: sys
+             Path: /root/.config/nats/context/east-sys.json
+
+NATS Configuration Context "west"
+
+      Server URLs: nats://localhost:4223
+             Path: /root/.config/nats/context/west.json
+
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                  Server Overview                                                  │
+├──────┬─────────┬──────┬─────────┬────┬───────┬──────┬────────┬─────┬────────┬───────┬───────┬──────┬────────┬─────┤
+│ Name │ Cluster │ Host │ Version │ JS │ Conns │ Subs │ Routes │ GWs │ Mem    │ CPU % │ Cores │ Slow │ Uptime │ RTT │
+├──────┼─────────┼──────┼─────────┼────┼───────┼──────┼────────┼─────┼────────┼───────┼───────┼──────┼────────┼─────┤
+│ n1   │ east    │ 0    │ 2.9.15  │ no │ 1     │ 45   │ 0      │ 1   │ 16 MiB │ 0     │ 8     │ 0    │ 3.09s  │ 0s  │
+│ n2   │ west    │ 0    │ 2.9.15  │ no │ 0     │ 44   │ 0      │ 1   │ 15 MiB │ 1     │ 8     │ 0    │ 3.09s  │ 0s  │
+├──────┼─────────┼──────┼─────────┼────┼───────┼──────┼────────┼─────┼────────┼───────┼───────┼──────┼────────┼─────┤
+│      │ 2       │ 2    │         │ 0  │ 1     │ 89   │        │     │ 31 MiB │       │       │ 0    │        │     │
+╰──────┴─────────┴──────┴─────────┴────┴───────┴──────┴────────┴─────┴────────┴───────┴───────┴──────┴────────┴─────╯
+
+╭────────────────────────────────────────────────────────────────────────────╮
+│                              Cluster Overview                              │
+├─────────┬────────────┬───────────────────┬───────────────────┬─────────────┤
+│ Cluster │ Node Count │ Outgoing Gateways │ Incoming Gateways │ Connections │
+├─────────┼────────────┼───────────────────┼───────────────────┼─────────────┤
+│ west    │ 1          │ 1                 │ 1                 │ 0           │
+│ east    │ 1          │ 1                 │ 1                 │ 1           │
+├─────────┼────────────┼───────────────────┼───────────────────┼─────────────┤
+│         │ 2          │ 2                 │ 2                 │ 1           │
+╰─────────┴────────────┴───────────────────┴───────────────────┴─────────────╯
+13:39:54 Listening on "greet" in group "NATS-RPLY-22"
+13:39:55 Sending request on "greet"
+13:39:55 [#0] Received on subject "greet":
+
+
+hello from east
+
+13:39:55 Received with rtt 287.842µs

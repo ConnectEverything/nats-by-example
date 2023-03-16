@@ -1,0 +1,2 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973728, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/request-reply/python"}
+[1.265269, "o", "b'hello, joe'\r\nb'hello, sue'\r\nb'hello, bob'\r\nno responders\r\n"]

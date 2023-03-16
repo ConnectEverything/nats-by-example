@@ -1,0 +1,4 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973896, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/multi-stream-consumption/go"}
+[1.151593, "o", "events.us.page_loaded\r\nevents.us.mouse_clicked\r\nevents.us.input_focused\r\nevents.eu.page_loaded\r\nevents.eu.input_focused\r\nevents.eu.mouse_clicked\r\n"]
+[2.152323, "o", "eu: last delivered: 3, num pending: 0\r\n"]
+[2.152656, "o", "us: last delivered: 3, num pending: 0\r\n"]

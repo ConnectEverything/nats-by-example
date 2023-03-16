@@ -1,0 +1,68 @@
+Created the stream
+Published 3 messages
+
+Stream info without any consumers:
+NATS::JetStream::API::V1::StreamState(
+ @bytes=205,
+ @consumer_count=0,
+ @first_seq=1,
+ @first_ts=2023-03-16 13:37:24.550721827 UTC,
+ @last_seq=3,
+ @last_ts=2023-03-16 13:37:24.551020697 UTC,
+ @messages=3)
+Stream info with 1 consumer:
+NATS::JetStream::API::V1::StreamState(
+ @bytes=0,
+ @consumer_count=1,
+ @first_seq=4,
+ @first_ts=1970-01-01 00:00:00.0 UTC,
+ @last_seq=3,
+ @last_ts=2023-03-16 13:37:24.551020697 UTC,
+ @messages=0)
+
+Creating an overlapping consumer
+** multiple non-filtered consumers not allowed on workqueue stream (400)
+
+Deleting first consumer
+Creating second consumer:
+NATS::JetStream::API::V1::Consumer(
+ @ack_floor=
+  NATS::JetStream::API::V1::Consumer::Sequence(@consumer_seq=0, @stream_seq=0),
+ @cluster=nil,
+ @config=
+  NATS::JetStream::API::V1::ConsumerConfig(
+   @ack_policy=Explicit,
+   @ack_wait=00:00:30,
+   @deliver_group="processor-2",
+   @deliver_policy=All,
+   @deliver_subject=nil,
+   @description=nil,
+   @durable_name="processor-2",
+   @filter_subject=nil,
+   @flow_control=false,
+   @idle_heartbeat=nil,
+   @max_ack_pending=1000,
+   @max_deliver=-1,
+   @max_waiting=512,
+   @opt_start_seq=nil,
+   @opt_start_time=nil,
+   @rate_limit_bps=nil,
+   @replay_policy=Instant,
+   @sample_frequency=nil),
+ @created=2023-03-16 13:37:24.555030218 UTC,
+ @delivered=
+  NATS::JetStream::API::V1::Consumer::Sequence(@consumer_seq=0, @stream_seq=3),
+ @name="processor-2",
+ @num_ack_pending=0,
+ @num_pending=0,
+ @num_redelivered=0,
+ @num_waiting=0,
+ @push_bound=false,
+ @stream_name="EVENTS")
+
+Creating non-overlapping consumers
+Published 4 messages
+US subscription got: events.us.page_loaded
+US subscription got: events.us.input_focused
+EU subscription got: events.eu.mouse_clicked
+EU subscription got: events.eu.page_loaded

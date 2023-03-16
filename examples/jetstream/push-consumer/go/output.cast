@@ -1,0 +1,12 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973884, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/push-consumer/go"}
+[1.109955, "o", "# Ephemeral\r\n"]
+[1.11095, "o", "ephemeral name is \"4rpMXs7g\"\r\n3 messages queued\r\n"]
+[1.111169, "o", "6 messages queued\r\nreceived \"events.1\"\r\nreceived \"events.2\"\r\n4 messages queued\r\n"]
+[1.11149, "o", "\r\n# Durable (Helper)\r\n"]
+[1.112261, "o", "0 messages queued\r\n"]
+[1.112642, "o", "nats: consumer not found\r\n\r\n# Durable (AddConsumer)\r\n"]
+[1.11335, "o", "received \"events.1\"\r\n5 messages queued\r\n"]
+[1.113465, "o", "max stream sequence delivered: 6\r\nmax consumer sequence delivered: 6\r\nnum ack pending: 5\r\nnum redelivered: 0\r\n"]
+[1.214721, "o", "received timeout? true\r\n"]
+[2.115427, "o", "received \"events.2\" (delivery #2)\r\n"]
+[2.115967, "o", "max stream sequence delivered: 6\r\nmax consumer sequence delivered: 11\r\nnum ack pending: 4\r\nnum redelivered: 4\r\n"]

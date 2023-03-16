@@ -1,0 +1,2 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973695, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/node"}
+[1.140452, "o", "hello on subject greet.joe\r\nhello on subject greet.pam\r\nhello on subject greet.sue\r\n"]

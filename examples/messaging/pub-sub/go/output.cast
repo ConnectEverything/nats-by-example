@@ -1,0 +1,4 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973691, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/go"}
+[1.150838, "o", "subscribed after a publish...\r\nmsg is nil? true\r\n"]
+[1.151016, "o", "msg data: \"hello\" on subject \"greet.joe\"\r\nmsg data: \"hello\" on subject \"greet.pam\"\r\n"]
+[1.151082, "o", "msg data: \"hello\" on subject \"greet.bob\"\r\n"]

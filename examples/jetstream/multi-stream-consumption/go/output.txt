@@ -1,0 +1,8 @@
+events.us.page_loaded
+events.us.mouse_clicked
+events.us.input_focused
+events.eu.page_loaded
+events.eu.input_focused
+events.eu.mouse_clicked
+eu: last delivered: 3, num pending: 0
+us: last delivered: 3, num pending: 0

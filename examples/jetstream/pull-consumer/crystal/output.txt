@@ -1,0 +1,66 @@
+Publishing events.1
+Publishing events.2
+Publishing events.3
+Publishing events.4
+Publishing events.5
+NATS::JetStream::API::V1::StreamState(
+ @bytes=270,
+ @consumer_count=0,
+ @first_seq=1,
+ @first_ts=2023-03-16 13:37:32.713199081 UTC,
+ @last_seq=5,
+ @last_ts=2023-03-16 13:37:32.713855374 UTC,
+ @messages=5)
+Got a single message
+NATS::JetStream::Message(
+ @body=Bytes[],
+ @consumer="EVENTS-pull",
+ @consumer_seq=1,
+ @delivered_count=1,
+ @headers={},
+ @pending=4,
+ @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.1.1.1678973852713199081.4",
+ @stream="EVENTS",
+ @stream_seq=1,
+ @subject="events.1",
+ @timestamp=2023-03-16 13:37:32.713199081 UTC)
+got 3 messages
+NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=2, @consumer_seq=2, @timestamp=2023-03-16 13:37:32.713372825 UTC, @pending=3, @body=Bytes[], @subject="events.2", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.2.2.1678973852713372825.3", @headers={})
+NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=3, @consumer_seq=3, @timestamp=2023-03-16 13:37:32.713497574 UTC, @pending=2, @body=Bytes[], @subject="events.3", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.3.3.1678973852713497574.2", @headers={})
+NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=4, @consumer_seq=4, @timestamp=2023-03-16 13:37:32.713725864 UTC, @pending=1, @body=Bytes[], @subject="events.4", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.4.4.1678973852713725864.1", @headers={})
+got 1 messages
+NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=5, @consumer_seq=5, @timestamp=2023-03-16 13:37:32.713855374 UTC, @pending=0, @body=Bytes[], @subject="events.5", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.5.5.1678973852713855374.0", @headers={})
+NATS::JetStream::API::V1::Consumer(
+ @ack_floor=
+  NATS::JetStream::API::V1::Consumer::Sequence(@consumer_seq=5, @stream_seq=5),
+ @cluster=nil,
+ @config=
+  NATS::JetStream::API::V1::ConsumerConfig(
+   @ack_policy=Explicit,
+   @ack_wait=00:00:30,
+   @deliver_group="EVENTS-pull",
+   @deliver_policy=All,
+   @deliver_subject=nil,
+   @description=nil,
+   @durable_name="EVENTS-pull",
+   @filter_subject=nil,
+   @flow_control=false,
+   @idle_heartbeat=nil,
+   @max_ack_pending=1000,
+   @max_deliver=-1,
+   @max_waiting=512,
+   @opt_start_seq=nil,
+   @opt_start_time=nil,
+   @rate_limit_bps=nil,
+   @replay_policy=Instant,
+   @sample_frequency=nil),
+ @created=2023-03-16 13:37:32.714494652 UTC,
+ @delivered=
+  NATS::JetStream::API::V1::Consumer::Sequence(@consumer_seq=5, @stream_seq=5),
+ @name="EVENTS-pull",
+ @num_ack_pending=0,
+ @num_pending=0,
+ @num_redelivered=0,
+ @num_waiting=1,
+ @push_bound=false,
+ @stream_name="EVENTS")
