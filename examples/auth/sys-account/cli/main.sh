@@ -1,20 +1,21 @@
 #!/bin/sh
 
-set -xuo pipefail
+NATS_URL=nats://localhost:4222
+
+set -euo pipefail
 
 # First, we will create an empty configuration file
 # and startup a server in the background.
 touch server.conf
 
-nats-server -c server.conf -l log.txt & 
-SERVER_PID=$!
+nats-server -c server.conf > /dev/null 2>&1 &
 
 sleep 0.5
 
 # If we try to run a command requests server info, we will get back
 # an error indicating we need "system privileges" and "appropriate
 # permissions" 🤔.
-nats server info
+nats server info || true
 
 # NATS has this default _system account_ named `$SYS` which is dedicated
 # for server operations and monitoring. To activate we need to define
@@ -29,7 +30,9 @@ accounts: {
 EOF
 
 # Simply reload the server with the `--signal` option.
-nats-server --signal reload=$SERVER_PID
+nats-server --signal reload
+
+nats-server -c server.conf > /dev/null 2>&1 &
 
 
 # For convenience, and so we don't type the password on the command line,
@@ -58,7 +61,6 @@ EOF
 
 # We will reload again and then run the command again with out custom
 # account system account.
-nats-server --signal reload=$SERVER_PID
-nats --context sys server info
+nats-server --signal reload
 
-kill $SERVER_PID
+nats --context sys server info
