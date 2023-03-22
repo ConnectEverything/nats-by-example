@@ -36,8 +36,8 @@ func run() error {
 	flag.StringVar(&natsContext, "context", "", "NATS context.")
 	flag.StringVar(&urls, "urls", "", "Regions URLs in the form of region=url,region=url.")
 	flag.StringVar(&preferredRegion, "region", "", "Preferred region.")
-	flag.IntVar(&maxReconnects, "max-reconnects", 5, "Maximum number of reconnects.")
-	flag.DurationVar(&reconnectWait, "reconnect-wait", 2*time.Second, "Reconnect wait time.")
+	flag.IntVar(&maxReconnects, "max-reconnects", 3, "Maximum number of reconnects.")
+	flag.DurationVar(&reconnectWait, "reconnect-wait", time.Second, "Reconnect wait time.")
 	flag.StringVar(&streamPrefix, "stream", "events", "Stream name.")
 
 	flag.Parse()
@@ -62,6 +62,23 @@ func run() error {
 	// A KV would work great, but falls into the same problem that the
 	// stream does in terms of lagging behind across regions.
 	conSeqs := NewConsumerSeqs()
+
+	pushMsgs := &AckMsgs{}
+	pullMsgs := &AckMsgs{}
+
+	defer func() {
+		fmt.Println("Push Messages")
+		fmt.Println("region\tsubject\tseq\tdata")
+		for _, m := range pushMsgs.msgs {
+			fmt.Printf("%s\t%s\t%d\t%s\n", m.Region, m.Subject, m.Seq, m.Data)
+		}
+
+		fmt.Println("Pull Messages")
+		fmt.Println("region\tsubject\tseq\tdata")
+		for _, m := range pushMsgs.msgs {
+			fmt.Printf("%s\t%s\t%d\t%s\n", m.Region, m.Subject, m.Seq, m.Data)
+		}
+	}()
 
 	// This simulates publishing a publisher to the stream.
 	startPublishers := func(nc *nats.Conn, region string) error {
@@ -91,7 +108,7 @@ func run() error {
 				l.Printf("error publishing: %s, last seq was %d", err, lastSeq)
 				return err
 			}
-			time.Sleep(5 * time.Millisecond)
+			time.Sleep(200 * time.Millisecond)
 		}
 	}
 
@@ -112,30 +129,34 @@ func run() error {
 		// Given the region, delete existing consumers. Lookup the floor sequence
 		// for the consumer and re-create.
 		err = js.DeleteConsumer(streamName, "push-handler")
-		if err != nil && !errors.Is(err, nats.ErrConsumerNotFound) {
-			return err
+		if err == nil {
+			l.Printf("push: deleted consumer")
+		} else if err != nil && !errors.Is(err, nats.ErrConsumerNotFound) {
+			return fmt.Errorf("push: delete consumer: %w", err)
 		}
 
 		err = js.DeleteConsumer(streamName, "pull-handler")
-		if err != nil && !errors.Is(err, nats.ErrConsumerNotFound) {
-			return err
+		if err == nil {
+			l.Printf("pull: deleted consumer")
+		} else if err != nil && !errors.Is(err, nats.ErrConsumerNotFound) {
+			return fmt.Errorf("pull: delete consumer: %w", err)
 		}
 
 		pushStartSeq := conSeqs.Get(streamPrefix, "push-handler")
 		if pushStartSeq > 0 {
-			l.Printf("push: resuming from sequence %d", pushStartSeq+1)
+			l.Printf("push: re-creating consumer @ sequence %d", pushStartSeq+1)
 		}
 
 		pullStartSeq := conSeqs.Get(streamPrefix, "pull-handler")
 		if pullStartSeq > 0 {
-			l.Printf("pull: resuming from sequence %d", pullStartSeq+1)
+			l.Printf("pull: re-creating consumer @ sequence %d", pullStartSeq+1)
 		}
 
 		// Default consumer configuration.
 		pushCfg := nats.ConsumerConfig{
 			Name:           "push-handler",
 			AckPolicy:      nats.AckExplicitPolicy,
-			DeliverSubject: "push-handler",
+			DeliverSubject: fmt.Sprintf("push-handler-%s", region),
 			DeliverPolicy:  nats.DeliverAllPolicy,
 		}
 
@@ -158,12 +179,12 @@ func run() error {
 
 		_, err = js.AddConsumer(streamName, &pushCfg)
 		if err != nil {
-			return fmt.Errorf("push: %s", err)
+			return fmt.Errorf("push: add consumer %s", err)
 		}
 
 		_, err = js.AddConsumer(streamName, &pullCfg)
 		if err != nil {
-			return fmt.Errorf("pull: %s", err)
+			return fmt.Errorf("pull: add-consumer %s", err)
 		}
 
 		return nil
@@ -180,79 +201,116 @@ func run() error {
 
 		streamName := fmt.Sprintf("%s-%s", streamPrefix, region)
 
+		var pushSub *nats.Subscription
 		var lastPushSeq uint64
-		defer func() {
-			l.Printf("push: last sequence was %d", lastPushSeq)
-		}()
+		var lastPullSeq uint64
 
-		_, err = js.Subscribe("", func(msg *nats.Msg) {
-			md, _ := msg.Metadata()
-			seq := md.Sequence.Stream
+		errch := make(chan error, 1)
 
-			err := msg.Ack()
-			if err == nil {
-				lastPushSeq = seq
-				conSeqs.Set(streamPrefix, "push-handler", seq)
-			} else {
-				l.Printf("push: failed to ack message %d: %s", seq, err)
-			}
-		}, nats.Bind(streamName, "push-handler"))
+		pushSub, err = js.SubscribeSync("", nats.Bind(streamName, "push-handler"))
 		if err != nil {
 			return fmt.Errorf("push: %w", err)
 		}
+
+		go func() {
+			defer func() {
+				pushSub.Unsubscribe()
+				l.Printf("push: unsubscribed")
+				l.Printf("push: last sequence was %d", lastPushSeq)
+			}()
+
+			for {
+				msg, err := pushSub.NextMsgWithContext(ctx)
+				if err != nil {
+					if errors.Is(err, context.Canceled) {
+						l.Printf("push: context canceled")
+						errch <- nil
+						return
+					}
+
+					errch <- fmt.Errorf("push: %w", err)
+					return
+				}
+
+				md, _ := msg.Metadata()
+				seq := md.Sequence.Stream
+
+				err = msg.Ack()
+				if err == nil {
+					lastPushSeq = seq
+					conSeqs.Set(region, streamPrefix, "push-handler", seq)
+					pushMsgs.Add(region, msg.Subject, seq, msg.Data)
+				} else {
+					l.Printf("push: failed to ack message %d: %s", seq, err)
+				}
+			}
+		}()
 
 		pullSub, err := js.PullSubscribe("", "", nats.Bind(streamName, "pull-handler"))
 		if err != nil {
 			return fmt.Errorf("pull: %w", err)
 		}
 
-		var lastPullSeq uint64
-		defer func() {
-			l.Printf("pull: last sequence was %d", lastPullSeq)
+		go func() {
+			defer func() {
+				pullSub.Unsubscribe()
+				l.Printf("pull: unsubscribed")
+				l.Printf("pull: last sequence was %d", lastPullSeq)
+			}()
+
+			for {
+				msgs, err := pullSub.Fetch(10, nats.Context(ctx))
+				if err != nil {
+					// Expected if there are no messages.
+					if err == context.DeadlineExceeded || err == nats.ErrTimeout {
+						continue
+					}
+
+					// If the context was canceled, we are done.
+					if err == context.Canceled {
+						l.Printf("pull: context canceled")
+						errch <- nil
+						return
+					}
+
+					// Otherwise, we have an error.
+					errch <- fmt.Errorf("pull: %w", err)
+					return
+				}
+
+				for _, msg := range msgs {
+					md, _ := msg.Metadata()
+					seq := md.Sequence.Stream
+
+					err := msg.Ack()
+					if err == nil {
+						lastPullSeq = seq
+						conSeqs.Set(region, streamPrefix, "pull-handler", seq)
+						pullMsgs.Add(region, msg.Subject, seq, msg.Data)
+					} else {
+						l.Printf("pull: failed to ack message %d: %s", seq, err)
+					}
+				}
+			}
 		}()
-		for {
-			cctx, cancel := context.WithTimeout(ctx, 2*time.Second)
-			msgs, err := pullSub.Fetch(10, nats.Context(cctx))
-			cancel()
-			if err != nil {
-				// Expected if there are no messages.
-				if err == context.DeadlineExceeded {
-					continue
-				}
 
-				// If the context was canceled, we are done.
-				if err == context.Canceled {
-					return nil
-				}
-
-				// Otherwise, we have an error.
-				return fmt.Errorf("pull: %w", err)
-			}
-
-			for _, msg := range msgs {
-				md, _ := msg.Metadata()
-				seq := md.Sequence.Stream
-
-				err := msg.Ack()
-				if err == nil {
-					lastPullSeq = seq
-					conSeqs.Set(streamPrefix, "pull-handler", seq)
-				} else {
-					l.Printf("pull: failed to ack message %d: %s", seq, err)
-				}
-			}
+		select {
+		case err := <-errch:
+			return err
+		case <-ctx.Done():
+			return nil
 		}
 	}
 
-	connectHandler := func(ctx context.Context, nc *nats.Conn, region string) error {
-		log.Printf("Connected to %q", region)
-
+	appHandler := func(ctx context.Context, nc *nats.Conn, region string) error {
 		if err := setupConsumers(nc, region); err != nil {
 			return err
 		}
 
 		errch := make(chan error, 1)
 
+		// Start the publishers and subscribers in the Background
+		// since they are both blocking.
 		go func() {
 			err := startPublishers(nc, region)
 			if err != nil {
@@ -267,11 +325,16 @@ func run() error {
 			}
 		}()
 
-		return <-errch
+		select {
+		case err := <-errch:
+			return err
+		case <-ctx.Done():
+			return nil
+		}
 	}
 
+	// TODO: is this necessary?
 	failoverHandler := func(current, next string) error {
-		log.Printf("Failing over from %q to %q", current, next)
 		return nil
 	}
 
@@ -284,7 +347,7 @@ func run() error {
 		RegionOrder:     regionOrder,
 		ReconnectWait:   reconnectWait,
 		MaxReconnects:   maxReconnects,
-		ConnectHandler:  connectHandler,
+		AppHandler:      appHandler,
 		FailoverHandler: failoverHandler,
 	}
 
@@ -304,13 +367,15 @@ func run() error {
 
 func NewConsumerSeqs() *ConsumerSeqs {
 	return &ConsumerSeqs{
-		seqs: make(map[[2]string]uint64),
+		seqs:    make(map[[2]string]uint64),
+		seqTags: make(map[[3]string]uint64),
 	}
 }
 
 type ConsumerSeqs struct {
-	seqs map[[2]string]uint64
-	mux  sync.Mutex
+	seqs    map[[2]string]uint64
+	seqTags map[[3]string]uint64
+	mux     sync.Mutex
 }
 
 // Get will fetch the sequence for the consumer.
@@ -322,14 +387,17 @@ func (cs *ConsumerSeqs) Get(stream, name string) uint64 {
 }
 
 // Set will set the sequence for the consumer.
-func (cs *ConsumerSeqs) Set(stream, name string, seq uint64) {
+func (cs *ConsumerSeqs) Set(region, stream, name string, seq uint64) {
 	cs.mux.Lock()
 	defer cs.mux.Unlock()
 	k := [2]string{stream, name}
+	k2 := [3]string{region, stream, name}
 	cs.seqs[k] = seq
+	cs.seqTags[k2] = seq
 }
 
-type ConnectHandler func(ctx context.Context, nc *nats.Conn, region string) error
+type AppHandler func(ctx context.Context, nc *nats.Conn, region string) error
+
 type FailoverHandler func(currentRegion string, nextRegion string) error
 
 type ConnManager struct {
@@ -338,7 +406,7 @@ type ConnManager struct {
 	RegionOrder     []string
 	ReconnectWait   time.Duration
 	MaxReconnects   int
-	ConnectHandler  ConnectHandler
+	AppHandler      AppHandler
 	FailoverHandler FailoverHandler
 
 	nc  *nats.Conn
@@ -357,12 +425,6 @@ func (cm *ConnManager) Drain() {
 }
 
 func (cm *ConnManager) Start(ctx context.Context, region string) error {
-	// Ensure the region is valid on start.
-	_, ok := cm.RegionURLs[region]
-	if !ok {
-		return fmt.Errorf("invalid region: %s", region)
-	}
-
 	if cm.nc != nil && cm.nc.IsConnected() {
 		return fmt.Errorf("already started")
 	}
@@ -391,50 +453,87 @@ func (cm *ConnManager) setupConn(ctx context.Context, region string) error {
 		return err
 	}
 
+	// Setup context to cancel on disconnect.
+	cctx, cancel := context.WithCancel(ctx)
+
 	// Setup the connection for the specific region.
 	var nc *nats.Conn
 	nc, err = nctx.Connect(
 		nats.ReconnectWait(cm.ReconnectWait),
 		nats.MaxReconnects(cm.MaxReconnects),
-		nats.ErrorHandler(func(nc *nats.Conn, sub *nats.Subscription, err error) {
-			num, _, _ := sub.Pending()
-			l.Printf("Subscription error: %s with %d pending", err, num)
-		}),
 		nats.ConnectHandler(func(nc *nats.Conn) {
-			l.Printf("Connected to %q", nc.ConnectedUrlRedacted())
+			l.Printf("connected to %q", nc.ConnectedUrlRedacted())
 		}),
-		nats.DisconnectHandler(func(nc *nats.Conn) {
+		nats.DisconnectErrHandler(func(nc *nats.Conn, err error) {
+			l.Printf("disconnected: %s", err)
+			l.Printf("conn status: %s", nc.Status())
 			attempts := nc.Statistics.Reconnects
-			l.Printf("Disconencted after %d attempts to %q", attempts, nc.ConnectedUrlRedacted())
-			nc.Drain()
+			l.Printf("re-connecting after %d attempts", attempts)
+		}),
+		nats.ReconnectHandler(func(nc *nats.Conn) {
+			l.Printf("reconnecting...")
+			l.Printf("conn status: %s", nc.Status())
+		}),
+		nats.ClosedHandler(func(nc *nats.Conn) {
+			l.Printf("closed")
+			l.Printf("conn status: %s", nc.Status())
+			l.Printf("conn error: %s", nc.LastError())
 
-			// TODO: improve
+			cancel()
+
+			// Cycle through the regions and try to connect to one of them.
 			for _, r := range cm.RegionOrder {
 				if r == cm.currentRegion {
 					continue
 				}
 				err := cm.setupConn(ctx, r)
 				if err == nil {
+					l.Printf("Failed over to %q", r)
 					break
+				} else {
+					l.Printf("Error failing over to %q", r)
 				}
 			}
 		}),
-		nats.ReconnectHandler(func(nc *nats.Conn) {
-			attempts := nc.Statistics.Reconnects
-			l.Printf("Reconnected after %d attempts to %q", attempts, nc.ConnectedUrlRedacted())
-		}),
 	)
 	if err != nil {
+		cancel()
 		return err
 	}
+
 	cm.nc = nc
 
+	// Start the connect handler in the background.
 	go func() {
-		err := cm.ConnectHandler(ctx, nc, region)
+		defer cancel()
+		err := cm.AppHandler(cctx, nc, region)
 		if err != nil {
-			l.Printf("connect handler returned: %s", err)
+			l.Printf("app handler returned: %s", err)
 		}
 	}()
 
 	return nil
+}
+
+type ackMsg struct {
+	Region  string
+	Subject string
+	Seq     uint64
+	Data    string
+}
+
+type AckMsgs struct {
+	msgs []*ackMsg
+	mux  sync.Mutex
+}
+
+func (am *AckMsgs) Add(region string, sub string, seq uint64, data []byte) {
+	am.mux.Lock()
+	defer am.mux.Unlock()
+	am.msgs = append(am.msgs, &ackMsg{
+		Region:  region,
+		Subject: sub,
+		Seq:     seq,
+		Data:    string(data),
+	})
 }
