@@ -4,6 +4,12 @@ set -euo pipefail
 
 sleep 3
 
+# Save a few contexts.
+nats context save east-sys \
+  --server nats://n1.east.example.net:4222 \
+  --user system \
+  --password secret
+
 nats context save east \
   --server nats://n1.east.example.net:4222 \
   --user one \
@@ -19,10 +25,17 @@ nats context save central \
   --user one \
   --password secret
 
+# Report the servers.
+nats --context east-sys server list
+
+nats --context east stream add ORDERS_EAST --tag region:east --replicas 3 --subjects js.in.orders_east --defaults
+nats --context west stream add ORDERS_WEST --tag region:west --replicas 3 --subjects js.in.orders_west --defaults
+nats --context central stream add ORDERS_CENTRAL --tag region:central --replicas 3 --subjects js.in.orders_central --defaults
+
 # Creating a region-local stream requires setting a tag for the desired region.
-nats --context east stream add --config /app/ORDERS_EAST.json
-nats --context west stream add --config /app/ORDERS_WEST.json
-nats --context central stream add --config /app/ORDERS_CENTRAL.json
+nats --context east stream edit ORDERS_EAST --force --config /app/ORDERS_EAST.json
+nats --context west stream edit ORDERS_WEST --force --config /app/ORDERS_WEST.json
+nats --context central stream edit ORDERS_CENTRAL --force --config /app/ORDERS_CENTRAL.json
 
 # Creating a global stream involves ommitting the --tag option.
 nats --context east stream add --config /app/GLOBAL.json
@@ -32,8 +45,8 @@ nats --context east stream report
 
 # Publish a message from a client in each region.
 nats --context east req js.in.orders 1
-nats --context west req js.in.orders 1
 nats --context central req js.in.orders 1
+nats --context west req js.in.orders 1
 
 # Publish a message to the global stream.
 nats --context east req js.in.global.orders 1
@@ -42,3 +55,7 @@ sleep 1
 
 # Let's see the stream report again.
 nats --context east stream report
+
+nats --context east stream view ORDERS_EAST
+nats --context central stream view ORDERS_CENTRAL
+nats --context west stream view ORDERS_WEST
