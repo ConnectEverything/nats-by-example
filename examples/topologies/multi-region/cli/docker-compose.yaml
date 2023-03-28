@@ -3,7 +3,7 @@ version: '3'
 services:
   n1.east.example.net:
     container_name: n1-east
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     environment:
       GATEWAY: c1
@@ -11,13 +11,13 @@ services:
       ADVERTISE: localhost:10000
       REGION: region:east
     volumes:
-    - "./configs/cluster-east.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-east.conf:/nats-server.conf"
     ports:
     - 10000:4222
     - 10100:7422
   n2.east.example.net:
     container_name: n2-east
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     labels:
       com.docker-tc.enabled: '1'
@@ -27,13 +27,13 @@ services:
       ADVERTISE: localhost:10001
       REGION: region:east
     volumes:
-    - "./configs/cluster-east.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-east.conf:/nats-server.conf"
     ports:
     - 10001:4222
     - 10101:7422
   n3.east.example.net:
     container_name: n3-east
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     environment:
       GATEWAY: c1
@@ -41,13 +41,13 @@ services:
       ADVERTISE: localhost:10002
       REGION: region:east
     volumes:
-    - "./configs/cluster-east.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-east.conf:/nats-server.conf"
     ports:
     - 10002:4222
     - 10102:7422
   n1.central.example.net:
     container_name: n1-central
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     environment:
       GATEWAY: c1
@@ -55,13 +55,13 @@ services:
       ADVERTISE: localhost:10003
       REGION: region:central
     volumes:
-    - "./configs/cluster-central.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-central.conf:/nats-server.conf"
     ports:
     - 10003:4222
     - 10103:7422
   n2.central.example.net:
     container_name: n2-central
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     environment:
       GATEWAY: c1
@@ -69,13 +69,13 @@ services:
       ADVERTISE: localhost:10004
       REGION: region:central
     volumes:
-    - "./configs/cluster-central.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-central.conf:/nats-server.conf"
     ports:
     - 10004:4222
     - 10104:7422
   n3.central.example.net:
     container_name: n3-central
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     environment:
       GATEWAY: c1
@@ -83,13 +83,13 @@ services:
       ADVERTISE: localhost:10005
       REGION: region:central
     volumes:
-    - "./configs/cluster-central.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-central.conf:/nats-server.conf"
     ports:
     - 10005:4222
     - 10105:7422
   n1.west.example.net:
     container_name: n1-west
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     environment:
       GATEWAY: c1
@@ -97,13 +97,13 @@ services:
       ADVERTISE: localhost:10006
       REGION: region:west
     volumes:
-    - "./configs/cluster-west.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-west.conf:/nats-server.conf"
     ports:
     - 10006:4222
     - 10106:7422
   n2.west.example.net:
     container_name: n2-west
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     environment:
       GATEWAY: c1
@@ -111,13 +111,13 @@ services:
       ADVERTISE: localhost:10007
       REGION: region:west
     volumes:
-    - "./configs/cluster-west.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-west.conf:/nats-server.conf"
     ports:
     - 10007:4222
     - 10107:7422
   n3.west.example.net:
     container_name: n3-west
-    image: synadia/nats-server:nightly-main
+    image: nats:2.9.15
     dns_search: example.net
     environment:
       GATEWAY: c1
@@ -125,7 +125,7 @@ services:
       ADVERTISE: localhost:10008
       REGION: region:west
     volumes:
-    - "./configs/cluster-west.conf:/nats/conf/nats-server.conf"
+    - "./configs/cluster-west.conf:/nats-server.conf"
     ports:
     - 10008:4222
     - 10108:7422
