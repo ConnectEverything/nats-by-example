@@ -13,3 +13,4 @@ examples:
   - push-consumer
   - queue-push-consumer
   - multi-stream-consumption
+  - api-migration
