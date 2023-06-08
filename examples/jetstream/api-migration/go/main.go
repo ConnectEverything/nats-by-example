@@ -44,13 +44,13 @@ func main() {
 	oldJS.Publish("events.3", nil)
 
 	// ### Continuous message retrieval with `Subscribe()`
-	// Using legacy API, the only way to continuously receive messages
+	// Using the legacy API, the only way to continuously receive messages
 	// is to use push consumers.
 	// The easiest way to create a consumer and start consuming messages
 	// using the legacy API is to use the `Subscribe()` method. This
 	// method will implicitly create an ephemeral consumer and start
 	// delivering messages to the provided `nats.MsgHandler` function.
-	// In order to bind to and existing stream, the provided subject
+	// In order to bind to an existing stream, the provided subject
 	// must overlap with the subjects defined on the stream.
 	fmt.Println("# Subscribe with ephemeral consumer")
 	sub, _ := oldJS.Subscribe("events.>", func(msg *nats.Msg) {
@@ -77,10 +77,10 @@ func main() {
 	time.Sleep(100 * time.Millisecond)
 
 	// ### Binding to an existing consumer
-
 	// In order to create a consumer outside of the `Subscribe` method,
 	// the `AddConsumer` method can be used. This method will create a
 	// new consumer using the provided configuration.
+	// `Bind` option can then be used to subscribe to an existing consumer.
 	consumerName := "dur-1"
 	oldJS.AddConsumer(streamName, &nats.ConsumerConfig{
 		Name:              consumerName,
@@ -88,6 +88,10 @@ func main() {
 		AckPolicy:         nats.AckExplicitPolicy,
 		InactiveThreshold: 10 * time.Minute,
 	})
+	oldJS.Subscribe("", func(msg *nats.Msg) {
+		fmt.Printf("received %q\n", msg.Subject)
+		msg.Ack()
+	}, nats.Bind(consumerName, streamName))
 
 	// ### Retrieving messages synchronously with `SubscribeSync()`
 	// In order to retrieve messages synchronously, the `SubscribeSync()`
@@ -119,7 +123,7 @@ func main() {
 
 	// Messages can be retrieved using the `Fetch` or `FetchBatch` methods.
 	// `Fetch` will retrieve up to the provided number of messages and block
-	// until the either all messages are available or the timeout is reached.
+	// until at least one message is available or timeout is reached.
 	fmt.Println("# Fetch")
 	msgs, _ := sub.Fetch(2, nats.MaxWait(100*time.Millisecond))
 	for _, msg := range msgs {
@@ -200,6 +204,9 @@ func main() {
 	// In order to filter messages, we will provide a `FilterSubject`.
 	// This is equivalent to providing a subject to `Subscribe` in the
 	// legacy API.
+	// InactiveThreshold will cause the consumer to be automatically
+	// removed after 10 minutes of inactivity. It can be omitted
+	// for durable consumers.
 	consumerName = "pull-1"
 	cons, _ = stream.AddConsumer(ctx, jetstream.ConsumerConfig{
 		Name:              consumerName,
@@ -209,7 +216,7 @@ func main() {
 	fmt.Println("Created consumer", cons.CachedInfo().Name)
 
 	// As an alternative to `Consume`, the `Messages()` method can be used
-	// to retrieve messages one by one. Note that this method will
+	// to retrieve messages one-by-one. Note that this method will
 	// still pre-fetch messages, but instead of delivering them to a
 	// handler function, it will return them upon calling `Next`.
 	fmt.Println("# Consume messages using Messages()")
