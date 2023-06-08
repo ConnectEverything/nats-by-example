@@ -174,7 +174,7 @@ func main() {
 	// do not need to provide a `DeliverSubject`.
 	// In order to create a short-lived, ephemeral consumer, we will set the
 	// `InactivityThreshold` to a low value and not provide a consumer name.
-	cons, _ := stream.AddConsumer(ctx, jetstream.ConsumerConfig{
+	cons, _ := stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		InactiveThreshold: 10 * time.Millisecond,
 	})
 	fmt.Println("Created consumer", cons.CachedInfo().Name)
@@ -208,7 +208,7 @@ func main() {
 	// removed after 10 minutes of inactivity. It can be omitted
 	// for durable consumers.
 	consumerName = "pull-1"
-	cons, _ = stream.AddConsumer(ctx, jetstream.ConsumerConfig{
+	cons, _ = stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		Name:              consumerName,
 		InactiveThreshold: 10 * time.Minute,
 		FilterSubject:     "events.2",
@@ -235,7 +235,7 @@ func main() {
 	// This method resembles the legacy `FetchBatch` method, in that
 	// it will return a channel on which the messages will be delivered.
 	fmt.Println("# Fetch messages")
-	cons, _ = stream.AddConsumer(ctx, jetstream.ConsumerConfig{
+	cons, _ = stream.CreateOrUpdateConsumer(ctx, jetstream.ConsumerConfig{
 		InactiveThreshold: 10 * time.Millisecond,
 	})
 	fetchResult, _ := cons.Fetch(2, jetstream.FetchMaxWait(100*time.Millisecond))
