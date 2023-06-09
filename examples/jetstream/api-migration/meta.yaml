@@ -1,8 +1,8 @@
 title: Migration to new JetStream API
 description: |-
-  New JetStream API provides updated and simplified semantics for JetStream asset
+  The new JetStream API provides simplified semantics for JetStream asset
   management and message consumption. It removes the complexity of `Subscribe()`
-  in favor of more explicit separation of creating a consumer and consuming messages.
+  in favor of more explicit separation of creating consumers and consuming messages.
 
   Additionally, the new API focuses on using Pull Consumers as the primary
   means of consuming messages from a stream. While the legacy API only supported
@@ -14,4 +14,4 @@ description: |-
   the freedom to choose how they want to consume messages, depending on their
   use case.
 
-  These examples demonstrate how to migrate from the legacy API to the new API.
+  This example demonstrates how to migrate from the legacy API to the new API.
