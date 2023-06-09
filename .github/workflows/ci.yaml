@@ -3,6 +3,9 @@ on:
   push:
 
 permissions:
+  actions: read
+  checks: read
+  id-token: read
   contents: read
   metadata: read
   packages: read
