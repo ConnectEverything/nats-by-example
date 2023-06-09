@@ -102,7 +102,7 @@ func main() {
 	fmt.Println("# SubscribeSync")
 	sub, _ = oldJS.SubscribeSync("events.>", nats.AckExplicit())
 
-	// To *receive* a message, call `NextMsg` with a timeout. The timeout
+	// To retrieve a message, call `NextMsg` with a timeout. The timeout
 	// applies when pending count is zero and the consumer has fully caught
 	// up to the available messages in the stream. If no messages become
 	// available, this call will only block until the timeout.
