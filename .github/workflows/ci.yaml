@@ -2,7 +2,11 @@ name: ci
 on:
   push:
 
-permissions: write-all
+permissions:
+  contents: read
+  metadata: read
+  packages: read
+  pull-requests: write
 
 jobs:
   run:
