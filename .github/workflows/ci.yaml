@@ -1,16 +1,17 @@
 name: ci
 on: [push]
 
-permissions:
-  contents: read
-  metadata: read
-  packages: read
-  pull-requests: write
-
 jobs:
   run:
     name: Run
     runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: read
+      metadata: read
+      packages: read
+      pull-requests: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
