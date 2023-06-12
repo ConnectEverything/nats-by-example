@@ -49,9 +49,9 @@ let opts = consumerOpts()
   .ackExplicit()
   .manualAck();
 
-// the subscribe option, automatically creates the consumer, and returns
-// an async iterator with the messages from the stream. If no messages
-// are available, the loop will wait.
+// the subscribe call automatically creates a consumer that matches the specified
+// options, and returns an async iterator with the messages from the stream.
+// If no messages are available, the loop will wait.
 const pushSub = await js.subscribe("events.>", opts);
 for await (const m of pushSub) {
   console.log(`legacy push subscriber received ${m.subject}`);
@@ -65,11 +65,11 @@ for await (const m of pushSub) {
     break;
   }
 }
-// `destroy()` deletes the consumer!!! - this is not really necessary on ephemeral
+// `destroy()` deletes the consumer! - this is not really necessary on ephemeral
 // consumers, since the server will destroy them after some specified inactivity.
 // If you know the consumer is not going to be needed, then destroying it will
-// help with resource management. Durable consumers that are not deleted, will remain
-// and consume resources forever if not managed.
+// help with resource management. Durable consumers are not deleted, will
+// consume resources forever if not managed.
 await pushSub.destroy();
 
 // #### Legacy Pull Subscription
@@ -88,7 +88,7 @@ opts = consumerOpts()
   .manualAck();
 
 // `pullSubscribe()` would create a subscription to process messages
-// received from the stream, but would require a `pull()` to trigger
+// received from the stream, but required a `pull()` to trigger
 // a request on the server to yield messages
 const pullSub = await js.pullSubscribe("events.>", opts);
 const done = (async () => {
@@ -101,12 +101,12 @@ const done = (async () => {
   }
 })();
 
-// To get messages flowing, you needed to call `pull()` on
-// the subscription
+// To get messages flowing, you called `pull()` on
+// the subscription to start
 pullSub.pull({ batch: 15, no_wait: true });
 // and also do so at some interval to keep messages flowing.
-// Unfortunately, there is no coordination between the processing
-// of the messages and the triggering of the pulls:
+// Unfortunately, there no coordination between the processing
+// of the messages and the triggering of the pulls was provided.
 const timer = setInterval(() => {
   pullSub.pull({ batch: 15, no_wait: true });
 }, 1000);
@@ -125,7 +125,7 @@ await jsm.consumers.add("EVENTS", {
   ack_policy: AckPolicy.Explicit,
 });
 
-// To process messages, you must retrieve the consumer by specifying
+// To process messages, you retrieve the consumer by specifying
 // the stream name and consumer names. If the consumer doesn't exist
 // this call will reject.
 const consumerA = await js.consumers.get("EVENTS", "my-ephemeral");
@@ -139,10 +139,10 @@ const consumerA = await js.consumers.get("EVENTS", "my-ephemeral");
 //
 // Firstly, we'll discuss consume, this is analogous to the push consumer example
 // above, where the consumer will yield messages from the stream to match any
-// buffering options specified on the call. The defaults are great, but you
+// buffering options specified on the call. The defaults are safe, however you
 // can ask for as many messages as you will be able to process within your ack window.
 // As you consume messages, the library will retrieve more messages for you.
-// Yes under the hood, this is actually a pull consumer, but that actually works smartly
+// Yes, under the hood this is actually a pull consumer, but that actually works smartly
 // for you.
 const messages = await consumerA.consume({ max_messages: 5000 });
 for await (const m of messages) {
@@ -163,16 +163,16 @@ await jsm.consumers.add("EVENTS", {
   ack_policy: AckPolicy.Explicit,
 });
 
-// ### Processing Single Messages
+// #### Processing Single Messages
 //
-// Some clients such as services need to worry about processing a single message
+// Some clients such as services typically to worry about processing a single message
 // at a time. The idea being, instead of optimizing a client to pull many messages
-// for processing, you can horizontally scale the number of process that simply
-// worry about processing a single message.
+// for processing, you can horizontally scale the number of process that work on
+// just one message.
 //
 // #### Legacy Pull
 //
-// The legacy API provided a way of retrieving a single message:
+// The legacy API provided `pull()` as a way of retrieving a single message:
 const m = await js.pull("EVENTS", "my-durable")
   .catch((err) => {
     // possibly no messages found
@@ -189,7 +189,7 @@ if (m === null) {
 
 // #### Get
 //
-// With the new JetStream API we can do the same as pull but with `get()`:
+// With the new JetStream API we can do the same but it is now called `get()`:
 const consumerB = await js.consumers.get("EVENTS", "my-durable");
 consumerB.next()
   .then((m) => {
