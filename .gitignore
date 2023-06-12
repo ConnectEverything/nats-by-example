@@ -1,3 +1,7 @@
 dist
 node_modules
 html
+.idea/
+**/node/node_modules/
+**/node/package.json
+**/node/package-lock.json
