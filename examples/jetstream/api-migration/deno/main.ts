@@ -1,5 +1,11 @@
-// import the library, note that if you are running in node:
-// `import { AckPolicy, connect, consumerOpts } from "nats";`
+// Import the library, note that if you are running in Node:
+// ```
+// import {
+//   AckPolicy,
+//   connect,
+//   consumerOpts
+// } from "nats";
+// ```
 import {
   AckPolicy,
   connect,
@@ -9,11 +15,14 @@ import {
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string. If not defined, it will default to localhost:4222
 // in node, you can access the environment:
-// `const servers = process.env.NATS_URL?.split(",");`
+//
+// ```
+// const servers = process.env.NATS_URL?.split(",");
+// ```
 const servers = Deno.env.get("NATS_URL")?.split(",");
 
 // Create a client connection to an available NATS server.
-const nc = await (connect({ servers }));
+const nc = await connect({ servers });
 
 // Resource creation has not changed. To create a stream and consumers,
 // create a JetStream Manager context - this context has API you can use to
@@ -27,10 +36,9 @@ await jsm.streams.add({
 // To add messages to the stream, create a JetStream context, and
 // publish data to the stream
 const js = nc.jetstream();
-const proms = Array.from({ length: 20 })
-  .map((_v, idx) => {
-    return js.publish(`events.${idx}`);
-  });
+const proms = Array.from({ length: 20 }).map((_v, idx) => {
+  return js.publish(`events.${idx}`);
+});
 await Promise.all(proms);
 
 // ### Processing Messages
@@ -44,7 +52,6 @@ await Promise.all(proms);
 // intended for these _push_ consumers. These looked very natural
 // to NATS users.
 
-
 // the legacy `subscribe()` variants relied on consumer options
 // being provided. These options defined the consumer to use.
 // if the consumer didn't exist, it would be created, if it did,
@@ -54,22 +61,23 @@ let opts = consumerOpts()
   .ackExplicit()
   .manualAck();
 
-// the subscribe call automatically creates a consumer that matches the specified
+// The `subscribe` call automatically creates a consumer that matches the specified
 // options, and returns an async iterator with the messages from the stream.
 // If no messages are available, the loop will wait.
+//
+// You can check if the stream currently has more messages
+// by checking the number of pending messages, and break
+// if you are done - typically your code will simply wait until
+// new messages become available.
 const pushSub = await js.subscribe("events.>", opts);
 for await (const m of pushSub) {
   console.log(`legacy push subscriber received ${m.subject}`);
   m.ack();
-  // you can check if the stream currently has more messages
-  // by checking the number of pending messages, and break
-  // if you are done - typically your code will simply wait until
-  // new messages become available
   if (m.info.pending === 0) {
-    // breaking from the iterator will stop the subscription
     break;
   }
 }
+
 // `destroy()` deletes the consumer! - this is not really necessary on ephemeral
 // consumers, since the server will destroy them after some specified inactivity.
 // If you know the consumer is not going to be needed, then destroying it will
@@ -88,9 +96,7 @@ await pushSub.destroy();
 // `pullSubscribe()`, which effectively avoided the issues of _push_
 // by enabling the client to request the number of messages it wanted
 // to process:
-opts = consumerOpts()
-  .ackExplicit()
-  .manualAck();
+opts = consumerOpts().ackExplicit().manualAck();
 
 // `pullSubscribe()` would create a subscription to process messages
 // received from the stream, but required a `pull()` to trigger
@@ -107,8 +113,9 @@ const done = (async () => {
 })();
 
 // To get messages flowing, you called `pull()` on
-// the subscription to start
+// the subscription to start.
 pullSub.pull({ batch: 15, no_wait: true });
+
 // and also do so at some interval to keep messages flowing.
 // Unfortunately, there no coordination between the processing
 // of the messages and the triggering of the pulls was provided.
@@ -160,7 +167,7 @@ for await (const m of messages) {
   }
 }
 
-// if you wanted to preempt delete the consumer you can - however
+// If you wanted to preempt delete the consumer you can - however
 // this is something you should do only if you know you are not
 // going to need that consumer to resume processing.
 await consumerA.delete();
@@ -181,12 +188,10 @@ await jsm.consumers.add("EVENTS", {
 // #### Legacy Pull
 //
 // The legacy API provided `pull()` as a way of retrieving a single message:
-const m = await js.pull("EVENTS", "my-durable")
-  .catch((err) => {
-    // possibly no messages found
-    console.log(err.message);
-    return null;
-  });
+const m = await js.pull("EVENTS", "my-durable").catch((err) => {
+  console.log(err.message);
+  return null;
+});
 
 if (m === null) {
   console.log("legacy pull got no messages");
@@ -197,11 +202,12 @@ if (m === null) {
 
 // #### Get
 //
-// With the new JetStream API we can do the same, but it is now called `get()`:
+// With the new JetStream API we can do the same, but it is now called `get()`.
+// The API is more ergonomic, if no messages it will be `null`.
 const consumerB = await js.consumers.get("EVENTS", "my-durable");
-consumerB.next()
+consumerB
+  .next()
   .then((m) => {
-    // the API is more ergonomic, if no messages it will be `null`
     if (m === null) {
       console.log("consumer next - no messages available");
     } else {
@@ -210,7 +216,6 @@ consumerB.next()
     }
   })
   .catch((err) => {
-    // here we have some error
     console.error(err.message);
   });
 
