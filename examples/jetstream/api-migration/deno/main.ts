@@ -26,9 +26,8 @@ await jsm.streams.add({
 });
 
 // To add messages to the stream, create a JetStream context, and
-//  publishing data to JetStream
+// publish data to the stream
 const js = nc.jetstream();
-// Adding 20 messages to a stream
 const proms = Array.from({ length: 20 })
   .map((_v, idx) => {
     return js.publish(`events.${idx}`);
@@ -63,14 +62,14 @@ for await (const m of pushSub) {
   // new messages become available
   if (m.info.pending === 0) {
     // breaking from the iterator will stop the subscription
-    // after a while the consumer will be deleted if not done
     break;
   }
 }
-// `destroy()` deletes the consumer!!! - this is not really necessary
-// as the server will auto destroy an ephemeral consumer after some inactivity.
+// `destroy()` deletes the consumer!!! - this is not really necessary on ephemeral
+// consumers, since the server will destroy them after some specified inactivity.
 // If you know the consumer is not going to be needed, then destroying it will
-// help with resource management
+// help with resource management. Durable consumers that are not deleted, will remain
+// and consume resources forever if not managed.
 await pushSub.destroy();
 
 // #### Legacy Pull Subscription
@@ -164,7 +163,6 @@ await jsm.consumers.add("EVENTS", {
   ack_policy: AckPolicy.Explicit,
 });
 
-
 // ### Processing Single Messages
 //
 // Some clients such as services need to worry about processing a single message
@@ -208,8 +206,12 @@ consumerB.next()
     console.error(err.message);
   });
 
+// Processing a Small Batch of Messages
+//
 // Finally some clients will want to manage the rate at which they receive
-// messages more explicitly. Legacy JetStream provided the fetch() call which
+// messages more explicitly.
+//
+// Legacy JetStream provided the `fetch()` API which
 // returned one or more messages in a single request:
 let iter = await js.fetch("EVENTS", "my-durable", { batch: 3, expires: 5000 });
 for await (const m of iter) {
