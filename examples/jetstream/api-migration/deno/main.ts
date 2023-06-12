@@ -16,7 +16,7 @@ const servers = Deno.env.get("NATS_URL")?.split(",");
 const nc = await (connect({ servers }));
 
 // Resource creation has not changed. To create a stream and consumers,
-// create a JetStream Manager context - this context has API we can use to
+// create a JetStream Manager context - this context has API you can use to
 // create those resources
 const jsm = await nc.jetstreamManager();
 // and create a stream
@@ -28,7 +28,7 @@ await jsm.streams.add({
 // To add messages to the stream, create a JetStream context, and
 //  publishing data to JetStream
 const js = nc.jetstream();
-// Here we add 20 messages to a stream
+// Adding 20 messages to a stream
 const proms = Array.from({ length: 20 })
   .map((_v, idx) => {
     return js.publish(`events.${idx}`);
@@ -36,53 +36,59 @@ const proms = Array.from({ length: 20 })
 await Promise.all(proms);
 
 // ### Processing Messages
-// Now lets compare and constrast the new and legacy ways of processing
-// messages
+// Now lets compare and contrast the new and legacy ways of processing
+// messages.
 
-// #### Legacy JetStream Example
-// Previously, you to
-// Using the legacy API, the easiest way to continuously receive messages
-// is to use push consumers.
-// The `subscribe()` API call was intended for these "push" consumers. These
-// look very natural to NATS users.
+// #### Legacy Push Subscribe
+//
+// Previously, the easiest way to continuously receive messages
+// was to use _push_ consumer. The `subscribe()` API call was
+// intended for these _push_ consumers. These looked very natural
+// to NATS users.
 let opts = consumerOpts()
   .deliverTo("eventprocessing")
   .ackExplicit()
   .manualAck();
 
+// the subscribe option, automatically creates the consumer, and returns
+// an async iterator with the messages from the stream. If no messages
+// are available, the loop will wait.
 const pushSub = await js.subscribe("events.>", opts);
 for await (const m of pushSub) {
   console.log(`legacy push subscriber received ${m.subject}`);
   m.ack();
-  // we can check if the stream has more messages
+  // you can check if the stream currently has more messages
   // by checking the number of pending messages, and break
-  // if we are done.
+  // if you are done - typically your code will simply wait until
+  // new messages become available
   if (m.info.pending === 0) {
     // breaking from the iterator will stop the subscription
     // after a while the consumer will be deleted if not done
     break;
   }
 }
-// destroy() deletes the consumer!!! - this is not really necessary
-// as the server will auto destroy an ephemeral consumer. If you know
-// the consumer is not going to be needed, then destroying it will
+// `destroy()` deletes the consumer!!! - this is not really necessary
+// as the server will auto destroy an ephemeral consumer after some inactivity.
+// If you know the consumer is not going to be needed, then destroying it will
 // help with resource management
 await pushSub.destroy();
 
-// The above was actually quite easy - however for real streams that
-// could contain huge number of messages, it required that you set up
+// #### Legacy Pull Subscription
+//
+// The above is quite easy - however for streams that
+// contain huge number of messages, it required that you set up
 // other options, and if you didn't you could run into issues such as
-// slow consumers, or having a consumer that cannot be horizontally scaled.
-
-// To prevent those sort of issues, the legacy API also provided a
-// `pullSubscribe()`, which effectively avoided the issues of the push
-// (where the client can be overwhelmed with messages). However, this
-// API is hard to use:
+// _slow consumers_, or have a consumer that cannot be horizontally scaled.
+//
+// To prevent those issues, the legacy API also provided a
+// `pullSubscribe()`, which effectively avoided the issues of _push_
+// by enabling the client to request the number of messages it wanted
+// to process:
 opts = consumerOpts()
   .ackExplicit()
   .manualAck();
 
-// pullSubscribe() would create a subscription to process messages
+// `pullSubscribe()` would create a subscription to process messages
 // received from the stream, but would require a `pull()` to trigger
 // a request on the server to yield messages
 const pullSub = await js.pullSubscribe("events.>", opts);
@@ -99,9 +105,9 @@ const done = (async () => {
 // To get messages flowing, you needed to call `pull()` on
 // the subscription
 pullSub.pull({ batch: 15, no_wait: true });
-// and also do so at some interval to keep it going - however
-// there was no coordination between the processing of the
-// messages and the triggering of the pulls:
+// and also do so at some interval to keep messages flowing.
+// Unfortunately, there is no coordination between the processing
+// of the messages and the triggering of the pulls:
 const timer = setInterval(() => {
   pullSub.pull({ batch: 15, no_wait: true });
 }, 1000);
@@ -109,28 +115,37 @@ const timer = setInterval(() => {
 await done;
 clearInterval(timer);
 
-// New API for consuming messages on a stream, is way more ergonomic
-// and easier to use. Internally it uses a "pull consumer", handles the
-// requesting of messages under the hood. As an user, you simply
-// can specify how many messages you want to buffer, and the library will
-// do its best to keep that up for you.
+// ### New JetStream Processing API
 //
 // The new API doesn't automatically create or update consumers. This
 // is something that the JetStreamManager API does rather well. Instead,
-// you simply use JetStreamManager to create your consumer:
+// you simply use JetStreamManager to create your consumer - Note that
+// only _pull consumers_ are supported.
 await jsm.consumers.add("EVENTS", {
   name: "my-ephemeral",
   ack_policy: AckPolicy.Explicit,
 });
 
-// To process messages, you retrieve the consumer, by specifying the name
-// of the stream and the name of the consumer
+// To process messages, you must retrieve the consumer by specifying
+// the stream name and consumer names. If the consumer doesn't exist
+// this call will reject.
 const consumerA = await js.consumers.get("EVENTS", "my-ephemeral");
 
 // With a consumer in hand, you can now retrieve messages - in different ways.
+// The different ways of getting messages from the consumers are there
+// to help you align the buffering requirements of your application with
+// what the client is doing.
+//
+// #### Consuming Messages
+//
 // Firstly, we'll discuss consume, this is analogous to the push consumer example
-// above:
-const messages = await consumerA.consume();
+// above, where the consumer will yield messages from the stream to match any
+// buffering options specified on the call. The defaults are great, but you
+// can ask for as many messages as you will be able to process within your ack window.
+// As you consume messages, the library will retrieve more messages for you.
+// Yes under the hood, this is actually a pull consumer, but that actually works smartly
+// for you.
+const messages = await consumerA.consume({ max_messages: 5000 });
 for await (const m of messages) {
   console.log(`consume received ${m.subject}`);
   m.ack();
@@ -140,9 +155,8 @@ for await (const m of messages) {
 }
 // if you wanted to preempt delete the consumer you can - however
 // this is something you should do only if you know you are not
-// going to need that consumer.
+// going to need that consumer to resume processing.
 await consumerA.delete();
-
 
 // Let's create a new consumer, this time a durable
 await jsm.consumers.add("EVENTS", {
@@ -150,10 +164,16 @@ await jsm.consumers.add("EVENTS", {
   ack_policy: AckPolicy.Explicit,
 });
 
-// The different ways of getting messages from the consumers are there
-// to help you align the buffering requirements of your application with
-// what the client is doing.
 
+// ### Processing Single Messages
+//
+// Some clients such as services need to worry about processing a single message
+// at a time. The idea being, instead of optimizing a client to pull many messages
+// for processing, you can horizontally scale the number of process that simply
+// worry about processing a single message.
+//
+// #### Legacy Pull
+//
 // The legacy API provided a way of retrieving a single message:
 const m = await js.pull("EVENTS", "my-durable")
   .catch((err) => {
@@ -169,7 +189,9 @@ if (m === null) {
   m.ack();
 }
 
-// With the new JetStream API we can do the same:
+// #### Get
+//
+// With the new JetStream API we can do the same as pull but with `get()`:
 const consumerB = await js.consumers.get("EVENTS", "my-durable");
 consumerB.next()
   .then((m) => {
@@ -185,7 +207,6 @@ consumerB.next()
     // here we have some error
     console.error(err.message);
   });
-
 
 // Finally some clients will want to manage the rate at which they receive
 // messages more explicitly. Legacy JetStream provided the fetch() call which
