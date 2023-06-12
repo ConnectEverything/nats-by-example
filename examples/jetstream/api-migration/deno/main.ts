@@ -19,7 +19,6 @@ const nc = await (connect({ servers }));
 // create a JetStream Manager context - this context has API you can use to
 // create those resources
 const jsm = await nc.jetstreamManager();
-// and create a stream
 await jsm.streams.add({
   name: "EVENTS",
   subjects: ["events.>"],
@@ -118,8 +117,7 @@ clearInterval(timer);
 //
 // The new API doesn't automatically create or update consumers. This
 // is something that the JetStreamManager API does rather well. Instead,
-// you simply use JetStreamManager to create your consumer - Note that
-// only _pull consumers_ are supported.
+// you simply use JetStreamManager to create your consumer:
 await jsm.consumers.add("EVENTS", {
   name: "my-ephemeral",
   ack_policy: AckPolicy.Explicit,
@@ -127,7 +125,10 @@ await jsm.consumers.add("EVENTS", {
 
 // To process messages, you retrieve the consumer by specifying
 // the stream name and consumer names. If the consumer doesn't exist
-// this call will reject.
+// this call will reject. Note that only _pull consumers_ are supported.
+// If your existing consumer is a push consumer, you will have to recreate
+// it as a pull consumer (not specifying a `deliver_subject` option on a
+// consumer configuration, nor specifying `deliverTo()` as an option):
 const consumerA = await js.consumers.get("EVENTS", "my-ephemeral");
 
 // With a consumer in hand, you can now retrieve messages - in different ways.
@@ -189,11 +190,11 @@ if (m === null) {
 
 // #### Get
 //
-// With the new JetStream API we can do the same but it is now called `get()`:
+// With the new JetStream API we can do the same, but it is now called `get()`:
 const consumerB = await js.consumers.get("EVENTS", "my-durable");
 consumerB.next()
   .then((m) => {
-    // the API is more ergonomic, if no messages it will be null
+    // the API is more ergonomic, if no messages it will be `null`
     if (m === null) {
       console.log("consumer next - no messages available");
     } else {
