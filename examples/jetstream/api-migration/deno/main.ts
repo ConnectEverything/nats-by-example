@@ -1,3 +1,5 @@
+// import the library, note that if you are running in node:
+// `import { AckPolicy, connect, consumerOpts } from "nats";`
 import {
   AckPolicy,
   connect,
@@ -6,14 +8,16 @@ import {
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string. If not defined, it will default to localhost:4222
+// in node, you can access the environment:
+// `const servers = process.env.NATS_URL?.split(",");`
 const servers = Deno.env.get("NATS_URL")?.split(",");
-console.log(servers);
 
 // Create a client connection to an available NATS server.
 const nc = await (connect({ servers }));
 
-// Create a JetStream Manager context - this context has API we can use to
-// create streams and consumers.
+// Resource creation has not changed. To create a stream and consumers,
+// create a JetStream Manager context - this context has API we can use to
+// create those resources
 const jsm = await nc.jetstreamManager();
 // and create a stream
 await jsm.streams.add({
@@ -21,9 +25,8 @@ await jsm.streams.add({
   subjects: ["events.>"],
 });
 
-// We also create a JetStream context that provides a mechanism
-// for publishing data to JetStream and to create "subscriptions"
-// on a consumer:
+// To add messages to the stream, create a JetStream context, and
+//  publishing data to JetStream
 const js = nc.jetstream();
 // Here we add 20 messages to a stream
 const proms = Array.from({ length: 20 })
@@ -32,14 +35,12 @@ const proms = Array.from({ length: 20 })
   });
 await Promise.all(proms);
 
-// Processing messages using Legacy JetStream is fairly cumbersome
-// and because the JetStream subscription could create or update consumers
-// under the covers, it leads to some complications. Specially if you had
-// more than a single process that examined a stream. You could get unintended
-// consumer updates, etc.
+// ### Processing Messages
+// Now lets compare and constrast the new and legacy ways of processing
+// messages
 
-// # Legacy Processing a Stream
-//
+// #### Legacy JetStream Example
+// Previously, you to
 // Using the legacy API, the easiest way to continuously receive messages
 // is to use push consumers.
 // The `subscribe()` API call was intended for these "push" consumers. These
