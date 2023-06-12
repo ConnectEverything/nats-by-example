@@ -22,6 +22,7 @@ func main() {
 	defer nc.Drain()
 
 	// ## Legacy JetStream API
+	//
 	// First lets look at the legacy API for creating a push consumer
 	// and subscribing to it to receive messages.
 	fmt.Println("# Legacy API")
@@ -44,14 +45,13 @@ func main() {
 	oldJS.Publish("events.3", nil)
 
 	// ### Continuous message retrieval with `Subscribe()`
+	//
 	// Using the legacy API, the only way to continuously receive messages
 	// is to use push consumers.
 	// The easiest way to create a consumer and start consuming messages
-	// using the legacy API is to use the `Subscribe()` method. This
-	// method will implicitly create an ephemeral consumer and start
-	// delivering messages to the provided `nats.MsgHandler` function.
-	// In order to bind to an existing stream, the provided subject
-	// must overlap with the subjects defined on the stream.
+	// using the legacy API is to use the `Subscribe()` method. `Subscribe()`,
+	// while familiar to core NATS users, leads to complications because it
+	// implicitly creates and manages underlying consumers.
 	fmt.Println("# Subscribe with ephemeral consumer")
 	sub, _ := oldJS.Subscribe("events.>", func(msg *nats.Msg) {
 		fmt.Printf("received %q\n", msg.Subject)
@@ -59,17 +59,14 @@ func main() {
 	}, nats.AckExplicit())
 	time.Sleep(100 * time.Millisecond)
 
-	// Unsubscribing this subscription will result in the ephemeral consumer
-	// being deleted. Note, even if this is omitted and the process ends
-	// or is interrupted, the server will eventually clean-up the ephemeral
-	// when it determines the subscription is no longer active.
+	// Unsubscribing this subscription will result in the underlying
+	// consumer being deleted (if created with `Subscribe()`).
 	sub.Unsubscribe()
 
-	// Alternatively, binding to an existing stream can be done by
-	// providing the stream in `nats.BindStream` option. In that case,
-	// the subject can be omitted since it is already defined on the
-	// stream (or subject can be provided to further filter the result).
-	// The equivalent of the above would be:
+	// By default, `Subscribe()` performs stream lookup by subject.
+	// This can be omitted by providing an empty string as the subject
+	// and using the `BindStream` option. The first argument can still
+	// be provided to filter messages by subject.
 	sub, _ = oldJS.Subscribe("", func(msg *nats.Msg) {
 		fmt.Printf("received %q\n", msg.Subject)
 		msg.Ack()
@@ -77,10 +74,11 @@ func main() {
 	time.Sleep(100 * time.Millisecond)
 
 	// ### Binding to an existing consumer
+	//
 	// In order to create a consumer outside of the `Subscribe` method,
-	// the `AddConsumer` method can be used. This method will create a
-	// new consumer using the provided configuration.
-	// `Bind` option can then be used to subscribe to an existing consumer.
+	// the `AddConsumer` method can be used. This is the only way to create
+	// a consumer in the legacy API which will not be deleted when the
+	// subscription is unsubscribed.
 	consumerName := "dur-1"
 	oldJS.AddConsumer(streamName, &nats.ConsumerConfig{
 		Name:              consumerName,
@@ -94,46 +92,46 @@ func main() {
 	}, nats.Bind(consumerName, streamName))
 
 	// ### Retrieving messages synchronously with `SubscribeSync()`
+	//
 	// In order to retrieve messages synchronously, the `SubscribeSync()`
 	// method can be used. This method will create a push consumer
 	// and a subscription to receive messages.
-	// `SubscribeSync` can also be used to bind to existing streams, consumers
-	// etc. (similarly to `Subscribe`).
+	//
+	// Although the code for creating subscriptions in legacy API looks
+	// simple, it hides a lot of complexity and often has to be configured with
+	// many different options to achieve the desired behavior. For example,
+	// when using push consumers, there is no simple way to rate limit the
+	// message delivery, which leads to slow consumer errors.
 	fmt.Println("# SubscribeSync")
 	sub, _ = oldJS.SubscribeSync("events.>", nats.AckExplicit())
-
-	// To retrieve a message, call `NextMsg` with a timeout. The timeout
-	// applies when pending count is zero and the consumer has fully caught
-	// up to the available messages in the stream. If no messages become
-	// available, this call will only block until the timeout.
 	msg, _ := sub.NextMsg(time.Second)
 	fmt.Printf("received %q\n", msg.Subject)
 	msg.Ack()
 
 	// ### Pull consumers
-	// The legacy API also supports pull consumers. However, these are
-	// greatly limited in functionality since it is only possible to pull
-	// a specific number of messages, without any optimization or prefetching.
+	//
+	// The legacy API also supports pull consumers to avoid the aforementioned issues.
+	// However, these are greatly limited in functionality since it is only possible to pull
+	// a specific number of messages, without any optimization or coordination between pulls.
 	// That makes using pull consumers in the legacy API inefficient in contrast
 	// to push consumers.
-	// In order to create a pull consumer and consume messages, the
-	// `PullSubscribe` method can be used.
 	fmt.Println("# Subscribe with pull consumer")
 	sub, _ = oldJS.PullSubscribe("events.>", "pull-cons", nats.AckExplicit())
 
 	// Messages can be retrieved using the `Fetch` or `FetchBatch` methods.
 	// `Fetch` will retrieve up to the provided number of messages and block
-	// until at least one message is available or timeout is reached.
+	// until at least one message is available or timeout is reached, while
+	// `FetchBatch` will return a channel on which messages will be delivered.
+	//
+	// Because all `Subscribe*` methods return the same `Subscription` interface,
+	// it is vary easy to encounter runtime errors by e.g. calling `NextMsg` on
+	// a subscription created with `PullSubscribe` or `Subscribe`.
 	fmt.Println("# Fetch")
 	msgs, _ := sub.Fetch(2, nats.MaxWait(100*time.Millisecond))
 	for _, msg := range msgs {
 		fmt.Printf("received %q\n", msg.Subject)
 		msg.Ack()
 	}
-
-	// `FetchBatch` is similar to `Fetch` except it will return a channel
-	// on which the messages will be delivered. This allows for processing
-	// messages as they become available.
 	fmt.Println("# FetchBatch")
 	msgs2, _ := sub.FetchBatch(2, nats.MaxWait(100*time.Millisecond))
 	for msg := range msgs2.Messages() {
@@ -142,6 +140,7 @@ func main() {
 	}
 
 	// ## New JetStream API
+	//
 	// Now let's look at the new JetStream API for creating and managing
 	// streams and consumers.
 	fmt.Println("\n# New API")
