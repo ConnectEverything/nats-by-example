@@ -43,6 +43,12 @@ await Promise.all(proms);
 // was to use _push_ consumer. The `subscribe()` API call was
 // intended for these _push_ consumers. These looked very natural
 // to NATS users.
+
+
+// the legacy `subscribe()` variants relied on consumer options
+// being provided. These options defined the consumer to use.
+// if the consumer didn't exist, it would be created, if it did,
+// and the options were different, the consumer would be updated
 let opts = consumerOpts()
   .deliverTo("eventprocessing")
   .ackExplicit()
