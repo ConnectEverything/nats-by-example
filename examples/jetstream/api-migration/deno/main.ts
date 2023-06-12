@@ -137,14 +137,6 @@ const consumerA = await js.consumers.get("EVENTS", "my-ephemeral");
 // what the client is doing.
 //
 // #### Consuming Messages
-//
-// Firstly, we'll discuss consume, this is analogous to the push consumer example
-// above, where the consumer will yield messages from the stream to match any
-// buffering options specified on the call. The defaults are safe, however you
-// can ask for as many messages as you will be able to process within your ack window.
-// As you consume messages, the library will retrieve more messages for you.
-// Yes, under the hood this is actually a pull consumer, but that actually works smartly
-// for you.
 const messages = await consumerA.consume({ max_messages: 5000 });
 for await (const m of messages) {
   console.log(`consume received ${m.subject}`);
@@ -153,6 +145,15 @@ for await (const m of messages) {
     break;
   }
 }
+//
+// Firstly, we'll discuss consume, this is analogous to the push consumer example
+// above, where the consumer will yield messages from the stream to match any
+// buffering options specified on the call. The defaults are safe, however you
+// can ask for as many messages as you will be able to process within your ack window.
+// As you consume messages, the library will retrieve more messages for you.
+// Yes, under the hood this is actually a pull consumer, but that actually works smartly
+// for you.
+//
 // if you wanted to preempt delete the consumer you can - however
 // this is something you should do only if you know you are not
 // going to need that consumer to resume processing.
