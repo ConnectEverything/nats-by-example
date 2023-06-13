@@ -135,6 +135,7 @@ type BlockType uint8
 
 const (
 	EmptyBlock BlockType = iota
+	BreakBlock
 	CodeBlock
 	SingleLineCommentBlock
 	MultiLineCommentBlock
@@ -151,6 +152,7 @@ type LineType uint8
 
 const (
 	EmptyLine LineType = iota
+	BreakLine
 	NormalLine
 	SingleCommentLine
 	OpenMultiCommentLine
@@ -163,7 +165,12 @@ var (
 	cStyleSingleCommentLineRe     = regexp.MustCompile(`^\s*\/\/`)
 	cStyleOpenMultiCommentLineRe  = regexp.MustCompile(`^\s*\/\*`)
 	cStyleCloseMultiCommentLineRe = regexp.MustCompile(`\*\/`)
+	blockBreakRe                  = regexp.MustCompile(`<!break>\s*$`)
 )
+
+func isBlockBreak(line string) bool {
+	return blockBreakRe.MatchString(line)
+}
 
 // One limitiation is that it does not currently handle trailing multi-line
 // comments, such as:
@@ -178,6 +185,10 @@ var (
 func parseLineType(lang, line string) LineType {
 	if strings.TrimSpace(line) == "" {
 		return EmptyLine
+	}
+
+	if isBlockBreak(line) {
+		return BreakLine
 	}
 
 	switch lang {
@@ -230,9 +241,10 @@ func parseReader(lang string, r io.Reader) ([]*Block, string, error) {
 	for sc.Scan() {
 		lineNum++
 		line := sc.Text()
+
 		lines = append(lines, line)
 
-		if endMultiLine {
+		if endMultiLine || block.Type == BreakBlock {
 			block = &Block{
 				StartLine: lineNum,
 				EndLine:   lineNum,
@@ -247,6 +259,21 @@ func parseReader(lang string, r io.Reader) ([]*Block, string, error) {
 		// Does not differentiate a boundary.. simply append to current block.
 		case EmptyLine:
 			block.Lines = append(block.Lines, line)
+
+		case BreakLine:
+			switch block.Type {
+			// Only valid as a boundary from a single line comment block.
+			case SingleLineCommentBlock:
+				block = &Block{
+					Type:      BreakBlock,
+					StartLine: lineNum,
+					EndLine:   lineNum,
+				}
+				blocks = append(blocks, block)
+
+			case EmptyBlock, CodeBlock, MultiLineCommentBlock:
+				panic(fmt.Sprintf("invalid break line at %d", lineNum))
+			}
 
 		case NormalLine:
 			switch block.Type {
@@ -263,7 +290,10 @@ func parseReader(lang string, r io.Reader) ([]*Block, string, error) {
 				}
 				blocks = append(blocks, block)
 
+			// Normal line is part of the code block.
 			case CodeBlock:
+
+			// Indicates code that is part of a multi-line comment.
 			case MultiLineCommentBlock:
 			}
 
@@ -312,9 +342,7 @@ func parseReader(lang string, r io.Reader) ([]*Block, string, error) {
 			case MultiLineCommentBlock:
 				endMultiLine = true
 
-			case EmptyBlock:
-			case CodeBlock:
-			case SingleLineCommentBlock:
+			case EmptyBlock, CodeBlock, SingleLineCommentBlock:
 				panic("syntax error while parsing blocks")
 			}
 		}
