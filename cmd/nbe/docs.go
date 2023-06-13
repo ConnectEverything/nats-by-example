@@ -256,7 +256,22 @@ func generateDocs(root *Root, dir string) error {
 					rblocks = append(rblocks, &RenderedBlock{Type: "comment"})
 				}
 
-				for _, b := range i.Blocks {
+				for j, b := range i.Blocks {
+					if b.Type == BreakBlock {
+						// Unless a break is added to the end of the file, there will
+						// always be a following block. If a break happens in the middle
+						// of two comments, we need to added an empty code block, otherwise
+						// we need to add an empty comment block.
+						if len(i.Blocks) > j+1 {
+							nb := i.Blocks[j+1]
+							if nb.Type == CodeBlock {
+								rblocks = append(rblocks, &RenderedBlock{Type: "comment"})
+							} else {
+								rblocks = append(rblocks, &RenderedBlock{Type: "code"})
+							}
+						}
+						continue
+					}
 					rb, err := renderBlock(i.Language, b)
 					if err != nil {
 						return err

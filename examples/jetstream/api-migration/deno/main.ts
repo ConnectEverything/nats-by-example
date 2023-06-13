@@ -51,6 +51,7 @@ await Promise.all(proms);
 // was to use _push_ consumer. The `subscribe()` API call was
 // intended for these _push_ consumers. These looked very natural
 // to NATS users.
+// <!break>
 
 // the legacy `subscribe()` variants relied on consumer options
 // being provided. These options defined the consumer to use.
