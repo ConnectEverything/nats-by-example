@@ -16,7 +16,7 @@ public class Main {
       natsURL = "nats://127.0.0.1:4222";
     }
 
-    try (Connection nc = Nats.connect(natsURL)) {
+    try (Connection conn = Nats.connect(natsURL)) {
       // ## JetStream / JetStreamManagement contexts
       //
       // * JetStream/JetStreamManagement contexts are created from the Connection.
