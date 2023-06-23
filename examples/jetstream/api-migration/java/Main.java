@@ -109,7 +109,7 @@ public class Main {
       // The JetStream context api also supports pull consumers.
       // Using pull consumers requires more effort on the developer's side
       // than push consumers to maintain an endless stream of messages.
-      // Messages can be retrieved using the `iterate` method.
+      // Blocks of messages can be retrieved using the `iterate` method.
       // Iterate will start retrieving messages from the server as soon as
       // it is called but returns right away (does not block) so you can
       // start handling messages as soon as the first one comes from the server.
@@ -133,12 +133,9 @@ public class Main {
       // ## Simplified Stream and Consumer API
       //
       // The simplified api has a StreamContext for accessing existing
-      // streams, creating consumers and creating a ConsumerContext.
-      // The StreamContext can be created from the Connection using the same
-      // JetStreamOptions used to create the JetStream/Management contexts
-      // From the StreamContext, you could get a ConsumerContext. You could
-      // also get a ConsumerContext from the Connection if you don't need
-      // to do anything with the stream.
+      // streams, creating consumers or getting a ConsumerContext.
+      // The StreamContext can be created from the Connection similar to creating
+      // JetStream/Management contexts, with or without JetStreamOptions.
       System.out.println("\nD. Simplification StreamContext");
       StreamContext streamContext = conn.streamContext(streamName);
       StreamInfo streamInfo = streamContext.getStreamInfo(StreamInfoOptions.allSubjects());
@@ -158,6 +155,20 @@ public class Main {
       System.out.println("   A consumer was created on stream \"" + consumerInfo.getStreamName() + "\"");
       System.out.println("   The consumer name is \"" + consumerInfo.getName() + "\".");
       System.out.println("   The consumer has " + consumerInfo.getNumPending() + " messages available.");
+
+      // ### Getting a consumer from the stream context
+      //
+      // If your consumer already exists, for instance is durable,
+      // you can create a ConsumerContext for that consumer in two ways.
+      // 1. From the stream context
+      consumerContext = streamContext.consumerContext(consumerName);
+      consumerInfo = consumerContext.getCachedConsumerInfo();
+      System.out.println("   The ConsumerContext for \"" + consumerName + "\" was loaded from the StreamContext for \"" + consumerInfo.getStreamName() + "\"");
+
+      // 2. Directly from the connection
+      consumerContext = conn.consumerContext("migration", consumerName);
+      consumerInfo = consumerContext.getCachedConsumerInfo();
+      System.out.println("   The ConsumerContext for \"" + consumerName + "\" was loaded from the Connection on the stream \"" + consumerInfo.getStreamName() + "\"");
 
       // ### Continuous message retrieval with `consume()`
       //
