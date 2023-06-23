@@ -284,4 +284,3 @@ using (IConnection conn = cf.CreateConnection(opts))
     Console.WriteLine($"   Received {msg3.Subject}");
     msg3.Ack();
 }
-}
