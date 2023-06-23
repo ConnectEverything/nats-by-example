@@ -152,6 +152,7 @@ public class Main {
       consumerConfiguration = ConsumerConfiguration.builder().build();
       ConsumerContext consumerContext = streamContext.createOrUpdateConsumer(consumerConfiguration);
       consumerInfo = consumerContext.getCachedConsumerInfo();
+      String consumerName = consumerInfo.getName();
       System.out.println("   A consumer was created on stream \"" + consumerInfo.getStreamName() + "\"");
       System.out.println("   The consumer name is \"" + consumerInfo.getName() + "\".");
       System.out.println("   The consumer has " + consumerInfo.getNumPending() + " messages available.");
