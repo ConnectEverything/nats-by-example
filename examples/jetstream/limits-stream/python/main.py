@@ -18,8 +18,8 @@ async def main():
     
     # Create a stream named 'events' and with subjects matching 'events.*'
     # 'events' will be a default stream that all events will be sent to
-    # Storage parameter can be set to 'NONE' for no storage, 'FILE' for file based storage, or 'MEMORY' for memory based storage
-    await js.add_stream(name='events', subjects=['events.*'], storage='MEMORY')
+    # The storage parameter can be set 'file' (default) or 'memory'.
+    await js.add_stream(name='events', subjects=['events.*'], storage='file')
     
     # Publish 6 messages to the JetStream
     await js.publish('events.page_loaded',b'')
