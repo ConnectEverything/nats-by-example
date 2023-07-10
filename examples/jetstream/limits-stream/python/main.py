@@ -53,7 +53,7 @@ async def main():
     
     # Update the 'events' stream to have a maximum age of 0.1 seconds
     await js.update_stream(name='events', subjects=['events.*'], max_msgs=10, max_bytes=300, max_age=0.1)
-    print("set max age to one second","\n")
+    print("set max age to a tenth of a second","\n")
     
     # Check the number of messages in the stream using streams_info
     # StreamState includes the total number of messages in the stream
