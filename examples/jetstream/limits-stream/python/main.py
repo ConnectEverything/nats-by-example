@@ -10,7 +10,6 @@ servers = os.environ.get("NATS_URL", "nats://localhost:4222").split(",")
 
 
 async def main():
-    
     # Connect to NATS server
     nc = await nats.connect(servers=servers)
     
