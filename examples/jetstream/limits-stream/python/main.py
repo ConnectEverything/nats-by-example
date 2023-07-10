@@ -40,7 +40,8 @@ async def main():
     
     # Check the number of messages in the stream using streams_info
     # StreamState includes the total number of messages in the stream
-    print(await js.streams_info(),"\n")
+    info = await js.stream_info(name='events')
+    print(info.state,"\n")
     
     # Update the 'events' stream to have a maximum of 300 bytes
     await js.update_stream(name='events', subjects=['events.*'], max_msgs=10, max_bytes=300)
