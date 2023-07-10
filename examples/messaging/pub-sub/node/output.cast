@@ -1,9 +1,2 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1658834278, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/pub-sub/node"}
-[7.5999, "o", "Network 6a820af9_default  Creating\r\n"]
-[7.646884, "o", "Network 6a820af9_default  Created\r\nContainer 6a820af9-nats-1  Creating\r\n"]
-[7.67066, "o", "Container 6a820af9-nats-1  Created\r\n"]
-[7.671627, "o", "Container 6a820af9-nats-1  Starting\r\n"]
-[8.283859, "o", "Container 6a820af9-nats-1  Started\r\n"]
-[8.759723, "o", "hello on subject greet.joe\r\n"]
-[8.759949, "o", "hello on subject greet.pam\r\n"]
-[8.76046, "o", "hello on subject greet.sue\r\n"]
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973695, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/node"}
+[1.140452, "o", "hello on subject greet.joe\r\nhello on subject greet.pam\r\nhello on subject greet.sue\r\n"]

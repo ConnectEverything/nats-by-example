@@ -1,10 +1,4 @@
-Network 62be849f_default  Creating
-Network 62be849f_default  Created
-Container 62be849f-nats-1  Creating
-Container 62be849f-nats-1  Created
-Container 62be849f-nats-1  Starting
-Container 62be849f-nats-1  Started
-ephemeral name is "wSgbguE5"
+ephemeral name is "q3Ot10s0"
 got 2 messages
 got 1 messages
 timeout? true

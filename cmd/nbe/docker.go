@@ -10,6 +10,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 
 	"github.com/google/uuid"
 )
@@ -88,6 +89,8 @@ type ImageBuilder struct {
 	Example string
 	// Print out docker build output.
 	Verbose bool
+	// Version overrides.
+	Versions *Versions
 	// Defaults to os.Stdout and os.Stderr. Set if these streams need to be
 	// explicitly captured.
 	Stdout io.Writer
@@ -146,6 +149,13 @@ func (r *ImageBuilder) Run() (string, error) {
 		return "", fmt.Errorf("copy client files: %w", err)
 	}
 
+	// Replace versions
+	if r.Versions != nil {
+		if err := replaceVersions(buildDir, r.Versions); err != nil {
+			return "", fmt.Errorf("replace versions: %w", err)
+		}
+	}
+
 	// Build the temporary image relative to the build directory.
 	c := exec.Command(
 		"docker",
@@ -188,6 +198,8 @@ type ComposeRunner struct {
 	Verbose bool
 	// If true, do not use ansi control characters.
 	NoAnsi bool
+	// Version overrides.
+	Versions *Versions
 	// Defaults to os.Stdout and os.Stderr. Set if these streams need to be
 	// explicitly captured.
 	Stdout io.Writer
@@ -217,16 +229,29 @@ func (r *ComposeRunner) Run(imageTag string) error {
 	exampleDir := filepath.Dir(clientDir)
 	lang := filepath.Base(example)
 
-	composeFile := filepath.Join(exampleDir, "docker-compose.yaml")
+	// Check client directory first, fallback to example directory, then
+	// the language directory, finally the defaults.
+	composeFile := filepath.Join(clientDir, "docker-compose.yaml")
 	if _, err := os.Stat(composeFile); err != nil {
-		if os.IsNotExist(err) {
-			if r.Cluster {
-				composeFile = filepath.Join(r.Repo, "docker", "docker-compose.cluster.yaml")
-			} else {
-				composeFile = filepath.Join(r.Repo, "docker", "docker-compose.yaml")
-			}
-		} else {
+		if !os.IsNotExist(err) {
 			return err
+		}
+		composeFile = filepath.Join(exampleDir, "docker-compose.yaml")
+		if _, err := os.Stat(composeFile); err != nil {
+			if !os.IsNotExist(err) {
+				return err
+			}
+			composeFile = filepath.Join(r.Repo, "docker", lang, "docker-compose.yaml")
+			if _, err := os.Stat(composeFile); err != nil {
+				if !os.IsNotExist(err) {
+					return err
+				}
+				if r.Cluster {
+					composeFile = filepath.Join(r.Repo, "docker", "docker-compose.cluster.yaml")
+				} else {
+					composeFile = filepath.Join(r.Repo, "docker", "docker-compose.yaml")
+				}
+			}
 		}
 	}
 
@@ -259,9 +284,20 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		return err
 	}
 
+	buildComposeFile := filepath.Join(buildDir, "docker-compose.yaml")
+	if err := copyFile(composeFile, buildComposeFile); err != nil {
+		return err
+	}
+
 	err = createFile(filepath.Join(buildDir, ".env"), []byte(fmt.Sprintf("IMAGE_TAG=%s", imageTag)))
 	if err != nil {
 		return fmt.Errorf("create .env: %w", err)
+	}
+
+	if r.Versions != nil {
+		if err := replaceVersions(buildDir, r.Versions); err != nil {
+			return fmt.Errorf("replace versions: %w", err)
+		}
 	}
 
 	// Best effort to bring containers down..
@@ -270,7 +306,7 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		"compose",
 		"--project-name", uid,
 		"--project-directory", buildDir,
-		"--file", composeFile,
+		"--file", buildComposeFile,
 		"down",
 		"--remove-orphans",
 		"--timeout", "3",
@@ -281,7 +317,7 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		"compose",
 		"--project-name", uid,
 		"--project-directory", buildDir,
-		"--file", composeFile,
+		"--file", buildComposeFile,
 		"pull",
 		"--include-deps",
 		"--quiet",
@@ -301,7 +337,7 @@ func (r *ComposeRunner) Run(imageTag string) error {
 			"compose",
 			"--project-name", uid,
 			"--project-directory", buildDir,
-			"--file", composeFile,
+			"--file", buildComposeFile,
 			"up",
 		)
 	} else {
@@ -317,7 +353,7 @@ func (r *ComposeRunner) Run(imageTag string) error {
 			"--ansi", ansi,
 			"--project-name", uid,
 			"--project-directory", buildDir,
-			"--file", composeFile,
+			"--file", buildComposeFile,
 			"run",
 			"--no-TTY",
 			"--rm",
@@ -329,5 +365,24 @@ func (r *ComposeRunner) Run(imageTag string) error {
 	cmd.Stderr = stderr
 	cmd.Stdin = stdin
 
-	return cmd.Run()
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+
+	done := make(chan error, 1)
+	go func() {
+		done <- cmd.Wait()
+	}()
+
+	dur := time.Minute
+
+	select {
+	case err := <-done:
+		return err
+	case <-time.After(dur):
+		if err := cmd.Process.Signal(os.Interrupt); err != nil {
+			return fmt.Errorf("timeout (%s): %w", dur, err)
+		}
+		return fmt.Errorf("timeout (%s)", dur)
+	}
 }

@@ -1,6 +1,6 @@
 {
   "type": "module",
   "dependencies": {
-    "nats": "^2.7.1"
+    "nats": "^2.10.2"
   }
 }

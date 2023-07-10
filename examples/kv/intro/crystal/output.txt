@@ -1,9 +1,3 @@
-Network 793fca65_default  Creating
-Network 793fca65_default  Created
-Container 793fca65-nats-1  Creating
-Container 793fca65-nats-1  Created
-Container 793fca65-nats-1  Starting
-Container 793fca65-nats-1  Started
 {key: "sue.color", revision: 1, value: "blue"}
 {key: "sue.color", revision: 2, value: "green"}
 Updating sue.color: 'red' from revision 1

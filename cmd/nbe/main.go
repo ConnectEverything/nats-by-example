@@ -32,6 +32,7 @@ var (
 			&serveCmd,
 			&generateCmd,
 			&ejectCmd,
+			&setVersionsCmd,
 		},
 	}
 
@@ -137,6 +138,21 @@ the runtime.`,
 				Usage: "If true, disable ANSI control characters.",
 				Value: false,
 			},
+			&cli.BoolFlag{
+				Name:  "matrix",
+				Usage: "If true, run the matrix of server and client versions.",
+				Value: false,
+			},
+			&cli.StringFlag{
+				Name:  "matrix.path",
+				Usage: "Path to the matrix of server and client versions.",
+				Value: "matrix.yaml",
+			},
+			&cli.IntFlag{
+				Name:  "matrix.concurrency",
+				Usage: "Number of concurrent builds.",
+				Value: 3,
+			},
 		},
 		Action: func(c *cli.Context) error {
 			cluster := c.Bool("cluster")
@@ -146,45 +162,72 @@ the runtime.`,
 			up := c.Bool("up")
 			quiet := c.Bool("quiet")
 			noAnsi := c.Bool("no-ansi")
+			matrix := c.Bool("matrix")
+			matrixPath := c.String("matrix.path")
+			matrixConcurrency := c.Int("matrix.concurrency")
 
-			example := c.Args().First()
+			target := c.Args().First()
 
 			repo, err := os.Getwd()
 			if err != nil {
 				return err
 			}
 
-			if image == "" {
-				b := ImageBuilder{
+			var examples []string
+			// If a client is specified, run all examples for that client.
+			if _, ok := availableLanguages[target]; ok {
+				examples, _ = filepath.Glob(fmt.Sprintf("examples/*/*/%s", target))
+			} else if target == "all" {
+				examples, _ = filepath.Glob("examples/*/*/*")
+			} else {
+				examples = c.Args().Slice()
+			}
+
+			if len(examples) == 0 {
+				return nil
+			}
+
+			if matrix {
+				return runMatrix(matrixConcurrency, matrixPath, repo, examples)
+			}
+
+			for _, example := range examples {
+				if image == "" {
+					b := ImageBuilder{
+						Name:    name,
+						Repo:    repo,
+						Example: example,
+						Verbose: !quiet,
+					}
+
+					image, err = b.Run()
+					if err != nil {
+						return err
+					}
+
+					if !keep {
+						// Best effort.
+						defer removeImage(image)
+					}
+				}
+
+				r := ComposeRunner{
 					Name:    name,
 					Repo:    repo,
 					Example: example,
+					Cluster: cluster,
+					Keep:    keep,
+					Up:      up,
 					Verbose: !quiet,
+					NoAnsi:  noAnsi,
 				}
 
-				image, err = b.Run()
-				if err != nil {
+				if err := r.Run(image); err != nil {
 					return err
 				}
-
-				if !keep {
-					// Best effort.
-					defer removeImage(image)
-				}
 			}
 
-			r := ComposeRunner{
-				Name:    name,
-				Repo:    repo,
-				Example: example,
-				Cluster: cluster,
-				Keep:    keep,
-				Up:      up,
-				Verbose: !quiet,
-				NoAnsi:  noAnsi,
-			}
-
-			return r.Run(image)
+			return nil
 		},
 	}
 
@@ -355,6 +398,22 @@ the runtime.`,
 			}
 
 			return generateDocs(root, output)
+		},
+	}
+
+	setVersionsCmd = cli.Command{
+		Name:  "set-versions",
+		Usage: "Update the repo with the versions declared in versions.yaml.",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  "versions",
+				Usage: "Path to the versions file.",
+				Value: "versions.yaml",
+			},
+		},
+		Action: func(c *cli.Context) error {
+			file := c.String("versions")
+			return setVersions(file)
 		},
 	}
 )

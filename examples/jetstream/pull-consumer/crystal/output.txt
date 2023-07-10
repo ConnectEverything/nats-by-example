@@ -1,9 +1,3 @@
-Network 5f416315_default  Creating
-Network 5f416315_default  Created
-Container 5f416315-nats-1  Creating
-Container 5f416315-nats-1  Created
-Container 5f416315-nats-1  Starting
-Container 5f416315-nats-1  Started
 Publishing events.1
 Publishing events.2
 Publishing events.3
@@ -13,9 +7,9 @@ NATS::JetStream::API::V1::StreamState(
  @bytes=270,
  @consumer_count=0,
  @first_seq=1,
- @first_ts=2022-12-22 23:36:14.862173638 UTC,
+ @first_ts=2023-03-16 13:37:32.713199081 UTC,
  @last_seq=5,
- @last_ts=2022-12-22 23:36:14.867661263 UTC,
+ @last_ts=2023-03-16 13:37:32.713855374 UTC,
  @messages=5)
 Got a single message
 NATS::JetStream::Message(
@@ -25,17 +19,17 @@ NATS::JetStream::Message(
  @delivered_count=1,
  @headers={},
  @pending=4,
- @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.1.1.1671752174862173638.4",
+ @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.1.1.1678973852713199081.4",
  @stream="EVENTS",
  @stream_seq=1,
  @subject="events.1",
- @timestamp=2022-12-22 23:36:14.862173638 UTC)
+ @timestamp=2023-03-16 13:37:32.713199081 UTC)
 got 3 messages
-NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=2, @consumer_seq=2, @timestamp=2022-12-22 23:36:14.864277346 UTC, @pending=3, @body=Bytes[], @subject="events.2", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.2.2.1671752174864277346.3", @headers={})
-NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=3, @consumer_seq=3, @timestamp=2022-12-22 23:36:14.865452513 UTC, @pending=2, @body=Bytes[], @subject="events.3", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.3.3.1671752174865452513.2", @headers={})
-NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=4, @consumer_seq=4, @timestamp=2022-12-22 23:36:14.866842638 UTC, @pending=1, @body=Bytes[], @subject="events.4", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.4.4.1671752174866842638.1", @headers={})
+NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=2, @consumer_seq=2, @timestamp=2023-03-16 13:37:32.713372825 UTC, @pending=3, @body=Bytes[], @subject="events.2", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.2.2.1678973852713372825.3", @headers={})
+NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=3, @consumer_seq=3, @timestamp=2023-03-16 13:37:32.713497574 UTC, @pending=2, @body=Bytes[], @subject="events.3", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.3.3.1678973852713497574.2", @headers={})
+NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=4, @consumer_seq=4, @timestamp=2023-03-16 13:37:32.713725864 UTC, @pending=1, @body=Bytes[], @subject="events.4", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.4.4.1678973852713725864.1", @headers={})
 got 1 messages
-NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=5, @consumer_seq=5, @timestamp=2022-12-22 23:36:14.867661263 UTC, @pending=0, @body=Bytes[], @subject="events.5", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.5.5.1671752174867661263.0", @headers={})
+NATS::JetStream::Message(@stream="EVENTS", @consumer="EVENTS-pull", @delivered_count=1, @stream_seq=5, @consumer_seq=5, @timestamp=2023-03-16 13:37:32.713855374 UTC, @pending=0, @body=Bytes[], @subject="events.5", @reply_to="$JS.ACK.EVENTS.EVENTS-pull.1.5.5.1678973852713855374.0", @headers={})
 NATS::JetStream::API::V1::Consumer(
  @ack_floor=
   NATS::JetStream::API::V1::Consumer::Sequence(@consumer_seq=5, @stream_seq=5),
@@ -60,7 +54,7 @@ NATS::JetStream::API::V1::Consumer(
    @rate_limit_bps=nil,
    @replay_policy=Instant,
    @sample_frequency=nil),
- @created=2022-12-22 23:36:14.880180305 UTC,
+ @created=2023-03-16 13:37:32.714494652 UTC,
  @delivered=
   NATS::JetStream::API::V1::Consumer::Sequence(@consumer_seq=5, @stream_seq=5),
  @name="EVENTS-pull",

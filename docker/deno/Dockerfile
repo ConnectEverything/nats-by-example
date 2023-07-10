@@ -1,4 +1,4 @@
-FROM denoland/deno:1.23.3
+FROM denoland/deno:1.29.1
 
 COPY . .
 

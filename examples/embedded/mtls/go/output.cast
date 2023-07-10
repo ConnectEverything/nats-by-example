@@ -1,10 +1,2 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1672886743, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: embedded/mtls/go"}
-[0.632465, "o", "Network 7cc9c8fe_default  Creating\r\n"]
-[0.681554, "o", "Network 7cc9c8fe_default  Created\r\n"]
-[0.682181, "o", "Container 7cc9c8fe-nats-1  Creating"]
-[0.682221, "o", "\r\n"]
-[0.714878, "o", "Container 7cc9c8fe-nats-1  Created\r\n"]
-[0.716032, "o", "Container 7cc9c8fe-nats-1  Starting\r\n"]
-[1.052286, "o", "Container 7cc9c8fe-nats-1  Started\r\n"]
-[2.389456, "o", "world"]
-[2.389573, "o", "\r\n"]
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678974096, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: embedded/mtls/go"}
+[2.10678, "o", "world\r\n"]

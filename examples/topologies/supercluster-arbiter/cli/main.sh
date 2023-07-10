@@ -2,12 +2,18 @@
 
 set -euo pipefail
 
+NATS_URL="nats://localhost:4222"
+
 # Define the arbiter config which is a single node that
 # defines gateway connections between each of the clusters.
 cat <<- EOF > arbiter.conf
 server_name: arbiter
 port: 4228
 http_port: 8224
+
+jetstream: {
+  enabled: false
+}
 
 gateway {
   name: arbiter
@@ -35,7 +41,7 @@ jetstream: {
   unique_tag: "az:"
 }
 accounts: {
-  '\$SYS': {
+  \$SYS: {
     users: [{user: sys, password: sys}]
   }
   APP: {
@@ -172,13 +178,24 @@ EOF
 # Start all of the servers.
 echo 'Starting the servers...'
 nats-server -c arbiter.conf > /dev/null 2>&1 &
-nats-server -c east-az1.conf > /dev/null 2>&1 &
-nats-server -c east-az2.conf > /dev/null 2>&1 &
-nats-server -c east-az3.conf > /dev/null 2>&1 &
-nats-server -c west-az1.conf > /dev/null 2>&1 &
-nats-server -c west-az2.conf > /dev/null 2>&1 &
-nats-server -c west-az3.conf > /dev/null 2>&1 &
+sleep 1
 
+nats-server -c east-az1.conf > /dev/null 2>&1 &
+sleep 1
+
+nats-server -c east-az2.conf > /dev/null 2>&1 &
+sleep 1
+
+nats-server -c east-az3.conf > /dev/null 2>&1 &
+sleep 1
+
+nats-server -c west-az1.conf > /dev/null 2>&1 &
+sleep 1
+
+nats-server -c west-az2.conf > /dev/null 2>&1 &
+sleep 1
+
+nats-server -c west-az3.conf > /dev/null 2>&1 &
 sleep 3
 
 # Wait until the servers up and healthy.

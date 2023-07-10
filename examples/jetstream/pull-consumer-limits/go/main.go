@@ -41,6 +41,7 @@ func main() {
 	consumerName := "processor"
 	ackWait := 10 * time.Second
 	ackPolicy := nats.AckExplicitPolicy
+	maxWaiting := 1
 
 	// One quick note. This example show cases how consumer configuration
 	// can be changed on-demand. This one exception is `MaxWaiting` which
@@ -50,7 +51,7 @@ func main() {
 		Durable:    consumerName,
 		AckPolicy:  ackPolicy,
 		AckWait:    ackWait,
-		MaxWaiting: 1,
+		MaxWaiting: maxWaiting,
 	})
 
 	// Bind a subscription to the consumer.
@@ -68,6 +69,7 @@ func main() {
 		Durable:       consumerName,
 		AckPolicy:     ackPolicy,
 		AckWait:       ackWait,
+		MaxWaiting:    maxWaiting,
 		MaxAckPending: 1,
 	})
 
@@ -103,12 +105,13 @@ func main() {
 		Durable:         consumerName,
 		AckPolicy:       ackPolicy,
 		AckWait:         ackWait,
+		MaxWaiting:      maxWaiting,
 		MaxRequestBatch: 2,
 	})
 
 	// Publish a couple events for this section...
-	js.Publish("events.1", nil)
-	js.Publish("events.2", nil)
+	js.Publish("events.1", []byte("hello"))
+	js.Publish("events.2", []byte("world"))
 
 	// If a batch size is larger than the limit, it is considered an error.
 	_, err = sub.Fetch(10)
@@ -134,15 +137,14 @@ func main() {
 		Durable:    consumerName,
 		AckPolicy:  ackPolicy,
 		AckWait:    ackWait,
-		MaxWaiting: 1,
+		MaxWaiting: maxWaiting,
 	})
 
 	fmt.Printf("is valid? %v\n", sub.IsValid())
 
 	// Since `Fetch` is blocking, we will put these in a few goroutines
 	// to simulate the behavior. There are no more messages in the stream
-	// so we will expect two timeouts and one with the max waiting error
-	// since we are allowing at most two requests to be waiting.
+	// so we will expect two max waiting errors and one timeout.
 	wg := &sync.WaitGroup{}
 	wg.Add(3)
 
@@ -177,6 +179,7 @@ func main() {
 		Durable:           consumerName,
 		AckPolicy:         ackPolicy,
 		AckWait:           ackWait,
+		MaxWaiting:        maxWaiting,
 		MaxRequestExpires: time.Second,
 	})
 
@@ -193,5 +196,20 @@ func main() {
 	fmt.Printf("%s in %s\n", err, time.Since(t0))
 
 	// ### Max total bytes per fetch
-	// This is not yet implememented in the Go client..
+	//
+	fmt.Println("\n--- max total bytes per fetch (n=4) ---")
+
+	js.UpdateConsumer(streamName, &nats.ConsumerConfig{
+		Durable:            consumerName,
+		AckPolicy:          ackPolicy,
+		AckWait:            ackWait,
+		MaxWaiting:         maxWaiting,
+		MaxRequestMaxBytes: 3,
+	})
+
+	js.Publish("events.3", []byte("hola"))
+	js.Publish("events.4", []byte("again"))
+
+	_, err = sub.Fetch(2, nats.PullMaxBytes(4))
+	fmt.Printf("%s\n", err)
 }

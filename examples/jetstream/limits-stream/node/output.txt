@@ -1,9 +1,3 @@
-Network d08d9b88_default  Creating
-Network d08d9b88_default  Created
-Container d08d9b88-nats-1  Creating
-Container d08d9b88-nats-1  Created
-Container d08d9b88-nats-1  Starting
-Container d08d9b88-nats-1  Started
 created the stream
 published 6 messages
 published another 6 messages
@@ -11,9 +5,9 @@ published another 6 messages
   messages: 12,
   bytes: 594,
   first_seq: 1,
-  first_ts: '2022-07-26T12:22:14.101422068Z',
+  first_ts: '2023-03-16T13:36:29.277904098Z',
   last_seq: 12,
-  last_ts: '2022-07-26T12:22:14.111748799Z',
+  last_ts: '2023-03-16T13:36:29.286356014Z',
   num_subjects: 6,
   consumer_count: 0
 }
@@ -21,9 +15,9 @@ published another 6 messages
   messages: 10,
   bytes: 496,
   first_seq: 3,
-  first_ts: '2022-07-26T12:22:14.105116215Z',
+  first_ts: '2023-03-16T13:36:29.28106031Z',
   last_seq: 12,
-  last_ts: '2022-07-26T12:22:14.111748799Z',
+  last_ts: '2023-03-16T13:36:29.286356014Z',
   num_subjects: 6,
   consumer_count: 0
 }
@@ -31,9 +25,9 @@ published another 6 messages
   messages: 6,
   bytes: 298,
   first_seq: 7,
-  first_ts: '2022-07-26T12:22:14.111692998Z',
+  first_ts: '2023-03-16T13:36:29.28630626Z',
   last_seq: 12,
-  last_ts: '2022-07-26T12:22:14.111748799Z',
+  last_ts: '2023-03-16T13:36:29.286356014Z',
   num_subjects: 4,
   consumer_count: 0
 }
@@ -43,6 +37,6 @@ published another 6 messages
   first_seq: 13,
   first_ts: '1970-01-01T00:00:00Z',
   last_seq: 12,
-  last_ts: '2022-07-26T12:22:14.111748799Z',
+  last_ts: '2023-03-16T13:36:29.286356014Z',
   consumer_count: 0
 }

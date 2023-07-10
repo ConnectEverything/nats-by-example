@@ -1,8 +1,2 @@
-Network 01140475_default  Creating
-Network 01140475_default  Created
-Container 01140475-nats-1  Creating
-Container 01140475-nats-1  Created
-Container 01140475-nats-1  Starting
-Container 01140475-nats-1  Started
 received valid JSON: Payload(@foo="bar", @bar=27)
 received invalid JSON: not json

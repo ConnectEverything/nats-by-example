@@ -1,13 +1,14 @@
 #!/bin/sh
 
-set -xuo pipefail
+set -uo pipefail
+
+NATS_URL=nats://localhost:4222
 
 # First, we will create an empty configuration file
 # and startup a server in the background.
 touch server.conf
 
-nats-server -c server.conf -l log.txt & 
-SERVER_PID=$!
+nats-server -c server.conf > /dev/null 2>&1 &
 
 sleep 0.5
 
@@ -29,7 +30,9 @@ accounts: {
 EOF
 
 # Simply reload the server with the `--signal` option.
-nats-server --signal reload=$SERVER_PID
+nats-server --signal reload
+
+nats-server -c server.conf > /dev/null 2>&1 &
 
 
 # For convenience, and so we don't type the password on the command line,
@@ -58,7 +61,6 @@ EOF
 
 # We will reload again and then run the command again with out custom
 # account system account.
-nats-server --signal reload=$SERVER_PID
-nats --context sys server info
+nats-server --signal reload
 
-kill $SERVER_PID
+nats --context sys server info

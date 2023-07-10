@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   nats1:
-    image: docker.io/nats:2.9.0
+    image: docker.io/nats:2.9.15
     command:
       - "--debug"
       - "--name=nats1"
@@ -10,12 +10,9 @@ services:
       - "--routes=nats-route://nats1:6222,nats-route://nats2:6222,nats-route://nats3:6222"
       - "--http_port=8222"
       - "--js"
-    ports:
-      - "14222:4222"
-      - "18222:8222"
 
   nats2:
-    image: docker.io/nats:2.9.0
+    image: docker.io/nats:2.9.15
     command:
       - "--debug"
       - "--name=nats2"
@@ -24,12 +21,9 @@ services:
       - "--routes=nats-route://nats1:6222,nats-route://nats2:6222,nats-route://nats3:6222"
       - "--http_port=8222"
       - "--js"
-    ports:
-      - "24222:4222"
-      - "28222:8222"
 
   nats3:
-    image: docker.io/nats:2.9.0
+    image: docker.io/nats:2.9.15
     command:
       - "--debug"
       - "--name=nats3"
@@ -38,9 +32,6 @@ services:
       - "--routes=nats-route://nats1:6222,nats-route://nats2:6222,nats-route://nats3:6222"
       - "--http_port=8222"
       - "--js"
-    ports:
-      - "34222:4222"
-      - "38222:8222"
 
   app:
     image: ${IMAGE_TAG}
@@ -50,4 +41,3 @@ services:
       - nats1
       - nats2
       - nats3
-

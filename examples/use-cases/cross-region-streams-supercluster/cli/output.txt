@@ -1,5 +1,3 @@
-Network 75dd2e22_default  Creating
-Network 75dd2e22_default  Created
 Starting server rg1-az1-x
 Starting server rg1-az1
 Starting server rg1-az2
@@ -20,14 +18,14 @@ Cluster 3 healthy?
 {"status":"ok"}
 Cluster 4 healthy?
 {"status":"ok"}
-Server information for rg2-az1 (NAK5EJMZ7JWSZV22HSITOTGMIZOL6JW47RIDPUX2XTJMSFP3YSN7E7DG)
+Server information for rg2-az1 (NDIGPJTUDQWXC4QZJHZOWR4IPT5LEH7JKWMQVMVQHW4C4P3BAR2EREUX)
 
 Process Details:
 
-         Version: 2.9.0-RC.11
-      Git Commit: 97bba60b
-      Go Version: go1.19
-      Start Time: 2022-08-29 14:50:32.236121629 +0000 UTC
+         Version: 2.9.15
+      Git Commit: 
+      Go Version: go1.19.4
+      Start Time: 2023-03-16 13:53:17.977641917 +0000 UTC
           Uptime: 10s
 
 Connection Details:
@@ -35,16 +33,16 @@ Connection Details:
    Auth Required: true
     TLS Required: false
             Host: 0.0.0.0:4225
-     Client URLs: 172.20.0.2:4225
-                  172.20.0.2:4226
-                  172.20.0.2:4227
+     Client URLs: 192.168.224.2:4225
+                  192.168.224.2:4226
+                  192.168.224.2:4227
 
 JetStream:
 
               Domain: 
    Storage Directory: /tmp/nats/jetstream
           Max Memory: 23 GiB
-            Max File: 258 GiB
+            Max File: 117 GiB
       Active Acconts: 1
        Memory In Use: 0 B
          File In Use: 0 B
@@ -65,8 +63,8 @@ Statistics:
           Memory: 16 MiB
      Connections: 0
    Subscriptions: 144
-            Msgs: 155 in 203 out
-           Bytes: 150 KiB in 175 KiB out
+            Msgs: 180 in 258 out
+           Bytes: 167 KiB in 210 KiB out
   Slow Consumers: 0
 
 Cluster:
@@ -87,35 +85,35 @@ Super Cluster:
                   rg3
                   xr
 
-╭──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                                       Server Overview                                                        │
-├───────────┬────────────┬────────────┬─────────────┬─────┬───────┬───────┬────────┬─────┬─────────┬─────┬──────┬────────┬─────┤
-│ Name      │ Cluster    │ IP         │ Version     │ JS  │ Conns │ Subs  │ Routes │ GWs │ Mem     │ CPU │ Slow │ Uptime │ RTT │
-├───────────┼────────────┼────────────┼─────────────┼─────┼───────┼───────┼────────┼─────┼─────────┼─────┼──────┼────────┼─────┤
-│ rg1-az1   │ rg1        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 1     │ 154   │ 2      │ 3   │ 17 MiB  │ 2.0 │ 0    │ 13.13s │ 1ms │
-│ rg1-az2   │ rg1        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 154   │ 2      │ 3   │ 17 MiB  │ 1.0 │ 0    │ 12.12s │ 1ms │
-│ rg1-az1-x │ xr         │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 16 MiB  │ 0.0 │ 0    │ 14.11s │ 1ms │
-│ rg1-az3   │ rg1        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 154   │ 2      │ 3   │ 16 MiB  │ 1.0 │ 0    │ 11.12s │ 1ms │
-│ rg3-az3-x │ xr         │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 17 MiB  │ 0.0 │ 0    │ 4.11s  │ 1ms │
-│ rg2-az3   │ rg2        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 16 MiB  │ 1.0 │ 0    │ 7.12s  │ 1ms │
-│ rg2-az1   │ rg2        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 16 MiB  │ 0.0 │ 0    │ 10.12s │ 1ms │
-│ rg3-az1   │ rg3        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 15 MiB  │ 0.0 │ 0    │ 6.11s  │ 1ms │
-│ rg3-az3   │ rg3        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 16 MiB  │ 0.0 │ 0    │ 3.11s  │ 1ms │
-│ rg2-az2-x │ xr         │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 17 MiB  │ 1.0 │ 0    │ 9.12s  │ 1ms │
-│ rg2-az2   │ rg2        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 17 MiB  │ 0.0 │ 0    │ 8.12s  │ 1ms │
-│ rg3-az2   │ rg3        │ 0.0.0.0    │ 2.9.0-RC.11 │ yes │ 0     │ 144   │ 2      │ 3   │ 15 MiB  │ 0.0 │ 0    │ 5.12s  │ 1ms │
-├───────────┼────────────┼────────────┼─────────────┼─────┼───────┼───────┼────────┼─────┼─────────┼─────┼──────┼────────┼─────┤
-│           │ 4 Clusters │ 12 Servers │             │ 12  │ 1     │ 1,758 │        │     │ 195 MiB │     │ 0    │        │     │
-╰───────────┴────────────┴────────────┴─────────────┴─────┴───────┴───────┴────────┴─────┴─────────┴─────┴──────┴────────┴─────╯
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                      Server Overview                                                      │
+├───────────┬─────────┬──────┬─────────┬─────┬───────┬───────┬────────┬─────┬─────────┬───────┬───────┬──────┬────────┬─────┤
+│ Name      │ Cluster │ Host │ Version │ JS  │ Conns │ Subs  │ Routes │ GWs │ Mem     │ CPU % │ Cores │ Slow │ Uptime │ RTT │
+├───────────┼─────────┼──────┼─────────┼─────┼───────┼───────┼────────┼─────┼─────────┼───────┼───────┼──────┼────────┼─────┤
+│ rg1-az1   │ rg1     │ 0    │ 2.9.15  │ yes │ 1     │ 145   │ 2      │ 3   │ 16 MiB  │ 0     │ 8     │ 0    │ 13.06s │ 1ms │
+│ rg1-az3   │ rg1     │ 0    │ 2.9.15  │ yes │ 0     │ 145   │ 2      │ 3   │ 18 MiB  │ 1     │ 8     │ 0    │ 11.06s │ 1ms │
+│ rg1-az2   │ rg1     │ 0    │ 2.9.15  │ yes │ 0     │ 145   │ 2      │ 3   │ 17 MiB  │ 0     │ 8     │ 0    │ 12.06s │ 1ms │
+│ rg3-az1   │ rg3     │ 0    │ 2.9.15  │ yes │ 0     │ 153   │ 2      │ 3   │ 16 MiB  │ 0     │ 8     │ 0    │ 6.06s  │ 1ms │
+│ rg3-az2   │ rg3     │ 0    │ 2.9.15  │ yes │ 0     │ 153   │ 2      │ 3   │ 15 MiB  │ 0     │ 8     │ 0    │ 5.05s  │ 1ms │
+│ rg1-az1-x │ xr      │ 0    │ 2.9.15  │ yes │ 0     │ 144   │ 2      │ 3   │ 16 MiB  │ 1     │ 8     │ 0    │ 14.07s │ 1ms │
+│ rg3-az3   │ rg3     │ 0    │ 2.9.15  │ yes │ 0     │ 153   │ 2      │ 3   │ 14 MiB  │ 1     │ 8     │ 0    │ 3.05s  │ 1ms │
+│ rg2-az1   │ rg2     │ 0    │ 2.9.15  │ yes │ 0     │ 144   │ 2      │ 3   │ 17 MiB  │ 0     │ 8     │ 0    │ 10.06s │ 1ms │
+│ rg2-az2-x │ xr      │ 0    │ 2.9.15  │ yes │ 0     │ 144   │ 2      │ 3   │ 15 MiB  │ 0     │ 8     │ 0    │ 9.06s  │ 1ms │
+│ rg2-az2   │ rg2     │ 0    │ 2.9.15  │ yes │ 0     │ 144   │ 2      │ 3   │ 15 MiB  │ 1     │ 8     │ 0    │ 8.06s  │ 1ms │
+│ rg3-az3-x │ xr      │ 0    │ 2.9.15  │ yes │ 0     │ 144   │ 2      │ 3   │ 14 MiB  │ 0     │ 8     │ 0    │ 4.05s  │ 1ms │
+│ rg2-az3   │ rg2     │ 0    │ 2.9.15  │ yes │ 0     │ 144   │ 2      │ 3   │ 15 MiB  │ 1     │ 8     │ 0    │ 7.06s  │ 1ms │
+├───────────┼─────────┼──────┼─────────┼─────┼───────┼───────┼────────┼─────┼─────────┼───────┼───────┼──────┼────────┼─────┤
+│           │ 4       │ 12   │         │ 12  │ 1     │ 1,758 │        │     │ 188 MiB │       │       │ 0    │        │     │
+╰───────────┴─────────┴──────┴─────────┴─────┴───────┴───────┴────────┴─────┴─────────┴───────┴───────┴──────┴────────┴─────╯
 
 ╭────────────────────────────────────────────────────────────────────────────╮
 │                              Cluster Overview                              │
 ├─────────┬────────────┬───────────────────┬───────────────────┬─────────────┤
 │ Cluster │ Node Count │ Outgoing Gateways │ Incoming Gateways │ Connections │
 ├─────────┼────────────┼───────────────────┼───────────────────┼─────────────┤
+│ rg3     │ 3          │ 9                 │ 9                 │ 0           │
 │ xr      │ 3          │ 9                 │ 9                 │ 0           │
 │ rg2     │ 3          │ 9                 │ 9                 │ 0           │
-│ rg3     │ 3          │ 9                 │ 9                 │ 0           │
 │ rg1     │ 3          │ 9                 │ 9                 │ 1           │
 ├─────────┼────────────┼───────────────────┼───────────────────┼─────────────┤
 │         │ 12         │ 36                │ 36                │ 1           │
@@ -125,69 +123,75 @@ Super Cluster:
 ├───────────┬─────────┬─────────┬───────────┬──────────┬───────┬────────┬──────┬─────────┬─────────┤
 │ Server    │ Cluster │ Streams │ Consumers │ Messages │ Bytes │ Memory │ File │ API Req │ API Err │
 ├───────────┼─────────┼─────────┼───────────┼──────────┼───────┼────────┼──────┼─────────┼─────────┤
-│ rg1-az1*  │ rg1     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
-│ rg1-az3   │ rg1     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ rg1-az2   │ rg1     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg1-az3   │ rg1     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg1-az1   │ rg1     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ rg2-az1   │ rg2     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ rg2-az2   │ rg2     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ rg2-az3   │ rg2     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
-│ rg3-az1   │ rg3     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
-│ rg3-az2   │ rg3     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ rg3-az3   │ rg3     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg3-az1*  │ rg3     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg3-az2   │ rg3     │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ rg1-az1-x │ xr      │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
-│ rg3-az3-x │ xr      │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 │ rg2-az2-x │ xr      │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
+│ rg3-az3-x │ xr      │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 ├───────────┼─────────┼─────────┼───────────┼──────────┼───────┼────────┼──────┼─────────┼─────────┤
 │           │         │ 0       │ 0         │ 0        │ 0 B   │ 0 B    │ 0 B  │ 0       │ 0       │
 ╰───────────┴─────────┴─────────┴───────────┴──────────┴───────┴────────┴──────┴─────────┴─────────╯
 
-╭──────────────────────────────────────────────────────╮
-│             RAFT Meta Group Information              │
-├───────────┬────────┬─────────┬────────┬────────┬─────┤
-│ Name      │ Leader │ Current │ Online │ Active │ Lag │
-├───────────┼────────┼─────────┼────────┼────────┼─────┤
-│ rg1-az1   │ yes    │ true    │ true   │ 0.00s  │ 0   │
-│ rg1-az1-x │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg1-az2   │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg1-az3   │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg2-az1   │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg2-az2   │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg2-az2-x │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg2-az3   │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg3-az1   │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg3-az2   │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg3-az3   │        │ true    │ true   │ 0.58s  │ 0   │
-│ rg3-az3-x │        │ true    │ true   │ 0.58s  │ 0   │
-╰───────────┴────────┴─────────┴────────┴────────┴─────╯
+╭─────────────────────────────────────────────────────────────────╮
+│                   RAFT Meta Group Information                   │
+├───────────┬──────────┬────────┬─────────┬────────┬────────┬─────┤
+│ Name      │ ID       │ Leader │ Current │ Online │ Active │ Lag │
+├───────────┼──────────┼────────┼─────────┼────────┼────────┼─────┤
+│ rg1-az1   │ 6s4h5MOv │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg1-az1-x │ PMcvOJvm │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg1-az2   │ X8wPeL6S │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg1-az3   │ FozYtzby │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg2-az1   │ 8ShHFKtZ │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg2-az2   │ Kx5WF0Q6 │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg2-az2-x │ UEoET1zo │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg2-az3   │ NSUWzTzT │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg3-az1   │ OEQTh4pP │ yes    │ true    │ true   │ 0.00s  │ 0   │
+│ rg3-az2   │ LJVb57VO │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg3-az3   │ uEtIi639 │        │ true    │ true   │ 1.07s  │ 0   │
+│ rg3-az3-x │ cwYBGolT │        │ true    │ true   │ 1.07s  │ 0   │
+╰───────────┴──────────┴────────┴─────────┴────────┴────────┴─────╯
 Stream EVENTS was created
 
-Information for Stream EVENTS created 2022-08-29T14:50:43Z
-
-Configuration:
+Information for Stream EVENTS created 2023-03-16 13:53:28
 
              Subjects: events.*
-     Acknowledgements: true
-            Retention: File - Limits
              Replicas: 3
+              Storage: File
+    Placement Cluster: xr
+
+Options:
+
+            Retention: Limits
+     Acknowledgements: true
        Discard Policy: Old
      Duplicate Window: 2m0s
     Allows Msg Delete: true
          Allows Purge: true
        Allows Rollups: true
+
+Limits:
+
      Maximum Messages: unlimited
+  Maximum Per Subject: unlimited
         Maximum Bytes: unlimited
           Maximum Age: unlimited
  Maximum Message Size: unlimited
     Maximum Consumers: unlimited
-    Placement Cluster: xr
 
 
 Cluster Information:
 
                  Name: xr
-               Leader: rg3-az3-x
-              Replica: rg1-az1-x, current, seen 0.00s ago
+               Leader: rg1-az1-x
               Replica: rg2-az2-x, current, seen 0.00s ago
+              Replica: rg3-az3-x, outdated, seen 0.00s ago, 1 operation behind
 
 State:
 
@@ -198,33 +202,39 @@ State:
      Active Consumers: 0
 Stream ORDERS was created
 
-Information for Stream ORDERS created 2022-08-29T14:50:43Z
-
-Configuration:
+Information for Stream ORDERS created 2023-03-16 13:53:29
 
              Subjects: orders.*
-     Acknowledgements: true
-            Retention: File - Limits
              Replicas: 3
+              Storage: File
+    Placement Cluster: rg2
+
+Options:
+
+            Retention: Limits
+     Acknowledgements: true
        Discard Policy: Old
      Duplicate Window: 2m0s
     Allows Msg Delete: true
          Allows Purge: true
        Allows Rollups: true
+
+Limits:
+
      Maximum Messages: unlimited
+  Maximum Per Subject: unlimited
         Maximum Bytes: unlimited
           Maximum Age: unlimited
  Maximum Message Size: unlimited
     Maximum Consumers: unlimited
-    Placement Cluster: rg2
 
 
 Cluster Information:
 
                  Name: rg2
-               Leader: rg2-az3
-              Replica: rg2-az1, current, seen 0.00s ago
-              Replica: rg2-az2, outdated, seen 0.00s ago, 1 operation behind
+               Leader: rg2-az1
+              Replica: rg2-az2, current, seen 0.00s ago
+              Replica: rg2-az3, current, seen 0.00s ago
 
 State:
 
@@ -240,7 +250,7 @@ Obtaining Stream stats
 ├────────┬─────────┬───────────────┬───────────┬──────────┬───────┬──────┬─────────┬──────────────────────────────────┤
 │ Stream │ Storage │ Placement     │ Consumers │ Messages │ Bytes │ Lost │ Deleted │ Replicas                         │
 ├────────┼─────────┼───────────────┼───────────┼──────────┼───────┼──────┼─────────┼──────────────────────────────────┤
-│ EVENTS │ File    │ cluster: xr   │ 0         │ 0        │ 0 B   │ 0    │ 0       │ rg1-az1-x, rg2-az2-x, rg3-az3-x* │
-│ ORDERS │ File    │ cluster: rg2  │ 0         │ 0        │ 0 B   │ 0    │ 0       │ rg2-az1, rg2-az2, rg2-az3*       │
+│ EVENTS │ File    │ cluster: xr   │ 0         │ 0        │ 0 B   │ 0    │ 0       │ rg1-az1-x*, rg2-az2-x, rg3-az3-x │
+│ ORDERS │ File    │ cluster: rg2  │ 0         │ 0        │ 0 B   │ 0    │ 0       │ rg2-az1*, rg2-az2, rg2-az3       │
 ╰────────┴─────────┴───────────────┴───────────┴──────────┴───────┴──────┴─────────┴──────────────────────────────────╯
 

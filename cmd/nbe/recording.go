@@ -1,11 +1,14 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"regexp"
 	"strings"
 )
 
@@ -35,13 +38,18 @@ func generateRecording(repo, example string, recreate bool) error {
 
 		name := strings.TrimPrefix(example, "examples/")
 
+		tempFile, _ := ioutil.TempFile("", "")
+		tempName := tempFile.Name()
+		tempFile.Close()
+		defer os.Remove(tempName)
+
 		// Generate the recording using the pre-built image.
 		c := exec.Command(
 			"asciinema", "rec",
 			"--overwrite",
 			"--command", fmt.Sprintf("nbe run --no-ansi=true --quiet --image=%s %s", image, name),
 			"--title", fmt.Sprintf("NATS by Example: %s", name),
-			castFile,
+			tempName,
 		)
 
 		c.Stdout = os.Stdout
@@ -51,9 +59,17 @@ func generateRecording(repo, example string, recreate bool) error {
 		if err != nil {
 			return fmt.Errorf("asciinema rec: %w", err)
 		}
+
+		contents, err := ioutil.ReadFile(tempName)
+		if err != nil {
+			return err
+		}
+
+		contents = removeComposeLines(contents)
+
+		ioutil.WriteFile(castFile, contents, 0644)
 	}
 
-	// TODO: remove container startup prefix...
 	c := exec.Command(
 		"asciinema", "cat",
 		castFile,
@@ -64,4 +80,22 @@ func generateRecording(repo, example string, recreate bool) error {
 	}
 
 	return ioutil.WriteFile(outputFile, output, 0644)
+}
+
+func removeComposeLines(output []byte) []byte {
+	re := regexp.MustCompile(`(Network|Container)\s+[^\s]+\s+(Creating|Created|Starting|Started)`)
+
+	buf := bytes.NewBuffer(nil)
+	sc := bufio.NewScanner(bytes.NewReader(output))
+
+	for sc.Scan() {
+		line := sc.Bytes()
+
+		if re.Find(line) == nil {
+			buf.Write(line)
+			buf.WriteByte('\n')
+		}
+	}
+
+	return buf.Bytes()
 }

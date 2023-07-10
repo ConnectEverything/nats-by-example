@@ -1,4 +1,4 @@
-FROM gradle:7.5.0-jdk8-jammy AS build
+FROM gradle:7.5.1-jdk8-jammy AS build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN mkdir -p src/main/java/example

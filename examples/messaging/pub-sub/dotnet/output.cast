@@ -1,12 +1,4 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1671651180, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/pub-sub/dotnet"}
-[2.429222, "o", "Network 0e2ecd29_default  Creating\r\n"]
-[2.489892, "o", "Network 0e2ecd29_default  Created\r\n"]
-[2.495693, "o", "Container 0e2ecd29-nats-1  Creating\r\n"]
-[2.538924, "o", "Container 0e2ecd29-nats-1  Created\r\n"]
-[2.540115, "o", "Container 0e2ecd29-nats-1  Starting"]
-[2.54021, "o", "\r\n"]
-[2.948982, "o", "Container 0e2ecd29-nats-1  Started\r\n"]
-[3.730881, "o", "Async handler received the message 'hello pam 1' from subject 'greet.pam'\r\nSync subscription received the message 'hello pam 1' from subject 'greet.pam'\r\n"]
-[3.7318, "o", "Async handler received the message 'hello joe 2' from subject 'greet.joe'\r\n"]
-[3.831883, "o", "Sync subscription no messages currently available\r\n"]
-[3.849172, "o", "DisconnectedEvent, Connection: 4\r\nClosedEvent, Connection: 4\r\n"]
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678973686, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/pub-sub/dotnet"}
+[1.313772, "o", "Async handler received the message 'hello pam 1' from subject 'greet.pam'\r\nSync subscription received the message 'hello pam 1' from subject 'greet.pam'\r\nAsync handler received the message 'hello joe 2' from subject 'greet.joe'\r\n"]
+[1.414488, "o", "Sync subscription no messages currently available\r\n"]
+[1.426791, "o", "DisconnectedEvent, Connection: 4\r\nClosedEvent, Connection: 4\r\n"]

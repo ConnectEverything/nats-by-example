@@ -63,7 +63,9 @@ console.log(info.state);
 
 // Let's update the stream config and set the max messages to 10. This
 // can be done with a partial config passed to the `update` method.
-await jsm.streams.update(cfg.name, {max_msgs: 10});
+// We will also set the duplicate window to 500 milliseconds to demonstreate
+// the max age behavior.
+await jsm.streams.update(cfg.name, {max_msgs: 10, duplicate_window: nanos(500)});
 
 // Once applied, we can check out the stream state again to see that the
 // first two messages were truncated.

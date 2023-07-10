@@ -1,11 +1,17 @@
 name: ci
-on:
-  push:
+on: [push]
 
 jobs:
   run:
     name: Run
     runs-on: "ubuntu-latest"
+
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
+      statuses: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -15,7 +21,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: "3.x"
 
       - name: Install Asciinema
         run: |
@@ -36,8 +42,6 @@ jobs:
         run: |
           go install ./cmd/nbe
 
-      - uses: satackey/action-docker-layer-caching@v0.0.11
-
       - name: Generate recordings
         shell: 'script -q -e -c "bash {0}"'
         run: |
@@ -55,7 +59,7 @@ jobs:
           nbe build
 
       - name: Vercel preview deploy
-        uses: amondnet/vercel-action@v20
+        uses: amondnet/vercel-action@v25
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -65,10 +69,10 @@ jobs:
           working-directory: ./html
 
       - name: Vercel production deploy
-        uses: amondnet/vercel-action@v20
+        uses: amondnet/vercel-action@v25
         if: ${{ github.ref_name == 'main' }}
         with:
-          vercel-args: '--prod'
+          vercel-args: "--prod"
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
