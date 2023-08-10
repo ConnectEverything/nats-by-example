@@ -1,0 +1,7 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1691690116, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/json/python"}
+[1.159594, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Creating 2/0\r\n \u001b[32m✔\u001b[0m Network 3e7ada46_default   \u001b[32mCreated\u001b[0m\u001b[34m0.0s \u001b[0m\r\n \u001b[32m✔\u001b[0m Container 3e7ada46-nats-1  \u001b[32mCreated\u001b[0m\u001b[34m0.0s \u001b[0m\r\n\u001b[?25h"]
+[1.260531, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n"]
+[1.360993, "o", "\r\n\u001b[?25h"]
+[1.459795, "o", "\u001b[1A\u001b[1A\u001b[0G\u001b[?25l"]
+[1.506774, "o", "\u001b[1A\u001b[1A\u001b[0G\u001b[?25l\u001b[34m[+] Running 1/1\u001b[0m\r\n \u001b[32m✔\u001b[0m Container 3e7ada46-nats-1  \u001b[32mStarted\u001b[0m\u001b[34m0.3s \u001b[0m\r\n\u001b[?25h"]
+[1.919365, "o", "received valid JSON payload: payload.foo='bar' payload.bar=27\r\nreceived invalid JSON payload: message.data=b'not json'\r\n"]

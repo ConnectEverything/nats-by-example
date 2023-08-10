@@ -1,0 +1,9 @@
+[1A[1B[0G[?25l[+] Creating 2/0
+ [32m✔[0m Network 3e7ada46_default   [32mCreated[0m[34m0.0s [0m
+ [32m✔[0m Container 3e7ada46-nats-1  [32mCreated[0m[34m0.0s [0m
+[?25h[1A[1B[0G[?25l[+] Running 0/0
+
+[?25h[1A[1A[0G[?25l[1A[1A[0G[?25l[34m[+] Running 1/1[0m
+ [32m✔[0m Container 3e7ada46-nats-1  [32mStarted[0m[34m0.3s [0m
+[?25hreceived valid JSON payload: payload.foo='bar' payload.bar=27
+received invalid JSON payload: message.data=b'not json'
