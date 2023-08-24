@@ -1,0 +1,8 @@
+{"version": 2, "width": 228, "height": 43, "timestamp": 1692895197, "env": {"SHELL": "/usr/local/bin/fish", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/request-reply/deno"}
+[1.388402, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             \r\n\u001b[?25h"]
+[1.840986, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l"]
+[1.841347, "o", "[+] Building 0.0s (0/0)                                                                                                                                                                                                             \r\n\u001b[?25h"]
+[2.278612, "o", "hello, joe\r\n"]
+[2.279828, "o", "hello, sue\r\n"]
+[2.281054, "o", "hello, bob\r\n"]
+[2.289152, "o", "request failed with:  timeout\r\n"]

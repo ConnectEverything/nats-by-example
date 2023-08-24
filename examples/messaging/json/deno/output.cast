@@ -1,0 +1,6 @@
+{"version": 2, "width": 228, "height": 38, "timestamp": 1692914543, "env": {"SHELL": "/usr/local/bin/fish", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/json/deno"}
+[1.440643, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l"]
+[1.441549, "o", "[+] Building 0.0s (0/0)                                                                                                                                                                                                             \r\n\u001b[?25h"]
+[1.785324, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             \r\n\u001b[?25h"]
+[2.150883, "o", "{ foo: \"bar\", bar: 27 }\r\n"]
+[2.151069, "o", "err: Bad JSON: 'not json'\r\n"]

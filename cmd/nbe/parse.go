@@ -23,8 +23,6 @@ const (
 	Java      = "java"
 	DotNet    = "dotnet"
 	Deno      = "deno"
-	Node      = "node"
-	Bun       = "bun"
 	WebSocket = "websocket"
 	C         = "c"
 	Python    = "python"
@@ -42,9 +40,7 @@ var (
 		Rust:      "Rust",
 		Java:      "Java",
 		DotNet:    "C#",
-		Deno:      "Deno",
-		Node:      "Node",
-		Bun:       "Bun",
+		Deno:      "JavaScript",
 		WebSocket: "WebSocket",
 		C:         "C",
 		Python:    "Python",
@@ -60,9 +56,7 @@ var (
 		CLI:       "main.sh",
 		Shell:     "main.sh",
 		Rust:      "main.rs",
-		Deno:      "main.ts",
-		Bun:       "main.ts",
-		Node:      "main.js",
+		Deno:      "main.js",
 		WebSocket: "main.js",
 		Java:      "Main.java",
 		Crystal:   "main.cr",
@@ -76,8 +70,6 @@ var (
 		Java:      {"/*", "*/"},
 		DotNet:    {"/**", "**/"},
 		Deno:      {"/*", "*/"},
-		Node:      {"/*", "*/"},
-		Bun:       {"/*", "*/"},
 		WebSocket: {"/*", "*/"},
 		C:         {"/*", "*/"},
 	}
@@ -90,8 +82,6 @@ var (
 		Java:      "//",
 		DotNet:    "//",
 		Deno:      "//",
-		Node:      "//",
-		Bun:       "//",
 		WebSocket: "//",
 		C:         "//",
 		Python:    "#",
@@ -201,7 +191,7 @@ func parseLineType(lang, line string) LineType {
 		}
 		return NormalLine
 
-	case Go, DotNet, Java, Rust, C, Deno, Node, Bun:
+	case Go, DotNet, Java, Rust, C, Deno:
 		if cStyleSingleCommentLineRe.MatchString(line) {
 			return SingleCommentLine
 		}

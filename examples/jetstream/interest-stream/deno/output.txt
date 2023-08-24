@@ -1,0 +1,72 @@
+[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
+[?25hcreated the stream
+published 3 messages
+last message seq:  3
+# Stream info without any consumers
+{
+  messages: 0,
+  bytes: 0,
+  first_seq: 4,
+  first_ts: "2023-08-24T22:02:32.622546225Z",
+  last_seq: 3,
+  last_ts: "2023-08-24T22:02:32.622546225Z",
+  consumer_count: 0
+}
+# Stream info with one consumer
+{
+  messages: 2,
+  bytes: 100,
+  first_seq: 4,
+  first_ts: "2023-08-24T22:02:32.626834616Z",
+  last_seq: 5,
+  last_ts: "2023-08-24T22:02:32.627634468Z",
+  num_subjects: 2,
+  consumer_count: 1
+}
+# Stream info with one consumer and acked messages
+{
+  messages: 1,
+  bytes: 50,
+  first_seq: 5,
+  first_ts: "2023-08-24T22:02:32.627634468Z",
+  last_seq: 5,
+  last_ts: "2023-08-24T22:02:32.627634468Z",
+  num_subjects: 1,
+  consumer_count: 1
+}
+msg stream seq: 6
+msg stream seq: 7
+# Stream info with two consumers, but only one set of acked messages
+{
+  messages: 2,
+  bytes: 100,
+  first_seq: 6,
+  first_ts: "2023-08-24T22:02:32.677448443Z",
+  last_seq: 7,
+  last_ts: "2023-08-24T22:02:32.677936731Z",
+  num_subjects: 2,
+  consumer_count: 2
+}
+# Stream info with two consumers having both acked
+{
+  messages: 1,
+  bytes: 50,
+  first_seq: 7,
+  first_ts: "2023-08-24T22:02:32.677936731Z",
+  last_seq: 7,
+  last_ts: "2023-08-24T22:02:32.677936731Z",
+  num_subjects: 1,
+  consumer_count: 2
+}
+# Stream info with three consumers with interest from two
+{
+  messages: 1,
+  bytes: 50,
+  first_seq: 8,
+  first_ts: "2023-08-24T22:02:32.765346449Z",
+  last_seq: 8,
+  last_ts: "2023-08-24T22:02:32.765346449Z",
+  num_subjects: 1,
+  consumer_count: 3
+}
