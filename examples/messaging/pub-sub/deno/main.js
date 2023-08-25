@@ -1,4 +1,6 @@
-import {connect, StringCodec} from "https://deno.land/x/nats@v1.10.2/src/mod.ts";
+// import the library - in node.js `import {connect, etc} from "nats";`
+// or if not doing a module, `const {connect, etc} = require("nats");`
+import { connect } from "https://deno.land/x/nats@v1.16.0/src/mod.ts";
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string.
@@ -9,15 +11,11 @@ const nc = await connect({
   servers: servers.split(","),
 });
 
-// NATS message payloads are byte arrays, so we need to have a codec
-// to serialize and deserialize payloads in order to work with them.
-// Another built-in codec is JSONCodec or you can implement your own.
-const sc = StringCodec();
 
 // To publish a message, simply provide the _subject_ of the message
 // and encode the message payload. NATS subjects are hierarchical using
 // periods as token delimiters. `greet` and `joe` are two distinct tokens.
-nc.publish("greet.bob", sc.encode("hello"));
+nc.publish("greet.bob", "hello");
 
 // Now we are going to create a subscription and utilize a wildcard on
 // the second token. The effect is that this subscription shows _interest_
@@ -26,15 +24,15 @@ nc.publish("greet.bob", sc.encode("hello"));
 let sub = nc.subscribe("greet.*", {max: 3});
 const done = (async () => {
   for await (const msg of sub) {
-    console.log(`${sc.decode(msg.data)} on subject ${msg.subject}`);
+    console.log(`${msg.string()} on subject ${msg.subject}`);
   }
 })()
 
 // Let's publish three more messages which will result in the messages
 // being forwarded to the local subscription we have.
-nc.publish("greet.joe", sc.encode("hello"));
-nc.publish("greet.pam", sc.encode("hello"));
-nc.publish("greet.sue", sc.encode("hello"));
+nc.publish("greet.joe", "hello");
+nc.publish("greet.pam", "hello");
+nc.publish("greet.sue", "hello");
 
 // This will wait until the above async subscription handler finishes
 // processing the three messages. Note that the first message to

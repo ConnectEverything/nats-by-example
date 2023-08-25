@@ -25,7 +25,6 @@ var (
 		Go,
 		Python,
 		Deno,
-		Node,
 		Rust,
 		DotNet,
 		Java,
@@ -398,10 +397,8 @@ func chromaFormat(code, lang string) (string, error) {
 	switch lang {
 	case Shell, CLI:
 		lang = "sh"
-	case Deno, Bun:
+	case Deno:
 		lang = "ts"
-	case Node:
-		lang = "js"
 	case WebSocket:
 		lang = "js"
 	case DotNet:

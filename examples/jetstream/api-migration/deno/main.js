@@ -10,7 +10,7 @@ import {
   AckPolicy,
   connect,
   consumerOpts,
-} from "https://deno.land/x/nats@v1.14.0/src/mod.ts";
+} from "https://deno.land/x/nats@v1.16.0/src/mod.ts";
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string. If not defined, it will default to localhost:4222
