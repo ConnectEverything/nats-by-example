@@ -56,6 +56,9 @@ cluster: {
   port: 6222
   include cluster.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg1-az1
+}
 EOF
 
 cat <<- EOF > "rg1-az2.conf"
@@ -66,6 +69,9 @@ include shared.conf
 cluster: {
   port: 6223
   include cluster.conf
+}
+jetstream: {
+  store_dir: /tmp/nats/storage/rg1-az2
 }
 EOF
 
@@ -78,6 +84,9 @@ cluster: {
   port: 6224
   include cluster.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg1-az3
+}
 EOF
 
 cat <<- EOF > "rg2-az1.conf"
@@ -88,6 +97,9 @@ include shared.conf
 cluster: {
   port: 6225
   include cluster.conf
+}
+jetstream: {
+  store_dir: /tmp/nats/storage/rg2-az1
 }
 EOF
 
@@ -100,6 +112,9 @@ cluster: {
   port: 6226
   include cluster.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg2-az2
+}
 EOF
 
 cat <<- EOF > "rg2-az3.conf"
@@ -110,6 +125,9 @@ include shared.conf
 cluster: {
   port: 6227
   include cluster.conf
+}
+jetstream: {
+  store_dir: /tmp/nats/storage/rg2-az3
 }
 EOF
 
@@ -122,6 +140,9 @@ cluster: {
   port: 6228
   include cluster.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg3-az1
+}
 EOF
 
 cat <<- EOF > "rg3-az2.conf"
@@ -133,6 +154,9 @@ cluster: {
   port: 6229
   include cluster.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg3-az2
+}
 EOF
 
 cat <<- EOF > "rg3-az3.conf"
@@ -143,6 +167,9 @@ include shared.conf
 cluster: {
   port: 6230
   include cluster.conf
+}
+jetstream: {
+  store_dir: /tmp/nats/storage/rg3-az3
 }
 EOF
 
