@@ -265,7 +265,7 @@ func setDenoVersion(version string, base string) error {
 }
 
 func setDenoAllVersion(version string, base string) error {
-	matches, err := filepath.Glob(fmt.Sprintf("%s/*/*/deno/main.ts", base))
+	matches, err := filepath.Glob(fmt.Sprintf("%s/*/*/deno/main.js", base))
 	if err != nil {
 		return fmt.Errorf("%s: %w", base, err)
 	}

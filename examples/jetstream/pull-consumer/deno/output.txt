@@ -1,0 +1,12 @@
+[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
+[?25hephemeral consumer will live until inactivity of  5000 millis
+5BBBFRAUSKLDYENVH7E8K8.1
+5BBBFRAUSKLDYENVH7E8K8.2
+5BBBFRAUSKLDYENVH7E8K8.3
+5BBBFRAUSKLDYENVH7E8K8.1
+5BBBFRAUSKLDYENVH7E8K8.2
+5BBBFRAUSKLDYENVH7E8K8.3
+5BBBFRAUSKLDYENVH7E8K8.1
+5BBBFRAUSKLDYENVH7E8K8.2
+5BBBFRAUSKLDYENVH7E8K8.3

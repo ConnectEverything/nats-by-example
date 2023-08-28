@@ -87,6 +87,9 @@ gateway {
   port: 7222
   include gateway-routes.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg1-az1
+}
 EOF
 
 cat <<- EOF > "rg1-az2.conf"
@@ -108,6 +111,9 @@ gateway {
   port: 7223
   include gateway-routes.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg1-az2
+}
 EOF
 
 cat <<- EOF > "rg1-az3.conf"
@@ -128,6 +134,9 @@ gateway {
   name: rg1
   port: 7224
   include gateway-routes.conf
+}
+jetstream: {
+  store_dir: /tmp/nats/storage/rg1-az3
 }
 EOF
 
@@ -152,6 +161,9 @@ gateway {
   port: 7225
   include gateway-routes.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg2-az1
+}
 EOF
 
 cat <<- EOF > "rg2-az2.conf"
@@ -173,6 +185,9 @@ gateway {
   port: 7226
   include gateway-routes.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg2-az2
+}
 EOF
 
 cat <<- EOF > "rg2-az3.conf"
@@ -193,6 +208,9 @@ gateway {
   name: rg2
   port: 7227
   include gateway-routes.conf
+}
+jetstream: {
+  store_dir: /tmp/nats/storage/rg2-az3
 }
 EOF
 
@@ -217,6 +235,9 @@ gateway {
   port: 7228
   include gateway-routes.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg3-az1
+}
 EOF
 
 cat <<- EOF > "rg3-az2.conf"
@@ -238,6 +259,9 @@ gateway {
   port: 7229
   include gateway-routes.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg3-az2
+}
 EOF
 
 cat <<- EOF > "rg3-az3.conf"
@@ -258,6 +282,9 @@ gateway {
   name: rg3
   port: 7230
   include gateway-routes.conf
+}
+jetstream: {
+  store_dir: /tmp/nats/storage/rg3-az3
 }
 EOF
 
@@ -284,6 +311,9 @@ gateway {
   port: 7231
   include gateway-routes.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg1-az1-x
+}
 EOF
 
 cat <<- EOF > "rg2-az2-x.conf"
@@ -305,6 +335,9 @@ gateway {
   port: 7232
   include gateway-routes.conf
 }
+jetstream: {
+  store_dir: /tmp/nats/storage/rg2-az2-x
+}
 EOF
 
 cat <<- EOF > "rg3-az3-x.conf"
@@ -325,6 +358,9 @@ gateway {
   name: xr
   port: 7233
   include gateway-routes.conf
+}
+jetstream: {
+  store_dir: /tmp/nats/storage/rg3-az3-x
 }
 EOF
 

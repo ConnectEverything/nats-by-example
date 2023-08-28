@@ -29,7 +29,9 @@ server_name: n1
 
 include sys.conf
 
-jetstream: {}
+jetstream: {
+  store_dir: /tmp/nats/storage/n1
+}
 
 cluster: {
   name: east,
@@ -57,7 +59,9 @@ server_name: n2
 
 include sys.conf
 
-jetstream: {}
+jetstream: {
+  store_dir: /tmp/nats/storage/n2
+}
 
 cluster: {
   name: central,
@@ -86,7 +90,9 @@ server_name: n3
 
 include sys.conf
 
-jetstream: {}
+jetstream: {
+  store_dir: /tmp/nats/storage/n3
+}
 
 cluster: {
   name: west,

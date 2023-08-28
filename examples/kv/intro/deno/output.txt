@@ -1,0 +1,13 @@
+[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
+[?25hsue.color @ 1 -> blue
+sue.color @ 2 -> green
+wrong last sequence: 2
+sue.color @ 2 -> green
+KV stream name KV_profiles
+$KV.profiles.sue.color @ 2 -> 'green'
+$KV.profiles.sue.color @ 3 -> 'yellow'
+$KV.profiles.sue.color @ 4 -> ''
+kv operation: DEL
+History sue.color @ 4 -> 
+Updated sue.food @ 5 -> pizza

@@ -1,0 +1,11 @@
+{"version": 2, "width": 228, "height": 38, "timestamp": 1692914557, "env": {"SHELL": "/usr/local/bin/fish", "TERM": "xterm-256color"}, "title": "NATS by Example: jetstream/pull-consumer/deno"}
+[1.17997, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l"]
+[1.181001, "o", "[+] Building 0.0s (0/0)                                                                                                                                                                                                             \r\n\u001b[?25h"]
+[1.514447, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             \r\n\u001b[?25h"]
+[1.930303, "o", "ephemeral consumer will live until inactivity of  5000 millis\r\n"]
+[1.9339, "o", "5BBBFRAUSKLDYENVH7E8K8.1\r\n"]
+[1.935117, "o", "5BBBFRAUSKLDYENVH7E8K8.2\r\n"]
+[1.936231, "o", "5BBBFRAUSKLDYENVH7E8K8.3\r\n"]
+[1.979617, "o", "5BBBFRAUSKLDYENVH7E8K8.1\r\n"]
+[1.980137, "o", "5BBBFRAUSKLDYENVH7E8K8.2\r\n5BBBFRAUSKLDYENVH7E8K8.3\r\n"]
+[1.985156, "o", "5BBBFRAUSKLDYENVH7E8K8.1\r\n5BBBFRAUSKLDYENVH7E8K8.2\r\n5BBBFRAUSKLDYENVH7E8K8.3\r\n"]
