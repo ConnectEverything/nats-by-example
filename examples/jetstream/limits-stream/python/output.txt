@@ -1,0 +1,17 @@
+published 6 messages 
+
+[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=-1, max_bytes=-1, discard='old', max_age=0.0, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=120.0, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=6, bytes=296, first_seq=1, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)] 
+
+set max messages to 10 
+
+[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=10, max_bytes=-1, discard='old', max_age=0.0, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=120.0, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=6, bytes=296, first_seq=1, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)] 
+
+set max bytes to 300 
+
+[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=10, max_bytes=300, discard='old', max_age=0.0, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=120.0, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=6, bytes=296, first_seq=1, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)] 
+
+set max age to one second 
+
+[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=10, max_bytes=300, discard='old', max_age=0.1, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=0.1, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=6, bytes=296, first_seq=1, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)] 
+
+[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=10, max_bytes=300, discard='old', max_age=0.1, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=0.1, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=0, bytes=0, first_seq=7, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)]
