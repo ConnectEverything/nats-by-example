@@ -1,17 +1,24 @@
-published 6 messages 
+[1A[1B[0G[?25l[+] Creating 2/0
+ [32m✔[0m Network 263e8d57_default   [32mCreated[0m[34m0.1s [0m
+ [32m✔[0m Container 263e8d57-nats-1  [32mCreated[0m[34m0.0s [0m
+[?25h[1A[1B[0G[?25l[+] Running 0/0
 
-[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=-1, max_bytes=-1, discard='old', max_age=0.0, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=120.0, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=6, bytes=296, first_seq=1, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)] 
-
-set max messages to 10 
-
-[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=10, max_bytes=-1, discard='old', max_age=0.0, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=120.0, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=6, bytes=296, first_seq=1, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)] 
-
-set max bytes to 300 
-
-[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=10, max_bytes=300, discard='old', max_age=0.0, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=120.0, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=6, bytes=296, first_seq=1, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)] 
-
-set max age to one second 
-
-[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=10, max_bytes=300, discard='old', max_age=0.1, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=0.1, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=6, bytes=296, first_seq=1, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)] 
-
-[StreamInfo(config=StreamConfig(name='events', description=None, subjects=['events.*'], retention='limits', max_consumers=-1, max_msgs=10, max_bytes=300, discard='old', max_age=0.1, max_msgs_per_subject=-1, max_msg_size=-1, storage='file', num_replicas=1, no_ack=False, template_owner=None, duplicate_window=0.1, placement=None, mirror=None, sources=None, sealed=False, deny_delete=False, deny_purge=False, allow_rollup_hdrs=False, republish=None, allow_direct=False, mirror_direct=False), state=StreamState(messages=0, bytes=0, first_seq=7, last_seq=6, consumer_count=0, deleted=None, num_deleted=None, lost=None), mirror=None, sources=None, cluster=None, did_create=None)]
+[?25h[1A[1A[0G[?25l[34m[+] Running 1/1[0m
+ [32m✔[0m Container 263e8d57-nats-1  [32mStarted[0m[34m0.3s [0m
+[?25hTraceback (most recent call last):
+  File "//main.py", line 74, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/local/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "//main.py", line 22, in main
+    await js.delete_stream('events')
+  File "/usr/local/lib/python3.10/site-packages/nats/js/manager.py", line 120, in delete_stream
+    resp = await self._api_request(
+  File "/usr/local/lib/python3.10/site-packages/nats/js/manager.py", line 362, in _api_request
+    raise APIError.from_error(resp['error'])
+  File "/usr/local/lib/python3.10/site-packages/nats/js/errors.py", line 84, in from_error
+    raise NotFoundError(**err)
+nats.js.errors.NotFoundError: nats: NotFoundError: code=404 err_code=10059 description='stream not found'
+exit status 1
