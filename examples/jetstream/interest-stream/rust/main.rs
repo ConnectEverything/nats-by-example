@@ -172,7 +172,7 @@ async fn main() -> Result<(), async_nats::Error> {
     stream
         .create_consumer(jetstream::consumer::pull::Config {
             durable_name: Some("processor-3".to_string()),
-            filter_subject: "evennts.mouse_clicked".to_string(),
+            filter_subject: "events.mouse_clicked".to_string(),
             ack_policy: jetstream::consumer::AckPolicy::Explicit,
             ..Default::default()
         })
