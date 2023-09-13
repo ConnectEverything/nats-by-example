@@ -29,6 +29,7 @@ const (
 	Ruby      = "ruby"
 	Elixir    = "elixir"
 	Crystal   = "crystal"
+	LegacyGo  = "go-archive"
 )
 
 var (
@@ -47,6 +48,7 @@ var (
 		Ruby:      "Ruby",
 		Elixir:    "Elixir",
 		Crystal:   "Crystal",
+		LegacyGo:  "Go (legacy API)",
 	}
 
 	// TODO: add more as they become supported..
@@ -61,6 +63,7 @@ var (
 		Java:      "Main.java",
 		Crystal:   "main.cr",
 		DotNet:    "Main.cs",
+		LegacyGo:  "main.go",
 	}
 
 	languageMultiCommentDelims = map[string][2]string{
@@ -88,6 +91,7 @@ var (
 		Ruby:      "#",
 		Elixir:    "#",
 		Crystal:   "#",
+		LegacyGo:  "//",
 	}
 )
 
@@ -191,7 +195,7 @@ func parseLineType(lang, line string) LineType {
 		}
 		return NormalLine
 
-	case Go, DotNet, Java, Rust, C, Deno:
+	case Go, DotNet, Java, Rust, C, Deno, LegacyGo:
 		if cStyleSingleCommentLineRe.MatchString(line) {
 			return SingleCommentLine
 		}
