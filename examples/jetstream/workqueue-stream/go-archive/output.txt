@@ -1,0 +1,42 @@
+created the stream
+published 3 messages
+# Stream info without any consumers
+{
+ "messages": 3,
+ "bytes": 157,
+ "first_seq": 1,
+ "first_ts": "2023-03-16T13:37:00.414795194Z",
+ "last_seq": 3,
+ "last_ts": "2023-03-16T13:37:00.415026239Z",
+ "consumer_count": 0,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 3,
+ "subjects": null
+}
+
+# Stream info with one consumer
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 4,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 3,
+ "last_ts": "2023-03-16T13:37:00.415026239Z",
+ "consumer_count": 1,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}
+
+# Create an overlapping consumer
+nats: multiple non-filtered consumers not allowed on workqueue stream
+created the new consumer? true
+
+# Create non-overlapping consumers
+published 4 messages
+us sub got: events.us.page_loaded
+us sub got: events.us.input_focused
+eu sub got: events.eu.mouse_clicked
+eu sub got: events.eu.page_loaded

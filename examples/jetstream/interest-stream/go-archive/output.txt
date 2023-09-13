@@ -1,0 +1,92 @@
+created the stream
+published 3 messages
+last message seq: 3
+# Stream info without any consumers
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 4,
+ "first_ts": "2023-03-16T13:36:55.285325231Z",
+ "last_seq": 3,
+ "last_ts": "2023-03-16T13:36:55.285325231Z",
+ "consumer_count": 0,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}
+
+# Stream info with one consumer
+{
+ "messages": 2,
+ "bytes": 100,
+ "first_seq": 4,
+ "first_ts": "2023-03-16T13:36:55.286518428Z",
+ "last_seq": 5,
+ "last_ts": "2023-03-16T13:36:55.286615106Z",
+ "consumer_count": 1,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 2,
+ "subjects": null
+}
+
+# Stream info with one consumer and acked messages
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 6,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 5,
+ "last_ts": "2023-03-16T13:36:55.286615106Z",
+ "consumer_count": 1,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}
+msg seqs 6 and 7
+# Stream info with two consumers, but only one set of acked messages
+{
+ "messages": 2,
+ "bytes": 100,
+ "first_seq": 6,
+ "first_ts": "2023-03-16T13:36:55.287932986Z",
+ "last_seq": 7,
+ "last_ts": "2023-03-16T13:36:55.288010862Z",
+ "consumer_count": 2,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 2,
+ "subjects": null
+}
+
+# Stream info with two consumers having both acked
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 8,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 7,
+ "last_ts": "2023-03-16T13:36:55.288010862Z",
+ "consumer_count": 2,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}
+
+# Stream info with three consumers with interest from two
+{
+ "messages": 0,
+ "bytes": 0,
+ "first_seq": 9,
+ "first_ts": "1970-01-01T00:00:00Z",
+ "last_seq": 8,
+ "last_ts": "2023-03-16T13:36:55.28954615Z",
+ "consumer_count": 3,
+ "deleted": null,
+ "num_deleted": 0,
+ "num_subjects": 0,
+ "subjects": null
+}
