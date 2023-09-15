@@ -92,7 +92,7 @@ footer {
 }
 
 .container {
-  width: 1000px;
+  width: 1030px;
   margin: 0 auto;
 }
 
@@ -250,14 +250,17 @@ pre, code {
 }
 
 .example-code {
-  width: 50%;
-  margin-bottom: 30px;
+  border-top: 1px dashed #9e9e9e;
+  padding-left: 8px;
+  width: 60%;
 }
 
 .example-comment {
+  border-top: 1px dashed #9e9e9e;
+  background-color: #efe;
   width: 40%;
-  margin-right: 5%;
-  margin-bottom: 30px;
+  padding-left: 8px;
+  padding-right: 8px;
   user-select: none;
 }
 

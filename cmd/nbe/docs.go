@@ -27,6 +27,7 @@ var (
 		Deno,
 		Rust,
 		DotNet,
+		DotNet2,
 		Java,
 		Ruby,
 		Elixir,
@@ -401,7 +402,7 @@ func chromaFormat(code, lang string) (string, error) {
 		lang = "ts"
 	case WebSocket:
 		lang = "js"
-	case DotNet:
+	case DotNet, DotNet2:
 		lang = "cs"
 	}
 
