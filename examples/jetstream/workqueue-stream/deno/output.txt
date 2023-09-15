@@ -1,0 +1,35 @@
+[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
+[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
+[?25hcreated the stream
+published 3 messages
+# Stream info without consumers
+{
+  messages: 3,
+  bytes: 157,
+  first_seq: 1,
+  first_ts: "2023-09-15T20:54:47.662872342Z",
+  last_seq: 3,
+  last_ts: "2023-09-15T20:54:47.662987212Z",
+  num_subjects: 3,
+  consumer_count: 0
+}
+# Stream info with one consumer
+{
+  messages: 1,
+  bytes: 53,
+  first_seq: 3,
+  first_ts: "2023-09-15T20:54:47.662987212Z",
+  last_seq: 3,
+  last_ts: "2023-09-15T20:54:47.662987212Z",
+  num_subjects: 1,
+  consumer_count: 1
+}
+# Create an overlapping consumer
+multiple non-filtered consumers not allowed on workqueue stream
+created the new consumer
+# Create non-overlapping consumers
+published 4 messages
+worker-eu got: events.eu.mouse_clicked
+worker-us got: events.us.page_loaded
+worker-eu got: events.eu.page_loaded
+worker-us got: events.us.input_focused
