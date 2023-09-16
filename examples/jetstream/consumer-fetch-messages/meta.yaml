@@ -1,4 +1,4 @@
-title: Fetch Messages
+title: Consumer - Fetch Messages
 description: |-
   The new JetStream API provides simplified semantics for JetStream asset
   management and message consumption. It removes the complexity of `Subscribe()`
