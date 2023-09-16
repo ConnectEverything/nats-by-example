@@ -1,0 +1,7 @@
+title: Object-Store Intro
+description: |
+  The object-store (OS) capability in NATS is an abstraction over a stream
+  which models message subjects as _keys_ similar to KV, but with payloads that
+  span multiple chunks. This allows for assets that are larger, and are
+  typically loaded and read as readable/writable streams.
+
