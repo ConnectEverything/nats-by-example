@@ -1,0 +1,4 @@
+title: Object-Store
+description: |
+  A layer on top of JetStream for utilizing a stream as
+  an object store.
