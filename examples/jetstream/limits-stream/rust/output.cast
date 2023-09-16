@@ -1,0 +1,9 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1694884418, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/limits-stream/rust"}
+[4.026287, "o", "\u001b[1A\u001b[1B\u001b[0G"]
+[4.027347, "o", "\u001b[?25l[+] Creating 1/0"]
+[4.032918, "o", "\u001b[1A\u001b[1A\u001b[1A\u001b[0G"]
+[4.032971, "o", "\u001b[?25l"]
+[4.033146, "o", "\u001b[34m[+] Creating 2/2\u001b[0m"]
+[4.0332, "o", "\r\n \u001b[32m✔\u001b[0m Network 2d19fe6a_default   \u001b[32mCreated\u001b[0m\u001b[34m0.1s \u001b[0m\r\n \u001b[32m✔\u001b[0m Container 2d19fe6a-nats-1  \u001b[32mCreated\u001b[0m\u001b[34m0.0s \u001b[0m\r\n\u001b[?25h"]
+[4.133422, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l[+] Running 0/0\r\n"]
+[4.698821, "o", "\u001b[1A\u001b[1A\u001b[0G\u001b[?25l\u001b[34m[+] Running 1/1\u001b[0m\r\n \u001b[32m✔\u001b[0m Container 2d19fe6a-nats-1  \u001b[32mStarted\u001b[0m\u001b[34m0.7s \u001b[0m\r\n\u001b[?25h"]
