@@ -250,17 +250,14 @@ pre, code {
 }
 
 .example-code {
-  border-top: 1px dashed #9e9e9e;
-  padding-left: 8px;
-  width: 60%;
+  width: 50%;
+  margin-bottom: 30px;
 }
 
 .example-comment {
-  border-top: 1px dashed #9e9e9e;
-  background-color: #efe;
   width: 40%;
-  padding-left: 8px;
-  padding-right: 8px;
+  margin-right: 5%;
+  margin-bottom: 30px;
   user-select: none;
 }
 
