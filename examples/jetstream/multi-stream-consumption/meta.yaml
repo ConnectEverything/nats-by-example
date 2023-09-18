@@ -1,4 +1,4 @@
-title: Multi-Stream Consumption
+title: Multi-Stream Consumption (legacy)
 description: |-
   There may be use cases where a _fan-in_ of messages across streams
   may be desired. One way to achieve this is to create a push consumer

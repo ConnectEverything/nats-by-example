@@ -167,9 +167,9 @@ func main() {
 
 	time.Sleep(1 * time.Second)
 
-	fmt.Printf("fetch 1: %s\n", msgs1.Error())
-	fmt.Printf("fetch 2: %s\n", msgs2.Error())
-	fmt.Printf("fetch 3: %s\n", msgs3.Error())
+	fmt.Printf("fetch 1: %v\n", msgs1.Error())
+	fmt.Printf("fetch 2: %v\n", msgs2.Error())
+	fmt.Printf("fetch 3: %v\n", msgs3.Error())
 
 	// ### Max fetch timeout
 	// Normally each fetch call can specify it's own max wait timeout, i.e.

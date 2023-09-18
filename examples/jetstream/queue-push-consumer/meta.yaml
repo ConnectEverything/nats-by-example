@@ -1,4 +1,4 @@
-title: Queue Push Consumers
+title: Queue Push Consumers (legacy)
 description: |-
   A queue push consumer is analogous to a [core NATS queue group][qg], but
   designed to work with streams. Unlike a standard [push consumer][pc] which

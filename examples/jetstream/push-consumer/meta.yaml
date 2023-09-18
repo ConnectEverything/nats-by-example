@@ -1,4 +1,4 @@
-title: Push Consumers
+title: Push Consumers (legacy)
 description: |-
   A push consumer provides alternate control to a [pull consumer][1]. Rather
   than _fetching_ messages in controlled (and appropriately sized) batches

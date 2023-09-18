@@ -1,9 +1,0 @@
-{"version": 2, "width": 174, "height": 79, "timestamp": 1678973856, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: jetstream/pull-consumer/go"}
-[1.100176, "o", "ephemeral name is \"q3Ot10s0\"\r\n"]
-[1.100304, "o", "got 2 messages\r\n"]
-[1.100361, "o", "got 1 messages\r\n"]
-[2.101948, "o", "timeout? true\r\n"]
-[2.103805, "o", "received \"events.1\" from sub1\r\n"]
-[2.104218, "o", "received \"events.2\" from sub1 (after reconnect)\r\n"]
-[2.104653, "o", "received \"events.3\" from sub2\r\n"]
-[3.105501, "o", "timeout on sub1? true\r\n"]
