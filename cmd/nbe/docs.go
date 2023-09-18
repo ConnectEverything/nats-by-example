@@ -32,7 +32,6 @@ var (
 		Elixir,
 		Crystal,
 		C,
-		LegacyGo,
 	}
 )
 
