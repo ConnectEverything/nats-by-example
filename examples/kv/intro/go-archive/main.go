@@ -1,13 +1,11 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"os"
 	"time"
 
 	"github.com/nats-io/nats.go"
-	"github.com/nats-io/nats.go/jetstream"
 )
 
 func main() {
@@ -19,27 +17,23 @@ func main() {
 	nc, _ := nats.Connect(url)
 	defer nc.Drain()
 
-	js, _ := jetstream.New(nc)
-
-	// JetStream API uses context for timeouts and cancellation.
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
-	defer cancel()
+	js, _ := nc.JetStream()
 
 	// ### Bucket basics
 	// A key-value (KV) bucket is created by specifying a bucket name.
-	kv, _ := js.CreateKeyValue(ctx, jetstream.KeyValueConfig{
+	kv, _ := js.CreateKeyValue(&nats.KeyValueConfig{
 		Bucket: "profiles",
 	})
 
 	// As one would expect, the `KeyValue` interface provides the
 	// standard `Put` and `Get` methods. However, unlike most KV
 	// stores, a revision number of the entry is tracked.
-	kv.Put(ctx, "sue.color", []byte("blue"))
-	entry, _ := kv.Get(ctx, "sue.color")
+	kv.Put("sue.color", []byte("blue"))
+	entry, _ := kv.Get("sue.color")
 	fmt.Printf("%s @ %d -> %q\n", entry.Key(), entry.Revision(), string(entry.Value()))
 
-	kv.Put(ctx, "sue.color", []byte("green"))
-	entry, _ = kv.Get(ctx, "sue.color")
+	kv.Put("sue.color", []byte("green"))
+	entry, _ = kv.Get("sue.color")
 	fmt.Printf("%s @ %d -> %q\n", entry.Key(), entry.Revision(), string(entry.Value()))
 
 	// A revision number is useful when you need to enforce [optimistic
@@ -50,11 +44,11 @@ func main() {
 	// `kv.Update` method and specify the expected revision. Only if this
 	// matches on the server, will the value be updated.
 	// [occ]: https://en.wikipedia.org/wiki/Optimistic_concurrency_control
-	_, err := kv.Update(ctx, "sue.color", []byte("red"), 1)
+	_, err := kv.Update("sue.color", []byte("red"), 1)
 	fmt.Printf("expected error: %s\n", err)
 
-	kv.Update(ctx, "sue.color", []byte("red"), 2)
-	entry, _ = kv.Get(ctx, "sue.color")
+	kv.Update("sue.color", []byte("red"), 2)
+	entry, _ = kv.Get("sue.color")
 	fmt.Printf("%s @ %d -> %q\n", entry.Key(), entry.Revision(), string(entry.Value()))
 
 	// ### Stream abstraction
@@ -67,7 +61,7 @@ func main() {
 	// prefix as convention. Appropriate stream configuration are used that
 	// are optimized for the KV access patterns, so you can ignore the
 	// details.
-	name := <-js.StreamNames(ctx).Name()
+	name := <-js.StreamNames()
 	fmt.Printf("KV stream name: %s\n", name)
 
 	// Since it is a normal stream, we can create a consumer and
@@ -78,27 +72,26 @@ func main() {
 	// a namespace for all keys and thus there is no concern for conflict
 	// across buckets. This is different from what we need to do for a stream
 	// which is to bind a set of _public_ subjects to a stream.
-	cons, _ := js.CreateOrUpdateConsumer(ctx, "KV_profiles", jetstream.ConsumerConfig{
-		AckPolicy: jetstream.AckNonePolicy,
-	})
+	sub, _ := js.SubscribeSync("", nats.BindStream("KV_profiles"))
+	defer sub.Unsubscribe()
 
-	msg, _ := cons.Next()
+	msg, _ := sub.NextMsg(time.Second)
 	md, _ := msg.Metadata()
-	fmt.Printf("%s @ %d -> %q\n", msg.Subject(), md.Sequence.Stream, string(msg.Data()))
+	fmt.Printf("%s @ %d -> %q\n", msg.Subject, md.Sequence.Stream, string(msg.Data))
 
 	// Let's put a new value for this key and see what we get from the subscription.
-	kv.Put(ctx, "sue.color", []byte("yellow"))
-	msg, _ = cons.Next()
+	kv.Put("sue.color", []byte("yellow"))
+	msg, _ = sub.NextMsg(time.Second)
 	md, _ = msg.Metadata()
-	fmt.Printf("%s @ %d -> %q\n", msg.Subject(), md.Sequence.Stream, string(msg.Data()))
+	fmt.Printf("%s @ %d -> %q\n", msg.Subject, md.Sequence.Stream, string(msg.Data))
 
 	// Unsurprisingly, we get the new updated value as a message.
 	// Since it's KV interface, we should be able to delete a key as well.
 	// Does this result in a new message?
-	kv.Delete(ctx, "sue.color")
-	msg, _ = cons.Next()
+	kv.Delete("sue.color")
+	msg, _ = sub.NextMsg(time.Second)
 	md, _ = msg.Metadata()
-	fmt.Printf("%s @ %d -> %q\n", msg.Subject(), md.Sequence.Stream, msg.Data())
+	fmt.Printf("%s @ %d -> %q\n", msg.Subject, md.Sequence.Stream, msg.Data)
 
 	// 🤔 That is useful to get a message that something happened to that key,
 	// and that this is considered a new revision.
@@ -106,17 +99,17 @@ func main() {
 	// was deleted?
 	// To differentiate, delete-based messages contain a header. Notice the `KV-Operation: DEL`
 	// header.
-	fmt.Printf("headers: %v\n", msg.Headers())
+	fmt.Printf("headers: %v\n", msg.Header)
 
 	// ### Watching for changes
 	// Although one could subscribe to the stream directly, it is more convenient
 	// to use a `KeyWatcher` which provides a deliberate API and types for tracking
 	// changes over time. Notice that we can use a wildcard which we will come back to..
-	w, _ := kv.Watch(ctx, "sue.*")
+	w, _ := kv.Watch("sue.*")
 	defer w.Stop()
 
 	// Even though we deleted the key, of course we can put a new value.
-	kv.Put(ctx, "sue.color", []byte("purple"))
+	kv.Put("sue.color", []byte("purple"))
 
 	// If we receive from the *updates* channel, the value is a `KeyValueEntry`
 	// which exposes more KV-specific information than the raw stream message
@@ -141,7 +134,7 @@ func main() {
 	// message sequence number to indicate the _revision_. The guarantee being that it is always
 	// monotonically increasing, but numbers will be shared across keys (like subjects) rather
 	// than sequence numbers relative to each key.
-	kv.Put(ctx, "sue.food", []byte("pizza"))
+	kv.Put("sue.food", []byte("pizza"))
 
 	kve = <-w.Updates()
 	fmt.Printf("%s @ %d -> %q (op: %s)\n", kve.Key(), kve.Revision(), string(kve.Value()), kve.Operation())

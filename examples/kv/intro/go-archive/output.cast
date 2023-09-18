@@ -1,0 +1,11 @@
+{"version": 2, "width": 174, "height": 79, "timestamp": 1678974071, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: kv/intro/go"}
+[1.078454, "o", "sue.color @ 1 -> \"blue\"\r\n"]
+[1.078875, "o", "sue.color @ 2 -> \"green\"\r\n"]
+[1.078981, "o", "expected error: nats: wrong last sequence: 2\r\n"]
+[1.079157, "o", "sue.color @ 3 -> \"red\"\r\n"]
+[1.07935, "o", "KV stream name: KV_profiles\r\n"]
+[1.080037, "o", "$KV.profiles.sue.color @ 3 -> \"red\"\r\n"]
+[1.080174, "o", "$KV.profiles.sue.color @ 4 -> \"yellow\"\r\n"]
+[1.080287, "o", "$KV.profiles.sue.color @ 5 -> \"\"\r\nheaders: map[KV-Operation:[DEL]]\r\n"]
+[1.080663, "o", "sue.color @ 5 -> \"\" (op: KeyValueDeleteOp)\r\nsue.color @ 6 -> \"purple\" (op: KeyValuePutOp)\r\n"]
+[1.08089, "o", "sue.food @ 7 -> \"pizza\" (op: KeyValuePutOp)\r\n"]
