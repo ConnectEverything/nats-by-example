@@ -58,6 +58,7 @@ type Versions struct {
 	Rust      string
 	Java      string
 	DotNet    string
+	DotNet2   string
 }
 
 type Matrix struct {
@@ -71,6 +72,7 @@ type Matrix struct {
 	Rust      []string
 	Java      []string
 	DotNet    []string
+	DotNet2   []string
 }
 
 func openVersionsFile(path string) (*Versions, error) {
@@ -341,6 +343,7 @@ func setVersions(path string) error {
 		setRustVersion(vs.Rust, filepath.Join(dockerDir, "rust")),
 		setJavaVersion(vs.Java, filepath.Join(dockerDir, "java")),
 		setDotNetVersion(vs.DotNet, filepath.Join(dockerDir, "dotnet")),
+		setDotNetVersion(vs.DotNet2, filepath.Join(dockerDir, "dotnet2")),
 	}
 	if errs.Empty() {
 		return nil
@@ -359,6 +362,7 @@ func replaceVersions(dir string, vs *Versions) error {
 		setRustVersion(vs.Rust, dir),
 		setJavaVersion(vs.Java, dir),
 		setDotNetVersion(vs.DotNet, dir),
+		setDotNetVersion(vs.DotNet2, dir),
 	}
 	if errs.Empty() {
 		return nil
@@ -399,6 +403,8 @@ func (j *Job) Run() error {
 		vs.Java = j.ClientVersion
 	case "dotnet":
 		vs.DotNet = j.ClientVersion
+	case "dotnet2":
+		vs.DotNet2 = j.ClientVersion
 	}
 
 	b := ImageBuilder{
@@ -515,6 +521,8 @@ func runMatrix(workers int, path string, repo string, examples []string) error {
 			versions = m.Java
 		case "dotnet":
 			versions = m.DotNet
+		case "dotnet2":
+			versions = m.DotNet2
 		default:
 			return fmt.Errorf("unknown client: %s", client)
 		}
