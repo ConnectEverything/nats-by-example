@@ -5,3 +5,4 @@ examples:
   - nkeys-jwts
   - sys-account
   - private-inbox
+  - callout
