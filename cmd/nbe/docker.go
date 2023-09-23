@@ -342,8 +342,10 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		)
 	} else {
 		ansi := "auto"
+		progress := "auto"
 		if r.NoAnsi {
 			ansi = "never"
+			progress = "quiet"
 		}
 
 		// Run the app container.
@@ -351,6 +353,7 @@ func (r *ComposeRunner) Run(imageTag string) error {
 			"docker",
 			"compose",
 			"--ansi", ansi,
+			"--progress", progress,
 			"--project-name", uid,
 			"--project-directory", buildDir,
 			"--file", buildComposeFile,

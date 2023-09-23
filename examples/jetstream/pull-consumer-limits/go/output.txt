@@ -1,21 +1,22 @@
 --- max in-flight messages (n=1) ---
 requested 3, got 1
-nats: timeout
+requested 1, got 0
 requested 1, got 1
 
 --- max fetch batch size (n=2) ---
 nats: Exceeded MaxRequestBatch of 2
+received "hello"
+received "world"
 requested 2, got 2
 
 --- max waiting requests (n=1) ---
-is valid? true
+fetch 1: <nil>
+fetch 2: nats: Exceeded MaxWaiting
 fetch 3: nats: Exceeded MaxWaiting
-fetch 1: nats: Exceeded MaxWaiting
-fetch 2: nats: timeout
 
 --- max fetch timeout (d=1s) ---
-timeout occured? true in 1.000643734s
-nats: Exceeded MaxRequestExpires of 1s in 419.095µs
+error? false in 1.001727375s
+nats: Exceeded MaxRequestExpires of 1s
 
 --- max total bytes per fetch (n=4) ---
 nats: Exceeded MaxRequestMaxBytes of 3
