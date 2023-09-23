@@ -5,9 +5,9 @@ published 3 messages
  "messages": 3,
  "bytes": 157,
  "first_seq": 1,
- "first_ts": "2023-03-16T13:37:00.414795194Z",
+ "first_ts": "2023-09-23T10:53:51.30335067Z",
  "last_seq": 3,
- "last_ts": "2023-03-16T13:37:00.415026239Z",
+ "last_ts": "2023-09-23T10:53:51.303580837Z",
  "consumer_count": 0,
  "deleted": null,
  "num_deleted": 0,
@@ -22,7 +22,7 @@ published 3 messages
  "first_seq": 4,
  "first_ts": "1970-01-01T00:00:00Z",
  "last_seq": 3,
- "last_ts": "2023-03-16T13:37:00.415026239Z",
+ "last_ts": "2023-09-23T10:53:51.303580837Z",
  "consumer_count": 1,
  "deleted": null,
  "num_deleted": 0,
@@ -31,7 +31,7 @@ published 3 messages
 }
 
 # Create an overlapping consumer
-nats: multiple non-filtered consumers not allowed on workqueue stream
+nats: API error: code=400 err_code=10099 description=multiple non-filtered consumers not allowed on workqueue stream
 created the new consumer? true
 
 # Create non-overlapping consumers

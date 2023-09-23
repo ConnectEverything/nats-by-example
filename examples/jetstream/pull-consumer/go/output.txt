@@ -1,8 +1,8 @@
-ephemeral name is "q3Ot10s0"
+received msg on events.1
+received msg on events.2
+received msg on events.3
 got 2 messages
 got 1 messages
-timeout? true
-received "events.1" from sub1
-received "events.2" from sub1 (after reconnect)
-received "events.3" from sub2
-timeout on sub1? true
+got 0 messages in 1.001453292s
+received "events.1" from durable consumer
+consumer deleted: true

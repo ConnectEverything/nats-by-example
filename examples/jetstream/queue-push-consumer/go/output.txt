@@ -1,14 +1,14 @@
 # Durable (implicit)
 deliver group: "event-processor"
-deliver subject: "_INBOX.ELpxpVZgyrSSX5ZJihHWJE"
-sub1: receive timeout
-sub2: received message "events.1"
-sub3: received message "events.2"
+deliver subject: "_INBOX.kP51owQxv7lYEj35j0Bss8"
+sub1: received message "events.1"
+sub2: receive timeout
+sub3: received message "events.6"
 
 # Durable (explicit)
-sub2: received message "events.1"
-sub2: received message "events.2"
-sub2: received message "events.5"
-sub3: received message "events.3"
-sub1: received message "events.4"
-sub1: received message "events.6"
+sub3: received message "events.4"
+sub3: received message "events.5"
+sub3: received message "events.6"
+sub1: received message "events.1"
+sub1: received message "events.2"
+sub2: received message "events.3"

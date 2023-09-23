@@ -16,7 +16,7 @@ received "events.2"
 received "events.3"
 
 # New API
-Created consumer YYiSIIiC
+Created consumer H9O2LjJO
 # Consume messages using Consume()
 received "events.1"
 received "events.2"
