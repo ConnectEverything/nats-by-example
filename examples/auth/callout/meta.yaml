@@ -5,7 +5,8 @@ description: |-
   for more details.
 
   This example demonstrates how auth callout can be configured within server configuration.
-  This is combined with a basic service that handles the authorization requests delegated
+  This is combined with a [basic service][service] that handles the authorization requests delegated
   by the NATS server.
 
   [docs]: https://docs.nats.io/running-a-nats-service/configuration/security_nats/auth_callout
+  [service]: https://github.com/ConnectEverything/nats-by-example/blob/main/examples/auth/callout/cli/service/main.go
