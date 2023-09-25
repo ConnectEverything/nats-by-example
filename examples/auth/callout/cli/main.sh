@@ -39,7 +39,7 @@ system_account: SYS
 EOF
 
 # Start the server.
-nats-server -c server.conf -D & #> /dev/null 2>&1 &
+nats-server -c server.conf > /dev/null 2>&1 &
 sleep 1
 
 # Write out some users emulating a user directory backend.
