@@ -1,4 +1,4 @@
-title: Microservices Framework (micro) Intro
+title: Intro
 description: |
   NATS services have always been straightforward to write. However, with the micro
   framework, the NATS client library further simplifies the building, discovery and
