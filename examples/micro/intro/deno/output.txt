@@ -1,0 +1,60 @@
+max value { max: 2 }
+min value { max: -1 }
+results from PING
+{
+  type: "io.nats.micro.v1.ping_response",
+  name: "minmax",
+  id: "NRLMNQN7ZCTBM8E7A73OVS",
+  version: "0.0.1"
+}
+results from INFO
+{
+  type: "io.nats.micro.v1.info_response",
+  name: "minmax",
+  id: "NRLMNQN7ZCTBM8E7A73OVS",
+  version: "0.0.1",
+  description: "returns the max/min number in a request",
+  endpoints: [
+    {
+      subject: "minmax.max",
+      metadata: { schema: "input a JSON serialized JSON array, output the largest value" },
+      name: "max",
+      queue_group: "q"
+    },
+    {
+      subject: "minmax.min",
+      metadata: { schema: "input a JSON serialized JSON array, output the smallest value" },
+      name: "min",
+      queue_group: "q"
+    }
+  ]
+}
+results from STATS
+{
+  type: "io.nats.micro.v1.stats_response",
+  name: "minmax",
+  id: "NRLMNQN7ZCTBM8E7A73OVS",
+  version: "0.0.1",
+  started: "2023-10-03T18:38:23.422Z",
+  endpoints: [
+    {
+      name: "max",
+      subject: "minmax.max",
+      average_processing_time: 1000000,
+      num_errors: 0,
+      num_requests: 1,
+      processing_time: 1000000,
+      queue_group: "q"
+    },
+    {
+      name: "min",
+      subject: "minmax.min",
+      average_processing_time: 0,
+      num_errors: 0,
+      num_requests: 1,
+      processing_time: 0,
+      queue_group: "q"
+    }
+  ]
+}
+service stopped 
