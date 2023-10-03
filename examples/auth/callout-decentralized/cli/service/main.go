@@ -10,20 +10,10 @@ import (
 	"os/signal"
 	"path/filepath"
 	"strings"
-	"time"
 
 	"github.com/nats-io/jwt/v2"
 	"github.com/nats-io/nats.go"
 	"github.com/nats-io/nkeys"
-)
-
-const (
-	AuthCalloutSubject     = "$SYS.REQ.USER.AUTH"
-	AuthInfoSubject        = "$SYS.REQ.USER.INFO"
-	AuthRequestJWTAudience = "nats-authorization-request"
-	AuthAccountSigHeader   = "Auth-Account-Sig"
-	AuthAccountPkHeader    = "Auth-Account-Pk"
-	AuthCalloutServerIdTag = "Auth-Callout-Server-ID"
 )
 
 func main() {
@@ -35,171 +25,200 @@ func main() {
 
 func run() error {
 	var (
-		natsUrl            string
-		natsCreds          string
-		natsAccount        string
-		natsTargetAccounts string
-		userDir            string
+		natsUrl         string
+		natsUser        string
+		natsPass        string
+		natsCreds       string
+		issuerSeed      string
+		xkeySeed        string
+		signingKeyFiles string
+		usersFile       string
 	)
 
-	flag.StringVar(&natsUrl, "nats", nats.DefaultURL, "NATS server URL")
-	flag.StringVar(&natsCreds, "creds", "", "NATS auth credentials file")
-	flag.StringVar(&natsAccount, "account", "", "NATS auth account nkey file")
-	flag.StringVar(&natsTargetAccounts, "targets", "", "Comma-separated list of account nkey files")
-	flag.StringVar(&userDir, "users", "", "User directory file")
+	flag.StringVar(&natsUrl, "nats.url", nats.DefaultURL, "NATS server URL")
+	flag.StringVar(&natsUser, "nats.user", "", "NATS user")
+	flag.StringVar(&natsPass, "nats.pass", "", "NATS password")
+	flag.StringVar(&natsCreds, "nats.creds", "", "NATS creds file")
+	flag.StringVar(&issuerSeed, "issuer.seed", "", "Issuer seed")
+	flag.StringVar(&xkeySeed, "xkey.seed", "", "Xkey seed")
+	flag.StringVar(&signingKeyFiles, "signing.keys", "", "Signing keys")
+	flag.StringVar(&usersFile, "users", "", "Users file")
 
 	flag.Parse()
 
-	log.SetPrefix("[auth] ")
-
-	// Read the credentials file to extract the seed in order to sign
-	// the authorization response JWTs.
-	authKey, err := loadAuthKey(natsAccount)
+	// Parse the issuer account signing key.
+	issuerKeyPair, err := fromSeedOrFile(issuerSeed)
 	if err != nil {
-		return fmt.Errorf("error reading creds file: %s", err)
+		return fmt.Errorf("error parsing issuer seed: %s", err)
 	}
 
-	log.Printf("loaded auth key: %s", authKey)
+	// Parse the xkey seed if present.
+	var curveKeyPair nkeys.KeyPair
+	if len(xkeySeed) > 0 {
+		curveKeyPair, err = fromSeedOrFile(xkeySeed)
+		if err != nil {
+			return fmt.Errorf("error parsing xkey seed: %s", err)
+		}
+	}
 
 	// Parse each of the account signing key files can create a map
 	// of the local name to the key pair.
-	accountKeys, err := loadAccountKeys(strings.Split(natsTargetAccounts, ","))
+	var signingKeys map[string]*signingKey
+	if len(signingKeyFiles) > 0 {
+		signingKeys, err = loadSigningKeys(strings.Split(signingKeyFiles, ","))
+		if err != nil {
+			return fmt.Errorf("error loading signing keys: %s", err)
+		}
+	}
+
+	// Load users from the users file, emulating an IAM backend.
+	users, err := loadUsers(usersFile)
 	if err != nil {
-		return fmt.Errorf("error loading account keys: %s", err)
+		return fmt.Errorf("error loading users: %s", err)
 	}
 
-	for name := range accountKeys {
-		log.Printf("loaded account key: %s", name)
-	}
-
-	// Emulate a user directory which assigns the account
-	// and the permissions.
-	userDirectory, err := loadUserDirectory(userDir)
-	if err != nil {
-		return fmt.Errorf("error loading user directory: %s", err)
-	}
-
-	for name := range userDirectory {
-		log.Printf("loaded user: %s", name)
+	var opts []nats.Option
+	if natsCreds != "" {
+		opts = append(opts, nats.UserCredentials(natsCreds))
+	} else {
+		opts = append(opts, nats.UserInfo(natsUser, natsPass))
 	}
 
 	// Open the NATS connection passing the auth account creds file.
-	nc, err := nats.Connect(natsUrl, nats.UserCredentials(natsCreds))
+	nc, err := nats.Connect(natsUrl, opts...)
 	if err != nil {
 		return err
 	}
 	defer nc.Drain()
 
-	msgHandler := func(msg *nats.Msg) {
-		// Decode the authorization request claims.
-		rc, err := jwt.DecodeAuthorizationRequestClaims(string(msg.Data))
+	// Helper function to construct an authorization response.
+	respondMsg := func(msg *nats.Msg, userNkey, serverId, userJwt, errMsg string) {
+		rc := jwt.NewAuthorizationResponseClaims(userNkey)
+		rc.Audience = serverId
+		rc.Error = errMsg
+		rc.Jwt = userJwt
+
+		b, _ := json.MarshalIndent(rc, "", "  ")
+		log.Printf("response JWT: %s", string(b))
+
+		// Sign the response with the issuer account.
+		token, err := rc.Encode(issuerKeyPair)
 		if err != nil {
-			respondMsg(msg, "", err.Error())
+			log.Printf("error encoding response JWT: %s", err)
+			msg.Respond(nil)
 			return
 		}
 
-		b, _ := json.MarshalIndent(rc, "", "  ")
-		log.Printf("authorization request: %s", string(b))
+		data := []byte(token)
 
-		//
-		// Authentication stage...
-		//
+		// Check if encryption is required.
+		xkey := msg.Header.Get("Nats-Server-Xkey")
+		if len(xkey) > 0 {
+			data, err = curveKeyPair.Seal(data, xkey)
+			if err != nil {
+				log.Printf("error encrypting response JWT: %s", err)
+				msg.Respond(nil)
+				return
+			}
+		}
 
-		// Extract out the credentials.
-		user := rc.ConnectOptions.Username
-		pass := rc.ConnectOptions.Password
+		log.Print("responding to authorization request")
+
+		msg.Respond(data)
+	}
+
+	// Define the message handler for the authorization request.
+	msgHandler := func(msg *nats.Msg) {
+		var token []byte
+
+		// Check for Xkey header and decrypt
+		xkey := msg.Header.Get("Nats-Server-Xkey")
+		if len(xkey) > 0 {
+			if curveKeyPair == nil {
+				respondMsg(msg, "", "", "", "xkey not supported")
+				return
+			}
+
+			// Decrypt the message.
+			token, err = curveKeyPair.Open(msg.Data, xkey)
+			if err != nil {
+				respondMsg(msg, "", "", "", fmt.Sprintf("error decrypting message: %s", err))
+				return
+			}
+		} else {
+			token = msg.Data
+		}
+
+		// Decode the authorization request claims.
+		rc, err := jwt.DecodeAuthorizationRequestClaims(string(token))
+		if err != nil {
+			respondMsg(msg, "", "", "", err.Error())
+			return
+		}
+
+		// Used for creating the auth response.
+		userNkey := rc.UserNkey
+		serverId := rc.Server.ID
 
 		// Check if the user exists.
-		userProfile, ok := userDirectory[user]
+		userProfile, ok := users[rc.ConnectOptions.Username]
 		if !ok {
-			log.Printf("user not found: %s", user)
-			respondMsg(msg, "", "user not found")
+			respondMsg(msg, userNkey, serverId, "", "user not found")
 			return
 		}
 
 		// Check if the credential is valid.
-		if userProfile.Pass != pass {
-			log.Printf("invalid credentials for user: %s", user)
-			respondMsg(msg, "", "invalid credentials")
+		if userProfile.Pass != rc.ConnectOptions.Password {
+			respondMsg(msg, userNkey, serverId, "", "invalid credentials")
 			return
 		}
 
-		// Check if a NATS account is associated with this user.
-		if userProfile.NATS.Account == "" {
-			log.Printf("user not associated with a NATS account: %s", user)
-			respondMsg(msg, "", "user not associated with a NATS account")
-			return
-		}
-
-		// Check the if signing key exists for this account.
-		accountKP, ok := accountKeys[userProfile.NATS.Account]
-		if !ok {
-			log.Printf("NATS account not found: %s", userProfile.NATS.Account)
-			respondMsg(msg, "", "NATS account not found")
-			return
-		}
-
-		//
-		// Authorization prep...
-		//
-
-		// Prepare a user JWT
+		// Prepare a user JWT.
 		uc := jwt.NewUserClaims(rc.UserNkey)
-		uc.Name = user
+		uc.Name = rc.ConnectOptions.Username
 
-		// Set the associated permissions.
-		uc.Permissions = userProfile.NATS.Permissions
+		// Check if signing key is associated, otherwise assume non-operator mode
+		// and set the audience to the account.
+		var sk nkeys.KeyPair
+		signingKey, ok := signingKeys[userProfile.Account]
+		if !ok {
+			uc.Audience = userProfile.Account
+		} else {
+			sk = signingKey.KeyPair
+			uc.IssuerAccount = signingKey.PublicKey
+		}
 
-		// Set an optional expiry that will result in the server forcing the
-		// client to re-authenticate after that time.
-		uc.Expires = time.Now().Add(10 * time.Minute).Unix()
+		// Set the associated permissions if present.
+		uc.Permissions = userProfile.Permissions
 
-		// Set the issuer as the target account (via the signing key).
-		uc.Issuer, _ = accountKP.PublicKey()
-
-		// Set a tag indicating the user the original request came from.
-		uc.Tags.Add(fmt.Sprintf("%s:%s", AuthCalloutServerIdTag, rc.Server.ID))
+		b, _ := json.MarshalIndent(uc, "", "  ")
+		log.Printf("user JWT: %s", string(b))
 
 		// Validate the claims.
 		vr := jwt.CreateValidationResults()
 		uc.Validate(vr)
 		if len(vr.Errors()) > 0 {
-			log.Printf("error validating claims: %s", vr.Errors())
-			respondMsg(msg, "", fmt.Sprintf("error validating claims: %s", vr.Errors()))
+			respondMsg(msg, userNkey, serverId, "", fmt.Sprintf("error validating claims: %s", vr.Errors()))
 			return
 		}
 
-		// Sign it with the target account signing key.
-		ejwt, err := uc.Encode(accountKP)
+		// Sign it with the issuer key.
+		ejwt, err := uc.Encode(sk)
 		if err != nil {
-			log.Printf("error encoding user JWT: %s", err)
-			respondMsg(msg, "", "error encoding user JWT")
+			respondMsg(msg, userNkey, serverId, "", fmt.Sprintf("error signing user JWT: %s", err))
 			return
 		}
 
-		// Prepare the authorization response claims.
-		cr := jwt.NewAuthorizationResponseClaims(rc.UserNkey)
-		cr.Audience = rc.Server.ID
-		cr.Jwt = ejwt
-		rjwt, err := cr.Encode(authKey)
-		if err != nil {
-			log.Printf("error encoding response JWT: %s", err)
-			respondMsg(msg, "", "error encoding response JWT")
-			return
-		}
-
-		respondMsg(msg, rjwt, "")
+		respondMsg(msg, userNkey, serverId, ejwt, "")
 	}
 
 	// Create a queue subscription to the auth callout subject. This
 	// allows for running multiple instances to distribute the load
 	// and provide high availability.
-	_, err = nc.QueueSubscribe(AuthCalloutSubject, "auth-callout", msgHandler)
+	_, err = nc.QueueSubscribe("$SYS.REQ.USER.AUTH", "auth-callout", msgHandler)
 	if err != nil {
 		return err
 	}
-
-	fmt.Println("auth service: listening for auth requests")
 
 	// Block and wait for interrupt.
 	sigch := make(chan os.Signal, 1)
@@ -209,95 +228,66 @@ func run() error {
 	return nil
 }
 
-type CalloutResponse struct {
-	Error     string `json:"error,omitempty"`
-	UserToken string `json:"user_token,omitempty"`
+type signingKey struct {
+	PublicKey string
+	KeyPair   nkeys.KeyPair
 }
 
-func respondMsg(msg *nats.Msg, err string, userToken string) {
-	cr := CalloutResponse{
-		Error:     err,
-		UserToken: userToken,
-	}
-	b, _ := json.Marshal(cr)
-	rc := jwt.NewAuthorizationResponseClaims()
-	vr := jwt.CreateValidationResults()
-	rc.Validate(vr)
-	if len(vr.Errors()) > 0 {
-		log.Printf("error validating claims: %s", vr.Errors())
-		respondMsg(msg, "", fmt.Sprintf("error validating claims: %s", vr.Errors()))
-		return
-	}
+func loadSigningKeys(keyFiles []string) (map[string]*signingKey, error) {
+	keys := make(map[string]*signingKey)
 
-	msg.Respond(b)
-}
+	for _, item := range keyFiles {
+		toks := strings.Split(item, ":")
+		if len(toks) != 2 {
+			return nil, fmt.Errorf("invalid signing key format: %s", item)
+		}
+		pk, fname := toks[0], toks[1]
 
-func loadAuthKey(fname string) (nkeys.KeyPair, error) {
-	contents, err := ioutil.ReadFile(fname)
-	if err != nil {
-		return nil, fmt.Errorf("error reading seed file: %s", err)
-	}
-	kp, err := nkeys.FromSeed(contents)
-	if err != nil {
-		return nil, fmt.Errorf("error parsing seed: %s", err)
-	}
-	pk, err := kp.PublicKey()
-	if err != nil {
-		return nil, fmt.Errorf("error extracting public key: %s", err)
-	}
-	// Check this is an account key pair.
-	if pk[0] != 'A' {
-		return nil, fmt.Errorf("invalid account key: %s", pk)
-	}
-	return kp, nil
-}
-
-func loadAccountKeys(keyFiles []string) (map[string]nkeys.KeyPair, error) {
-	accountKeys := make(map[string]nkeys.KeyPair)
-	for _, fname := range keyFiles {
-		contents, err := ioutil.ReadFile(fname)
+		kp, err := fromSeedOrFile(fname)
 		if err != nil {
-			return nil, fmt.Errorf("error reading seed file: %s", err)
+			return nil, fmt.Errorf("error loading signing key: %s", err)
 		}
-		kp, err := nkeys.FromSeed(contents)
-		if err != nil {
-			return nil, fmt.Errorf("error parsing seed: %s", err)
-		}
-		pk, err := kp.PublicKey()
-		if err != nil {
-			return nil, fmt.Errorf("error extracting public key: %s", err)
-		}
-		// Check this is an account key pair.
-		if pk[0] != 'A' {
-			return nil, fmt.Errorf("invalid account key: %s", pk)
-		}
-		// Get the basename of the file for local name.
-		name := filepath.Base(fname)
-		accountKeys[name] = kp
+		name := strings.SplitN(filepath.Base(fname), ".", 2)[0]
+		keys[name] = &signingKey{PublicKey: pk, KeyPair: kp}
 	}
 
-	return accountKeys, nil
+	return keys, nil
 }
 
+// fromSeedOrFile will attempt to load a keypair from a seed file or
+// or a literal seed string.
+func fromSeedOrFile(seedOrFile string) (nkeys.KeyPair, error) {
+	contents, err := ioutil.ReadFile(seedOrFile)
+	if err != nil {
+		if os.IsNotExist(err) {
+			contents = []byte(seedOrFile)
+		} else {
+			return nil, fmt.Errorf("failed to read file: %s", err)
+		}
+	}
+
+	return nkeys.FromSeed(contents)
+}
+
+// Model the user encoded in the users file.
 type User struct {
-	Pass string
-	NATS struct {
-		Account     string
-		Permissions jwt.Permissions
-	}
+	Pass        string
+	Account     string
+	Permissions jwt.Permissions
 }
 
-func loadUserDirectory(file string) (map[string]*User, error) {
-	data, err := ioutil.ReadFile(file)
+// Load and decode the users file.
+func loadUsers(usersFile string) (map[string]*User, error) {
+	users := make(map[string]*User)
+	data, err := os.ReadFile(usersFile)
 	if err != nil {
 		return nil, fmt.Errorf("error reading user directory: %s", err)
 	}
 
-	dir := make(map[string]*User)
-	err = json.Unmarshal(data, &dir)
+	err = json.Unmarshal(data, &users)
 	if err != nil {
 		return nil, fmt.Errorf("error parsing user directory: %s", err)
 	}
 
-	return dir, nil
+	return users, nil
 }

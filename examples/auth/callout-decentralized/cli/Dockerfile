@@ -1,6 +1,6 @@
 FROM golang:1.21-alpine3.17 AS build
 
-RUN apk update && apk add git bash curl
+RUN apk update && apk add git bash curl jq
 
 RUN go install github.com/nats-io/nats-server/v2@v2.10.1
 RUN go install github.com/nats-io/natscli/nats@v0.1.1

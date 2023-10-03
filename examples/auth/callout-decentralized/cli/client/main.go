@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/nats-io/nats.go"
@@ -39,6 +40,8 @@ func run() error {
 		return err
 	}
 	defer nc.Drain()
+
+	log.Printf("%s connected to %s", user, nc.ConnectedUrl())
 
 	return nil
 }
