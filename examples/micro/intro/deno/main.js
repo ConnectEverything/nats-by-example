@@ -9,7 +9,8 @@ const nc = await connect({
   servers: servers.split(","),
 });
 
-// ### Microservices basics
+// ### Defining a service
+//
 // Define the service. Note that at this point no service endpoints
 // have been added, but the service is already discoverable!
 const srv = await nc.services.add({
@@ -24,11 +25,14 @@ srv.stopped.then((err) => {
   console.log(`service stopped ${err ? err.message : ""}`);
 });
 
+// ### Adding endpoints
+//
 // For the minmax service we are going to reserve a root subject of
 // `minmax` and group services in it. This will prevent polluting the
 // subject space. You can add nested groups and mix with endpoints
-// as your API requires
+// as your API requires.
 const root = srv.addGroup("minmax");
+
 // Now add an endpoint - the endpoint is a subscription. The
 // endpoint will put together the name of the endpoint and any previous
 // subjects together. In this case `max` is the endpoint, and it will
@@ -36,9 +40,9 @@ const root = srv.addGroup("minmax");
 root.addEndpoint("max", {
   handler: (err, msg) => {
     if (err) {
-      // We got a permissions error, we'll simply report it and stop
       srv.stop(err).finally(() => {});
     }
+
     // The payload is an encoded JSON array, the decode function
     // simply performs some small checks and validations and
     // returns an array that is sorted or null. If null, the payload
@@ -53,12 +57,14 @@ root.addEndpoint("max", {
   },
 });
 
-// The javascript client can also use iterators to handle requests
+// Alternately, the JavaScript client can use iterators to handle requests
+// instead of the `handler` callback.
 const min = root.addEndpoint("min", {
   metadata: {
     schema: "input a JSON serialized JSON array, output the smallest value",
   },
 });
+
 (async () => {
   for await (const msg of min) {
     const values = decode(msg);
@@ -67,20 +73,21 @@ const min = root.addEndpoint("min", {
     }
   }
 })().catch((err) => {
-  // the iterator stopped due to an error
   srv.stop(err).finally(() => {});
 });
 
-// The services framework is fairly straight forward. Now let's make
-// a couple requests into the service
+// ### Sending requests
+//
+// Now let's make a couple requests into the service which uses the standard
+// `nc.request` API. Note the subject hiearchy is composed of the group and
+// the endpoint.
 let r = await nc.request("minmax.max", JSON.stringify([-1, 2, 100, -2000]));
-// Clients can check if there was an error processing the request
 if (!ServiceError.isServiceError(r)) {
   console.log("max value", r.json());
 } else {
   console.log(ServiceError.toServiceError(r));
 }
-// And the for the `min` portion...
+
 r = await nc.request("minmax.min", JSON.stringify([-1, 2, 100, -2000]));
 if (!ServiceError.isServiceError(r)) {
   console.log("min value", r.json());
@@ -88,35 +95,41 @@ if (!ServiceError.isServiceError(r)) {
   console.log(ServiceError.toServiceError(r));
 }
 
-// The javascript clients provide a simple client for interacting
-// with services created with the micro framework. The subjects
-// used are simply `SRV.<PING|STATS|INFO>`
-// if a service name is specified:
-// `SRV.<PING|STATS|INFO>.<service>`
-// if a service name and id:
-// `SRV.<PING|STATS|INFO>.<service>.<id>`
-
+// ### Service APIs
+//
+// Services defined by the micro framework expose a set of APIs that
+// can be used to query various aspects of the service. This includes
+// the `ping`, `info`, and `stats` APIs. The top-level subjects of these
+// APIs are `$SRV.PING`, `$SRV.INFO`, and `$SRV.STATS`, respectively.
+// The service `name` and `id` can be appended to the subject to narrow
+// the scope of the query. For example, `$SRV.PING.minmax` will ping
+// the `minmax` service. The `id` can be used to query a specific
+// instance of a service, identified by the unique ID. For example
+// `$SRV.PING.minmax.1` will ping the service instance with ID `1`.
 const sc = nc.services.client();
-// The `ping()` request returns service infos. Our services will
-// return an info. The monitoring and discovery APIs can target
-// specific service names or particular service IDs, for now we
-// simply want to see all services built with micro that are out there.
+
+// The `ping` API will ping each service that is online and will return
+// basic information about the service(s) that respond.
 let iter = await sc.ping();
 console.log("results from PING");
 for await (const si of iter) {
   console.log(si);
 }
-// the stats API returns a status report of for each endpoint
+
+// The `info` API is a superset of the `ping` API and will return
+// more information, such as the endpoints per service.
+iter = await sc.info();
+console.log("results from INFO");
+for await (const i of iter) {
+  console.log(i);
+}
+
+// Finally, the `stats` API returns a statistics report for each service
+// broken down by endpoint.
 iter = await sc.stats();
 console.log("results from STATS");
 for await (const si of iter) {
   console.log(si);
-}
-// returns info about the service and each endpoint
-console.log("results from INFO");
-iter = await sc.info();
-for await (const i of iter) {
-  console.log(i);
 }
 
 function decode(m) {
@@ -138,6 +151,5 @@ function decode(m) {
   }
 }
 
-// cleanup
 await srv.stop();
 await nc.close();

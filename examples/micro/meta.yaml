@@ -1,3 +1,4 @@
-title: Microservices Framework
+title: Micro Framework
 description: |
-  A layer on top of NATS core for that simplifies building of services.
+  A layer on top of core NATS for building services in a
+  simple and consistent way.
