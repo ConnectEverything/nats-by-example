@@ -1,0 +1,8 @@
+title: Microservices Framework (micro) Intro
+description: |
+  NATS services have always been easy to write. With the microservices framework,
+  the NATS client library further simplifies the building, discovery and monitoring
+  of services. The framework automatically places all subscriptions in a queue group
+  and provides functionality for building subject hierarchies and their handlers.
+  Without any additional effort, the library also provides a discovery and status reporting.
+  
