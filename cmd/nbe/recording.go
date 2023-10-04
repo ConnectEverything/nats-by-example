@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"bytes"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -38,7 +37,7 @@ func generateRecording(repo, example string, recreate bool) error {
 
 		name := strings.TrimPrefix(example, "examples/")
 
-		tempFile, _ := ioutil.TempFile("", "")
+		tempFile, _ := os.CreateTemp("", "")
 		tempName := tempFile.Name()
 		tempFile.Close()
 		defer os.Remove(tempName)
@@ -60,14 +59,14 @@ func generateRecording(repo, example string, recreate bool) error {
 			return fmt.Errorf("asciinema rec: %w", err)
 		}
 
-		contents, err := ioutil.ReadFile(tempName)
+		contents, err := os.ReadFile(tempName)
 		if err != nil {
 			return err
 		}
 
 		contents = removeComposeLines(contents)
 
-		ioutil.WriteFile(castFile, contents, 0644)
+		os.WriteFile(castFile, contents, 0644)
 	}
 
 	c := exec.Command(
@@ -79,7 +78,7 @@ func generateRecording(repo, example string, recreate bool) error {
 		return fmt.Errorf("asciinema cat: %w\n%s", err, string(output))
 	}
 
-	return ioutil.WriteFile(outputFile, output, 0644)
+	return os.WriteFile(outputFile, output, 0644)
 }
 
 func removeComposeLines(output []byte) []byte {
