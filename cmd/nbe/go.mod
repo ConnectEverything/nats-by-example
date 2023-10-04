@@ -1,4 +1,4 @@
-module github.com/bruth/nats-by-example/cmd/nbe
+module github.com/ConnectEverything/nats-by-example/cmd/nbe
 
 go 1.19
 
