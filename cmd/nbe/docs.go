@@ -286,7 +286,6 @@ func generateDocs(root *Root, dir string) error {
 				if err != nil {
 					if os.IsNotExist(err) {
 						log.Printf("%s: %s", outputFile, err)
-						continue
 					}
 				} else {
 					castFile = filepath.Join(i.Path, "output.cast")
