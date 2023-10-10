@@ -10,6 +10,7 @@ import (
 
 	"github.com/nats-io/jwt/v2"
 	"github.com/nats-io/nats.go"
+	"github.com/nats-io/nats.go/micro"
 	"github.com/nats-io/nkeys"
 )
 
@@ -80,7 +81,7 @@ func run() error {
 	defer nc.Drain()
 
 	// Helper function to construct an authorization response.
-	respondMsg := func(msg *nats.Msg, userNkey, serverId, userJwt, errMsg string) {
+	respondMsg := func(req micro.Request, userNkey, serverId, userJwt, errMsg string) {
 		rc := jwt.NewAuthorizationResponseClaims(userNkey)
 		rc.Audience = serverId
 		rc.Error = errMsg
@@ -89,52 +90,52 @@ func run() error {
 		token, err := rc.Encode(issuerKeyPair)
 		if err != nil {
 			log.Printf("error encoding response JWT: %s", err)
-			msg.Respond(nil)
+			req.Respond(nil)
 			return
 		}
 
 		data := []byte(token)
 
 		// Check if encryption is required.
-		xkey := msg.Header.Get("Nats-Server-Xkey")
+		xkey := req.Headers().Get("Nats-Server-Xkey")
 		if len(xkey) > 0 {
 			data, err = curveKeyPair.Seal(data, xkey)
 			if err != nil {
 				log.Printf("error encrypting response JWT: %s", err)
-				msg.Respond(nil)
+				req.Respond(nil)
 				return
 			}
 		}
 
-		msg.Respond(data)
+		req.Respond(data)
 	}
 
 	// Define the message handler for the authorization request.
-	msgHandler := func(msg *nats.Msg) {
+	msgHandler := func(req micro.Request) {
 		var token []byte
 
 		// Check for Xkey header and decrypt
-		xkey := msg.Header.Get("Nats-Server-Xkey")
+		xkey := req.Headers().Get("Nats-Server-Xkey")
 		if len(xkey) > 0 {
 			if curveKeyPair == nil {
-				respondMsg(msg, "", "", "", "xkey not supported")
+				respondMsg(req, "", "", "", "xkey not supported")
 				return
 			}
 
 			// Decrypt the message.
-			token, err = curveKeyPair.Open(msg.Data, xkey)
+			token, err = curveKeyPair.Open(req.Data(), xkey)
 			if err != nil {
-				respondMsg(msg, "", "", "", "error decrypting message")
+				respondMsg(req, "", "", "", "error decrypting message")
 				return
 			}
 		} else {
-			token = msg.Data
+			token = req.Data()
 		}
 
 		// Decode the authorization request claims.
 		rc, err := jwt.DecodeAuthorizationRequestClaims(string(token))
 		if err != nil {
-			respondMsg(msg, "", "", "", err.Error())
+			respondMsg(req, "", "", "", err.Error())
 			return
 		}
 
@@ -145,13 +146,13 @@ func run() error {
 		// Check if the user exists.
 		userProfile, ok := users[rc.ConnectOptions.Username]
 		if !ok {
-			respondMsg(msg, userNkey, serverId, "", "user not found")
+			respondMsg(req, userNkey, serverId, "", "user not found")
 			return
 		}
 
 		// Check if the credential is valid.
 		if userProfile.Pass != rc.ConnectOptions.Password {
-			respondMsg(msg, userNkey, serverId, "", "invalid credentials")
+			respondMsg(req, userNkey, serverId, "", "invalid credentials")
 			return
 		}
 
@@ -169,24 +170,38 @@ func run() error {
 		vr := jwt.CreateValidationResults()
 		uc.Validate(vr)
 		if len(vr.Errors()) > 0 {
-			respondMsg(msg, userNkey, serverId, "", "error validating claims")
+			respondMsg(req, userNkey, serverId, "", "error validating claims")
 			return
 		}
 
 		// Sign it with the issuer key since this is non-operator mode.
 		ejwt, err := uc.Encode(issuerKeyPair)
 		if err != nil {
-			respondMsg(msg, userNkey, serverId, "", "error signing user JWT")
+			respondMsg(req, userNkey, serverId, "", "error signing user JWT")
 			return
 		}
 
-		respondMsg(msg, userNkey, serverId, ejwt, "")
+		respondMsg(req, userNkey, serverId, ejwt, "")
 	}
 
-	// Create a queue subscription to the auth callout subject. This
-	// allows for running multiple instances to distribute the load
-	// and provide high availability.
-	_, err = nc.QueueSubscribe("$SYS.REQ.USER.AUTH", "auth-callout", msgHandler)
+	// Create a service for auth callout with an endpoint binding to
+	// the required subject. This allows for running multiple instances
+	// to distribute the load, observe stats, and provide high availability.
+	srv, err := micro.AddService(nc, micro.Config{
+		Name:        "auth-callout",
+		Version:     "0.0.1",
+		Description: "Auth callout service.",
+	})
+	if err != nil {
+		return err
+	}
+
+	g := srv.
+		AddGroup("$SYS").
+		AddGroup("REQ").
+		AddGroup("USER")
+
+	err = g.AddEndpoint("AUTH", micro.HandlerFunc(msgHandler))
 	if err != nil {
 		return err
 	}
