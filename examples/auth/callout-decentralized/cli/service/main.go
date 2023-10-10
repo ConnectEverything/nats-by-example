@@ -98,9 +98,6 @@ func run() error {
 		rc.Error = errMsg
 		rc.Jwt = userJwt
 
-		b, _ := json.MarshalIndent(rc, "", "  ")
-		log.Printf("response JWT: %s", string(b))
-
 		// Sign the response with the issuer account.
 		token, err := rc.Encode(issuerKeyPair)
 		if err != nil {
@@ -190,9 +187,6 @@ func run() error {
 
 		// Set the associated permissions if present.
 		uc.Permissions = userProfile.Permissions
-
-		b, _ := json.MarshalIndent(uc, "", "  ")
-		log.Printf("user JWT: %s", string(b))
 
 		// Validate the claims.
 		vr := jwt.CreateValidationResults()

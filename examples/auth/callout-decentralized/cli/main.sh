@@ -4,16 +4,11 @@ set -eou pipefail
 
 NATS_URL="nats://localhost:4222"
 
-# Helper function to copy the signing key.
-function extract_signing_key() {
-  sk=$(nsc describe account $1 --field 'nats.signing_keys[0]' | tr -d '"')
-  cat "/root/.local/share/nats/nsc/keys/keys/${sk:0:1}/${sk:1:2}/${sk}.nk"
-}
-
 # ### Bootstrap the resolver
 #
 # Create the operator, generate a signing key (which is a best practice),
 # and initialize the default SYS account and sys user.
+# Note: if this is an existing environment, this bootstrapping can be skipped.
 nsc add operator --generate-signing-key --sys --name local
 
 # A follow-up edit of the operator enforces signing keys are used for
@@ -65,7 +60,7 @@ nsc generate creds --account APP2 --name app2 > app2.creds
 nats --creds app1.creds pub test 'hello from app1'
 nats --creds app2.creds pub test 'hello from app2'
 
-# ### Setup auth account and configure callout
+# ### Setup auth account for callout
 #
 # Create an `AUTH` account which will be registered as the
 # account for the auth callout service.
@@ -111,6 +106,12 @@ nats --creds app2.creds pub test 'hello from app2'
 # Next, we need the signing keys for the application accounts that the
 # auth callout service is *allowed* to create and bind users to.
 # First we extract the signing key for each account.
+# (Helper function to copy the signing key.)
+function extract_signing_key() {
+  sk=$(nsc describe account $1 --field 'nats.signing_keys[0]' | tr -d '"')
+  cat "/root/.local/share/nats/nsc/keys/keys/${sk:0:1}/${sk:1:2}/${sk}.nk"
+}
+
 extract_signing_key APP1 > APP1.nk
 extract_signing_key APP2 > APP2.nk
 

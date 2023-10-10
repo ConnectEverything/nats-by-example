@@ -1,0 +1,12 @@
+title: Auth Callout - Decentralized
+description: |-
+  Auth callout is a new feature in NATS v2.10.0 providing an extension point for integrating
+  with alternative identity and access management (IAM) backends. See the [official docs][docs]
+  for more details.
+
+  This example demonstrates how auth callout can be configured using decentralized auth.
+  This is combined with a [basic service][service] that handles the authorization requests
+  delegated by the NATS server.
+
+  [docs]: https://docs.nats.io/running-a-nats-service/configuration/security_nats/auth_callout
+  [service]: https://github.com/ConnectEverything/nats-by-example/blob/main/examples/auth/callout-decentralized/cli/service/main.go
