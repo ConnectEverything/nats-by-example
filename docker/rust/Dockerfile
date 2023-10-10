@@ -11,6 +11,7 @@ RUN echo "fn main(){}" > main.rs && cargo build
 RUN rm main.rs && rm /opt/app/target/debug/app
 COPY . .
 
+RUN cargo update
 RUN cargo build
 
 FROM debian:bullseye-slim
