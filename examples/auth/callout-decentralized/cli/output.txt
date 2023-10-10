@@ -1,0 +1,114 @@
+[ OK ] generated and stored operator key "ODWXXFSUV2F77TDRG2EPF43FKD6K3WB5M5W7AVZMZNT7CXZ4FNC6KAPN"
+[ OK ] added operator "local"
+[ OK ] When running your own nats-server, make sure they run at least version 2.2.0
+[ OK ] created operator signing key: OAMZVTYHU3U64AG4ZGKY3DVYBHS3DTSDDD42YVOVUWDCADRC33MPFTI3
+[ OK ] created system_account: name:SYS id:ADBFJCKPF7Q7PTQF43B7CTODWPPMM5GTMEYCGJTB2AM4JSJFCBBNIOZS
+[ OK ] created system account user: name:sys id:UB4GS376XSCIBHMSAZ37PTENQ4WHIWHZIR37BCUKMPGTSSE75AC5KHMV
+[ OK ] system account user creds file stored in `~/.local/share/nats/nsc/keys/creds/local/SYS/sys.creds`
+[ OK ] strict signing key usage set to: true
+[ OK ] set account jwt server url to "nats://localhost:4222"
+[ OK ] edited operator "local"
+# Operator named local
+operator: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiI0NFpGUUEyVDc1RzM2REZRNzZESkk1QVJVU09NWU9WMk9SUllNR1Y1RllGNFVEQUlWMlVRIiwiaWF0IjoxNjk2OTY2ODU4LCJpc3MiOiJPRFdYWEZTVVYyRjc3VERSRzJFUEY0M0ZLRDZLM1dCNU01VzdBVlpNWk5UN0NYWjRGTkM2S0FQTiIsIm5hbWUiOiJsb2NhbCIsInN1YiI6Ik9EV1hYRlNVVjJGNzdURFJHMkVQRjQzRktENkszV0I1TTVXN0FWWk1aTlQ3Q1haNEZOQzZLQVBOIiwibmF0cyI6eyJzaWduaW5nX2tleXMiOlsiT0FNWlZUWUhVM1U2NEFHNFpHS1kzRFZZQkhTM0RUU0RERDQyWVZPVlVXRENBRFJDMzNNUEZUSTMiXSwiYWNjb3VudF9zZXJ2ZXJfdXJsIjoibmF0czovL2xvY2FsaG9zdDo0MjIyIiwic3lzdGVtX2FjY291bnQiOiJBREJGSkNLUEY3UTdQVFFGNDNCN0NUT0RXUFBNTTVHVE1FWUNHSlRCMkFNNEpTSkZDQkJOSU9aUyIsInN0cmljdF9zaWduaW5nX2tleV91c2FnZSI6dHJ1ZSwidHlwZSI6Im9wZXJhdG9yIiwidmVyc2lvbiI6Mn19.gEyHPNimSvaOJzM7UoGaBNa80zx70M68830QkqLVMfjcWuz_UlFYtfblWv3Ku4Wn_5JUuMws_s1Alx8CQ22uAQ
+# System Account named SYS
+system_account: ADBFJCKPF7Q7PTQF43B7CTODWPPMM5GTMEYCGJTB2AM4JSJFCBBNIOZS
+
+# configuration of the nats based resolver
+resolver {
+    type: full
+    # Directory in which the account jwt will be stored
+    dir: './jwt'
+    # In order to support jwt deletion, set to true
+    # If the resolver type is full delete will rename the jwt.
+    # This is to allow manual restoration in case of inadvertent deletion.
+    # To restore a jwt, remove the added suffix .delete and restart or send a reload signal.
+    # To free up storage you must manually delete files with the suffix .delete.
+    allow_delete: false
+    # Interval at which a nats-server with a nats based account resolver will compare
+    # it's state with one random nats based account resolver in the cluster and if needed, 
+    # exchange jwt and converge on the same set of jwt.
+    interval: "2m"
+    # Timeout for lookup requests in case an account does not exist locally.
+    timeout: "1.9s"
+}
+
+
+# Preload the nats based resolver with the system account jwt.
+# This is not necessary but avoids a bootstrapping system account. 
+# This only applies to the system account. Therefore other account jwt are not included here.
+# To populate the resolver:
+# 1) make sure that your operator has the account server URL pointing at your nats servers.
+#    The url must start with: "nats://" 
+#    nsc edit operator --account-jwt-server-url nats://localhost:4222
+# 2) push your accounts using: nsc push --all
+#    The argument to push -u is optional if your account server url is set as described.
+# 3) to prune accounts use: nsc push --prune 
+#    In order to enable prune you must set above allow_delete to true
+# Later changes to the system account take precedence over the system account jwt listed here.
+resolver_preload: {
+	ADBFJCKPF7Q7PTQF43B7CTODWPPMM5GTMEYCGJTB2AM4JSJFCBBNIOZS: eyJ0eXAiOiJKV1QiLCJhbGciOiJlZDI1NTE5LW5rZXkifQ.eyJqdGkiOiJQVUs0T0NTU0hXU0xWVUM2Q0VUU0hESUtCR1AzQjRCWU82QllJRUNCSENCUzM0TU5HSE5RIiwiaWF0IjoxNjk2OTY2ODU4LCJpc3MiOiJPQU1aVlRZSFUzVTY0QUc0WkdLWTNEVllCSFMzRFRTRERENDJZVk9WVVdEQ0FEUkMzM01QRlRJMyIsIm5hbWUiOiJTWVMiLCJzdWIiOiJBREJGSkNLUEY3UTdQVFFGNDNCN0NUT0RXUFBNTTVHVE1FWUNHSlRCMkFNNEpTSkZDQkJOSU9aUyIsIm5hdHMiOnsiZXhwb3J0cyI6W3sibmFtZSI6ImFjY291bnQtbW9uaXRvcmluZy1zdHJlYW1zIiwic3ViamVjdCI6IiRTWVMuQUNDT1VOVC4qLlx1MDAzZSIsInR5cGUiOiJzdHJlYW0iLCJhY2NvdW50X3Rva2VuX3Bvc2l0aW9uIjozLCJkZXNjcmlwdGlvbiI6IkFjY291bnQgc3BlY2lmaWMgbW9uaXRvcmluZyBzdHJlYW0iLCJpbmZvX3VybCI6Imh0dHBzOi8vZG9jcy5uYXRzLmlvL25hdHMtc2VydmVyL2NvbmZpZ3VyYXRpb24vc3lzX2FjY291bnRzIn0seyJuYW1lIjoiYWNjb3VudC1tb25pdG9yaW5nLXNlcnZpY2VzIiwic3ViamVjdCI6IiRTWVMuUkVRLkFDQ09VTlQuKi4qIiwidHlwZSI6InNlcnZpY2UiLCJyZXNwb25zZV90eXBlIjoiU3RyZWFtIiwiYWNjb3VudF90b2tlbl9wb3NpdGlvbiI6NCwiZGVzY3JpcHRpb24iOiJSZXF1ZXN0IGFjY291bnQgc3BlY2lmaWMgbW9uaXRvcmluZyBzZXJ2aWNlcyBmb3I6IFNVQlNaLCBDT05OWiwgTEVBRlosIEpTWiBhbmQgSU5GTyIsImluZm9fdXJsIjoiaHR0cHM6Ly9kb2NzLm5hdHMuaW8vbmF0cy1zZXJ2ZXIvY29uZmlndXJhdGlvbi9zeXNfYWNjb3VudHMifV0sImxpbWl0cyI6eyJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xLCJpbXBvcnRzIjotMSwiZXhwb3J0cyI6LTEsIndpbGRjYXJkcyI6dHJ1ZSwiY29ubiI6LTEsImxlYWYiOi0xfSwic2lnbmluZ19rZXlzIjpbIkFEV01CWDNXWTdWRTMySFVIR0RUNE5OT0hJMlZDM0FGNEFXN09ZU1BNNVJNVU5NTzVWVE9UVkM0Il0sImRlZmF1bHRfcGVybWlzc2lvbnMiOnsicHViIjp7fSwic3ViIjp7fX0sImF1dGhvcml6YXRpb24iOnsiYXV0aF91c2VycyI6bnVsbH0sInR5cGUiOiJhY2NvdW50IiwidmVyc2lvbiI6Mn19.wjppvfRvCbO8LM7K26MY34tphuSlh0rB_h2zmIhZjpFXyeklEr25f2Mht2keh-wM973udlb3VPWtIK3DX6ciAA,
+}
+
+[ OK ] generated and stored account key "ADWPKVOK7YKLHH5NIFR7WD24TQBM33RT3T6ANZGHVKXUDQ4TQPG2VWBP"
+[ OK ] added account "APP1"
+[ OK ] added signing key "ABOOYKOYQ3VEUDMLTW3JTVA3NX762EOX6PS7PCN64QXINPDC344WD57N"
+[ OK ] edited account "APP1"
+[ OK ] generated and stored account key "ACOALIEQ6EATKM5J2APWKBM2CGTNNEDUQWQGN5THULOQHMKI4GU3S5RW"
+[ OK ] added account "APP2"
+[ OK ] added signing key "ABT4MG3RRVL2UKIF7B7IGWAKHLJ53M5CHQBQKU4CS5M5P4CYH7SJSVA5"
+[ OK ] edited account "APP2"
+[ OK ] push to nats-server "nats://localhost:4222" using system account "SYS":
+       [ OK ] push APP1 to nats-server with nats account resolver:
+              [ OK ] pushed "APP1" to nats-server NA4BGMLOZ5WMP4TGA62VFWA5U3I3HYC4HUFKYJDJXAY5OLRQ4WEA7LYC: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+       [ OK ] push APP2 to nats-server with nats account resolver:
+              [ OK ] pushed "APP2" to nats-server NA4BGMLOZ5WMP4TGA62VFWA5U3I3HYC4HUFKYJDJXAY5OLRQ4WEA7LYC: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+       [ OK ] push SYS to nats-server with nats account resolver:
+              [ OK ] pushed "SYS" to nats-server NA4BGMLOZ5WMP4TGA62VFWA5U3I3HYC4HUFKYJDJXAY5OLRQ4WEA7LYC: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+[ OK ] generated and stored user key "UAPIPPNHHL4XYG7SILXZVF3SN7EOFV7BEWWRNHCNREYEMDSBKFSRPLQG"
+[ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/APP1/app1.creds`
+[ OK ] added user "app1" to account "APP1"
+[ OK ] generated and stored user key "UB73I6YZWXUFWPXDPOUP5XL2E7PKDOX4CTWAVQLRZGYLLYEZ2ZMPCLFR"
+[ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/APP2/app2.creds`
+[ OK ] added user "app2" to account "APP2"
+19:41:02 Published 15 bytes to "test"
+19:41:02 Published 15 bytes to "test"
+[ OK ] generated and stored account key "AAYMZZ7TGPONDPSKUZYUXZ4V4WYLVDRZCMCFSU36M4LRGITLZFLJ5NPE"
+[ OK ] added account "AUTH"
+[ OK ] added signing key "ABID7CGANFR66JTA37TG5C7SOX72FYQFKRCCE2YDAESGRPIDLIHGRTB4"
+[ OK ] edited account "AUTH"
+[ OK ] generated and stored user key "UA5O5B4TUCH23C7PY3R7RGLMGJWSRDSZXRO4NDHAEBXFJ4DBAPBJ34FO"
+[ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/AUTH/auth.creds`
+[ OK ] added user "auth" to account "AUTH"
+[ OK ] added user "UA5O5B4TUCH23C7PY3R7RGLMGJWSRDSZXRO4NDHAEBXFJ4DBAPBJ34FO"
+[ OK ] added account "*"
+[ OK ] set curve key XDKN7MHLNI37N66O6HLFWTJM6BDD5MG43GBEX6CRZ2NK37SAZETXR74W
+[ OK ] push to nats-server "nats://localhost:4222" using system account "SYS":
+       [ OK ] push APP1 to nats-server with nats account resolver:
+              [ OK ] pushed "APP1" to nats-server NA4BGMLOZ5WMP4TGA62VFWA5U3I3HYC4HUFKYJDJXAY5OLRQ4WEA7LYC: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+       [ OK ] push APP2 to nats-server with nats account resolver:
+              [ OK ] pushed "APP2" to nats-server NA4BGMLOZ5WMP4TGA62VFWA5U3I3HYC4HUFKYJDJXAY5OLRQ4WEA7LYC: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+       [ OK ] push AUTH to nats-server with nats account resolver:
+              [ OK ] pushed "AUTH" to nats-server NA4BGMLOZ5WMP4TGA62VFWA5U3I3HYC4HUFKYJDJXAY5OLRQ4WEA7LYC: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+       [ OK ] push SYS to nats-server with nats account resolver:
+              [ OK ] pushed "SYS" to nats-server NA4BGMLOZ5WMP4TGA62VFWA5U3I3HYC4HUFKYJDJXAY5OLRQ4WEA7LYC: jwt updated
+              [ OK ] pushed to a total of 1 nats-server
+19:41:08 Published 15 bytes to "test"
+19:41:08 Published 15 bytes to "test"
+Starting auth callout service...
+[ OK ] added deny pub ">"
+[ OK ] added deny sub ">"
+[ OK ] generated and stored user key "UAPDOLFCMFM2NAGPCNQASRSH32WSAM4GUJZOEMQGS5TFQ23YYLHICTZ7"
+[ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/AUTH/sentinel.creds`
+[ OK ] added user "sentinel" to account "AUTH"
+Client request from alice...
+2023/10/10 19:41:10 responding to authorization request
+2023/10/10 19:41:10 alice connected to nats://127.0.0.1:4222
+Client request from bob...
+2023/10/10 19:41:10 responding to authorization request
+2023/10/10 19:41:10 bob connected to nats://127.0.0.1:4222
