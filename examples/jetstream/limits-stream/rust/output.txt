@@ -1,7 +1,0 @@
-[1A[1B[0G[?25l[+] Creating 1/0[1A[1A[1A[0G[?25l[34m[+] Creating 2/2[0m
- [32m✔[0m Network 2d19fe6a_default   [32mCreated[0m[34m0.1s [0m
- [32m✔[0m Container 2d19fe6a-nats-1  [32mCreated[0m[34m0.0s [0m
-[?25h[1A[1B[0G[?25l[+] Running 0/0
-[1A[1A[0G[?25l[34m[+] Running 1/1[0m
- [32m✔[0m Container 2d19fe6a-nats-1  [32mStarted[0m[34m0.7s [0m
-[?25h
