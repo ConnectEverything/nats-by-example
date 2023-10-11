@@ -24,8 +24,6 @@ nsc generate config \
   --nats-resolver \
   --sys-account SYS > resolver.conf
 
-cat resolver.conf
-
 # Create the most basic config that simply includes the generated
 # resolver config.
 cat <<- EOF > server.conf
