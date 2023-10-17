@@ -125,7 +125,7 @@ func (r *ImageBuilder) Run() (string, error) {
 		uid = uuid.New().String()[:8]
 	}
 
-	imageTag := fmt.Sprintf("%s:%s", filepath.Join("nbe", r.Example), uid)
+	imageTag := strings.Replace(fmt.Sprintf("%s:%s", filepath.Join("nbe", r.Example), uid), "/", "-", -1)
 
 	defaultDir := filepath.Join(r.Repo, "docker", lang)
 

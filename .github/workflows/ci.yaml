@@ -79,3 +79,31 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_TEAM_SCOPE }}
           working-directory: ./html
+
+  windows:
+    name: Windows
+    strategy:
+      matrix:
+        os: [windows-2019, windows-2022]
+
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Setup Go
+        uses: actions/setup-go@v3
+        with:
+          go-version-file: cmd/nbe/go.mod
+          cache-dependency-path: cmd/nbe/go.sum
+          cache: true
+
+      - name: Build nbe
+        run: |
+          go install ./cmd/nbe
+
+      - name: Test example
+        run: |
+          nbe run examples\messaging\pub-sub\go
