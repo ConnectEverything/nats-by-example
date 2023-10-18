@@ -1,6 +1,7 @@
 // In this sample, we'll use the Rust SDK to create and start a service, which automatically
 // participates in the service discovery, stats management, and ping operations. The service
 // we're going to build exposes two endpoints:
+
 // * min - returns the minimum value in an array of integers
 // * max - returns the maximum value in an array of integers
 
