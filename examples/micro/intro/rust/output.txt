@@ -1,0 +1,3 @@
+minimum: -2000
+maximum: 100
+
