@@ -64,6 +64,7 @@ var (
 		Crystal:   "main.cr",
 		DotNet:    "Main.cs",
 		DotNet2:   "Main.cs",
+		Elixir:    "main.exs",
 	}
 
 	languageMultiCommentDelims = map[string][2]string{
