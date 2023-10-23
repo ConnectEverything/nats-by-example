@@ -1,10 +1,4 @@
-[1A[1B[0G[?25l[+] Creating 2/0
- [32m✔[0m Network 27056d72_default   [32mCreated[0m[34m0.1s [0m
- [32m✔[0m Container 27056d72-nats-1  [32mCreated[0m[34m0.0s [0m
-[?25h[1A[1A[0G[?25l[+] Running 0/1
-[1A[1A[0G[?25l[34m[+] Running 1/1[0m
- [32m✔[0m Container 27056d72-nats-1  [32mStarted[0m[34m0.3s [0m
-[?25hcreated the stream
+created the stream
 published 3 messages
 Stream info without any consumers: Info {
     config: Config {
@@ -24,7 +18,7 @@ Stream info without any consumers: Info {
         storage: File,
         num_replicas: 1,
         no_ack: false,
-        duplicate_window: 120000000000,
+        duplicate_window: 120s,
         template_owner: "",
         sealed: false,
         description: None,
@@ -36,26 +30,35 @@ Stream info without any consumers: Info {
         mirror_direct: false,
         mirror: None,
         sources: None,
+        metadata: {},
+        subject_transform: None,
+        compression: Some(
+            None,
+        ),
+        consumer_limits: None,
+        first_sequence: None,
     },
-    created: 2023-09-16 17:14:03.430759829 +00:00:00,
+    created: 2023-10-23 16:19:30.006619882 +00:00:00,
     state: State {
         messages: 3,
         bytes: 157,
         first_sequence: 1,
-        first_timestamp: 2023-09-16 17:14:03.432841302 +00:00:00,
+        first_timestamp: 2023-10-23 16:19:30.007926215 +00:00:00,
         last_sequence: 3,
-        last_timestamp: 2023-09-16 17:14:03.43375159 +00:00:00,
+        last_timestamp: 2023-10-23 16:19:30.008572257 +00:00:00,
         consumer_count: 0,
     },
     cluster: Some(
         ClusterInfo {
             name: None,
             leader: Some(
-                "NDMW6TZXC4A6RMOCKGZ46K7LUGUKJUBZSEJ5AAPETHAX4FJQ4ZJZRMQD",
+                "NA5CAZUKLZ3ODGKMIPKY2CVNPTNWZWMQYJS7EHYPAYWQWRK3FEVUL2NY",
             ),
             replicas: [],
         },
     ),
+    mirror: None,
+    sources: [],
 }
 Stream info with one consumer: Info {
     config: Config {
@@ -75,7 +78,7 @@ Stream info with one consumer: Info {
         storage: File,
         num_replicas: 1,
         no_ack: false,
-        duplicate_window: 120000000000,
+        duplicate_window: 120s,
         template_owner: "",
         sealed: false,
         description: None,
@@ -87,28 +90,37 @@ Stream info with one consumer: Info {
         mirror_direct: false,
         mirror: None,
         sources: None,
+        metadata: {},
+        subject_transform: None,
+        compression: Some(
+            None,
+        ),
+        consumer_limits: None,
+        first_sequence: None,
     },
-    created: 2023-09-16 17:14:03.430759829 +00:00:00,
+    created: 2023-10-23 16:19:30.006619882 +00:00:00,
     state: State {
         messages: 3,
         bytes: 157,
         first_sequence: 1,
-        first_timestamp: 2023-09-16 17:14:03.432841302 +00:00:00,
+        first_timestamp: 2023-10-23 16:19:30.007926215 +00:00:00,
         last_sequence: 3,
-        last_timestamp: 2023-09-16 17:14:03.43375159 +00:00:00,
+        last_timestamp: 2023-10-23 16:19:30.008572257 +00:00:00,
         consumer_count: 1,
     },
     cluster: Some(
         ClusterInfo {
             name: None,
             leader: Some(
-                "NDMW6TZXC4A6RMOCKGZ46K7LUGUKJUBZSEJ5AAPETHAX4FJQ4ZJZRMQD",
+                "NA5CAZUKLZ3ODGKMIPKY2CVNPTNWZWMQYJS7EHYPAYWQWRK3FEVUL2NY",
             ),
             replicas: [],
         },
     ),
+    mirror: None,
+    sources: [],
 }
-Create an overlapping consumer: nats: error while creating stream: 10099, 400, multiple non-filtered consumers not allowed on workqueue stream
+Create an overlapping consumer: JetStream error: 400 (code multiple non-filtered consumers not allowed on workqueue stream, error code 10099)
 created the new consumer? true
 published 4 messages
 us consumer got: events.us.page_loaded

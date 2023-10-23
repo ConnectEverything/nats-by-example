@@ -1,18 +1,12 @@
-[1A[1B[0G[?25l[+] Creating 2/0
- [32m✔[0m Network 7242c42b_default   [32mCreated[0m[34m0.1s [0m
- [32m✔[0m Container 7242c42b-nats-1  [32mCreated[0m[34m0.0s [0m
-[?25h[1A[1B[0G[?25l[+] Running 0/0
-[1A[1A[0G[?25l[34m[+] Running 1/1[0m
- [32m✔[0m Container 7242c42b-nats-1  [32mStarted[0m[34m0.3s [0m
-[?25h[33m >> jetstream's materialized views object store functionality in nats.deno is beta functionality [0m
+[33m >> jetstream's materialized views object store functionality in nats.deno is beta functionality [0m
 the object store has 0 bytes
 added entry a (10000000 bytes)- 'large data'
 the object store contains 1 entries
 data has 10000000 bytes
 client has a max payload of 1048576 bytes
 configs changed - a was deleted
-configs changed - b was updated
 added entry b (10000000 bytes)- 'set with a readable stream'
+configs changed - b was updated
 b has 10000000 bytes
 read 131072 bytes
 read 131072 bytes

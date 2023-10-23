@@ -7,10 +7,10 @@ ARG CACHE_INVALIDATE="2022-12-29T13:26:05Z"
 
 # Compile dependencies in one layer that can be reused across all examples.
 COPY Cargo.toml .
-RUN echo "fn main(){}" > main.rs && cargo build
-RUN rm main.rs && rm /opt/app/target/debug/app
+RUN echo "fn main(){}" > main.rs && cargo build && rm main.rs && rm /opt/app/target/debug/app
 COPY . .
 
+RUN cargo update
 RUN cargo build
 
 FROM debian:bullseye-slim
