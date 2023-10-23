@@ -1,0 +1,2 @@
+{"version": 2, "width": 90, "height": 33, "timestamp": 1698077915, "env": {"SHELL": "/bin/zsh", "TERM": "screen-256color"}, "title": "NATS by Example: messaging/json/python"}
+[1.38167, "o", "received valid JSON payload: payload.foo='bar' payload.bar=27\r\nreceived invalid JSON payload: message.data=b'not json'\r\n"]

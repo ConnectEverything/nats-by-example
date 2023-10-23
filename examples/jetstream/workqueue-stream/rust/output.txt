@@ -1,0 +1,129 @@
+created the stream
+published 3 messages
+Stream info without any consumers: Info {
+    config: Config {
+        name: "EVENTS",
+        max_bytes: -1,
+        max_messages: -1,
+        max_messages_per_subject: -1,
+        discard: Old,
+        discard_new_per_subject: false,
+        subjects: [
+            "events.>",
+        ],
+        retention: WorkQueue,
+        max_consumers: -1,
+        max_age: 0ns,
+        max_message_size: -1,
+        storage: File,
+        num_replicas: 1,
+        no_ack: false,
+        duplicate_window: 120s,
+        template_owner: "",
+        sealed: false,
+        description: None,
+        allow_rollup: false,
+        deny_delete: false,
+        deny_purge: false,
+        republish: None,
+        allow_direct: false,
+        mirror_direct: false,
+        mirror: None,
+        sources: None,
+        metadata: {},
+        subject_transform: None,
+        compression: Some(
+            None,
+        ),
+        consumer_limits: None,
+        first_sequence: None,
+    },
+    created: 2023-10-23 16:19:30.006619882 +00:00:00,
+    state: State {
+        messages: 3,
+        bytes: 157,
+        first_sequence: 1,
+        first_timestamp: 2023-10-23 16:19:30.007926215 +00:00:00,
+        last_sequence: 3,
+        last_timestamp: 2023-10-23 16:19:30.008572257 +00:00:00,
+        consumer_count: 0,
+    },
+    cluster: Some(
+        ClusterInfo {
+            name: None,
+            leader: Some(
+                "NA5CAZUKLZ3ODGKMIPKY2CVNPTNWZWMQYJS7EHYPAYWQWRK3FEVUL2NY",
+            ),
+            replicas: [],
+        },
+    ),
+    mirror: None,
+    sources: [],
+}
+Stream info with one consumer: Info {
+    config: Config {
+        name: "EVENTS",
+        max_bytes: -1,
+        max_messages: -1,
+        max_messages_per_subject: -1,
+        discard: Old,
+        discard_new_per_subject: false,
+        subjects: [
+            "events.>",
+        ],
+        retention: WorkQueue,
+        max_consumers: -1,
+        max_age: 0ns,
+        max_message_size: -1,
+        storage: File,
+        num_replicas: 1,
+        no_ack: false,
+        duplicate_window: 120s,
+        template_owner: "",
+        sealed: false,
+        description: None,
+        allow_rollup: false,
+        deny_delete: false,
+        deny_purge: false,
+        republish: None,
+        allow_direct: false,
+        mirror_direct: false,
+        mirror: None,
+        sources: None,
+        metadata: {},
+        subject_transform: None,
+        compression: Some(
+            None,
+        ),
+        consumer_limits: None,
+        first_sequence: None,
+    },
+    created: 2023-10-23 16:19:30.006619882 +00:00:00,
+    state: State {
+        messages: 3,
+        bytes: 157,
+        first_sequence: 1,
+        first_timestamp: 2023-10-23 16:19:30.007926215 +00:00:00,
+        last_sequence: 3,
+        last_timestamp: 2023-10-23 16:19:30.008572257 +00:00:00,
+        consumer_count: 1,
+    },
+    cluster: Some(
+        ClusterInfo {
+            name: None,
+            leader: Some(
+                "NA5CAZUKLZ3ODGKMIPKY2CVNPTNWZWMQYJS7EHYPAYWQWRK3FEVUL2NY",
+            ),
+            replicas: [],
+        },
+    ),
+    mirror: None,
+    sources: [],
+}
+Create an overlapping consumer: JetStream error: 400 (code multiple non-filtered consumers not allowed on workqueue stream, error code 10099)
+created the new consumer? true
+published 4 messages
+us consumer got: events.us.page_loaded
+us consumer got: events.us.input_focused
+eu consumer got: events.eu.mouse_clicked
+eu consumer got: events.eu.page_loaded

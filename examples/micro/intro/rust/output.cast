@@ -1,4 +1,2 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1696440528, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: micro/intro/rust"}
-[1.532999, "o", "minimum: -2000\r\n"]
-[1.534344, "o", "maximum: 100\r\n"]
-
+{"version": 2, "width": 90, "height": 33, "timestamp": 1698077844, "env": {"SHELL": "/bin/zsh", "TERM": "screen-256color"}, "title": "NATS by Example: micro/intro/rust"}
+[1.259049, "o", "minimum: -2000\r\nmaximum: 100\r\n"]

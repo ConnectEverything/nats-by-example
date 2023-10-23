@@ -1,0 +1,2 @@
+received valid JSON payload: payload.foo='bar' payload.bar=27
+received invalid JSON payload: message.data=b'not json'

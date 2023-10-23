@@ -1,0 +1,17 @@
+Traceback (most recent call last):
+  File "//main.py", line 74, in <module>
+    asyncio.run(main())
+  File "/usr/local/lib/python3.10/asyncio/runners.py", line 44, in run
+    return loop.run_until_complete(main)
+  File "/usr/local/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "//main.py", line 22, in main
+    await js.delete_stream('events')
+  File "/usr/local/lib/python3.10/site-packages/nats/js/manager.py", line 120, in delete_stream
+    resp = await self._api_request(
+  File "/usr/local/lib/python3.10/site-packages/nats/js/manager.py", line 362, in _api_request
+    raise APIError.from_error(resp['error'])
+  File "/usr/local/lib/python3.10/site-packages/nats/js/errors.py", line 84, in from_error
+    raise NotFoundError(**err)
+nats.js.errors.NotFoundError: nats: NotFoundError: code=404 err_code=10059 description='stream not found'
+exit status 1

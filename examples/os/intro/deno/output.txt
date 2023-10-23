@@ -1,0 +1,89 @@
+[33m >> jetstream's materialized views object store functionality in nats.deno is beta functionality [0m
+the object store has 0 bytes
+added entry a (10000000 bytes)- 'large data'
+the object store contains 1 entries
+data has 10000000 bytes
+client has a max payload of 1048576 bytes
+configs changed - a was deleted
+added entry b (10000000 bytes)- 'set with a readable stream'
+configs changed - b was updated
+b has 10000000 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 131072 bytes
+read 38528 bytes
+done reading
+deleted object store
