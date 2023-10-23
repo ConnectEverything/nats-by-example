@@ -4,6 +4,7 @@ go 1.19
 
 require (
 	github.com/alecthomas/chroma v0.10.0
+	github.com/alecthomas/chroma/v2 v2.9.1
 	github.com/google/go-cmp v0.5.5
 	github.com/google/uuid v1.3.0
 	github.com/olekukonko/tablewriter v0.0.5
@@ -14,7 +15,7 @@ require (
 
 require (
 	github.com/cpuguy83/go-md2man/v2 v2.0.2 // indirect
-	github.com/dlclark/regexp2 v1.8.1 // indirect
+	github.com/dlclark/regexp2 v1.10.0 // indirect
 	github.com/kr/pretty v0.1.0 // indirect
 	github.com/mattn/go-runewidth v0.0.14 // indirect
 	github.com/rivo/uniseg v0.4.4 // indirect

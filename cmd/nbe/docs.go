@@ -10,10 +10,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/alecthomas/chroma"
-	"github.com/alecthomas/chroma/formatters/html"
-	"github.com/alecthomas/chroma/lexers"
-	"github.com/alecthomas/chroma/styles"
+	"github.com/alecthomas/chroma/v2"
+	"github.com/alecthomas/chroma/v2/formatters/html"
+	"github.com/alecthomas/chroma/v2/lexers"
+	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/russross/blackfriday/v2"
 
 	_ "embed"
@@ -477,30 +477,68 @@ var SimpleShellOutputLexer = chroma.MustNewLexer(
 		Filenames: []string{"*.sh"},
 		MimeTypes: []string{},
 	},
-	chroma.Rules{
-		"root": {
-			// $ or > triggers the start of prompt formatting
-			{`^\$`, chroma.GenericPrompt, chroma.Push("prompt")},
-			{`^>`, chroma.GenericPrompt, chroma.Push("prompt")},
+	func() chroma.Rules {
+		return chroma.Rules{
+			"root": {
+				// $ or > triggers the start of prompt formatting
+				chroma.Rule{
+					Pattern: `^\$`,
+					Type:    chroma.GenericPrompt,
+					Mutator: chroma.Push("prompt"),
+				},
+				chroma.Rule{
+					Pattern: `^>`,
+					Type:    chroma.GenericPrompt,
+					Mutator: chroma.Push("prompt"),
+				},
 
-			// empty lines are just text
-			{`^$\n`, chroma.Text, nil},
+				// empty lines are just text
+				chroma.Rule{
+					Pattern: `^$\n`,
+					Type:    chroma.Text,
+					Mutator: nil,
+				},
 
-			// otherwise its all output
-			{`[^\n]+$\n?`, chroma.GenericOutput, nil},
-		},
-		"prompt": {
-			// when we find newline, do output formatting rules
-			{`\n`, chroma.Text, chroma.Push("output")},
-			// otherwise its all text
-			{`[^\n]+$`, chroma.Text, nil},
-		},
-		"output": {
-			// sometimes there isn't output so we go right back to prompt
-			{`^\$`, chroma.GenericPrompt, chroma.Pop(1)},
-			{`^>`, chroma.GenericPrompt, chroma.Pop(1)},
-			// otherwise its all output
-			{`[^\n]+$\n?`, chroma.GenericOutput, nil},
-		},
+				// otherwise its all output
+				chroma.Rule{
+					Pattern: `[^\n]+$\n?`,
+					Type:    chroma.GenericOutput,
+					Mutator: nil,
+				},
+			},
+			"prompt": {
+				// when we find newline, do output formatting rules
+				chroma.Rule{
+					Pattern: `\n`,
+					Type:    chroma.Text,
+					Mutator: chroma.Push("output"),
+				},
+				// otherwise its all text
+				chroma.Rule{
+					Pattern: `[^\n]+$`,
+					Type:    chroma.Text,
+					Mutator: nil,
+				},
+			},
+			"output": {
+				// sometimes there isn't output so we go right back to prompt
+				chroma.Rule{
+					Pattern: `^\$`,
+					Type:    chroma.GenericPrompt,
+					Mutator: chroma.Pop(1),
+				},
+				chroma.Rule{
+					Pattern: `^>`,
+					Type:    chroma.GenericPrompt,
+					Mutator: chroma.Pop(1),
+				},
+				// otherwise its all output
+				chroma.Rule{
+					Pattern: `[^\n]+$\n?`,
+					Type:    chroma.GenericOutput,
+					Mutator: nil,
+				},
+			},
+		}
 	},
 )

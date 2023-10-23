@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 services:
   postgres:
     image: docker.io/debezium/postgres:15
@@ -11,7 +11,7 @@ services:
       retries: 5
 
   nats:
-    image: docker.io/nats:2.9.11
+    image: docker.io/nats:2.10.3
     command:
       - "--debug"
       - "--http_port=8222"
@@ -33,4 +33,3 @@ services:
       PGUSER: postgres
     depends_on:
       - debezium
-
