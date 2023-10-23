@@ -1,0 +1,5 @@
+Created service: minmax (WQ4HFw887xmrfEnXCjewSr)
+Requested min value, got -2000
+Requested max value, got 100
+Endpoint 'min' requests: 1
+Endpoint 'max' requests: 1

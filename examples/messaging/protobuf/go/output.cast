@@ -1,0 +1,2 @@
+{"version": 2, "width": 183, "height": 49, "timestamp": 1698089357, "env": {"SHELL": "/bin/zsh", "TERM": "screen-256color"}, "title": "NATS by Example: messaging/protobuf/go"}
+[1.495125, "o", "reply: hello \"joe\"!\r\n"]
