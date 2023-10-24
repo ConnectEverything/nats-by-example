@@ -1,2 +1,2 @@
-{"version": 2, "width": 174, "height": 79, "timestamp": 1678973769, "env": {"SHELL": "/bin/bash", "TERM": "xterm-color"}, "title": "NATS by Example: messaging/protobuf/go"}
-[1.076925, "o", "reply: hello \"joe\"!\r\n"]
+{"version": 2, "width": 183, "height": 49, "timestamp": 1698089357, "env": {"SHELL": "/bin/zsh", "TERM": "screen-256color"}, "title": "NATS by Example: messaging/protobuf/go"}
+[1.495125, "o", "reply: hello \"joe\"!\r\n"]

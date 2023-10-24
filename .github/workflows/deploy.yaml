@@ -1,9 +1,10 @@
-name: ci
-on: [push]
+name: deploy
+on: push
+branches: main
 
 jobs:
   run:
-    name: Run
+    name: Deploy
     runs-on: "ubuntu-latest"
 
     permissions:
@@ -14,9 +15,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -28,11 +27,10 @@ jobs:
           python3 -m pip install asciinema
 
       - name: Setup Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
-          go-version-file: cmd/nbe/go.mod
+          go-version: "1.21"
           cache-dependency-path: cmd/nbe/go.sum
-          cache: true
 
       - name: Test nbe
         run: |
@@ -48,8 +46,7 @@ jobs:
           nbe generate recording --exit-on-error
 
       - name: Auto-commit generated recordings
-        uses: stefanzweifel/git-auto-commit-action@v4
-        if: ${{ github.ref_name == 'main' }}
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Auto-commit recording
           file_pattern: examples/**/output.txt examples/**/output.cast
@@ -58,19 +55,8 @@ jobs:
         run: |
           nbe build
 
-      - name: Vercel preview deploy
-        uses: amondnet/vercel-action@v25
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_TEAM_SCOPE }}
-          working-directory: ./html
-
       - name: Vercel production deploy
         uses: amondnet/vercel-action@v25
-        if: ${{ github.ref_name == 'main' }}
         with:
           vercel-args: "--prod"
           vercel-token: ${{ secrets.VERCEL_TOKEN }}

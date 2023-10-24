@@ -1,3 +1,3 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1696440528, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: micro/intro/go"}
-[1.532999, "o", "Created service: minmax (mtgBRzaJFJAhzUcbUz3wk7)\r\n"]
-[1.534344, "o", "Requested min value, got -2000\r\nRequested max value, got 100\r\nEndpoint 'min' requests: 1\r\nEndpoint 'max' requests: 1\r\n"]
+{"version": 2, "width": 183, "height": 49, "timestamp": 1698089366, "env": {"SHELL": "/bin/zsh", "TERM": "screen-256color"}, "title": "NATS by Example: micro/intro/go"}
+[0.998386, "o", "Created service: minmax (WQ4HFw887xmrfEnXCjewSr)\r\n"]
+[0.999205, "o", "Requested min value, got -2000\r\nRequested max value, got 100\r\nEndpoint 'min' requests: 1\r\nEndpoint 'max' requests: 1\r\n"]

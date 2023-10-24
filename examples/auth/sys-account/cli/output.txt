@@ -1,79 +1,76 @@
 nats: error: no results received, ensure the account used has system privileges and appropriate permissions
 NATS Configuration Context "sys"
 
-      Server URLs: nats://127.0.0.1:4222
-         Username: sys
-         Password: *********
-            Token: sys
-             Path: /root/.config/nats/context/sys.json
+  Server URLs: nats://127.0.0.1:4222
+     Username: sys
+     Password: ****
+         Path: /root/.config/nats/context/sys.json
 
-Server information for NB32TJFRBPDVYZMIQEPFBVYXE7X7JNGTL6UC7SSGLYIXFUQSZ2QW7FNC
-
-Process Details:
-
-         Version: 2.9.15
-      Git Commit: 
-      Go Version: go1.19.4
-      Start Time: 2023-03-16 13:39:09.881252433 +0000 UTC
-          Uptime: 0s
-
-Connection Details:
-
-   Auth Required: true
-    TLS Required: false
-            Host: 0.0.0.0:4222
-     Client URLs: 
-
-Limits:
-
-        Max Conn: 65536
-        Max Subs: 0
-     Max Payload: 1.0 MiB
-     TLS Timeout: 2s
-  Write Deadline: 10s
-
-Statistics:
-
-       CPU Cores: 8 0.00%
-          Memory: 13 MiB
-     Connections: 1
-   Subscriptions: 41
-            Msgs: 1 in 0 out
-           Bytes: 2 B in 0 B out
-  Slow Consumers: 0
-
-Server information for NB32TJFRBPDVYZMIQEPFBVYXE7X7JNGTL6UC7SSGLYIXFUQSZ2QW7FNC
+Server information for NAIMXQHGXWTPFMHK5FSHRH7H4SDVTXDUOPJ5AQBE2G6RYNWFHKKVZBBU
 
 Process Details:
 
-         Version: 2.9.15
-      Git Commit: 
-      Go Version: go1.19.4
-      Start Time: 2023-03-16 13:39:09.881252433 +0000 UTC
-          Uptime: 0s
+           Version: 2.10.1
+        Git Commit: 
+        Go Version: go1.21.3
+        Start Time: 2023-10-23 19:30:16
+  Config Load Time: 2023-10-23 19:30:17
+            Uptime: 0s
 
 Connection Details:
 
-   Auth Required: true
-    TLS Required: false
-            Host: 0.0.0.0:4222
-     Client URLs: 
+     Auth Required: true
+      TLS Required: false
+              Host: 0.0.0.0:4222
 
 Limits:
 
-        Max Conn: 65536
-        Max Subs: 0
-     Max Payload: 1.0 MiB
-     TLS Timeout: 2s
-  Write Deadline: 10s
+          Max Conn: 65,536
+          Max Subs: 0
+       Max Payload: 1.0 MiB
+       TLS Timeout: 2.00s
+    Write Deadline: 10.00s
 
 Statistics:
 
-       CPU Cores: 8 0.00%
-          Memory: 16 MiB
-     Connections: 1
-   Subscriptions: 41
-            Msgs: 2 in 1 out
-           Bytes: 4 B in 1.2 KiB out
-  Slow Consumers: 0
+         CPU Cores: 8 0.00%
+            Memory: 11 MiB
+       Connections: 1
+     Subscriptions: 55
+          Messages: 2 in 0 out
+             Bytes: 4 B in 0 B out
+    Slow Consumers: 0
+Server information for NAIMXQHGXWTPFMHK5FSHRH7H4SDVTXDUOPJ5AQBE2G6RYNWFHKKVZBBU
 
+Process Details:
+
+           Version: 2.10.1
+        Git Commit: 
+        Go Version: go1.21.3
+        Start Time: 2023-10-23 19:30:16
+  Config Load Time: 2023-10-23 19:30:17
+            Uptime: 0s
+
+Connection Details:
+
+     Auth Required: true
+      TLS Required: false
+              Host: 0.0.0.0:4222
+
+Limits:
+
+          Max Conn: 65,536
+          Max Subs: 0
+       Max Payload: 1.0 MiB
+       TLS Timeout: 2.00s
+    Write Deadline: 10.00s
+
+Statistics:
+
+         CPU Cores: 8 0.00%
+            Memory: 11 MiB
+       Connections: 1
+     Subscriptions: 55
+          Messages: 3 in 1 out
+             Bytes: 6 B in 1.3 KiB out
+    Slow Consumers: 0

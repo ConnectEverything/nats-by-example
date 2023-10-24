@@ -46,77 +46,77 @@ Obtaining Stream stats
 ╰────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴──────────╯
 
 View 3 messages from FOO...
-[1] Subject: foo Received: 2023-03-16T13:47:15Z
+[1] Subject: foo Received: 2023-10-24T10:50:07Z
 
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.498542395Z
   Nats-Streaming-Channel: foo
   Nats-Streaming-Sequence: 501
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.980419925Z
 
 foo: 500
 
-[2] Subject: foo Received: 2023-03-16T13:47:15Z
+[2] Subject: foo Received: 2023-10-24T10:50:07Z
 
   Nats-Streaming-Channel: foo
   Nats-Streaming-Sequence: 502
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.498744251Z
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.980773425Z
 
 foo: 501
 
-[3] Subject: foo Received: 2023-03-16T13:47:15Z
+[3] Subject: foo Received: 2023-10-24T10:50:07Z
 
   Nats-Streaming-Channel: foo
   Nats-Streaming-Sequence: 503
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.498891855Z
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.981072175Z
 
 foo: 502
 
 View 3 messages from BAR...
-[1] Subject: bar Received: 2023-03-16T13:47:15Z
+[1] Subject: bar Received: 2023-10-24T10:50:07Z
 
   Nats-Streaming-Sequence: 301
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.468135538Z
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.886964217Z
   Nats-Streaming-Channel: bar
 
 bar: 300
 
-[2] Subject: bar Received: 2023-03-16T13:47:15Z
+[2] Subject: bar Received: 2023-10-24T10:50:07Z
 
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.468273975Z
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.887295217Z
   Nats-Streaming-Channel: bar
   Nats-Streaming-Sequence: 302
 
 bar: 301
 
-[3] Subject: bar Received: 2023-03-16T13:47:15Z
+[3] Subject: bar Received: 2023-10-24T10:50:07Z
 
-  Nats-Streaming-Sequence: 303
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.468426362Z
   Nats-Streaming-Channel: bar
+  Nats-Streaming-Sequence: 303
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.887588425Z
 
 bar: 302
 
 View 3 messages from BAZ...
-[1] Subject: baz Received: 2023-03-16T13:47:15Z
+[1] Subject: baz Received: 2023-10-24T10:50:07Z
 
   Nats-Streaming-Channel: baz
   Nats-Streaming-Sequence: 1
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.417890683Z
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.692320384Z
 
 baz: 0
 
-[2] Subject: baz Received: 2023-03-16T13:47:15Z
+[2] Subject: baz Received: 2023-10-24T10:50:07Z
 
   Nats-Streaming-Sequence: 2
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.418128722Z
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.693268425Z
   Nats-Streaming-Channel: baz
 
 baz: 1
 
-[3] Subject: baz Received: 2023-03-16T13:47:15Z
+[3] Subject: baz Received: 2023-10-24T10:50:07Z
 
-  Nats-Streaming-Timestamp: 2023-03-16T13:47:15.418472689Z
   Nats-Streaming-Channel: baz
   Nats-Streaming-Sequence: 3
+  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.694051675Z
 
 baz: 2
 

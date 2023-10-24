@@ -1,10 +1,10 @@
 Test alice
-13:56:15 Published 16 bytes to "test"
+19:30:25 Published 16 bytes to "test"
 Test bob on denied subject
-13:56:15 Unexpected NATS error: nats: Permissions Violation for Publish to "test"
+19:30:25 Unexpected NATS error: nats: Permissions Violation for Publish to "test"
 nats: error: nats: Permissions Violation for Publish to "test"
 Test bob on allowed subject
-13:56:16 Published 14 bytes to "bob.test"
+19:30:25 Published 14 bytes to "bob.test"
 Test unknown user
 nats: error: nats: Authorization Violation
 Test system account user
@@ -13,7 +13,7 @@ Test system account user
 ├──────────────────────────────────────────────────────────┬─────────┬──────┬─────────┬────┬───────┬──────┬────────┬─────┬────────┬───────┬───────┬──────┬────────┬─────┤
 │ Name                                                     │ Cluster │ Host │ Version │ JS │ Conns │ Subs │ Routes │ GWs │ Mem    │ CPU % │ Cores │ Slow │ Uptime │ RTT │
 ├──────────────────────────────────────────────────────────┼─────────┼──────┼─────────┼────┼───────┼──────┼────────┼─────┼────────┼───────┼───────┼──────┼────────┼─────┤
-│ NBNLVZF6DZKOB32OBKEUKLZXJSUW4QD7JYUBDDNQ5KOJDDNOO26SEJK5 │         │ 0    │ 2.10.1  │ no │ 2     │ 64   │      0 │   0 │ 14 MiB │ 0     │     2 │    0 │ 2.10s  │ 1ms │
+│ NATGJ6PRBRYSRRFA6UXDHXNM4Q72YKQZOF4IJP2UWX52QKXIOHB2KSRV │         │ 0    │ 2.10.1  │ no │ 2     │ 73   │      0 │   0 │ 11 MiB │ 0     │     8 │    0 │ 2.34s  │ 6ms │
 ├──────────────────────────────────────────────────────────┼─────────┼──────┼─────────┼────┼───────┼──────┼────────┼─────┼────────┼───────┼───────┼──────┼────────┼─────┤
-│                                                          │ 0       │ 1    │         │ 0  │ 2     │ 64   │        │     │ 14 MIB │       │       │    0 │        │     │
+│                                                          │ 0       │ 1    │         │ 0  │ 2     │ 73   │        │     │ 11 MIB │       │       │    0 │        │     │
 ╰──────────────────────────────────────────────────────────┴─────────┴──────┴─────────┴────┴───────┴──────┴────────┴─────┴────────┴───────┴───────┴──────┴────────┴─────╯
