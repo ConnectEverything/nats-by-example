@@ -11,8 +11,8 @@
   ],
   "redirects": [
     {
-      "source": "/examples/micro/:path*",
-      "destination": "/examples/services/:path*",
+      "source": "/examples/micro/(.*)",
+      "destination": "/examples/services/$1",
       "permanent": true
     }
   ],
