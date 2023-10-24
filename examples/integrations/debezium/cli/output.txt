@@ -1,0 +1,22 @@
+Create and populate the database.
+CREATE TABLE
+INSERT 0 1
+INSERT 0 1
+UPDATE 1
+UPDATE 1
+DELETE 1
+CREATE TABLE
+INSERT 0 1
+
+Stream subjects.
+╭─────────────────────────────────────────────────────────────────╮
+│               2 Subjects in stream DebeziumStream               │
+├───────────────────────┬───────┬─────────────────────────┬───────┤
+│ Subject               │ Count │ Subject                 │ Count │
+├───────────────────────┼───────┼─────────────────────────┼───────┤
+│ postgres.public.books │ 1     │ postgres.public.profile │ 5     │
+╰───────────────────────┴───────┴─────────────────────────┴───────╯
+
+
+Change events.
+exit status 1
