@@ -6,7 +6,7 @@ Mix.install([
   {:jason, "~> 1.0"}
 ])
 
-url = System.get_env("NATS_URL", "127.0.0.1")
+url = System.get_env("NATS_URL", "nats://127.0.0.1:4222")
 uri = URI.parse(url)
 
 # Call `start_link` on `Gnat` to start the Gnat application supervisor
