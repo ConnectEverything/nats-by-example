@@ -4,7 +4,7 @@ use (
 	./cmd/nbe
 	./docker/go
   ./examples/messaging/protobuf/go
-  ./examples/micro/intro/go
+  ./examples/services/intro/go
   ./examples/operations/stan2js/cli/generate-stan-data
   ./examples/auth/callout/cli/service
   ./examples/auth/callout-decentralized/cli/service
