@@ -1,0 +1,5 @@
+Created Service: minmax with the id: 99Trm52SLGA0UQ9qsUCdwo
+Min value is: -2000
+Max value is: 100
+The min service received 1 request(s).
+The max service received 1 request(s).

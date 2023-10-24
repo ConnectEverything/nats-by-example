@@ -1,0 +1,7 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1698155391, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: micro/intro/dotnet"}
+[1.901446, "o", "Created Service: minmax with the id: Y0Z6t-Hg8tLMBTi3_YmSRK\r\n"]
+[1.956285, "o", "Min value is: -2000\r\n"]
+[1.957739, "o", "Max value is: 100\r\n"]
+[1.959158, "o", "The min service received 1 request(s).\r\nThe max service received 1 request(s).\r\n"]
+[1.97364, "o", "DisconnectedEvent, Connection: 5\r\n"]
+[1.974473, "o", "ClosedEvent, Connection: 5\r\n"]

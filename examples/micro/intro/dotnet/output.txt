@@ -1,0 +1,7 @@
+Created Service: minmax with the id: Y0Z6t-Hg8tLMBTi3_YmSRK
+Min value is: -2000
+Max value is: 100
+The min service received 1 request(s).
+The max service received 1 request(s).
+DisconnectedEvent, Connection: 5
+ClosedEvent, Connection: 5

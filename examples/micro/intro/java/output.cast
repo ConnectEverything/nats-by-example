@@ -1,0 +1,10 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1698155416, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: micro/intro/java"}
+[1.22159, "o", "Created Service: minmax with the id: 99Trm52SLGA0UQ9qsUCdwo"]
+[1.222677, "o", "\r\n"]
+[1.23313, "o", "Min value is: -2000"]
+[1.233354, "o", "\r\n"]
+[1.233812, "o", "Max value is: 100"]
+[1.233993, "o", "\r\n"]
+[1.234917, "o", "The min service received 1 request(s)."]
+[1.235094, "o", "\r\n"]
+[1.235427, "o", "The max service received 1 request(s).\r\n"]
