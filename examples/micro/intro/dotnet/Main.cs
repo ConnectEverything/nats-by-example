@@ -95,7 +95,7 @@ using (IConnection c = cf.CreateConnection(opts))
     Console.WriteLine($"The max service received {esMax.NumRequests} request(s).");
 }
 
-private static void minRequestHandler(IConnection conn, ServiceMsg msg)
+static void minRequestHandler(IConnection conn, ServiceMsg msg)
 {
     int min = int.MaxValue;
     string[] input = Encoding.UTF8.GetString(msg.Data).Split(',');
@@ -105,7 +105,7 @@ private static void minRequestHandler(IConnection conn, ServiceMsg msg)
     msg.Respond(conn, Encoding.UTF8.GetBytes("" + min));
 }
 
-private static void maxRequestHandler(IConnection conn, ServiceMsg msg)
+static void maxRequestHandler(IConnection conn, ServiceMsg msg)
 {
     int max = int.MinValue;
     string[] input = Encoding.UTF8.GetString(msg.Data).Split(',');
