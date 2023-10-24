@@ -1,11 +1,15 @@
 package example;
 
-import io.nats.client.*;
-import io.nats.client.api.*;
-import io.nats.client.impl.Headers;
+import io.nats.client.Connection;
+import io.nats.client.Message;
+import io.nats.client.Nats;
+import io.nats.service.*;
 
 import java.io.IOException;
-import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public class Main {
   public static void main(String[] args) {
