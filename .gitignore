@@ -1,3 +1,4 @@
+.elixir_ls/
 dist
 node_modules
 html
