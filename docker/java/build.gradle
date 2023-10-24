@@ -7,7 +7,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.nats:jnats:2.16.14'
+    implementation 'io.nats:jnats:2.17.1'
 }
 
 apply plugin: 'java'
