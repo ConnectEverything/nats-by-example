@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
 
@@ -28,11 +28,10 @@ jobs:
           python3 -m pip install asciinema
 
       - name: Setup Go
-        uses: actions/setup-go@v3
+        uses: actions/setup-go@v4
         with:
-          go-version-file: cmd/nbe/go.mod
+          go-version: "1.21"
           cache-dependency-path: cmd/nbe/go.sum
-          cache: true
 
       - name: Test nbe
         run: |
@@ -48,7 +47,7 @@ jobs:
           nbe generate recording --exit-on-error
 
       - name: Auto-commit generated recordings
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         if: ${{ github.ref_name == 'main' }}
         with:
           commit_message: Auto-commit recording
@@ -67,6 +66,7 @@ jobs:
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_TEAM_SCOPE }}
           working-directory: ./html
+          github-comment: "true"
 
       - name: Vercel production deploy
         uses: amondnet/vercel-action@v25
