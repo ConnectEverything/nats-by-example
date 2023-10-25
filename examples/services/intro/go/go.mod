@@ -1,4 +1,4 @@
-module github.com/ConnectEverything/nats-by-example/examples/micro/intro/go
+module github.com/ConnectEverything/nats-by-example/examples/services/intro/go
 
 go 1.21.0
 

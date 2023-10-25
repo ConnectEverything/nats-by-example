@@ -1,6 +1,6 @@
 title: Intro
 description: |
-  NATS services have always been straightforward to write. However, with the micro
+  NATS services have always been straightforward to write. However, with the services
   framework, the NATS client library further simplifies the building, discovery and
   monitoring of services. The framework automatically places all subscriptions in
   a queue group and provides functionality for building subject hierarchies and

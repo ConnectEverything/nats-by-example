@@ -9,6 +9,13 @@
       "src": "./**"
     }
   ],
+  "redirects": [
+    {
+      "source": "/examples/micro/:path*",
+      "destination": "/examples/services/:path*",
+      "permanent": true
+    }
+  ],
   "cleanUrls": true,
   "trailingSlash": true
 }
