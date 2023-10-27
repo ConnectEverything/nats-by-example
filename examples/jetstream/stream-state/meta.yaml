@@ -1,0 +1,7 @@
+title: Stream state
+description: |-
+  This example shows how you might extract the current state of a stream
+  into a map. The subject is used to define keys in a map
+  or could be used to define fields in a struct. For this example, we'll
+  assume the message payload is always a string, but you could encode
+  different subjects into different payloads (bool, float, int, []byte, etc).
