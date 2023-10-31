@@ -5,7 +5,7 @@ go 1.21.0
 require (
 	github.com/nats-io/jwt/v2 v2.5.2
 	github.com/nats-io/nats.go v1.31.0
-	github.com/nats-io/nkeys v0.4.5
+	github.com/nats-io/nkeys v0.4.6
 )
 
 require (
