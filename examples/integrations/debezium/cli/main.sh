@@ -36,4 +36,5 @@ nats stream subjects DebeziumStream
 # Print the data in the stream, plucking out the before and after values
 # for ease of reading.
 printf '\nChange events.\n'
-nats stream view --raw DebeziumStream 2> /dev/null | jq -r '.payload'
+nats consumer add DebeziumStream viewer --ephemeral --pull --defaults > /dev/null
+nats consumer next --raw --count 5 DebeziumStream viewer | jq -r '.payload'

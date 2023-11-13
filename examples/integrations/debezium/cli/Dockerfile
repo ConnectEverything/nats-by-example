@@ -2,7 +2,7 @@ FROM golang:1.21-alpine3.18 AS build
 
 RUN apk update && apk add git
 
-RUN go install github.com/nats-io/nats-server/v2@v2.10.3
+RUN go install github.com/nats-io/nats-server/v2@v2.10.5
 RUN go install github.com/nats-io/natscli/nats@v0.1.1
 
 FROM alpine:3.18
