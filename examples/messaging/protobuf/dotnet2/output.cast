@@ -1,0 +1,13 @@
+{"version": 2, "width": 104, "height": 51, "timestamp": 1700866828, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/protobuf/dotnet2"}
+[2.111974, "o", "\u001b[1A\u001b[1A\u001b[1A\u001b[0G\u001b[?25l\u001b[34m[+] Creating 2/2\u001b[0m\r\n \u001b[32m✔\u001b[0m Network 5c43c51a_default   \u001b[32mCreated\u001b[0m                                                              \u001b[34m0.0s \u001b[0m\r\n \u001b[32m✔\u001b[0m Container 5c43c51a-nats-1  \u001b[32mCreated\u001b[0m                                                              \u001b[34m0.1s \u001b[0m\r\n\u001b[?25h"]
+[2.21306, "o", "\u001b[1A\u001b[1B\u001b[0G\u001b[?25l"]
+[2.370121, "o", "\u001b[1A\u001b[1A\u001b[0G\u001b[?25l\u001b[34m[+] Running 1/1\u001b[0m\r\n"]
+[2.370258, "o", " \u001b[32m✔\u001b[0m Container 5c43c51a-nats-1  \u001b[32mStarted\u001b[0m                                                              \u001b[34m0.3s \u001b[0m\r\n\u001b[?25h"]
+[3.160233, "o", "info: NATS-by-Example[0]\r\n      Waiting for messages...\r\n"]
+[3.17886, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Try to connect NATS nats://nats:4222\r\n"]
+[3.220438, "o", "info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]\r\n      Received server info: ServerInfo { Id = NA72EB2CWILSF3SWRJDGX7DMLNFMM3HBEHGV5MVI5XMOFQ2DKX7HQ6LD, Name = NA72EB2CWILSF3SWRJDGX7DMLNFMM3HBEHGV5MVI5XMOFQ2DKX7HQ6LD, Version = 2.9.15, ProtocolVersion = 1, GitCommit = b91fa85, GoVersion = go1.19.6, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 4, ClientIp = 192.168.80.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }\r\n"]
+[3.239518, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Connect succeed NATS-by-Example, NATS nats://nats:4222\r\n"]
+[3.262494, "o", "info: NATS-by-Example[0]\r\n      Response = hello bob...\r\n"]
+[3.265128, "o", "info: NATS-by-Example[0]\r\n      Received empty payload: End of messages\r\n"]
+[3.266397, "o", "info: NATS-by-Example[0]\r\n      Bye!\r\n"]
+[3.267287, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Disposing connection NATS-by-Example\r\n"]
