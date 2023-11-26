@@ -1,13 +1,7 @@
-[1A[1A[1A[0G[?25l[34m[+] Creating 2/2[0m
- [32m✔[0m Network 0df29123_default   [32mCreated[0m                                                              [34m0.0s [0m
- [32m✔[0m Container 0df29123-nats-1  [32mCreated[0m                                                              [34m0.1s [0m
-[?25h[1A[1B[0G[?25l[+] Running 0/0
-[1A[1A[0G[?25l[34m[+] Running 1/1[0m
- [32m✔[0m Container 0df29123-nats-1  [32mStarted[0m                                                              [34m0.2s [0m
-[?25hinfo: NATS.Client.Core.NatsConnection[1001]
+info: NATS.Client.Core.NatsConnection[1001]
       Try to connect NATS nats://nats:4222
 info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
-      Received server info: ServerInfo { Id = NBFCVHLRU7XOI2E76KMN5VJIZJJICD46CBS7YZWRQPGJQKSOG5LTIHYV, Name = NBFCVHLRU7XOI2E76KMN5VJIZJJICD46CBS7YZWRQPGJQKSOG5LTIHYV, Version = 2.9.15, ProtocolVersion = 1, GitCommit = b91fa85, GoVersion = go1.19.6, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 4, ClientIp = 192.168.64.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+      Received server info: ServerInfo { Id = NCGBX2DWLQ6UCLYUSRL7CE4C5U4OIFNM3XPHG3IEVLHT7BN6AFOPAEBP, Name = NCGBX2DWLQ6UCLYUSRL7CE4C5U4OIFNM3XPHG3IEVLHT7BN6AFOPAEBP, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 172.20.0.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
 info: NATS.Client.Core.NatsConnection[1001]
       Connect succeed NATS-by-Example, NATS nats://nats:4222
 info: NATS-by-Example[0]

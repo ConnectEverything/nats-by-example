@@ -1,8 +1,5 @@
 // Install NuGet packages `NATS.Net` and `Microsoft.Extensions.Logging.Console`.
-
-using System.Net.WebSockets;
 using Microsoft.Extensions.Logging;
-using Microsoft.VisualBasic;
 using NATS.Client.Core;
 using NATS.Client.JetStream;
 using NATS.Client.ObjectStore;
@@ -33,9 +30,6 @@ var obj = new NatsObjContext(js);
 var store = await obj.CreateObjectStore("configs");
 
 // You can get information on the object store by getting its info:
-/*let status = await os.status();
-console.log(`the object store has ${status.size} bytes`);
-*/
 var status = await store.GetStatusAsync();
 logger.LogInformation("The object store has {Size} bytes", status.Info.State.Bytes);
 
@@ -55,8 +49,6 @@ await store.UpdateMetaAsync("a", new ObjectMetadata { Name = "a", Description = 
 
 // we expect this store to only contain one entry
 // You can list its contents:
-/*let entries = await os.list();
-console.log(`the object store contains ${entries.length} entries`);*/
 var count = 0;
 await foreach (var entry in store.ListAsync())
 {

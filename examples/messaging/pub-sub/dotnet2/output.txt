@@ -1,12 +1,7 @@
-[1A[1A[1A[0G[?25l[34m[+] Creating 2/2[0m
- [32m✔[0m Network f5403c9f_default   [32mCreated[0m                                                              [34m0.1s [0m
- [32m✔[0m Container f5403c9f-nats-1  [32mCreated[0m                                                              [34m0.1s [0m
-[?25h[1A[1A[0G[?25l[34m[+] Running 1/1[0m
- [32m✔[0m Container f5403c9f-nats-1  [32mStarted[0m                                                              [34m0.2s [0m
-[?25hinfo: NATS.Client.Core.NatsConnection[1001]
+info: NATS.Client.Core.NatsConnection[1001]
       Try to connect NATS nats://nats:4222
 info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
-      Received server info: ServerInfo { Id = NBHHZFTV5DITOQR4MGAJFOIZ2MAXM4WCOEKWWTRS4TLKRGX4BF4Y7AOY, Name = NBHHZFTV5DITOQR4MGAJFOIZ2MAXM4WCOEKWWTRS4TLKRGX4BF4Y7AOY, Version = 2.9.15, ProtocolVersion = 1, GitCommit = b91fa85, GoVersion = go1.19.6, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 4, ClientIp = 192.168.32.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+      Received server info: ServerInfo { Id = NA5KDEZVXJXTIYMQAXRROBZL3WMLCO63YO2Z5QJOABXIFQZDN3AKTBF2, Name = NA5KDEZVXJXTIYMQAXRROBZL3WMLCO63YO2Z5QJOABXIFQZDN3AKTBF2, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 172.18.0.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
 info: NATS.Client.Core.NatsConnection[1001]
       Connect succeed NATS-by-Example, NATS nats://nats:4222
 info: NATS-by-Example[0]

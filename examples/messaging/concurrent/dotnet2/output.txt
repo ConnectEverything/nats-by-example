@@ -1,33 +1,26 @@
-[1A[1A[1A[0G[?25l[34m[+] Creating 2/2[0m
- [32m✔[0m Network 07f9fbb3_default   [32mCreated[0m                                                              [34m0.0s [0m
- [32m✔[0m Container 07f9fbb3-nats-1  [32mCreated[0m                                                              [34m0.1s [0m
-[?25h[1A[1A[0G[?25l[+] Running 0/1
-[1A[1A[0G[?25l[34m[+] Running 1/1[0m
- [32m✔[0m Container 07f9fbb3-nats-1  [32mStarted[0m                                                              [34m0.2s [0m
-[?25hinfo: NATS.Client.Core.NatsConnection[1001]
+info: NATS.Client.Core.NatsConnection[1001]
       Try to connect NATS nats://nats:4222
 info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
-      Received server info: ServerInfo { Id = NDUPZYXWWIQXUPCGOA36Q2FF3CYHFTB7GX2OZKVBBNYAP5R2IZ6D3XX7, Name = NDUPZYXWWIQXUPCGOA36Q2FF3CYHFTB7GX2OZKVBBNYAP5R2IZ6D3XX7, Version = 2.9.15, ProtocolVersion = 1, GitCommit = b91fa85, GoVersion = go1.19.6, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 4, ClientIp = 192.168.96.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+      Received server info: ServerInfo { Id = NBV3DDRVEHSPKTV7ZQV6PBYT6FAPORASTCDJLA4CCSC5XKKYEUVPJUI4, Name = NBV3DDRVEHSPKTV7ZQV6PBYT6FAPORASTCDJLA4CCSC5XKKYEUVPJUI4, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 172.22.0.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
 info: NATS.Client.Core.NatsConnection[1001]
       Connect succeed NATS-by-Example, NATS nats://nats:4222
-Received hello 0
-Received hello 3
 Received hello 2
+Received hello 3
+Received hello 0
 Received hello 1
 Received hello 4
-Received hello 5
-Received hello 6
+Received hello 8
 Received hello 9
 Received hello 10
 Received hello 11
 Received hello 12
-Received hello 8
-Received hello 7
 Received hello 13
-Received hello 16
 Received hello 14
-Received hello 17
 Received hello 15
+Received hello 6
+Received hello 17
+Received hello 18
+Received hello 19
 Received hello 20
 Received hello 21
 Received hello 22
@@ -39,10 +32,10 @@ Received hello 27
 Received hello 28
 Received hello 29
 Received hello 30
+Received hello 16
 Received hello 31
 Received hello 32
 Received hello 33
-Received hello 34
 Received hello 35
 Received hello 36
 Received hello 37
@@ -57,9 +50,10 @@ Received hello 45
 Received hello 46
 Received hello 47
 Received hello 48
-Received hello 18
 Received hello 49
-Received hello 19
+Received hello 7
+Received hello 5
+Received hello 34
 info: NATS-by-Example[0]
       Bye!
 info: NATS.Client.Core.NatsConnection[1001]

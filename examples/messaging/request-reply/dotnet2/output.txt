@@ -1,17 +1,12 @@
-[1A[1A[1A[0G[?25l[34m[+] Creating 2/2[0m
- [32m✔[0m Network 84144331_default   [32mCreated[0m                                                              [34m0.0s [0m
- [32m✔[0m Container 84144331-nats-1  [32mCreated[0m                                                              [34m0.1s [0m
-[?25h[1A[1A[0G[?25l[34m[+] Running 1/1[0m
- [32m✔[0m Container 84144331-nats-1  [32mStarted[0m                                                              [34m0.2s [0m
-[?25h00:00:00.0008875 [CON] Connecting to nats://nats:4222...
-00:00:00.1217246 [REQ] From joe
-00:00:00.1357677 [REP] Received greet.joe
-00:00:00.6472406 [REQ] Hello joe!
-00:00:00.6473113 [REQ] From sue
-00:00:00.6480439 [REP] Received greet.sue
-00:00:01.1492449 [REQ] Hello sue!
-00:00:01.1492994 [REQ] From bob
-00:00:01.1497716 [REP] Received greet.bob
-00:00:01.6509857 [REQ] Hello bob!
-00:00:03.6522876 [REQ] timed out!
-00:00:03.6523581 Bye!
+00:00:00.0008194 [CON] Connecting to nats://nats:4222...
+00:00:00.1225386 [REQ] From joe
+00:00:00.1374172 [REP] Received greet.joe
+00:00:00.6489792 [REQ] Hello joe!
+00:00:00.6490418 [REQ] From sue
+00:00:00.6498312 [REP] Received greet.sue
+00:00:01.1512245 [REQ] Hello sue!
+00:00:01.1512731 [REQ] From bob
+00:00:01.1518886 [REP] Received greet.bob
+00:00:01.6531626 [REQ] Hello bob!
+00:00:03.6546766 [REQ] timed out!
+00:00:03.6547387 Bye!
