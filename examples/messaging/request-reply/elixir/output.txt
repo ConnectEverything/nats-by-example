@@ -1,0 +1,46 @@
+* creating /root/.mix/archives/hex-2.0.6
+Resolving Hex dependencies...
+Resolution completed in 0.051s
+New:
+  cowlib 2.12.1
+  ed25519 1.4.1
+  gnat 1.7.1
+  jason 1.4.1
+  nimble_parsec 1.4.0
+  nkeys 0.2.2
+  telemetry 1.2.1
+* Getting gnat (Hex package)
+* Getting jason (Hex package)
+* Getting cowlib (Hex package)
+* creating /root/.mix/elixir/1-15/rebar3
+* Getting nimble_parsec (Hex package)
+* Getting nkeys (Hex package)
+* Getting telemetry (Hex package)
+* Getting ed25519 (Hex package)
+You have added/upgraded packages you could sponsor, run `mix hex.sponsor` to learn more
+==> ed25519
+Compiling 2 files (.ex)
+Generated ed25519 app
+==> nkeys
+Compiling 2 files (.ex)
+Generated nkeys app
+==> nimble_parsec
+Compiling 4 files (.ex)
+Generated nimble_parsec app
+===> Analyzing applications...
+===> Compiling telemetry
+==> jason
+Compiling 10 files (.ex)
+Generated jason app
+===> Analyzing applications...
+===> Compiling cowlib
+==> gnat
+Compiling 11 files (.ex)
+Generated gnat app
+
+18:23:21.015 [debug] connecting to %{port: 4222, host: "nats"}
+Demo request received message: "input data"
+First result: This is a demo
+Demo request received message: "more data"
+Second result: This is a demo
+Failure result: An error occurred: "something went wrong!"
