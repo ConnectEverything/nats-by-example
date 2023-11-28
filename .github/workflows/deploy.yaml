@@ -1,8 +1,5 @@
 name: deploy
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
   run:
@@ -18,6 +15,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
 
       - name: Setup Python
         uses: actions/setup-python@v4
@@ -49,6 +48,7 @@ jobs:
 
       - name: Auto-commit generated recordings
         uses: stefanzweifel/git-auto-commit-action@v5
+        if: ${{ github.ref_name == 'main' }}
         with:
           commit_message: Auto-commit recording
           file_pattern: examples/**/output.txt examples/**/output.cast
@@ -57,12 +57,23 @@ jobs:
         run: |
           nbe build
 
-      - name: Vercel production deploy
+      - name: Vercel preview deploy
         uses: amondnet/vercel-action@v25
         with:
-          vercel-args: "--prod"
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
+          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+          scope: ${{ secrets.VERCEL_TEAM_SCOPE }}
+          working-directory: ./html
+
+      - name: Vercel production deploy
+        uses: amondnet/vercel-action@v25
+        if: ${{ github.ref_name == 'main' }}
+        with:
+          vercel-args: "--prod"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          vercel-token: ${{ secrets.VERCEL_TOKEN }}
           vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
           vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
           scope: ${{ secrets.VERCEL_TEAM_SCOPE }}
