@@ -7,7 +7,7 @@ description: |-
   information.
 
   Unlike request-reply constrained protocols like HTTP, NATS is not limited
-  to a strict point-to-point interfaction between a client and server. The
+  to a strict point-to-point interaction between a client and server. The
   request-reply pattern is built on top of the core [publish-subscribe][pubsub]
   model.
 
