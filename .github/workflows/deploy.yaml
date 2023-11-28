@@ -59,6 +59,7 @@ jobs:
 
       - name: Vercel preview deploy
         uses: amondnet/vercel-action@v25
+        if: ${{ github.ref_name != 'main' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
