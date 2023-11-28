@@ -45,7 +45,7 @@ consumer_supervisor_settings = %{
 }
 
 # Starting the consumer supervisor will create the subscription and will monitor
-# the connection for failures to re-establish subscriptions in case of failure
+# the connection to re-establish subscriptions in case of failure
 {:ok , _pid} = Gnat.ConsumerSupervisor.start_link(consumer_supervisor_settings)
 
 
