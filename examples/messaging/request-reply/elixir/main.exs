@@ -65,7 +65,7 @@ defmodule ExampleService do
     {:reply, "This is a demo"}
   end
 
-   # defining an error handler is optional, the default one will just call Logger.error for you
+   # Defining an error handler is optional, the default one will just call Logger.error for you
    def error(%{gnat: gnat, reply_to: reply_to}, error) do
     Gnat.pub(gnat, reply_to, "An error occurred: #{inspect(error)}")
   end
