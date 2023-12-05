@@ -5,23 +5,21 @@ use std::{env, str::from_utf8};
 async fn main() -> Result<(), async_nats::Error> {
     // Use the NATS_URL env variable if defined, otherwise fallback
     // to the default.
-    let nats_url = env::var("NATS_URL")
-        .unwrap_or_else(|_| "nats://localhost:4222".to_string());
+    let nats_url = env::var("NATS_URL").unwrap_or_else(|_| "nats://localhost:4222".to_string());
 
     let client = async_nats::connect(nats_url).await?;
 
     // Publish a message to the subject `greet.joe`.
-    client.publish("greet.joe".into(), "hello".into()).await?;
+    client.publish("greet.joe", "hello".into()).await?;
 
     // `Subscriber` implements Rust iterator, so we can leverage
     // combinators like `take()` to limit the messages intended
     // to be consumed for this interaction.
-    let mut subscription =
-        client.subscribe("greet.*".to_string()).await?.take(3);
+    let mut subscription = client.subscribe("greet.*".to_string()).await?.take(3);
 
     // Publish to three different subjects matching the wildcard.
     for subject in ["greet.sue", "greet.bob", "greet.pam"] {
-        client.publish(subject.into(), "hello".into()).await?;
+        client.publish(subject, "hello".into()).await?;
     }
 
     // Notice that the first message received is `greet.sue` and not
