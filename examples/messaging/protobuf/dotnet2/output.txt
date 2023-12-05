@@ -1,0 +1,16 @@
+info: NATS-by-Example[0]
+      Waiting for messages...
+info: NATS.Client.Core.NatsConnection[1001]
+      Try to connect NATS nats://nats:4222
+info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
+      Received server info: ServerInfo { Id = NBG2DC6XCA2465Y3XIFCGH4YL7NFAEK4RLAKJD54G3YPD277HEEGD3W2, Name = NBG2DC6XCA2465Y3XIFCGH4YL7NFAEK4RLAKJD54G3YPD277HEEGD3W2, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 172.21.0.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+info: NATS.Client.Core.NatsConnection[1001]
+      Connect succeed NATS-by-Example, NATS nats://nats:4222
+info: NATS-by-Example[0]
+      Response = hello bob...
+info: NATS-by-Example[0]
+      Received empty payload: End of messages
+info: NATS-by-Example[0]
+      Bye!
+info: NATS.Client.Core.NatsConnection[1001]
+      Disposing connection NATS-by-Example

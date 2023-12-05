@@ -1,0 +1,90 @@
+info: NATS.Client.Core.NatsConnection[1001]
+      Try to connect NATS nats://nats:4222
+info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
+      Received server info: ServerInfo { Id = NCL2Z2LULLH7O54YP6SHWYAETV5NDRNW4DJZHVGTERHCZXVO43QRMEDN, Name = NCL2Z2LULLH7O54YP6SHWYAETV5NDRNW4DJZHVGTERHCZXVO43QRMEDN, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 172.23.0.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+info: NATS.Client.Core.NatsConnection[1001]
+      Connect succeed NATS-by-Example, NATS nats://nats:4222
+Received s1: 0
+Received s2: 0
+Received s3: 0
+Received s4: 0
+Received s1: 1
+Received s2: 1
+Received s3: 1
+Received s4: 1
+Received s2: 2
+Received s1: 2
+Received s3: 2
+Received s4: 2
+Received s1: 3
+Received s2: 3
+Received s3: 3
+Received s4: 3
+Received s2: 4
+Received s1: 4
+Received s3: 4
+Received s4: 4
+Received s1: 5
+Received s2: 5
+Received s3: 5
+Received s4: 5
+Received s1: 6
+Received s2: 6
+Received s3: 6
+Received s4: 6
+Received s1: 7
+Received s2: 7
+Received s3: 7
+Received s4: 7
+Received s3: 8
+Received s1: 8
+Received s2: 8
+Received s4: 8
+Received s1: 9
+Received s2: 9
+Received s3: 9
+Received s4: 9
+Received s1: 10
+Received s2: 10
+Received s3: 10
+Received s4: 10
+Received s1: 11
+Received s2: 11
+Received s3: 11
+Received s4: 11
+Received s1: 12
+Received s2: 12
+Received s3: 12
+Received s4: 12
+Received s1: 13
+Received s2: 13
+Received s3: 13
+Received s4: 13
+Received s1: 14
+Received s3: 14
+Received s4: 14
+Received s2: 14
+Received s3: 15
+Received s2: 15
+Received s4: 15
+Received s1: 15
+Received s1: 16
+Received s2: 16
+Received s3: 16
+Received s4: 16
+Received s1: 17
+Received s2: 17
+Received s3: 17
+Received s4: 17
+Received s1: 18
+Received s2: 18
+Received s3: 18
+Received s4: 18
+Received s1: 19
+Received s2: 19
+Received s3: 19
+Received s4: 19
+info: NATS-by-Example[0]
+      Bye!
+info: NATS.Client.Core.NatsConnection[1001]
+      Disposing connection NATS-by-Example
