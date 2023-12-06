@@ -10,8 +10,8 @@ description: |-
   acknowledged message from the client.
 
   Ephemeral consumers are useful as one-off needs and are a bit cheaper in
-  terms of resources and management. However, ephemerals do not support
-  multiple subscribers nor do they (of course) persist after the primary
+  terms of resources and management. However, ephemerals do not
+  (of course) persist after the primary
   subscriber unsubscribes. The server will automatically clean up (delete)
   the consumer after a period of time.
 
