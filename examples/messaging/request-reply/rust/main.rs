@@ -15,7 +15,7 @@ async fn main() -> Result<(), async_nats::Error> {
     // pair of publish-subscribe operations.
     // The _requests_ is just a subscription that _responds_ to a message
     // sent to it. This kind of subscription is called a _service_.
-    let mut requests = client.subscribe("greet.*".into()).await.unwrap();
+    let mut requests = client.subscribe("greet.*").await.unwrap();
 
     // Spawn a new task, so we can respond to incoming requests.
     // Usually request/response happens across clients and network
@@ -40,17 +40,17 @@ async fn main() -> Result<(), async_nats::Error> {
 
     // As there is a `Subscriber` listening to requests, we can sent those.
     // We're leaving the payload empty for these examples.
-    let response = client.request("greet.sue".into(), "".into()).await?;
+    let response = client.request("greet.sue", "".into()).await?;
     println!("got a response: {:?}", from_utf8(&response.payload)?);
 
-    let response = client.request("greet.john".into(), "".into()).await?;
+    let response = client.request("greet.john", "".into()).await?;
     println!("got a response: {:?}", from_utf8(&response.payload)?);
 
     // If we don't want to endlessly wait until response is returned, we can wrap
     // it in `tokio::time::timeout`.
     let response = tokio::time::timeout(
         Duration::from_millis(500),
-        client.request("greet.bob".into(), "".into()),
+        client.request("greet.bob", "".into()),
     )
     // first `?` is `Err` if timeout occurs, second is for actual response `Result`.
     .await??;

@@ -46,28 +46,28 @@ async fn main() -> Result<(), async_nats::Error> {
 
     // Send the publish request.
     jetstream
-        .publish("events.page_loaded".into(), "".into())
+        .publish("events.page_loaded", "".into())
         .await?
         // And wait for acknowledgement.
         .await?;
     jetstream
-        .publish("events.input_blurred".into(), "".into())
+        .publish("events.input_blurred", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.mouse_clicked".into(), "".into())
+        .publish("events.mouse_clicked")
         .await?
         .await?;
     jetstream
-        .publish("events.page_loaded".into(), "".into())
+        .publish("events.page_loaded", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.mouse_clicked".into(), "".into())
+        .publish("events.mouse_clicked", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.input_focused".into(), "".into())
+        .publish("events.input_focused", "".into())
         .await?
         .await?;
     println!("published 6 messages");
@@ -85,37 +85,37 @@ async fn main() -> Result<(), async_nats::Error> {
     // publish the messages and push it's Ack future into to Vec.
     acks.push(
         jetstream
-            .publish("events.input_changed".into(), "".into())
+            .publish("events.input_changed", "".into())
             .await?
             .into_future(),
     );
     acks.push(
         jetstream
-            .publish("events.input_blurred".into(), "".into())
+            .publish("events.input_blurred", "".into())
             .await?
             .into_future(),
     );
     acks.push(
         jetstream
-            .publish("events.key_pressed".into(), "".into())
+            .publish("events.key_pressed", "".into())
             .await?
             .into_future(),
     );
     acks.push(
         jetstream
-            .publish("events.input_focused".into(), "".into())
+            .publish("events.input_focused", "".into())
             .await?
             .into_future(),
     );
     acks.push(
         jetstream
-            .publish("events.input_changed".into(), "".into())
+            .publish("events.input_changed", "".into())
             .await?
             .into_future(),
     );
     acks.push(
         jetstream
-            .publish("events.input_blurred".into(), "".into())
+            .publish("events.input_blurred", "".into())
             .await?
             .into_future(),
     );
