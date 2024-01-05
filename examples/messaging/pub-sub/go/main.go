@@ -20,7 +20,7 @@ func main() {
 
 	// Drain is a safe way to to ensure all buffered messages that were published
 	// are sent and all buffered messages received on a subscription are processed
-	// being closing the connection.
+	// before closing the connection.
 	defer nc.Drain()
 
 	// Messages are published to subjects. Although there are no subscribers,
