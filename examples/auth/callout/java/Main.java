@@ -91,7 +91,7 @@ public class Main {
     }
   }
 
-  class AuthCalloutHandler implements ServiceMessageHandler {
+  static class AuthCalloutHandler implements ServiceMessageHandler {
     Connection nc;
 
     public AuthCalloutHandler(Connection nc) {
@@ -225,7 +225,7 @@ public class Main {
     return sb.append(']').toString();
   }
 
-  class AuthCalloutUser {
+  static class AuthCalloutUser {
     public String user;
     public String pass;
     public String account;
