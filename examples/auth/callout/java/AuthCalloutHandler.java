@@ -67,7 +67,7 @@ public class AuthCalloutHandler implements ServiceMessageHandler {
       respond(smsg, ar, userJwt, null);
     }
     catch (Exception e) {
-      e.printStackTrace()(e);
+      e.printStackTrace();
     }
   }
 
