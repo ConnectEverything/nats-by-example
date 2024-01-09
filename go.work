@@ -3,10 +3,10 @@ go 1.21.3
 use (
 	./cmd/nbe
 	./docker/go
-  ./examples/messaging/protobuf/go
-  ./examples/services/intro/go
-  ./examples/operations/stan2js/cli/generate-stan-data
-  ./examples/auth/callout/cli/service
-  ./examples/auth/callout-decentralized/cli/service
-  ./examples/auth/callout-decentralized/cli/client
+	./examples/auth/callout-decentralized/cli/client
+	./examples/auth/callout-decentralized/cli/service
+	./examples/auth/callout/cli/service
+	./examples/messaging/protobuf/go
+	./examples/operations/stan2js/cli/generate-stan-data
+	./examples/services/intro/go
 )
