@@ -77,21 +77,21 @@ sleep 2
 
 # Users sys, alice and bob are known to the example code
 # Confirm alice can connect and publish.
-echo 'Test alice'
+echo -e '\n\n--------------------------------------------------\nTest alice'
 nats --user alice --password alice pub test 'hello from alice'
 
 # Confirm bob cannot publish to a subject they are not allowed to.
-echo 'Test bob on denied subject'
+echo -e '\n\n--------------------------------------------------\nTest bob on denied subject'
 nats --user bob --password bob pub test 'hello from bob' || true
 
 # Confirm bob can connect and publish to a subject they are allowed to.
-echo 'Test bob on allowed subject'
+echo -e '\n\n--------------------------------------------------\nTest bob on allowed subject'
 nats --user bob --password bob pub bob.test 'hello from bob'
 
 # Confirm an unknown user cannot connect.
-echo 'Test unknown user'
+echo -e '\n\n--------------------------------------------------\nTest unknown user'
 nats --user pam --password pam pub test 'hello from pam' || true
 
 # Confirm the system account user has the expected system permission.
-echo 'Test system account user'
+echo -e '\n\n--------------------------------------------------\nTest system account user'
 nats --user sys --password sys server list
