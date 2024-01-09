@@ -71,10 +71,9 @@ sleep 1
 
 # Start the auth callout service providing the auth credentials
 # to connect and the issuer seed.
-gradle clean uberJar
-java -cp build/libs/example-uber.jar example.Main
+java -cp /app/example.jar example.Main &
 
-sleep 1
+sleep 2
 
 # Users sys, alice and bob are known to the example code
 # Confirm alice can connect and publish.

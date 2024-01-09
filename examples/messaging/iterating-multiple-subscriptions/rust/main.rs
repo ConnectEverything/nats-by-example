@@ -15,9 +15,9 @@ async fn main() -> Result<(), async_nats::Error> {
     // However, it's still possible to have just one stream of messages for such use case.
     //
     // First, let's subscribe to desired subjects.
-    let subscription_cars = client.subscribe("cars.>".into()).await?;
-    let subscription_planes = client.subscribe("planes.>".into()).await?;
-    let subscription_ships = client.subscribe("ships.>".into()).await?;
+    let subscription_cars = client.subscribe("cars.>").await?;
+    let subscription_planes = client.subscribe("planes.>").await?;
+    let subscription_ships = client.subscribe("ships.>").await?;
 
     // Then, spawn three tasks that publishes to each subject at the same time.
     tokio::task::spawn({
