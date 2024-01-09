@@ -29,17 +29,17 @@ async fn main() -> Result<(), async_nats::Error> {
     // To demonstrate the base case behavior of the stream without any consumers, we
     // will publish a few messages to the stream.
     jetstream
-        .publish("events.page_loaded".into(), "".into())
+        .publish("events.page_loaded", "".into())
         // First, await message to be published.
         .await?
         // Second, await the acknowledgement.
         .await?;
     jetstream
-        .publish("events.mouse_clicke".into(), "".into())
+        .publish("events.mouse_clicke", "".into())
         .await?
         .await?;
     let ack = jetstream
-        .publish("events.input_focused".into(), "".into())
+        .publish("events.input_focused", "".into())
         .await?
         .await?;
 
@@ -72,11 +72,11 @@ async fn main() -> Result<(), async_nats::Error> {
         .await?;
 
     jetstream
-        .publish("events.mouse_clicked".into(), "".into())
+        .publish("events.mouse_clicked", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.input_focused".into(), "".into())
+        .publish("events.input_focused", "".into())
         .await?
         .await?;
 
@@ -116,11 +116,11 @@ async fn main() -> Result<(), async_nats::Error> {
         .await?;
 
     jetstream
-        .publish("events.input_focused".into(), "".into())
+        .publish("events.input_focused", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.mouse_clicked".into(), "".into())
+        .publish("events.mouse_clicked", "".into())
         .await?
         .await?;
 
@@ -179,7 +179,7 @@ async fn main() -> Result<(), async_nats::Error> {
         .await?;
 
     jetstream
-        .publish("events.mouse_clicked".into(), "".into())
+        .publish("events.mouse_clicked", "".into())
         .await?
         .await?;
 

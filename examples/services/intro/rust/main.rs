@@ -19,7 +19,7 @@ async fn main() -> Result<(), async_nats::Error> {
     let client = async_nats::connect(nats_url).await?;
 
     // Uses the `service_builder` extension function to add a service definition to
-    // the NATS client. As soon as `start` is called, the service is now visible 
+    // the NATS client. As soon as `start` is called, the service is now visible
     // and available for interrogation and discovery.
     let service = client
         .service_builder()
@@ -71,12 +71,12 @@ async fn main() -> Result<(), async_nats::Error> {
 
     // Make a request on `minmax.min` and obtain the result
     let min_res = client
-        .request("minmax.min".to_string(), input_bytes.clone().into())
+        .request("minmax.min", input_bytes.clone().into())
         .await?;
 
     // Make a request on `minmax.max` and obtain the result
     let max_res = client
-        .request("minmax.max".to_string(), input_bytes.into())
+        .request("minmax.max", input_bytes.into())
         .await?;
 
     // Finally output our results

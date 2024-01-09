@@ -11,13 +11,13 @@ async fn main() -> Result<(), async_nats::Error> {
     let client = async_nats::connect(nats_url).await?;
 
     // Publish a message to the subject `greet.joe`.
-    client.publish("greet.joe".into(), "hello".into()).await?;
+    client.publish("greet.joe", "hello".into()).await?;
 
     // `Subscriber` implements Rust iterator, so we can leverage
     // combinators like `take()` to limit the messages intended
     // to be consumed for this interaction.
     let mut subscription =
-        client.subscribe("greet.*".to_string()).await?.take(3);
+        client.subscribe("greet.*").await?.take(3);
 
     // Publish to three different subjects matching the wildcard.
     for subject in ["greet.sue", "greet.bob", "greet.pam"] {

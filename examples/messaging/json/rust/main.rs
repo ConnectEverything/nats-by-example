@@ -22,15 +22,15 @@ async fn main() -> Result<(), async_nats::Error> {
 
     // Create a subscription that receives two messages. One message will
     // contain a valid serialized payload and the other will not.
-    let mut subscriber = client.subscribe("foo".into()).await?.take(2);
+    let mut subscriber = client.subscribe("foo").await?.take(2);
 
     // Construct a Payload value and serialize it.
     let payload = Payload{foo: "bar".to_string(), bar: 27};
     let bytes = serde_json::to_vec(&json!(payload))?;
 
     // Publish the serialized payload.
-    client.publish("foo".into(), bytes.into()).await?;
-    client.publish("foo".into(), "not json".into()).await?;
+    client.publish("foo", bytes.into()).await?;
+    client.publish("foo", "not json".into()).await?;
 
     // Loop through the expected messages and  attempt to deserialize the payload
     // into a Payload value. If deserialization into this type fails, alternate

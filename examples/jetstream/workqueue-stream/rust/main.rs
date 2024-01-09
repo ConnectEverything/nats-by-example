@@ -29,15 +29,15 @@ async fn main() -> Result<(), async_nats::Error> {
     // ### Queue messages
     // Publish a few messages.
     jetstream
-        .publish("events.us.page_loaded".into(), "".into())
+        .publish("events.us.page_loaded", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.eu.mouse_clicked".into(), "".into())
+        .publish("events.eu.mouse_clicked", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.us.input_focused".into(), "".into())
+        .publish("events.us.input_focused", "".into())
         .await?
         .await?;
     println!("published 3 messages");
@@ -113,19 +113,19 @@ async fn main() -> Result<(), async_nats::Error> {
         .await?;
 
     jetstream
-        .publish("events.eu.mouse_clicked".into(), "".into())
+        .publish("events.eu.mouse_clicked", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.us.page_loaded".into(), "".into())
+        .publish("events.us.page_loaded", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.us.input_focused".into(), "".into())
+        .publish("events.us.input_focused", "".into())
         .await?
         .await?;
     jetstream
-        .publish("events.eu.page_loaded".into(), "".into())
+        .publish("events.eu.page_loaded", "".into())
         .await?
         .await?;
     println!("published 4 messages");
