@@ -4,10 +4,13 @@ plugins {
 
 repositories {
     mavenCentral()
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots"
+    }
 }
 
 dependencies {
-    implementation 'io.nats:jnats:2.17.1'
+    implementation 'io.nats:jnats:2.17.3.auth-callout-SNAPSHOT'
 }
 
 apply plugin: 'java'
