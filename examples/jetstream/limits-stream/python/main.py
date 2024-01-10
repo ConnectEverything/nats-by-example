@@ -19,7 +19,6 @@ async def main():
     # Create a stream named 'events' and with subjects matching 'events.*'
     # 'events' will be a default stream that all events will be sent to
     # Storage parameter can be set to 'NONE' for no storage, 'FILE' for file based storage, or 'MEMORY' for memory based storage
-    await js.delete_stream('events')
     await js.add_stream(name='events', subjects=['events.*'], storage='file')
     
     # Publish 6 messages to the JetStream
@@ -53,7 +52,7 @@ async def main():
     
     # Update the 'events' stream to have a maximum age of 0.1 seconds
     await js.update_stream(name='events', subjects=['events.*'], max_msgs=10, max_bytes=300, max_age=0.1)
-    print("set max age to one second","\n")
+    print("set max age to 0.1 second","\n")
     
     # Check the number of messages in the stream using streams_info
     # StreamState includes the total number of messages in the stream
