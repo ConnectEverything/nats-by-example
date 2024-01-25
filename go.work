@@ -6,6 +6,7 @@ use (
 	./examples/auth/callout-decentralized/cli/client
 	./examples/auth/callout-decentralized/cli/service
 	./examples/auth/callout/cli/service
+	./examples/embedded/cluster/go
 	./examples/messaging/protobuf/go
 	./examples/operations/stan2js/cli/generate-stan-data
 	./examples/services/intro/go
