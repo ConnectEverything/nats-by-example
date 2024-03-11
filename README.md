@@ -18,16 +18,34 @@ There are three primary goals of this repo:
 
 The recommended way to get started is to browse the [website](https://natsbyexample.com) which provides nicer navigation and presentation for the example code in this repo.
 
-When you want to actually execute the example code, you can clone this repo, download the [`nbe`](https://github.com/ConnectEverything/nats-by-example/releases) CLI and use the `run` command at the root of the repo. For example:
+When you want to actually execute the example code, you need:
 
+1. Clone this repository.
+2. Download the [nbe](https://github.com/ConnectEverything/nats-by-example/releases) CLI, extract binary to the root of the cloned repository.
+Currently, the nbe CLI needs [Docker](https://docs.docker.com/) and [Compose](https://docs.docker.com/compose/) (v2+) to work. It runs a set of containers hosting the CLI client and the NATS server. Other container runtimes would be considered if requested (such as [Podman](https://podman.io/)).
+4. Install [Docker](https://docs.docker.com/) and [Compose](https://docs.docker.com/compose/) (if you do not have them installed).
+Make sure that docker is installed and up, with command:
+```sh
+$ sudo systemctl start docker
+```
+5. Run the command with an example you want to try at the root of the repo:
 ```sh
 $ nbe run messaging/pub-sub/cli
 ```
 
 This will run the NATS CLI implementation of the [core publish-subscribe example](https://natsbyexample.com/examples/messaging/pub-sub/cli/) in a set of containers.
 
-Currently, the `nbe` CLI depends on [Docker](https://docs.docker.com) and [Compose](https://docs.docker.com/compose/) (v2+) to run a set of containers hosting the CLI client and the NATS server. Other container runtimes would be considered if requested (such as [Podman](https://podman.io)).
+If everything is ok, you will see this output in console (timestamp will be different):
+```sh
+09:17:59 Published 5 bytes to "greet.joe" 
+09:17:59 Subscribing on greet.* 
+09:18:00 Published 5 bytes to "greet.joe"
 
+[1] Received on "greet.joe" 
+hello
+
+[2] Received on "greet.pam"
+```
 The name of the example corresponds to the directory structure under `examples/`, specifically `<category>/<example>/<client>`.
 
 Have questions, issues, or suggestions? Please open [start a discussion](https://github.com/ConnectEverything/nats-by-example/discussions) or open [an issue](https://github.com/ConnectEverything/nats-by-example/issues).
