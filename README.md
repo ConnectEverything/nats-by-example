@@ -22,10 +22,7 @@ When you want to actually execute the example code, you need to:
 
 **Pre-requisite requirement:** currently the nbe CLI needs [Docker](https://docs.docker.com/) and [Compose](https://docs.docker.com/compose/) (v2+) to work. It runs a set of containers hosting the CLI client and the NATS server. Other container runtimes would be considered if requested (such as [Podman](https://podman.io/)).
 Install [Docker](https://docs.docker.com/) and [Compose](https://docs.docker.com/compose/) (if you do not have them installed).
-Make sure that `docker` is installed and up, with command:
-```sh
-$ sudo systemctl start docker
-```
+
 1. Clone this repository.
 2. Download the [nbe](https://github.com/ConnectEverything/nats-by-example/releases) CLI and extract the binary to the root of the cloned repository.
 3. Run the command with an example you want to try at the root of the repo:
