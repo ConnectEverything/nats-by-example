@@ -53,63 +53,14 @@ public class Main {
       // ----------------------------------------------------------------------------------------------------
       CompletableFuture<Boolean> serviceStoppedFuture = acService.startService();
 
-      test(natsURL, "alice", "alice", "test", "should connect, publish and receive");
-      test(natsURL, "alice", "wrong", "n/a", "should not connect");
-      test(natsURL, "bob", "bob", "bob.test", "should connect, publish and receive");
-      test(natsURL, "bob", "bob", "test", "should connect, publish but not receive");
-
       // plenty of time to finish running the main.sh example script
-      Thread.sleep(2000);
+      Thread.sleep(20000);
 
       // A real service will do something like this
       // serviceStoppedFuture.get();
     }
     catch (Exception e) {
       e.printStackTrace();
-    }
-  }
-
-  public static void test(String natsURL, String u, String p, String subject, String behavior) {
-    System.out.println("\n--------------------------------------------------------------------------------");
-    System.out.println("[TEST] user     : " + u);
-    System.out.println("[TEST] subject  : " + subject);
-    System.out.println("[TEST] behavior : " + behavior);
-
-    Options options = new Options.Builder()
-        .server(natsURL)
-        .errorListener(new ErrorListener() {})
-        .userInfo(u, p)
-        .maxReconnects(3)
-        .build();
-
-    boolean connected = false;
-    try (Connection nc = Nats.connect(options)) {
-      System.out.println("[TEST] connected " + u);
-      connected = true;
-
-      AtomicBoolean gotMessage = new AtomicBoolean(false);
-      Dispatcher d = nc.createDispatcher(m -> {
-        System.out.println("[TEST] received message on '" + m.getSubject() + "'");
-        gotMessage.set(true);
-      });
-      d.subscribe(subject);
-
-      nc.publish(subject, (u + "-publish-" + System.currentTimeMillis()).getBytes());
-      System.out.println("[TEST] published to '" + subject + "'");
-
-      Thread.sleep(1000); // just giving time for publish to work
-
-      if (!gotMessage.get()) {
-        System.out.println("[TEST] no message from '" + subject + "'");
-      }
-    }
-    catch (Exception e) {
-      if (connected) {
-        System.out.println("[TEST] post connection exception, " + e);
-      }
-      else {
-        System.out.println("[TEST] did not connect, " + e);
-      }
     }
   }
 }
