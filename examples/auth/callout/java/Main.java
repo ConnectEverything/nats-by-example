@@ -1,26 +1,20 @@
 package example;
 
 import io.nats.client.*;
-import io.nats.client.impl.Headers;
-import io.nats.jwt.*;
-import io.nats.service.*;
+import io.nats.service.Endpoint;
+import io.nats.service.Service;
+import io.nats.service.ServiceBuilder;
+import io.nats.service.ServiceEndpoint;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-
-import static io.nats.jwt.Utils.getClaimBody;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Main {
 
   public static void main(String[] args) throws Exception {
     Options options = new Options.Builder()
         .server("nats://localhost:4222")
-        .errorListener(new ErrorListener() {
-        })
+        .errorListener(new ErrorListener() {})
         .userInfo("auth", "auth")
         .build();
 
@@ -54,13 +48,63 @@ public class Main {
       // ----------------------------------------------------------------------------------------------------
       CompletableFuture<Boolean> serviceStoppedFuture = acService.startService();
 
-      Thread.sleep(20_000); // plenty of time to finish running the main.sh example script
+      test("alice", "alice", "test", "should connect, publish and receive");
+      test("alice", "wrong", "n/a", "should not connect");
+      test("bob", "bob", "bob.test", "should connect, publish and receive");
+      test("bob", "bob", "test", "should connect, publish but not receive");
 
-      // a real app would likely use this future
+      // plenty of time to finish running the main.sh example script
+      Thread.sleep(2000);
+
+      // A real service will do something like this
       // serviceStoppedFuture.get();
     }
     catch (Exception e) {
       e.printStackTrace();
+    }
+  }
+
+  public static void test(String u, String p, String subject, String behavior) {
+    System.out.println("\n--------------------------------------------------------------------------------");
+    System.out.println("[TEST] user     : " + u);
+    System.out.println("[TEST] subject  : " + subject);
+    System.out.println("[TEST] behavior : " + behavior);
+
+    Options options = new Options.Builder()
+        .server(NATS_URL)
+        .errorListener(new ErrorListener() {})
+        .userInfo(u, p)
+        .maxReconnects(3)
+        .build();
+
+    boolean connected = false;
+    try (Connection nc = Nats.connect(options)) {
+      System.out.println("[TEST] connected " + u);
+      connected = true;
+
+      AtomicBoolean gotMessage = new AtomicBoolean(false);
+      Dispatcher d = nc.createDispatcher(m -> {
+        System.out.println("[TEST] received message on '" + m.getSubject() + "'");
+        gotMessage.set(true);
+      });
+      d.subscribe(subject);
+
+      nc.publish(subject, (u + "-publish-" + System.currentTimeMillis()).getBytes());
+      System.out.println("[TEST] published to '" + subject + "'");
+
+      Thread.sleep(1000); // just giving time for publish to work
+
+      if (!gotMessage.get()) {
+        System.out.println("[TEST] no message from '" + subject + "'");
+      }
+    }
+    catch (Exception e) {
+      if (connected) {
+        System.out.println("[TEST] post connection exception, " + e);
+      }
+      else {
+        System.out.println("[TEST] did not connect, " + e);
+      }
     }
   }
 }

@@ -10,7 +10,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'io.nats:jnats:2.17.3.auth-callout-SNAPSHOT'
+    implementation 'io.nats:nkeys-java:2.0.1'
+    implementation 'io.nats:jnats-json:2.0.0'
+    implementation 'io.nats:jwt-java:2.0.0'
+    implementation 'io.nats:jnats:2.17.4'
 }
 
 apply plugin: 'java'
