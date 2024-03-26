@@ -12,8 +12,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class Main {
 
   public static void main(String[] args) throws Exception {
+    String natsURL = System.getenv("NATS_URL");
+    if (natsURL == null) {
+      natsURL = "nats://127.0.0.1:4222";
+    }
+
     Options options = new Options.Builder()
-        .server("nats://localhost:4222")
+        .server(natsURL)
         .errorListener(new ErrorListener() {})
         .userInfo("auth", "auth")
         .build();
@@ -48,10 +53,10 @@ public class Main {
       // ----------------------------------------------------------------------------------------------------
       CompletableFuture<Boolean> serviceStoppedFuture = acService.startService();
 
-      test("alice", "alice", "test", "should connect, publish and receive");
-      test("alice", "wrong", "n/a", "should not connect");
-      test("bob", "bob", "bob.test", "should connect, publish and receive");
-      test("bob", "bob", "test", "should connect, publish but not receive");
+      test(natsURL, "alice", "alice", "test", "should connect, publish and receive");
+      test(natsURL, "alice", "wrong", "n/a", "should not connect");
+      test(natsURL, "bob", "bob", "bob.test", "should connect, publish and receive");
+      test(natsURL, "bob", "bob", "test", "should connect, publish but not receive");
 
       // plenty of time to finish running the main.sh example script
       Thread.sleep(2000);
@@ -64,14 +69,14 @@ public class Main {
     }
   }
 
-  public static void test(String u, String p, String subject, String behavior) {
+  public static void test(String natsURL, String u, String p, String subject, String behavior) {
     System.out.println("\n--------------------------------------------------------------------------------");
     System.out.println("[TEST] user     : " + u);
     System.out.println("[TEST] subject  : " + subject);
     System.out.println("[TEST] behavior : " + behavior);
 
     Options options = new Options.Builder()
-        .server(NATS_URL)
+        .server(natsURL)
         .errorListener(new ErrorListener() {})
         .userInfo(u, p)
         .maxReconnects(3)
