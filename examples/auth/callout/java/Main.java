@@ -16,6 +16,8 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import static io.nats.jwt.JwtUtils.getClaimBody;
+
 public class Main {
 
   public static void main(String[] args) throws Exception {
