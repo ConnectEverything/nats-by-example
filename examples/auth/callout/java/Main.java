@@ -1,10 +1,17 @@
 package example;
 
 import io.nats.client.*;
-import io.nats.service.Endpoint;
-import io.nats.service.Service;
-import io.nats.service.ServiceBuilder;
-import io.nats.service.ServiceEndpoint;
+import io.nats.jwt.*;
+import io.nats.nkey.NKey;
+import io.nats.service.*;
+import io.nats.client.Connection;
+import io.nats.client.impl.Headers;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicBoolean;
