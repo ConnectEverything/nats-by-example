@@ -20,6 +20,10 @@ import static io.nats.jwt.JwtUtils.getClaimBody;
 
 public class Main {
 
+  // ----------------------------------------------------------------------------------------------------
+  // The main method starts a Service that listens to the Auth Callback subject.
+  // The real work for the example is in the AuthCalloutHandler
+  // ----------------------------------------------------------------------------------------------------
   public static void main(String[] args) throws Exception {
     String natsURL = System.getenv("NATS_URL");
     if (natsURL == null) {
@@ -33,21 +37,22 @@ public class Main {
         .build();
 
     try (Connection nc = Nats.connect(options)) {
-      // endpoints can be created ahead of time
+      // Endpoints can be created ahead of time
       // or created directly by the ServiceEndpoint builder.
       Endpoint endpoint = Endpoint.builder()
           .name("AuthCallbackEndpoint")
           .subject("$SYS.REQ.USER.AUTH")
           .build();
 
+      // Create the ServiceEndpoint from the Endpoint
+      // The AuthCalloutHandler class is a ServiceMessageHandler
       AuthCalloutHandler handler = new AuthCalloutHandler(nc);
-
       ServiceEndpoint serviceEndpoint = ServiceEndpoint.builder()
           .endpoint(endpoint)
           .handler(handler)
           .build();
 
-      // Create the service from service endpoint.
+      // Create the Service from ServiceEndpoint.
       Service acService = new ServiceBuilder()
           .connection(nc)
           .name("AuthCallbackService")
@@ -57,12 +62,10 @@ public class Main {
 
       System.out.println("\n" + acService);
 
-      // ----------------------------------------------------------------------------------------------------
       // Start the services
-      // ----------------------------------------------------------------------------------------------------
       CompletableFuture<Boolean> serviceStoppedFuture = acService.startService();
 
-      // plenty of time to finish running the main.sh example script
+      // This just gives keeps the main function alive for plenty of time to finish running the main.sh example script
       Thread.sleep(20000);
 
       // A real service will do something like this
@@ -86,6 +89,7 @@ public class Main {
     static final String USER_SIGNING_PUBLIC_KEY;
 
     static {
+      // Set up the relevant NKey and public key
       try {
         USER_SIGNING_NKEY = NKey.fromSeed(ISSUER_NSEED.toCharArray());
         USER_SIGNING_PUBLIC_KEY = new String(USER_SIGNING_NKEY.getPublicKey());
@@ -95,21 +99,21 @@ public class Main {
       }
 
       // This sets up a map of users to simulate a back end auth system
-      //   sys/sys, SYS
-      //   alice/alice, APP
-      //   bob/bob, APP, pub allow "bob.>", sub allow "bob.>", response max 1
       NATS_USERS = new HashMap<>();
+
+      // sys/sys is a SYS account and does not have any restrictions
       NATS_USERS.put("sys", new AuthCalloutUser().userPass("sys").account("SYS"));
-      Permission pa = new Permission().allow("alice.>");
-      NATS_USERS.put("alice", new AuthCalloutUser().userPass("alice").account("APP")); // .sub(pa));
+
+      // alice/alice, is an APP account with no publish or subscribe restrictions
+      NATS_USERS.put("alice", new AuthCalloutUser().userPass("alice").account("APP"));
+
+      // bob/bob is an APP account, can publish only to "bob.>", can subscribe to only "bob.>"
       Permission pb = new Permission().allow("bob.>");
       ResponsePermission r = new ResponsePermission().max(1);
       NATS_USERS.put("bob", new AuthCalloutUser().userPass("bob").account("APP").pub(pb).sub(pb).resp(r));
-      NATS_USERS.put("pub", new AuthCalloutUser().userPass("pub").account("APP"));
-      NATS_USERS.put("reset", new AuthCalloutUser().userPass("reset").account("APP"));
     }
 
-    Connection nc;
+    private Connection nc;
 
     public AuthCalloutHandler(Connection nc) {
       this.nc = nc;
@@ -135,7 +139,7 @@ public class Main {
         printJson("[HANDLER] Auth Request  : ", ar.toJson(), "server_id", "user_nkey", "client_info", "connect_opts", "client_tls", "request_nonce");
 
         // Check if the user exists. In the example we are just checking the NATS_USERS map
-        // but in the real world, this will be back by something specific to your organization.
+        // but in the real world, this will be backed by something specific to your organization.
         AuthCalloutUser acUser = NATS_USERS.get(ar.connectOpts.user);
         if (acUser == null) {
           // The user was not found, respond with an error
@@ -186,8 +190,7 @@ public class Main {
       }
     }
 
-    static boolean flag = true;
-
+    // Helper function to respond to the request, it will be for a user or it will be an error.
     private void respond(ServiceMessage smsg,
                          AuthorizationRequest ar,
                          String userJwt,
@@ -204,6 +207,7 @@ public class Main {
         System.out.println("[HANDLER] Auth Resp ERR : " + response.toJson());
       }
 
+      // Issue the JWT based on the supplied information and keys previously set up.
       String jwt = new ClaimIssuer()
           .aud(ar.serverId.id)
           .iss(USER_SIGNING_PUBLIC_KEY)
@@ -230,16 +234,6 @@ public class Main {
     public AuthCalloutUser userPass(String userPass) {
       this.user = userPass;
       this.pass = userPass;
-      return this;
-    }
-
-    public AuthCalloutUser user(String user) {
-      this.user = user;
-      return this;
-    }
-
-    public AuthCalloutUser pass(String pass) {
-      this.pass = pass;
       return this;
     }
 
