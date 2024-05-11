@@ -160,6 +160,7 @@ func (r *ImageBuilder) Run() (string, error) {
 	c := exec.Command(
 		"docker",
 		"build",
+		// "--progress=plain", // Use plain output for debuggig
 		"--tag", imageTag,
 		buildDir,
 	)
