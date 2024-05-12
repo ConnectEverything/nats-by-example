@@ -1,6 +1,24 @@
 #include <stdio.h>
 #include <nats.h>
 
+// Publish 3 messages for the example.
+static natsStatus
+publishTestMessages(jsCtx *js)
+{
+    natsStatus s = NATS_OK;
+    int jerr;
+
+    printf("Publish 3 messages for the example\n");
+    if (s == NATS_OK)
+        s = js_Publish(NULL, js, "event.1", "0123456789", 10, NULL, &jerr);
+    if (s == NATS_OK)
+        s = js_Publish(NULL, js, "event.2", "0123456789", 10, NULL, &jerr);
+    if (s == NATS_OK)
+        s = js_Publish(NULL, js, "event.3", "0123456789", 10, NULL, &jerr);
+
+    return s;
+}
+
 int main()
 {
     natsStatus s = NATS_OK;
@@ -50,14 +68,15 @@ int main()
     }
 
     // Publish a few messages for the example.
-    if (s == NATS_OK)
-        printf("Publish 3 messages for the example\n");
-    if (s == NATS_OK)
-        s = js_Publish(NULL, js, "event.1", "0123456789", 10, NULL, &jerr);
-    if (s == NATS_OK)
-        s = js_Publish(NULL, js, "event.2", "0123456789", 10, NULL, &jerr);
-    if (s == NATS_OK)
-        s = js_Publish(NULL, js, "event.3", "0123456789", 10, NULL, &jerr);
+    // if (s == NATS_OK)
+    //     printf("Publish 3 messages for the example\n");
+    // if (s == NATS_OK)
+    //     s = js_Publish(NULL, js, "event.1", "0123456789", 10, NULL, &jerr);
+    // if (s == NATS_OK)
+    //     s = js_Publish(NULL, js, "event.2", "0123456789", 10, NULL, &jerr);
+    // if (s == NATS_OK)
+    //     s = js_Publish(NULL, js, "event.3", "0123456789", 10, NULL, &jerr);
+    publishTestMessages(js);
 
     // Create a pull consumer subscription bound to the previously created
     // stream. If durable name is not supplied, consumer will be removed after
@@ -168,7 +187,7 @@ int main()
     sub = NULL;
 
     // Finally, create a durable pull consumer explicitly, and bind a
-    // subscription to it more than once. 
+    // subscription to it more than once.
     // js_AddConsumer(&ci, js, "EVENTS", cfg, &jsOpts, &jerr);
 
     jsCtx_Destroy(js);
