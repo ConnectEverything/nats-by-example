@@ -5,7 +5,7 @@
 #define CONSUMER_NAME "event-consumer"
 #define SUBSCRIBE_SUBJECT "event.>"
 #define SUBJECT_PREFIX "event."
-#define NUM_MESSAGES 3
+#define NUM_MESSAGES 5
 
 static natsStatus publishTestMessages(jsCtx *js);
 static natsStatus init(natsConnection **newnc, jsCtx **newjs, jsOptions *jsOpts);
@@ -28,10 +28,6 @@ int main()
     // Initialize the NATS connection and JetStream context.
     s = init(&nc, &js, &jsOpts);
 
-    // Publish NUM_MESSAGES messages for the example.
-    if (s == NATS_OK)
-        s = publishTestMessages(js);
-
     // Run the examples.
     for (i = 0; (i < N) && (s == NATS_OK); i++)
     {
@@ -39,9 +35,9 @@ int main()
         s = f(js, &jsOpts);
     }
 
+    // Cleanup and finish.
     jsCtx_Destroy(js);
     natsConnection_Destroy(nc);
-
     if (s != NATS_OK)
     {
         nats_PrintLastErrorStack(stderr);
@@ -50,7 +46,8 @@ int main()
     return 0;
 }
 
-// Initialize the NATS connection and JetStream context.
+// Initialize the NATS connection and JetStream context, publish NUM_MESSAGES
+// test messages.
 static natsStatus init(natsConnection **newnc, jsCtx **newjs, jsOptions *jsOpts)
 {
     natsStatus s = NATS_OK;
@@ -61,6 +58,8 @@ static natsStatus init(natsConnection **newnc, jsCtx **newjs, jsOptions *jsOpts)
     jsStreamConfig cfg;
     jsStreamInfo *si = NULL;
     jsErrCode jerr = 0;
+    char subject[] = SUBJECT_PREFIX "99999999999999";
+    int i;
 
     // Use the env variable if running in the container, otherwise use the
     // default.
@@ -94,6 +93,17 @@ static natsStatus init(natsConnection **newnc, jsCtx **newjs, jsOptions *jsOpts)
         s = js_AddStream(&si, js, &cfg, jsOpts, &jerr);
         jsStreamInfo_Destroy(si);
     }
+    if (s == NATS_OK)
+        printf("Created a stream named '%s' with 1 subject '%s'\n", STREAM_NAME, SUBSCRIBE_SUBJECT);
+
+    // Publish NUM_MESSAGES messages for the examples.
+    for (i = 0; (s == NATS_OK) && (i < NUM_MESSAGES); i++)
+    {
+        sprintf(subject, "%s%d", SUBJECT_PREFIX, i + 1);
+        s = js_Publish(NULL, js, subject, "01234567890123456789012345678901234567890123456789", 50, NULL, &jerr);
+    }
+    if (s == NATS_OK)
+        printf("Published %d messages for the example\n", NUM_MESSAGES);
 
     if (s == NATS_OK)
     {
@@ -109,24 +119,6 @@ static natsStatus init(natsConnection **newnc, jsCtx **newjs, jsOptions *jsOpts)
     return s;
 }
 
-// Publish NUM_MESSAGES messages for the example.
-static natsStatus
-publishTestMessages(jsCtx *js)
-{
-    natsStatus s = NATS_OK;
-    jsErrCode jerr;
-    char subject[] = SUBJECT_PREFIX "99999999999999";
-    int i;
-
-    printf("Publish %d messages for the example\n", NUM_MESSAGES);
-    for (i = 0; (s == NATS_OK) && (i < NUM_MESSAGES); i++)
-    {
-        sprintf(subject, "%s%d", SUBJECT_PREFIX, i + 1);
-        s = js_Publish(NULL, js, subject, "01234567890123456789012345678901234567890123456789", 50, NULL, &jerr);
-    }
-    return s;
-}
-
 // Create a pull consumer subscription and use `natsSubscription_Fetch` to
 // receive messages.
 static natsStatus exampleFetch(jsCtx *js, jsOptions *jsOpts)
@@ -138,9 +130,9 @@ static natsStatus exampleFetch(jsCtx *js, jsOptions *jsOpts)
     jsSubOptions so;
     int c, i, ibatch;
 
-    // Create a pull consumer subscription. The durable name is not supplied, so
-    // the consumer will be removed after `InactiveThreshold` (defaults to 5
-    // seconds) is reached when not actively consuming messages.
+    // Create a pull consumer subscription. The durable name (4th parameter) is
+    // not supplied, so the consumer will be removed after `InactiveThreshold`
+    // (defaults to 5 seconds) is reached when not actively consuming messages.
     s = jsSubOptions_Init(&so);
     if (s == NATS_OK)
     {
@@ -151,7 +143,7 @@ static natsStatus exampleFetch(jsCtx *js, jsOptions *jsOpts)
 
     // Use `natsSubscription_Fetch` to fetch the messages. Here we attempt to
     // fetch a batch of up to 2 messages with a 5 second timeout, and we stop
-    // trying once the expected 3 messages are successfully fetched.
+    // trying once the expected NUM_MESSAGES messages are successfully fetched.
     //
     // **Note**: `natsSubscription_Fetch` will not wait for the timeout while we
     // are fetching pre-buffered messages. The response time is in single ms.
@@ -159,7 +151,7 @@ static natsStatus exampleFetch(jsCtx *js, jsOptions *jsOpts)
     // **Note**: each fetched message must be acknowledged.
     //
     // **Note**: `natsMsgList_Destroy` will destroy the fetched messages.
-    for (ibatch = 0, c = 0; (s == NATS_OK) && (c < 3); ibatch++)
+    for (ibatch = 0, c = 0; (s == NATS_OK) && (c < NUM_MESSAGES); ibatch++)
     {
         int64_t start = nats_Now();
         s = natsSubscription_Fetch(&list, sub, 2, 5000, &jerr);
@@ -193,7 +185,6 @@ static natsStatus exampleFetch(jsCtx *js, jsOptions *jsOpts)
     }
 
     // Cleanup.
-    natsSubscription_Drain(sub);
     natsSubscription_Destroy(sub);
 
     return s;
@@ -227,7 +218,7 @@ static natsStatus exampleFetchRequest(jsCtx *js, jsOptions *jsOpts)
     // messages at a time. Note that since we do not set NoWait, the call will
     // block until the batch is filled or the timeout expires, unlike
     // `natsSubscription_Fetch`.
-    for (ibatch = 0, c = 0; (s == NATS_OK) && (c < 3); ibatch++)
+    for (ibatch = 0, c = 0; (s == NATS_OK) && (c < NUM_MESSAGES); ibatch++)
     {
         int64_t start = nats_Now();
         jsFetchRequest fr = {
@@ -256,7 +247,6 @@ static natsStatus exampleFetchRequest(jsCtx *js, jsOptions *jsOpts)
         natsMsgList_Destroy(&list);
     }
 
-    natsSubscription_Drain(sub);
     natsSubscription_Destroy(sub);
 
     return s;
@@ -285,10 +275,13 @@ static natsStatus exampleNamedConsumer(jsCtx *js, jsOptions *jsOpts)
     }
     jsConsumerInfo_Destroy(ci);
 
-    // Create a named pull consumer explicitly and subscribe to it.
+    // Create a named pull consumer explicitly and subscribe to it twice.
     //
     // **Note**: no delivery subject in `js_PullSubsccribe` since it will bind
     // to the consumer by name.
+    //
+    // **Note**: subscriptions are "balanced" in that each message is processed
+    // by one or the other.
     if (s == NATS_OK)
         s = jsSubOptions_Init(&so);
 
@@ -303,18 +296,13 @@ static natsStatus exampleNamedConsumer(jsCtx *js, jsOptions *jsOpts)
         s = js_PullSubscribe(&sub2, js, NULL, NULL, jsOpts, &so, &jerr);
 
     int64_t start = nats_Now();
-    jsFetchRequest fr = {
-        .Batch = 1,
-        .NoWait = true,
-        .Expires = 500 * 1000 * 1000,
-    };
     for (i = 0; (s == NATS_OK) && (!done); i++)
     {
         natsSubscription *sub = (i % 2 == 0) ? sub1 : sub2;
         const char *name = (i % 2 == 0) ? "sub1" : "sub2";
         start = nats_Now();
 
-        s = natsSubscription_FetchRequest(&list, sub, &fr);
+        s = natsSubscription_Fetch(&list, sub, 1, 100, &jerr);
         if ((s == NATS_OK) && (list.Count == 1))
         {
             printf("exampleNamedConsumer: fetched from %s subject '%s' in %dms\n",
@@ -328,7 +316,7 @@ static natsStatus exampleNamedConsumer(jsCtx *js, jsOptions *jsOpts)
         }
         else if (s == NATS_TIMEOUT && list.Count == 0)
         {
-            printf("exampleNamedConsumer: got NATS_TIMEOUT from %s, no more messages for now\n", name);
+            printf("exampleNamedConsumer: got NATS_TIMEOUT from %s in %dms, no more messages for now\n", name, (int)(nats_Now() - start));
             s = NATS_OK;
             done = true;
         }
@@ -341,6 +329,9 @@ static natsStatus exampleNamedConsumer(jsCtx *js, jsOptions *jsOpts)
         natsMsgList_Destroy(&list);
     }
 
+    // Cleanup.
+    natsSubscription_Drain(sub1);
+    natsSubscription_Drain(sub2);
     natsSubscription_Destroy(sub1);
     natsSubscription_Destroy(sub2);
 
