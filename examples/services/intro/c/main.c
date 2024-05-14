@@ -150,6 +150,11 @@ _cleanup:
     return 0;
 }
 
+// handler parses the incoming multiline message and calculates the min, max,
+// and average.
+//
+// **Note**: we do not use the C `str...` functions to parse the message because
+// it is not necessarily `'\0'`-terminated.
 static microError *handler(microRequest *req)
 {
     const char *data = microRequest_GetData(req);
