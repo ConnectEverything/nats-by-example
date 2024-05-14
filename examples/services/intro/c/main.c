@@ -75,6 +75,8 @@ int main()
     if ((err = microService_GetInfo(&info, svc)) != NULL)
         goto _cleanup;
     printf("Created service: Name:'%s', ID:'%s'\n", info->Name, info->Id);
+    microServiceInfo_Destroy(info);
+    info = NULL;
 
     // Groups serve as namespaces and are used as a subject prefix when endpoints
     // don't supply fixed subjects. In this case, all endpoints will be listening
