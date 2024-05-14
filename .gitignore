@@ -3,6 +3,7 @@ dist
 node_modules
 html
 .idea/
+.vscode/
 **/node/node_modules/
 **/node/package.json
 **/node/package-lock.json
