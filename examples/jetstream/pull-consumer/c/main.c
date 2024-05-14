@@ -212,18 +212,20 @@ static natsStatus exampleFetchRequest(jsCtx *js, jsOptions *jsOpts)
         s = js_PullSubscribe(&sub, js, SUBSCRIBE_SUBJECT, NULL, jsOpts, &so, &jerr);
     }
 
-    // Use `natsSubscription_FetchRequest` to fetch the messages.
+    // Use `natsSubscription_FetchRequest` to fetch the messages. We set the
+    // batch size to 1000, but MaxBytes of 300 so we will only get 2 messages at
+    // a time.
     //
-    // We set the batch size to 1000, but MaxBytes of 300 so we will only get 2
-    // messages at a time. Note that since we do not set NoWait, the call will
-    // block until the batch is filled or the timeout expires, unlike
-    // `natsSubscription_Fetch`.
+    // **Note**: Setting `.NoWait` causes the request to return as soon as there
+    // are some messages availabe, not necessarily the entire batch. By default,
+    // we wait `.Expires` time if there are not enough messages to make a full
+    // batch.
     for (ibatch = 0, c = 0; (s == NATS_OK) && (c < NUM_MESSAGES); ibatch++)
     {
         int64_t start = nats_Now();
         jsFetchRequest fr = {
             .Batch = 1000,
-            // .NoWait = true,
+            /* .NoWait = true, */
             .Expires = 500 * 1000 * 1000,
             .MaxBytes = 300,
         };
