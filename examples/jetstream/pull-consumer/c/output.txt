@@ -1,0 +1,30 @@
+Created a stream named 'EVENTS' with 1 subject 'event.>'
+Published 5 messages for the example
+exampleFetch: create a pull consumer and use natsSubscription_Fetch to receive messages
+exampleFetch: batch #0 (2 messages) in 1ms
+exampleFetch: received and acked message on event.1
+exampleFetch: received and acked message on event.2
+exampleFetch: batch #1 (2 messages) in 1ms
+exampleFetch: received and acked message on event.3
+exampleFetch: received and acked message on event.4
+exampleFetch: batch #2 (1 messages) in 1ms
+exampleFetch: received and acked message on event.5
+exampleFetch: extra natsSubscription_Fetch returned status 26 and 0 messages in 491ms
+exampleFetchRequest: create pull consumer and use natsSubscription_FetchRequest to receive messages
+exampleFetchRequest: batch #0 (2 messages) in 1ms
+exampleFetchRequest: received and acked message on event.1
+exampleFetchRequest: received and acked message on event.2
+exampleFetchRequest: batch #1 (2 messages) in 1ms
+exampleFetchRequest: received and acked message on event.3
+exampleFetchRequest: received and acked message on event.4
+exampleFetchRequest: batch #2 (1 messages) in 492ms
+exampleFetchRequest: received and acked message on event.5
+exampleNamedConsumer: create a pull consumer named 'event-consumer'
+exampleNamedConsumer: bind 2 subscriptions to the consumer
+exampleNamedConsumer: fetched from sub1 subject 'event.1' in 1ms
+exampleNamedConsumer: fetched from sub2 subject 'event.2' in 1ms
+exampleNamedConsumer: fetched from sub1 subject 'event.3' in 1ms
+exampleNamedConsumer: fetched from sub2 subject 'event.4' in 1ms
+exampleNamedConsumer: fetched from sub1 subject 'event.5' in 1ms
+exampleNamedConsumer: got NATS_TIMEOUT from sub2 in 91ms, no more messages for now
+exampleNamedConsumer: deleted consumer 'event-consumer'
