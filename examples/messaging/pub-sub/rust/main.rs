@@ -21,7 +21,7 @@ async fn main() -> Result<(), async_nats::Error> {
 
     // Publish to three different subjects matching the wildcard.
     for subject in ["greet.sue", "greet.bob", "greet.pam"] {
-        client.publish(subject.into(), "hello".into()).await?;
+        client.publish(subject, "hello".into()).await?;
     }
 
     // Notice that the first message received is `greet.sue` and not
