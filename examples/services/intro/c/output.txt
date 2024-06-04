@@ -1,0 +1,7 @@
+Error 5 - Connection Closed on connection [5]
+Created service: Name:'MinMax', ID:'ZP4DX317JKAA5ZASV1UQXT'
+min response: {"min":1}
+max response: {"max":10}
+average response: {"average":5.500000}
+STATS response: {"id":"ZP4DX317JKAA5ZASV1UQXT","name":"MinMax","type":"io.nats.micro.v1.stats_response","started":"2024-06-04T13:00:40.199Z","endpoints":[{"name":"min","subject":"func.min","num_requests":1,"num_errors":1,"average_processing_time":"12.493µs","last_error":"null"},{"name":"max","subject":"func.max","num_requests":1,"num_errors":1,"average_processing_time":"12.583µs","last_error":"null"},{"name":"average","subject":"func.average","num_requests":1,"num_errors":1,"average_processing_time":"13.205µs","last_error":"null"}],"version":"0.0.1"}
+INFO response: {"description":"Returns the min/max number in a request","endpoints":[{"name":"min","subject":"func.min"},{"name":"max","subject":"func.max"},{"name":"average","subject":"func.average"}],"id":"ZP4DX317JKAA5ZASV1UQXT","name":"MinMax","type":"io.nats.micro.v1.info_response","version":"0.0.1"}
