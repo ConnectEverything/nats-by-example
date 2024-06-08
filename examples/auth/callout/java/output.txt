@@ -1,0 +1,99 @@
+
+"Service":{"id":"ZkDcZyu04AWe5PClLAyLyG","name":"AuthCallbackService","version":"0.0.1"}
+
+
+--------------------------------------------------
+Test alice
+[HANDLER] Received Message
+[HANDLER] Subject       : $SYS.REQ.USER.AUTH
+[HANDLER] Headers       : None
+[HANDLER] Claim-Request : {"aud":"nats-authorization-request","jti":"5XBGVSH6YYLMPKBQD5MXP6PVRZJ77NEYO3NTIQSSGNLSYADE6HSA","iat":1717863531,"iss":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","sub":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","exp":1717863533,"nats":{"client_info":{"kind":"Client","host":"127.0.0.1","name":"NATS CLI Version development","id":8,"type":"nats","user":"alice"},"connect_opts":{"protocol":1,"pass":"alice","name":"NATS CLI Version development","lang":"go","user":"alice","version":"1.30.0"},"server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},"type":"authorization_request","version":2,"user_nkey":"UD357KLKNGPPPJWWTKK7WP3TOWNHNWHZJMEWFC6D5DKKTZHQGZEO7E23"}}
+[HANDLER] Auth Request  : {"type":"authorization_request","version":2,
+                          "server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},
+                          "user_nkey":"UD357KLKNGPPPJWWTKK7WP3TOWNHNWHZJMEWFC6D5DKKTZHQGZEO7E23",
+                          "client_info":{"host":"127.0.0.1","id":8,"user":"alice","name":"NATS CLI Version development","kind":"Client","type":"nats"},
+                          "connect_opts":{"user":"alice","pass":"alice","name":"NATS CLI Version development","lang":"go","version":"1.30.0","protocol":1}}
+[HANDLER] Auth Resp JWT : {"aud":"APP","jti":"ZYJV3UUUNG22E5RNP6DEY5F6LUEQEPMP57ZX2ONRTM2ASIWNFRLQ","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA",
+                          "name":"alice","sub":"UD357KLKNGPPPJWWTKK7WP3TOWNHNWHZJMEWFC6D5DKKTZHQGZEO7E23",
+                          "nats":{"type":"user","version":2,"subs":-1,"data":-1,"payload":-1}}
+[HANDLER] Claim-Response: {"aud":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","jti":"2N7PJITERYE4VMEBMSEEPDGQJ5VVJQ6PVTXVCZOGTNTJH42KZJKQ","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","sub":"UD357KLKNGPPPJWWTKK7WP3TOWNHNWHZJMEWFC6D5DKKTZHQGZEO7E23","nats":{"jwt":"eyJ0eXAiOiJKV1QiLCAiYWxnIjoiZWQyNTUxOS1ua2V5In0.eyJhdWQiOiJBUFAiLCJqdGkiOiJaWUpWM1VVVU5HMjJFNVJOUDZERVk1RjZMVUVRRVBNUDU3WlgyT05SVE0yQVNJV05GUkxRIiwiaWF0IjoxNzE3ODYzNTMyLCJpc3MiOiJBQkpITE9WTVBBNENJNlI1S0xOR09CNEdTTE5JWTdJT1VQQUpDNFlGTkRMUVZJT0JZUUdVV1ZMQSIsIm5hbWUiOiJhbGljZSIsInN1YiI6IlVEMzU3S0xLTkdQUFBKV1dUS0s3V1AzVE9XTkhOV0haSk1FV0ZDNkQ1REtLVFpIUUdaRU83RTIzIiwibmF0cyI6eyJ0eXBlIjoidXNlciIsInZlcnNpb24iOjIsInN1YnMiOi0xLCJkYXRhIjotMSwicGF5bG9hZCI6LTF9fQ.DcsEW2JHrXNINHtJxUSulHm99HoP1jE0MsHU2wBRigchq7y1_g1T1kJAEUXpeD3qOYCCua8aq9CCms2YKJt8Dg","type":"authorization_response","version":2}}
+16:18:52 Published 16 bytes to "test"
+
+
+--------------------------------------------------
+Test bob on denied subject
+[HANDLER] Received Message
+[HANDLER] Subject       : $SYS.REQ.USER.AUTH
+[HANDLER] Headers       : None
+[HANDLER] Claim-Request : {"aud":"nats-authorization-request","jti":"XV5QMQMPXKPXKUJ3JIITLLE7MM6F4AWOQ5W3KPWUTUBNKQ6MHTJQ","iat":1717863532,"iss":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","sub":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","exp":1717863534,"nats":{"client_info":{"kind":"Client","host":"127.0.0.1","name":"NATS CLI Version development","id":9,"type":"nats","user":"bob"},"connect_opts":{"protocol":1,"pass":"bob","name":"NATS CLI Version development","lang":"go","user":"bob","version":"1.30.0"},"server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},"type":"authorization_request","version":2,"user_nkey":"UC3KJ6GV2JLG2UQCWEVRXRM5WSZSWO6NOXPP7U3PR5JWQLHL4X6G4FNL"}}
+[HANDLER] Auth Request  : {"type":"authorization_request","version":2,
+                          "server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},
+                          "user_nkey":"UC3KJ6GV2JLG2UQCWEVRXRM5WSZSWO6NOXPP7U3PR5JWQLHL4X6G4FNL",
+                          "client_info":{"host":"127.0.0.1","id":9,"user":"bob","name":"NATS CLI Version development","kind":"Client","type":"nats"},
+                          "connect_opts":{"user":"bob","pass":"bob","name":"NATS CLI Version development","lang":"go","version":"1.30.0","protocol":1}}
+[HANDLER] Auth Resp JWT : {"aud":"APP","jti":"DDMPOZWJ4EKMY2ATU6RRUDX2HFCZPHB5ZV4OJVE7ZLTUPHSSILTQ","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA",
+                          "name":"bob","sub":"UC3KJ6GV2JLG2UQCWEVRXRM5WSZSWO6NOXPP7U3PR5JWQLHL4X6G4FNL",
+                          "nats":{"type":"user","version":2,"pub":{"allow":["bob.>"]},"sub":{"allow":["bob.>"]},"resp":{"max":1},"subs":-1,"data":-1,"payload":-1}}
+[HANDLER] Claim-Response: {"aud":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","jti":"O6FZNQ4C4UZQYU6GLBDLCPN22GR47D63HMEBBHAC7B5CKDVE5ERQ","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","sub":"UC3KJ6GV2JLG2UQCWEVRXRM5WSZSWO6NOXPP7U3PR5JWQLHL4X6G4FNL","nats":{"jwt":"eyJ0eXAiOiJKV1QiLCAiYWxnIjoiZWQyNTUxOS1ua2V5In0.eyJhdWQiOiJBUFAiLCJqdGkiOiJERE1QT1pXSjRFS01ZMkFUVTZSUlVEWDJIRkNaUEhCNVpWNE9KVkU3WkxUVVBIU1NJTFRRIiwiaWF0IjoxNzE3ODYzNTMyLCJpc3MiOiJBQkpITE9WTVBBNENJNlI1S0xOR09CNEdTTE5JWTdJT1VQQUpDNFlGTkRMUVZJT0JZUUdVV1ZMQSIsIm5hbWUiOiJib2IiLCJzdWIiOiJVQzNLSjZHVjJKTEcyVVFDV0VWUlhSTTVXU1pTV082Tk9YUFA3VTNQUjVKV1FMSEw0WDZHNEZOTCIsIm5hdHMiOnsidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyLCJwdWIiOnsiYWxsb3ciOlsiYm9iLj4iXX0sInN1YiI6eyJhbGxvdyI6WyJib2IuPiJdfSwicmVzcCI6eyJtYXgiOjF9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xfX0.MPa6XORb8XAAG4bitC7Y0ThMV5JfxBfH3n6SGSQD5ELX-FEO7cZO1wdqvZRO5M3TJ0TKV_IgBj-EuIDg0cSaAg","type":"authorization_response","version":2}}
+16:18:52 Unexpected NATS error: nats: Permissions Violation for Publish to "test"
+nats: error: nats: Permissions Violation for Publish to "test"
+
+
+--------------------------------------------------
+Test bob on allowed subject
+[HANDLER] Received Message
+[HANDLER] Subject       : $SYS.REQ.USER.AUTH
+[HANDLER] Headers       : None
+[HANDLER] Claim-Request : {"aud":"nats-authorization-request","jti":"XV5QMQMPXKPXKUJ3JIITLLE7MM6F4AWOQ5W3KPWUTUBNKQ6MHTJQ","iat":1717863532,"iss":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","sub":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","exp":1717863534,"nats":{"client_info":{"kind":"Client","host":"127.0.0.1","name":"NATS CLI Version development","id":10,"type":"nats","user":"bob"},"connect_opts":{"protocol":1,"pass":"bob","name":"NATS CLI Version development","lang":"go","user":"bob","version":"1.30.0"},"server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},"type":"authorization_request","version":2,"user_nkey":"UAWXFWQIM6SNBZQUNMPQKWWSPRQZM2BBNPQ45WACHIA2ATU7B65YNHHO"}}
+[HANDLER] Auth Request  : {"type":"authorization_request","version":2,
+                          "server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},
+                          "user_nkey":"UAWXFWQIM6SNBZQUNMPQKWWSPRQZM2BBNPQ45WACHIA2ATU7B65YNHHO",
+                          "client_info":{"host":"127.0.0.1","id":10,"user":"bob","name":"NATS CLI Version development","kind":"Client","type":"nats"},
+                          "connect_opts":{"user":"bob","pass":"bob","name":"NATS CLI Version development","lang":"go","version":"1.30.0","protocol":1}}
+[HANDLER] Auth Resp JWT : {"aud":"APP","jti":"LV2X6BNLJGMLVEKZN45X625GW5LHT7TLZEEFM5K6K57J5BSRV4BQ","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA",
+                          "name":"bob","sub":"UAWXFWQIM6SNBZQUNMPQKWWSPRQZM2BBNPQ45WACHIA2ATU7B65YNHHO",
+                          "nats":{"type":"user","version":2,"pub":{"allow":["bob.>"]},"sub":{"allow":["bob.>"]},"resp":{"max":1},"subs":-1,"data":-1,"payload":-1}}
+[HANDLER] Claim-Response: {"aud":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","jti":"D33BUMFANF55DTDDUQGZXQTOB4YEI7MCQGQWM2P4CXOQ6FGE4W7Q","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","sub":"UAWXFWQIM6SNBZQUNMPQKWWSPRQZM2BBNPQ45WACHIA2ATU7B65YNHHO","nats":{"jwt":"eyJ0eXAiOiJKV1QiLCAiYWxnIjoiZWQyNTUxOS1ua2V5In0.eyJhdWQiOiJBUFAiLCJqdGkiOiJMVjJYNkJOTEpHTUxWRUtaTjQ1WDYyNUdXNUxIVDdUTFpFRUZNNUs2SzU3SjVCU1JWNEJRIiwiaWF0IjoxNzE3ODYzNTMyLCJpc3MiOiJBQkpITE9WTVBBNENJNlI1S0xOR09CNEdTTE5JWTdJT1VQQUpDNFlGTkRMUVZJT0JZUUdVV1ZMQSIsIm5hbWUiOiJib2IiLCJzdWIiOiJVQVdYRldRSU02U05CWlFVTk1QUUtXV1NQUlFaTTJCQk5QUTQ1V0FDSElBMkFUVTdCNjVZTkhITyIsIm5hdHMiOnsidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyLCJwdWIiOnsiYWxsb3ciOlsiYm9iLj4iXX0sInN1YiI6eyJhbGxvdyI6WyJib2IuPiJdfSwicmVzcCI6eyJtYXgiOjF9LCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xfX0.0zYVScn1IGqs_v6RG2bJ1zVPeDEWii_H1kSXFjgrHSnmthrJb9IAsMC7kQsJCCBPy-C_vEordlC5X7DSxJ-pBA","type":"authorization_response","version":2}}
+16:18:52 Published 14 bytes to "bob.test"
+
+
+--------------------------------------------------
+Test unknown user
+[HANDLER] Received Message
+[HANDLER] Subject       : $SYS.REQ.USER.AUTH
+[HANDLER] Headers       : None
+[HANDLER] Claim-Request : {"aud":"nats-authorization-request","jti":"XV5QMQMPXKPXKUJ3JIITLLE7MM6F4AWOQ5W3KPWUTUBNKQ6MHTJQ","iat":1717863532,"iss":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","sub":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","exp":1717863534,"nats":{"client_info":{"kind":"Client","host":"127.0.0.1","name":"NATS CLI Version development","id":11,"type":"nats","user":"pam"},"connect_opts":{"protocol":1,"pass":"pam","name":"NATS CLI Version development","lang":"go","user":"pam","version":"1.30.0"},"server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},"type":"authorization_request","version":2,"user_nkey":"UBF7D35LTBKHP5UVNJRNG6AEXDGZW7DF2RZ6I4H5OUIJNFKCEICGMGLS"}}
+[HANDLER] Auth Request  : {"type":"authorization_request","version":2,
+                          "server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},
+                          "user_nkey":"UBF7D35LTBKHP5UVNJRNG6AEXDGZW7DF2RZ6I4H5OUIJNFKCEICGMGLS",
+                          "client_info":{"host":"127.0.0.1","id":11,"user":"pam","name":"NATS CLI Version development","kind":"Client","type":"nats"},
+                          "connect_opts":{"user":"pam","pass":"pam","name":"NATS CLI Version development","lang":"go","version":"1.30.0","protocol":1}}
+[HANDLER] Auth Resp ERR : {"error":"User Not Found: pam","type":"authorization_response","version":2}
+[HANDLER] Claim-Response: {"aud":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","jti":"CWTWF4J3ITDP2CREWKCP2NQAPC7C365RXGGE4SOWBZTTJVUJJMYA","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","sub":"UBF7D35LTBKHP5UVNJRNG6AEXDGZW7DF2RZ6I4H5OUIJNFKCEICGMGLS","nats":{"error":"User Not Found: pam","type":"authorization_response","version":2}}
+nats: error: nats: Authorization Violation
+
+
+--------------------------------------------------
+Test system account user
+[HANDLER] Received Message
+[HANDLER] Subject       : $SYS.REQ.USER.AUTH
+[HANDLER] Headers       : None
+[HANDLER] Claim-Request : {"aud":"nats-authorization-request","jti":"XV5QMQMPXKPXKUJ3JIITLLE7MM6F4AWOQ5W3KPWUTUBNKQ6MHTJQ","iat":1717863532,"iss":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","sub":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","exp":1717863534,"nats":{"client_info":{"kind":"Client","host":"127.0.0.1","name":"NATS CLI Version development","id":12,"type":"nats","user":"sys"},"connect_opts":{"protocol":1,"pass":"sys","name":"NATS CLI Version development","lang":"go","user":"sys","version":"1.30.0"},"server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},"type":"authorization_request","version":2,"user_nkey":"UD5VWPKT56HEX5D2WHIMYVD6HZQWHTDPXMFKA4QJJ7LZG7HBYQFLH4LH"}}
+[HANDLER] Auth Request  : {"type":"authorization_request","version":2,
+                          "server_id":{"name":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","host":"0.0.0.0","id":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","version":"2.10.4"},
+                          "user_nkey":"UD5VWPKT56HEX5D2WHIMYVD6HZQWHTDPXMFKA4QJJ7LZG7HBYQFLH4LH",
+                          "client_info":{"host":"127.0.0.1","id":12,"user":"sys","name":"NATS CLI Version development","kind":"Client","type":"nats"},
+                          "connect_opts":{"user":"sys","pass":"sys","name":"NATS CLI Version development","lang":"go","version":"1.30.0","protocol":1}}
+[HANDLER] Auth Resp JWT : {"aud":"SYS","jti":"37T6NY5W5S2VE7VCGS7WZL6PVTU33PTPXF5DKOO2ZPEBXNBZXIUQ","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA",
+                          "name":"sys","sub":"UD5VWPKT56HEX5D2WHIMYVD6HZQWHTDPXMFKA4QJJ7LZG7HBYQFLH4LH",
+                          "nats":{"type":"user","version":2,"subs":-1,"data":-1,"payload":-1}}
+[HANDLER] Claim-Response: {"aud":"NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB","jti":"6H5F57LAVQJTAEQUIPH6XW7RTFNV3EBFIZNEVTT6WJGQ47CDKC2A","iat":1717863532,"iss":"ABJHLOVMPA4CI6R5KLNGOB4GSLNIY7IOUPAJC4YFNDLQVIOBYQGUWVLA","sub":"UD5VWPKT56HEX5D2WHIMYVD6HZQWHTDPXMFKA4QJJ7LZG7HBYQFLH4LH","nats":{"jwt":"eyJ0eXAiOiJKV1QiLCAiYWxnIjoiZWQyNTUxOS1ua2V5In0.eyJhdWQiOiJTWVMiLCJqdGkiOiIzN1Q2Tlk1VzVTMlZFN1ZDR1M3V1pMNlBWVFUzM1BUUFhGNURLT08yWlBFQlhOQlpYSVVRIiwiaWF0IjoxNzE3ODYzNTMyLCJpc3MiOiJBQkpITE9WTVBBNENJNlI1S0xOR09CNEdTTE5JWTdJT1VQQUpDNFlGTkRMUVZJT0JZUUdVV1ZMQSIsIm5hbWUiOiJzeXMiLCJzdWIiOiJVRDVWV1BLVDU2SEVYNUQyV0hJTVlWRDZIWlFXSFREUFhNRktBNFFKSjdMWkc3SEJZUUZMSDRMSCIsIm5hdHMiOnsidHlwZSI6InVzZXIiLCJ2ZXJzaW9uIjoyLCJzdWJzIjotMSwiZGF0YSI6LTEsInBheWxvYWQiOi0xfX0.MxWZyRrdqbH0zYqoN1pQpkc2P6vGT9ISIk9XnouPSAClHwauYyVXOP21Tx7s34ezg0P1HBzbvdcApEuGLLTiCg","type":"authorization_response","version":2}}
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                                            Server Overview                                                                            │
+├──────────────────────────────────────────────────────────┬─────────┬──────┬─────────┬────┬───────┬──────┬────────┬─────┬────────┬───────┬───────┬──────┬────────┬─────┤
+│ Name                                                     │ Cluster │ Host │ Version │ JS │ Conns │ Subs │ Routes │ GWs │ Mem    │ CPU % │ Cores │ Slow │ Uptime │ RTT │
+├──────────────────────────────────────────────────────────┼─────────┼──────┼─────────┼────┼───────┼──────┼────────┼─────┼────────┼───────┼───────┼──────┼────────┼─────┤
+│ NAMSQRSU2DRUQEL2SXVCD4QOUUSYPLN4HOGNVBKYHZUIZT25MGX463GB │         │ 0    │ 2.10.4  │ no │ 2     │ 73   │      0 │   0 │ 14 MiB │ 0     │     4 │    0 │ 3.11s  │ 1ms │
+├──────────────────────────────────────────────────────────┼─────────┼──────┼─────────┼────┼───────┼──────┼────────┼─────┼────────┼───────┼───────┼──────┼────────┼─────┤
+│                                                          │ 0       │ 1    │         │ 0  │ 2     │ 73   │        │     │ 14 MIB │       │       │    0 │        │     │
+╰──────────────────────────────────────────────────────────┴─────────┴──────┴─────────┴────┴───────┴──────┴────────┴─────┴────────┴───────┴───────┴──────┴────────┴─────╯
