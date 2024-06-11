@@ -1,0 +1,4 @@
+title: List subjects for a specific stream
+description: |-
+  All clients have a way to get the list of subjects for any given stream, except it's not completely obvious how to do this.
+  These examples will show you how to get the list of subjects.
