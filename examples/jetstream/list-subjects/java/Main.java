@@ -27,14 +27,14 @@ public class Main {
           .build());
 
       // ### GetStreamInfo with StreamInfoOptions
-      // get the subjects via the getStreamInfo call.
+      // Get the subjects via the getStreamInfo call.
       // Since this is "state" there are no subjects in the state unless
       // there are messages in the subject.
       StreamInfo si = jsm.getStreamInfo("subjects", StreamInfoOptions.allSubjects());
       StreamState state = si.getStreamState();
       System.out.println("Before publishing any messages, there are 0 subjects: " + state.getSubjectCount());
 
-      // publish some more messages, this time against wildcard subjects
+      // Publish a message
       js.publish("plain", null);
 
       si = jsm.getStreamInfo("subjects", StreamInfoOptions.allSubjects());
@@ -44,7 +44,7 @@ public class Main {
         System.out.println("  "  + s);
       }
 
-      // publish some more messages, this time against wildcard subjects
+      // Publish some more messages, this time against wildcard subjects
       js.publish("greater.A", null);
       js.publish("greater.A.B", null);
       js.publish("greater.A.B.C", null);
