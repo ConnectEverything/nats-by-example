@@ -17,7 +17,7 @@ public class Main {
     }
 
     try (Connection conn = Nats.connect(natsURL)) {
-      JetStreamManagement jsm = nc.jetStreamManagement();
+      JetStreamManagement jsm = conn.jetStreamManagement();
       JetStream js = jsm.jetStream();
 
       // Create a stream with a few subjects
