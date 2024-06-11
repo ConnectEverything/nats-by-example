@@ -1,0 +1,9 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1718133451, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/list-subjects/java"}
+[2.006398, "o", "Before publishing any messages, there are 0 subjects: 0\r\n"]
+[2.009113, "o", "After publishing a message to a subject, it appears in state:\r\n  Subject{name='plain', count=1}"]
+[2.010047, "o", "\r\n"]
+[2.01343, "o", "Wildcard subjects show the actual subject, not the template.\r\n"]
+[2.013706, "o", "  Subject{name='greater.A', count=1}\r\n  Subject{name='greater.B.B.B', count=1}\r\n  Subject{name='greater.A.B', count=1}\r\n  Subject{name='plain', count=1}\r\n  Subject{name='star.1', count=1}\r\n  Subject{name='star.2', count=1}\r\n  Subject{name='greater.A.B.C', count=1}\r\n"]
+[2.0153, "o", "Filtering the subject returns only matching entries ['greater.>']\r\n  Subject{name='greater.A', count=1}\r\n  Subject{name='greater.B.B.B', count=1}\r\n  Subject{name='greater.A.B', count=1}\r\n  Subject{name='greater.A.B.C', count=1}\r\n"]
+[2.016868, "o", "Filtering the subject returns only matching entries ['greater.A.>']"]
+[2.016994, "o", "\r\n  Subject{name='greater.A.B', count=1}\r\n  Subject{name='greater.A.B.C', count=1}\r\n"]
