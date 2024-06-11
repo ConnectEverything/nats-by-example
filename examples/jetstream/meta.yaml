@@ -14,3 +14,4 @@ examples:
   - queue-push-consumer
   - multi-stream-consumption
   - api-migration
+  - list-subjects

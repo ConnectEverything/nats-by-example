@@ -13,7 +13,7 @@ dependencies {
     implementation 'io.nats:nkeys-java:2.0.1'
     implementation 'io.nats:jnats-json:2.0.0'
     implementation 'io.nats:jwt-java:2.0.0'
-    implementation 'io.nats:jnats:2.17.4'
+    implementation 'io.nats:jnats:2.19.0'
 }
 
 apply plugin: 'java'
