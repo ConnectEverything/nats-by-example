@@ -1,6 +1,5 @@
 categories:
   - messaging
-  - micro
   - jetstream
   - auth
   - topologies
@@ -9,3 +8,5 @@ categories:
   - os
   - embedded
   - integrations
+  - operations
+  - services
