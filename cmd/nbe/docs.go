@@ -10,13 +10,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/alecthomas/chroma/v2"
+	_ "embed"
 	"github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/alecthomas/chroma/v2/lexers"
 	"github.com/alecthomas/chroma/v2/styles"
-	"github.com/russross/blackfriday/v2"
-
-	_ "embed"
 )
 
 var (
@@ -26,7 +23,7 @@ var (
 		Python,
 		Deno,
 		Rust,
-		DotNet,
+		//DotNet,
 		DotNet2,
 		Java,
 		Ruby,
