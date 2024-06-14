@@ -10,10 +10,13 @@ import (
 	"path/filepath"
 	"strings"
 
-	_ "embed"
+	"github.com/alecthomas/chroma/v2"
 	"github.com/alecthomas/chroma/v2/formatters/html"
 	"github.com/alecthomas/chroma/v2/lexers"
 	"github.com/alecthomas/chroma/v2/styles"
+	"github.com/russross/blackfriday/v2"
+
+	_ "embed"
 )
 
 var (
