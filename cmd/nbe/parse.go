@@ -41,7 +41,7 @@ var (
 		Rust:      "Rust",
 		Java:      "Java",
 		DotNet:    "C#",
-		DotNet2:   "C#2",
+		DotNet2:   "C# .NET V2",
 		Deno:      "JavaScript",
 		WebSocket: "WebSocket",
 		C:         "C",
