@@ -1,13 +1,14 @@
 package example;
 
 import io.nats.client.*;
-import io.nats.client.api.*;
+import io.nats.client.api.ConsumerConfiguration;
+import io.nats.client.api.ConsumerInfo;
+import io.nats.client.api.StorageType;
+import io.nats.client.api.StreamConfiguration;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Iterator;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeoutException;
 
 public class Main {
   public static void main(String[] args) {
