@@ -21,30 +21,27 @@ public class Main {
       JetStreamManagement jsm = nc.jetStreamManagement();
       JetStream js = jsm.jetStream();
 
-      // remove the stream so we have a clean starting point
-      try {
-        jsm.deleteStream("verifyAckStream");
-      }
-      catch (JetStreamApiException e) {
-        // means does not exist
-      }
-
-      // Create a stream with a few subjects
+      // Create a stream
+      // (remove the stream so we have a clean starting point)
+      try { jsm.deleteStream("verifyAckStream"); } catch (JetStreamApiException e) {}
       jsm.addStream(StreamConfiguration.builder()
           .name("verifyAckStream")
           .subjects("verifyAckSubject")
           .storageType(StorageType.Memory)
           .build());
 
-      // Publish a message
+      // Publish a couple messages so we can look at the state
       js.publish("verifyAckSubject", "A".getBytes());
       js.publish("verifyAckSubject", "B".getBytes());
 
-      // Consume the message
+      // Consume a message with 2 different consumers
+      // The first consumer will ack without confirmation
+      // The second consumer will ackSync which confirms that ack was handled.
       StreamContext sc = nc.getStreamContext("verifyAckStream");
       ConsumerContext cc1 = sc.createOrUpdateConsumer(ConsumerConfiguration.builder().filterSubject("verifyAckSubject").build());
       ConsumerContext cc2 = sc.createOrUpdateConsumer(ConsumerConfiguration.builder().filterSubject("verifyAckSubject").build());
 
+      // Consumer 1
       ConsumerInfo ci = cc1.getConsumerInfo();
       System.out.println("Consumer 1");
       System.out.println("  Start\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
@@ -58,7 +55,7 @@ public class Main {
       ci = cc1.getConsumerInfo();
       System.out.println("  After ack\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
 
-
+      // Consumer 2
       ci = cc2.getConsumerInfo();
       System.out.println("Consumer 2");
       System.out.println("  Start\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
@@ -70,7 +67,8 @@ public class Main {
       m.ackSync(Duration.ofMillis(500));
       ci = cc2.getConsumerInfo();
       System.out.println("  After ack\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
-    } catch (InterruptedException | IOException | JetStreamApiException | JetStreamStatusCheckedException | TimeoutException e) {
+    }
+    catch (InterruptedException | IOException | JetStreamApiException | JetStreamStatusCheckedException | TimeoutException e) {
       e.printStackTrace();
     }
   }
