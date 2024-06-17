@@ -6,5 +6,5 @@ description: |-
   <tr><th>Name</th><th>Clients</th></tr>
   <tr><td>ack ack</td><td>Javascript</td></tr>
   <tr><td>double ack</td><td>Rust, C# .NET V2</td></tr>
-  <tr><td>ack ack</td><td>Go, Python, Java, C</td></tr>
+  <tr><td>ack sync</td><td>Go, Python, Java, C</td></tr>
   </table>
