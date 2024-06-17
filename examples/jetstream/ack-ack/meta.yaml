@@ -1,0 +1,10 @@
+title: Confirmed message ack
+description: |-
+  A confirmed message ack means that the client waits for an ack from the server to ensure that the ack was received and processed.
+  The functionality can be found in various clients under the following:
+  <table>
+  <tr><th>Name</th><th>Clients</th></tr>
+  <tr><td>ack ack</th><th>Javascript</th></tr>
+  <tr><td>double ack</th><th>Rust, C# .NET V2</th></tr>
+  <tr><td>ack ack</th><th>Go, Python, Java, C</th></tr>
+  </table>
