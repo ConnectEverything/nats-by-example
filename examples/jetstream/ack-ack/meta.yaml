@@ -1,4 +1,4 @@
-title: Confirmed message ack
+title: Confirmed Message Ack
 description: |-
   A confirmed message ack means that the client waits for an ack from the server to ensure that the ack was received and processed.
   The functionality can be found in various clients under the following:
