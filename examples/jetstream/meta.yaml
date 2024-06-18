@@ -17,3 +17,4 @@ examples:
   - consumer-fetch-messages
   - partitions
   - list-subjects
+  - ack-ack
