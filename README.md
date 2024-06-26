@@ -46,6 +46,12 @@ The name of the example corresponds to the directory structure under `examples/`
 
 Have questions, issues, or suggestions? Please open [start a discussion](https://github.com/ConnectEverything/nats-by-example/discussions) or open [an issue](https://github.com/ConnectEverything/nats-by-example/issues).
 
+## Status
+
+In addition to the repo [Issues](https://github.com/ConnectEverything/nats-by-example/issues) 
+there is a spreadsheet available in the Synadia shared Google Drive,
+[NATS By Example - TODO](https://docs.google.com/spreadsheets/d/1iCMHUMs0zpuOr0DrXJStVK7QlwVJ8ca1ySasXpvpSz4/edit?gid=1039709814#gid=1039709814)
+
 ## Design
 
 ### Directory structure
