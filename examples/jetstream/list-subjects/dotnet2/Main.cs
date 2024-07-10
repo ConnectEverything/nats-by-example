@@ -35,11 +35,11 @@ var streamConfig = new StreamConfig(stream, ["plain", "greater.>", "star.*"])
 };
 await js.CreateStreamAsync(streamConfig);
 
-// ### GetStreamInfo with StreamInfoOptions
-// Get the subjects via the getStreamInfo call.
+// ### GetStreamAsync with StreamInfoRequest
+// Get the subjects via the GetStreamAsync call.
 // Since this is "state" there are no subjects in the state unless
 // there are messages in the subject.
-
+// To get the subjects map, you must provide a SubjectsFilter
 // Use the &gt; to filter for all subjects
 var jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFilter = ">" });
 Console.WriteLine($"Before publishing any messages, there are 0 subjects: {jsStream.Info.State.Subjects?.Count}");
@@ -75,8 +75,8 @@ if (jsStream.Info.State.Subjects != null)
     }
 }
 
-// ### Subject Filtering
-// Instead of allSubjects, you can filter for a specific subject
+// ### Specific Subject Filtering
+// You can filter for a more specific subject
 jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFilter = "greater.>" });
 Console.WriteLine("Filtering the subject returns only matching entries ['greater.>']");
 if (jsStream.Info.State.Subjects != null)
