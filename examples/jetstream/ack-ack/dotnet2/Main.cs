@@ -21,6 +21,8 @@ var opts = new NatsOpts
     Name = "NATS-by-Example",
 };
 await using var nats = new NatsConnection(opts);
+
+// Get a JetStream Context
 var js = new NatsJSContext(nats);
 
 // ### Stream Setup
@@ -32,15 +34,14 @@ var consumerName2 = "consumer2";
 // Remove the stream first!, so we have a clean starting point.
 try
 {
-    await js.DeleteStreamAsync(stream);
+    await js.DeleteConsumerAsync("MY_STREAM", "consumer_non_existent");
 }
-catch (Exception)
+catch (NatsJSApiException e) when (e is { Error.Code: 404 })
 {
-    // An exception here means the stream did not exist.
 }
 
 // Create the stream
-var streamConfig = new StreamConfig(stream, new[] { subject })
+var streamConfig = new StreamConfig(stream, [subject])
 {
     Storage = StreamConfigStorage.Memory,
 };
@@ -52,12 +53,12 @@ await js.PublishAsync(subject, "B");
 
 // Consume a message with 2 different consumers
 // The first consumer will Ack without confirmation
-// The second consumer will Ack with the DoubleAck option which confirms that ack was handled.
+// The second consumer will AckSync which confirms that ack was handled.
 
 // Consumer 1, regular ack
 var consumer1 = await js.CreateOrUpdateConsumerAsync(stream, new ConsumerConfig(consumerName1));
 logger.LogInformation(
-    "Consumer 1, Start. # pending messages: {}, # messages with ack pending: {}",
+    "Consumer 1, Start # pending messages: {}, messages with ack pending: {}",
     consumer1.Info.NumPending,
     consumer1.Info.NumAckPending);
 
@@ -66,7 +67,7 @@ var next = await consumer1.NextAsync<string>();
 // refresh the consumer to update it's state
 await consumer1.RefreshAsync();
 logger.LogInformation(
-    "Consumer 1, After received but before ack. # pending messages: {}, # messages with ack pending: {}",
+    "Consumer 1, After received but before ack # pending messages: {}, messages with ack pending: {}",
     consumer1.Info.NumPending,
     consumer1.Info.NumAckPending);
 
@@ -78,14 +79,14 @@ if (next is { } msg1)
 // refresh the consumer to update it's state
 await consumer1.RefreshAsync();
 logger.LogInformation(
-    "Consumer 1, After ack. # pending messages: {}, # messages with ack pending: {}",
+    "Consumer 1, After ack # pending messages: {}, messages with ack pending: {}",
     consumer1.Info.NumPending,
     consumer1.Info.NumAckPending);
 
 var consumer2 = await js.CreateOrUpdateConsumerAsync(stream, new ConsumerConfig(consumerName2));
 
 logger.LogInformation(
-    "Consumer 2, Start. # pending messages: {}, # messages with ack pending: {}",
+    "Consumer 2, Start # pending messages: {}, messages with ack pending: {}",
     consumer2.Info.NumPending,
     consumer2.Info.NumAckPending);
 
@@ -94,7 +95,7 @@ next = await consumer2.NextAsync<string>();
 // refresh the consumer to update it's state
 await consumer2.RefreshAsync();
 logger.LogInformation(
-    "Consumer 2, After received but before ack. # pending messages: {}, # messages with ack pending: {}",
+    "Consumer 2, After received but before ack # pending messages: {}, messages with ack pending: {}",
     consumer2.Info.NumPending,
     consumer2.Info.NumAckPending);
 
@@ -106,7 +107,7 @@ if (next is { } msg2)
 // refresh the consumer to update it's state
 await consumer2.RefreshAsync();
 logger.LogInformation(
-    "Consumer 2, After ack. # pending messages: {}, # messages with ack pending: {}",
+    "Consumer 2, After ack # pending messages: {}, messages with ack pending: {}",
     consumer2.Info.NumPending,
     consumer2.Info.NumAckPending);
 
