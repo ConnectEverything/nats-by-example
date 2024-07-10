@@ -35,8 +35,10 @@ var streamConfig = new StreamConfig(stream, ["plain", "greater.>", "star.*"])
 };
 await js.CreateStreamAsync(streamConfig);
 
-// ### Get Stream Info by calling GetStreamAsync with StreamInfoRequest
-// There are no subjects in the state unless there are messages in the subject.
+// ### GetStreamInfo with StreamInfoOptions
+// Get the subjects via the getStreamInfo call.
+// Since this is "state" there are no subjects in the state unless
+// there are messages in the subject.
 
 // Use the &gt; to filter for all subjects
 var jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFilter = ">" });
@@ -74,7 +76,7 @@ if (jsStream.Info.State.Subjects != null)
 }
 
 // ### Subject Filtering
-// Instead of all subjects, you can filter for a specific subject
+// Instead of allSubjects, you can filter for a specific subject
 jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFilter = "greater.>" });
 Console.WriteLine("Filtering the subject returns only matching entries ['greater.>']");
 if (jsStream.Info.State.Subjects != null)
