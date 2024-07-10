@@ -51,9 +51,9 @@ jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFil
 Console.WriteLine("After publishing a message to a subject, it appears in state:");
 if (jsStream.Info.State.Subjects != null)
 {
-    foreach (var subj in jsStream.Info.State.Subjects.Keys)
+    foreach (var (subject, count) in jsStream.Info.State.Subjects)
     {
-        Console.WriteLine($"  Subject '{subj}', Count {jsStream.Info.State.Subjects[subj]}");
+        Console.WriteLine($"  Subject '{subject}', Count {count}");
     }
 }
 
@@ -69,9 +69,9 @@ jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFil
 Console.WriteLine("Wildcard subjects show the actual subject, not the template:");
 if (jsStream.Info.State.Subjects != null)
 {
-    foreach (var subj in jsStream.Info.State.Subjects.Keys)
+    foreach (var (subject, count) in jsStream.Info.State.Subjects)
     {
-        Console.WriteLine($"  Subject '{subj}', Count {jsStream.Info.State.Subjects[subj]}");
+        Console.WriteLine($"  Subject '{subject}', Count {count}");
     }
 }
 
@@ -81,9 +81,9 @@ jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFil
 Console.WriteLine("Filtering the subject returns only matching entries ['greater.>']");
 if (jsStream.Info.State.Subjects != null)
 {
-    foreach (var subj in jsStream.Info.State.Subjects.Keys)
+    foreach (var (subject, count) in jsStream.Info.State.Subjects)
     {
-        Console.WriteLine($"  Subject '{subj}', Count {jsStream.Info.State.Subjects[subj]}");
+        Console.WriteLine($"  Subject '{subject}', Count {count}");
     }
 }
 
@@ -91,8 +91,8 @@ jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFil
 Console.WriteLine("Filtering the subject returns only matching entries ['greater.A.>']");
 if (jsStream.Info.State.Subjects != null)
 {
-    foreach (var subj in jsStream.Info.State.Subjects.Keys)
+    foreach (var (subject, count) in jsStream.Info.State.Subjects)
     {
-        Console.WriteLine($"  Subject '{subj}', Count {jsStream.Info.State.Subjects[subj]}");
+        Console.WriteLine($"  Subject '{subject}', Count {count}");
     }
 }
