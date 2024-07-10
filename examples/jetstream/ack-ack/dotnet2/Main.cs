@@ -34,7 +34,7 @@ var consumerName2 = "consumer2";
 // Remove the stream first!, so we have a clean starting point.
 try
 {
-    await js.DeleteConsumerAsync("MY_STREAM", "consumer_non_existent");
+    await js.DeleteStreamAsync(stream);
 }
 catch (NatsJSApiException e) when (e is { Error.Code: 404 })
 {
