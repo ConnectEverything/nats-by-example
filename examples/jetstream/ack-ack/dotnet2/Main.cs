@@ -57,7 +57,7 @@ await js.PublishAsync(subject, "B");
 // Consumer 1, regular ack
 var consumer1 = await js.CreateOrUpdateConsumerAsync(stream, new ConsumerConfig(consumerName1));
 logger.LogInformation(
-    "Consumer 1, Start # pending messages: {}, messages with ack pending: {}",
+    "Consumer 1, Start. # pending messages: {}, # messages with ack pending: {}",
     consumer1.Info.NumPending,
     consumer1.Info.NumAckPending);
 
@@ -66,7 +66,7 @@ var next = await consumer1.NextAsync<string>();
 // refresh the consumer to update it's state
 await consumer1.RefreshAsync();
 logger.LogInformation(
-    "Consumer 1, After received but before ack # pending messages: {}, messages with ack pending: {}",
+    "Consumer 1, After received but before ack. # pending messages: {}, # messages with ack pending: {}",
     consumer1.Info.NumPending,
     consumer1.Info.NumAckPending);
 
@@ -78,14 +78,14 @@ if (next is { } msg1)
 // refresh the consumer to update it's state
 await consumer1.RefreshAsync();
 logger.LogInformation(
-    "Consumer 1, After ack # pending messages: {}, messages with ack pending: {}",
+    "Consumer 1, After ack. # pending messages: {}, # messages with ack pending: {}",
     consumer1.Info.NumPending,
     consumer1.Info.NumAckPending);
 
 var consumer2 = await js.CreateOrUpdateConsumerAsync(stream, new ConsumerConfig(consumerName2));
 
 logger.LogInformation(
-    "Consumer 2, Start # pending messages: {}, messages with ack pending: {}",
+    "Consumer 2, Start. # pending messages: {}, # messages with ack pending: {}",
     consumer2.Info.NumPending,
     consumer2.Info.NumAckPending);
 
@@ -94,7 +94,7 @@ next = await consumer2.NextAsync<string>();
 // refresh the consumer to update it's state
 await consumer2.RefreshAsync();
 logger.LogInformation(
-    "Consumer 2, After received but before ack # pending messages: {}, messages with ack pending: {}",
+    "Consumer 2, After received but before ack. # pending messages: {}, # messages with ack pending: {}",
     consumer2.Info.NumPending,
     consumer2.Info.NumAckPending);
 
@@ -106,7 +106,7 @@ if (next is { } msg2)
 // refresh the consumer to update it's state
 await consumer2.RefreshAsync();
 logger.LogInformation(
-    "Consumer 2, After ack # pending messages: {}, messages with ack pending: {}",
+    "Consumer 2, After ack. # pending messages: {}, # messages with ack pending: {}",
     consumer2.Info.NumPending,
     consumer2.Info.NumAckPending);
 
