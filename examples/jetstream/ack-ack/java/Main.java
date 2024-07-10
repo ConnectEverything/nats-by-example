@@ -41,7 +41,7 @@ public class Main {
       ConsumerContext cc1 = sc.createOrUpdateConsumer(ConsumerConfiguration.builder().filterSubject("verifyAckSubject").build());
       ConsumerContext cc2 = sc.createOrUpdateConsumer(ConsumerConfiguration.builder().filterSubject("verifyAckSubject").build());
 
-      // Consumer 1
+      // Consumer 1, regular ack
       ConsumerInfo ci = cc1.getConsumerInfo();
       System.out.println("Consumer 1");
       System.out.println("  Start\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
@@ -55,7 +55,7 @@ public class Main {
       ci = cc1.getConsumerInfo();
       System.out.println("  After ack\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
 
-      // Consumer 2
+      // Consumer 2, ackAck
       ci = cc2.getConsumerInfo();
       System.out.println("Consumer 2");
       System.out.println("  Start\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
