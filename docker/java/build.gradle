@@ -5,7 +5,10 @@ plugins {
 repositories {
     mavenCentral()
     maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots"
+        url "https://oss.sonatype.org/content/repositories/releases/"
+    }
+    maven {
+        url "https://oss.sonatype.org/content/repositories/snapshots/"
     }
 }
 
@@ -13,7 +16,7 @@ dependencies {
     implementation 'io.nats:nkeys-java:2.0.1'
     implementation 'io.nats:jnats-json:2.0.0'
     implementation 'io.nats:jwt-java:2.0.0'
-    implementation 'io.nats:jnats:2.19.0'
+    implementation 'io.nats:jnats:2.19.2-SNAPSHOT'
 }
 
 apply plugin: 'java'
