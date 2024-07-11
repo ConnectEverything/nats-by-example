@@ -1,8 +1,0 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1720637565, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/list-subjects/dotnet2"}
-[3.401865, "o", "Before publishing any messages, there are 0 subjects: \r\n"]
-[3.412778, "o", "After publishing a message to a subject, it appears in state:\r\n"]
-[3.413767, "o", "  Subject 'plain', Count 1\r\n"]
-[3.416393, "o", "Wildcard subjects show the actual subject, not the template:"]
-[3.416546, "o", "\r\n  Subject 'greater.A', Count 1\r\n  Subject 'greater.A.B', Count 1\r\n  Subject 'greater.A.B.C', Count 1\r\n  Subject 'greater.B.B.B', Count 1\r\n  Subject 'plain', Count 1\r\n  Subject 'star.1', Count 1\r\n  Subject 'star.2', Count 1\r\n"]
-[3.417314, "o", "Filtering the subject returns only matching entries ['greater.>']\r\n  Subject 'greater.A', Count 1\r\n  Subject 'greater.A.B', Count 1\r\n  Subject 'greater.A.B.C', Count 1\r\n  Subject 'greater.B.B.B', Count 1\r\n"]
-[3.418066, "o", "Filtering the subject returns only matching entries ['greater.A.>']\r\n  Subject 'greater.A.B', Count 1\r\n  Subject 'greater.A.B.C', Count 1\r\n"]
