@@ -28,7 +28,7 @@ public class Main {
 
       // ### GetStreamInfo with StreamInfoOptions
       // Get the subjects via the getStreamInfo call.
-      // Since this is "state" there are no subjects in the state unless
+      // Since this is "state" a subject is not in the state unless
       // there are messages in the subject.
       StreamInfo si = jsm.getStreamInfo("subjects", StreamInfoOptions.allSubjects());
       StreamState state = si.getStreamState();

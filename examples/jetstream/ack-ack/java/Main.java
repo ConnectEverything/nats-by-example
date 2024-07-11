@@ -22,8 +22,9 @@ public class Main {
       JetStream js = jsm.jetStream();
 
       // Create a stream
-      // (remove the stream so we have a clean starting point)
+      // (remove the stream first so we have a clean starting point)
       try { jsm.deleteStream("verifyAckStream"); } catch (JetStreamApiException e) {}
+
       jsm.addStream(StreamConfiguration.builder()
           .name("verifyAckStream")
           .subjects("verifyAckSubject")

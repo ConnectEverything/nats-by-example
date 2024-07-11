@@ -24,7 +24,7 @@ var subject = "verifyAckSubject";
 var consumerName1 = "consumer1";
 var consumerName2 = "consumer2";
 
-// Remove the stream first!, so we have a clean starting point.
+// Remove the stream first, so we have a clean starting point.
 try
 {
     await js.DeleteStreamAsync(stream);
