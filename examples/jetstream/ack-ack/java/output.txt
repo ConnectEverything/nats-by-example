@@ -1,4 +1,3 @@
-[33mWARN[0m[0000] /tmp/4177257857/docker-compose.yaml: `version` is obsolete 
 Consumer 1
   Start
     # pending messages: 2
