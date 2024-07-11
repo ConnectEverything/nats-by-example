@@ -1,0 +1,6 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1720737259, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/list-subjects/go"}
+[2.476218, "o", "After publishing a message to a subject, it appears in state.\r\n  subject 'plain' has 1 message(s)\r\n"]
+[2.477781, "o", "Wildcard subjects show the actual subject, not the template.\r\n  subject 'plain' has 1 message(s)\r\n  subject 'star.1' has 2 message(s)\r\n  subject 'star.2' has 1 message(s)\r\n  subject 'greater.A' has 2 message(s)\r\n  subject 'greater.A.B' has 2 message(s)\r\n  subject 'greater.A.B.C' has 1 message(s)\r\n  subject 'greater.B.B.B' has 1 message(s)\r\n"]
+[2.478541, "o", "Filtering the subject returns only matching entries ['greater.>']\r\n  subject 'greater.A' has 2 message(s)\r\n  subject 'greater.A.B' has 2 message(s)\r\n  subject 'greater.A.B.C' has 1 message(s)"]
+[2.47857, "o", "\r\n  subject 'greater.B.B.B' has 1 message(s)\r\nFiltering the subject returns only matching entries ['greater.A.>']\r\n"]
+[2.478601, "o", "  subject 'greater.A.B' has 2 message(s)\r\n  subject 'greater.A.B.C' has 1 message(s)\r\n"]

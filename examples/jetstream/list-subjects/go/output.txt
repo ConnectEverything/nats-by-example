@@ -1,0 +1,18 @@
+After publishing a message to a subject, it appears in state.
+  subject 'plain' has 1 message(s)
+Wildcard subjects show the actual subject, not the template.
+  subject 'plain' has 1 message(s)
+  subject 'star.1' has 2 message(s)
+  subject 'star.2' has 1 message(s)
+  subject 'greater.A' has 2 message(s)
+  subject 'greater.A.B' has 2 message(s)
+  subject 'greater.A.B.C' has 1 message(s)
+  subject 'greater.B.B.B' has 1 message(s)
+Filtering the subject returns only matching entries ['greater.>']
+  subject 'greater.A' has 2 message(s)
+  subject 'greater.A.B' has 2 message(s)
+  subject 'greater.A.B.C' has 1 message(s)
+  subject 'greater.B.B.B' has 1 message(s)
+Filtering the subject returns only matching entries ['greater.A.>']
+  subject 'greater.A.B' has 2 message(s)
+  subject 'greater.A.B.C' has 1 message(s)
