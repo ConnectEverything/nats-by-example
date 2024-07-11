@@ -47,22 +47,29 @@ Console.WriteLine($"Before publishing any messages, there are 0 subjects: {jsStr
 // Publish a message
 await js.PublishAsync("plain", "plain-data");
 
+// Stream Info contains State, which contains a map, Subjects, of subjects to their count
+// but the server only collects and returns that information if
+// StreamInfoRequest is present with a non-empty subject filter.
+// To get all subjects, set the filter to &gt;
 jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFilter = ">" });
 Console.WriteLine("After publishing a message to a subject, it appears in state:");
 if (jsStream.Info.State.Subjects != null)
 {
     foreach (var (subject, count) in jsStream.Info.State.Subjects)
     {
-        Console.WriteLine($"  Subject '{subject}', Count {count}");
+        Console.WriteLine($"  Subject '{subject}' has {count} message(s)");
     }
 }
 
 // Publish some more messages, this time against wildcard subjects
-await js.PublishAsync("greater.A", "gtA");
-await js.PublishAsync("greater.A.B", "gtAB");
+await js.PublishAsync("greater.A", "gtA-1");
+await js.PublishAsync("greater.A", "gtA-2");
+await js.PublishAsync("greater.A.B", "gtAB-1");
+await js.PublishAsync("greater.A.B", "gtAB-2");
 await js.PublishAsync("greater.A.B.C", "gtABC");
 await js.PublishAsync("greater.B.B.B", "gtBBB");
-await js.PublishAsync("star.1", "star1");
+await js.PublishAsync("star.1", "star1-1");
+await js.PublishAsync("star.1", "star1-2");
 await js.PublishAsync("star.2", "star2");
 
 jsStream = await js.GetStreamAsync(stream, new StreamInfoRequest() { SubjectsFilter = ">" });
@@ -71,7 +78,7 @@ if (jsStream.Info.State.Subjects != null)
 {
     foreach (var (subject, count) in jsStream.Info.State.Subjects)
     {
-        Console.WriteLine($"  Subject '{subject}', Count {count}");
+        Console.WriteLine($"  Subject '{subject}' has {count} message(s)");
     }
 }
 
@@ -83,7 +90,7 @@ if (jsStream.Info.State.Subjects != null)
 {
     foreach (var (subject, count) in jsStream.Info.State.Subjects)
     {
-        Console.WriteLine($"  Subject '{subject}', Count {count}");
+        Console.WriteLine($"  Subject '{subject}' has {count} message(s)");
     }
 }
 
@@ -93,6 +100,6 @@ if (jsStream.Info.State.Subjects != null)
 {
     foreach (var (subject, count) in jsStream.Info.State.Subjects)
     {
-        Console.WriteLine($"  Subject '{subject}', Count {count}");
+        Console.WriteLine($"  Subject '{subject}' has {count} message(s)");
     }
 }
