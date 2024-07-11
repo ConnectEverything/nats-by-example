@@ -64,7 +64,7 @@ sleep 1
 
 # Let's try out a request that is performed by a client connecting
 # to the leaf node. As expected, this will get routed to the service
-# connected to to the main server.
+# connected to the main server.
 nats --context leaf request 'greet' ''
 
 # Let's start another service connected to the leaf node servicing
