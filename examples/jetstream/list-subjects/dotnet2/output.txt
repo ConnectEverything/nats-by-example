@@ -1,4 +1,4 @@
-Before publishing any messages, there are 0 subjects:
+Before publishing any messages, there are 0 subjects: 
 After publishing a message to a subject, it appears in state:
   Subject 'plain', Count 1
 Wildcard subjects show the actual subject, not the template:
