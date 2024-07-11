@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   nats:
     image: docker.io/nats:2.10.3
