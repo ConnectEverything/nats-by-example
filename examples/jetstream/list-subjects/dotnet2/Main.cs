@@ -36,8 +36,8 @@ var streamConfig = new StreamConfig(stream, ["plain", "greater.>", "star.*"])
 await js.CreateStreamAsync(streamConfig);
 
 // ### GetStreamAsync with StreamInfoRequest
-// Get the subjects via the GetStreamAsync call.
-// Since this is "state" there are no subjects in the state unless
+// You can get the subjects of a stream via the GetStreamAsync call.
+// Since this is "state" a subject is not in the state unless
 // there are messages in the subject.
 // To get the subjects map, you must provide a SubjectsFilter
 // Use the &gt; to filter for all subjects
