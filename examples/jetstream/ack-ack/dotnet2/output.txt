@@ -1,4 +1,3 @@
-[33mWARN[0m[0000] /tmp/4134930204/docker-compose.yaml: `version` is obsolete 
 info: NATS.Client.Core.NatsConnection[1001]
       Try to connect NATS nats://nats:4222
 info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
