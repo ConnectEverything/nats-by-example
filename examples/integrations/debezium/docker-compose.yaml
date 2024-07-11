@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   postgres:
     image: docker.io/debezium/postgres:16-alpine
