@@ -59,7 +59,7 @@ public class Main {
       js.publish("star.1", "star1-2".getBytes());
       js.publish("star.2", "star2".getBytes());
 
-      // Get all subjects, but get the subjects as a map
+      // Get all subjects, but get the subjects as a map, via getSubjectMap
       si = jsm.getStreamInfo("subjects", StreamInfoOptions.allSubjects());
       state = si.getStreamState();
       System.out.println("Wildcard subjects show the actual subject, not the template.");
