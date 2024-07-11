@@ -36,7 +36,7 @@ public class Main {
       js.publish("verifyAckSubject", "B".getBytes());
 
       // Consume a message with 2 different consumers
-      // The first consumer will ack without confirmation
+      // The first consumer will (regular) ack without confirmation
       // The second consumer will ackSync which confirms that ack was handled.
       StreamContext sc = nc.getStreamContext("verifyAckStream");
       ConsumerContext cc1 = sc.createOrUpdateConsumer(ConsumerConfiguration.builder().filterSubject("verifyAckSubject").build());
