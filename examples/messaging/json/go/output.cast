@@ -1,0 +1,2 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1720811257, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: messaging/json/go"}
+[1.674641, "o", "received valid JSON payload: {Foo:bar Bar:27}\r\nreceived invalid JSON payload: not json\r\n"]
