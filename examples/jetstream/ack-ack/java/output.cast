@@ -1,0 +1,13 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1720801292, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/ack-ack/java"}
+[2.451428, "o", "Consumer 1\r\n  Start\r\n    # pending messages: 2\r\n    # messages with ack pending: 0\r\n"]
+[2.464047, "o", "  After received but before ack\r\n    # pending messages: 1\r\n    # messages with ack pending: 1\r\n"]
+[2.466065, "o", "  After ack\r\n    # pending messages: 1\r\n    # messages with ack pending: 0\r\n"]
+[2.46785, "o", "Consumer 2\r\n  Start\r\n    # pending messages: 2\r\n    # messages with ack pending: 0\r\n"]
+[2.469528, "o", "  After received but before ack"]
+[2.469632, "o", "\r\n"]
+[2.469745, "o", "    # pending messages: 1"]
+[2.469826, "o", "\r\n"]
+[2.469945, "o", "    # messages with ack pending: 1\r\n"]
+[2.471323, "o", "  After ack"]
+[2.471462, "o", "\r\n"]
+[2.472072, "o", "    # pending messages: 1\r\n    # messages with ack pending: 0\r\n"]
