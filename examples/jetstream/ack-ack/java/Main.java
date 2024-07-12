@@ -42,34 +42,49 @@ public class Main {
       ConsumerContext cc1 = sc.createOrUpdateConsumer(ConsumerConfiguration.builder().filterSubject("verifyAckSubject").build());
       ConsumerContext cc2 = sc.createOrUpdateConsumer(ConsumerConfiguration.builder().filterSubject("verifyAckSubject").build());
 
-      // Consumer 1, regular ack
+      // Consumer 1 will use ack()
       ConsumerInfo ci = cc1.getConsumerInfo();
       System.out.println("Consumer 1");
       System.out.println("  Start\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
 
+      // Get one message with ConsumerContext next()
       Message m = cc1.next();
       ci = cc1.getConsumerInfo();
       System.out.println("  After received but before ack\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
 
+      // ack the message.
       m.ack();
-      Thread.sleep(100); // to give time for the ack to be completed on the server
       ci = cc1.getConsumerInfo();
       System.out.println("  After ack\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
 
-      // Consumer 2, ackAck
+      // Consumer 2 will use ackAck()
       ci = cc2.getConsumerInfo();
       System.out.println("Consumer 2");
       System.out.println("  Start\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
 
+      // Get one message with ConsumerContext next()
       m = cc2.next();
       ci = cc2.getConsumerInfo();
       System.out.println("  After received but before ack\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
 
-      m.ackSync(Duration.ofMillis(500));
+      // ackSync the message.
+      // The thing about ackSync is it is a request reply.
+      // Make a request to the server, the server does work, the server replies.
+      // It's rare, but the request could get to the server,
+      // the server handles it and sends the response, but it
+      // does not make it back to the client in time. This is where
+      // knowledge of the environment and network is important
+      // when setting connection and request time-outs.
+      try {
+        m.ackSync(Duration.ofMillis(500));
+      }
+      catch (TimeoutException timeout) {
+        System.out.println("If it gets here the server did not reply in time.");
+      }
       ci = cc2.getConsumerInfo();
       System.out.println("  After ack\n    # pending messages: " + ci.getNumPending() + "\n    # messages with ack pending: " + ci.getNumAckPending());
     }
-    catch (InterruptedException | IOException | JetStreamApiException | JetStreamStatusCheckedException | TimeoutException e) {
+    catch (InterruptedException | IOException | JetStreamApiException | JetStreamStatusCheckedException e) {
       e.printStackTrace();
     }
   }
