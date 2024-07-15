@@ -3,8 +3,8 @@
 import {
   AckPolicy,
   connect,
-} from "https://deno.land/x/nats@v1.16.0/src/mod.ts";
-import {StorageType} from "../../jetstream/jsapi_types.ts";
+} from "https://deno.land/x/nats@v1.28.0/src/mod.ts";
+import {StorageType} from "https://deno.land/x/nats@v1.24.0/jetstream/jsapi_types.ts";
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string.
