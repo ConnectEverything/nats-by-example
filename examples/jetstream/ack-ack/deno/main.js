@@ -11,7 +11,6 @@ import {StorageType} from "../../jetstream/jsapi_types.ts";
 const servers = Deno.env.get("NATS_URL") || "nats://localhost:4222";
 
 // Create a client connection to an available NATS server.
-
 const nc = await connect({ servers });
 
 // create a stream with a random name with some messages and a consumer
@@ -31,7 +30,7 @@ try {
   }
 }
 
-const si = await jsm.streams.add({
+await jsm.streams.add({
   name: stream,
   subjects: [subject],
   storage: StorageType.Memory,
@@ -75,7 +74,6 @@ try {
 } catch (err) {
   console.log(`consume failed: ${err.message}`);
 }
-
 
 // Consumer 2 will use ackAck()
 let ci2 = await jsm.consumers.add(stream, {
