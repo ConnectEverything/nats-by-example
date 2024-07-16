@@ -1,5 +1,6 @@
 GOOS=$(shell go env GOOS)
 GOARCH=$(shell go env GOARCH)
+DIST_EXT=""
 
 # Requires: go install github.com/githubnemo/CompileDaemon@master
 # for the multi-build support.
@@ -18,17 +19,17 @@ watch:
 
 build:
 	mkdir -p dist/$(GOOS)-$(GOARCH)
-	go build -o dist/$(GOOS)-$(GOARCH)/nbe ./cmd/nbe
+	go build -o dist/$(GOOS)-$(GOARCH)/nbe$(DIST_EXT) ./cmd/nbe
 
 zip:
-	cd dist/$(GOOS)-$(GOARCH) && zip ../$(GOOS)-$(GOARCH).zip nbe
+	cd dist/$(GOOS)-$(GOARCH) && zip ../$(GOOS)-$(GOARCH).zip nbe$(DIST_EXT)
 
 dist:
 	GOOS=linux GOARCH=amd64 make build zip
 	GOOS=linux GOARCH=arm64 make build zip
 	GOOS=darwin GOARCH=amd64 make build zip
 	GOOS=darwin GOARCH=arm64 make build zip
-	GOOS=windows GOARCH=amd64 make build zip
-	GOOS=windows GOARCH=arm64 make build zip
+	GOOS=windows GOARCH=amd64 DIST_EXT=".exe" make build zip
+	GOOS=windows GOARCH=arm64 DIST_EXT=".exe" make build zip
 
 .PHONY: dist
