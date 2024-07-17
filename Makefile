@@ -1,6 +1,5 @@
 GOOS=$(shell go env GOOS)
 GOARCH=$(shell go env GOARCH)
-DIST_EXT=""
 
 # Requires: go install github.com/githubnemo/CompileDaemon@master
 # for the multi-build support.
