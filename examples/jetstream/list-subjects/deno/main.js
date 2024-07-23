@@ -77,4 +77,28 @@ if (si.state.subjects) {
     }
 }
 
+// ### Subject Filtering
+// Instead of allSubjects, you can filter for a specific subject
+si = await jsm.streams.info("subjects", {subjects_filter: "greater.>"});
+console.log("Filtering the subject returns only matching entries ['greater.>']");
+
+if (si.state.subjects) {
+    let subjects = {};
+    subjects = Object.assign(subjects, si.state.subjects);
+    for (const key of Object.keys(subjects)) {
+        console.log(`  subject '${key}' has ${si.state.subjects[key]} message(s)`)
+    }
+}
+
+si = await jsm.streams.info("subjects", {subjects_filter: "greater.A.>"});
+console.log("Filtering the subject returns only matching entries ['greater.A.>']");
+
+if (si.state.subjects) {
+    let subjects = {};
+    subjects = Object.assign(subjects, si.state.subjects);
+    for (const key of Object.keys(subjects)) {
+        console.log(`  subject '${key}' has ${si.state.subjects[key]} message(s)`)
+    }
+}
+
 await nc.close();
