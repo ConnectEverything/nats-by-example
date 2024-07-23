@@ -1,16 +1,11 @@
-// import the library - in node.js `import {connect, etc} from "nats";`
-// or if not doing a module, `const {connect, etc} = require("nats");`
 import {
   AckPolicy,
-  connect,
+  StorageType,
+  connect
 } from "https://deno.land/x/nats@v1.28.0/src/mod.ts";
-import {StorageType} from "https://deno.land/x/nats@v1.24.0/jetstream/jsapi_types.ts";
 
-// Get the passed NATS_URL or fallback to the default. This can be
-// a comma-separated string.
-const servers = Deno.env.get("NATS_URL") || "nats://localhost:4222";
+const servers = Deno.env.get("NATS_URL")?.split(",");
 
-// Create a client connection to an available NATS server.
 const nc = await connect({ servers });
 
 // create a stream with a random name with some messages and a consumer
@@ -45,7 +40,7 @@ await js.publish(subject)
 // The second consumer will ackSync which confirms that ack was handled.
 
 // Consumer 1 will use ack()
-let ci1 = await jsm.consumers.add(stream, {
+const ci1 = await jsm.consumers.add(stream, {
   name: "consumer1",
   filter_subject: subject,
   ack_policy: AckPolicy.Explicit
@@ -60,7 +55,7 @@ const consumer1 = await js.consumers.get(stream, "consumer1");
 try {
   const m = await consumer1.next();
   if (m) {
-    let ci1 = await consumer1.info(false);
+    let ci1= await consumer1.info(false);
     console.log("  After received but before ack");
     console.log(`    pending messages: ${ci1.num_pending}`);
     console.log(`    messages with ack pending: ${ci1.num_ack_pending}`);
@@ -75,8 +70,9 @@ try {
   console.log(`consume failed: ${err.message}`);
 }
 
+
 // Consumer 2 will use ackAck()
-let ci2 = await jsm.consumers.add(stream, {
+const ci2 = await jsm.consumers.add(stream, {
   name: "consumer2",
   filter_subject: subject,
   ack_policy: AckPolicy.Explicit
@@ -91,7 +87,7 @@ const consumer2 = await js.consumers.get(stream, "consumer2");
 try {
   const m = await consumer2.next();
   if (m) {
-    let ci2 = await consumer2.info(false);
+    let ci2= await consumer2.info(false);
     console.log("  After received but before ack");
     console.log(`    pending messages: ${ci2.num_pending}`);
     console.log(`    messages with ack pending: ${ci2.num_ack_pending}`);
