@@ -126,6 +126,7 @@ func (r *ImageBuilder) Run() (string, error) {
 	}
 
 	imageTag := fmt.Sprintf("%s:%s", filepath.Join("nbe", r.Example), uid)
+	imageTag = strings.Replace(imageTag, "\\", "/", -1) // when running on windows filepath use backslash, but this is executing on docker in unix.
 
 	defaultDir := filepath.Join(r.Repo, "docker", lang)
 
