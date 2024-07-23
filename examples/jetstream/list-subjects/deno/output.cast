@@ -1,9 +1,0 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1721765773, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/list-subjects/deno"}
-[2.800556, "o", "Stream: EVENTS_991R has these subjects: 'PLAIN_98HU,GT_98OH.>,STAR_98V4.*'\r\n"]
-[2.801351, "o", "Before publishing any messages, there should be 0 subjects in the state: 0\r\n"]
-[2.80263, "o", "After publishing a message to a subject, it appears in state:\r\n  subject 'PLAIN_98HU' has 1 message(s)\r\n"]
-[2.806508, "o", "Wildcard subjects show the actual subject, not the template.\r\n  subject 'GT_98OH.A' has 2 message(s)\r\n  subject 'GT_98OH.A.B' has 2 message(s)\r\n  subject 'GT_98OH.A.B.C' has 1 message(s)\r\n  subject 'GT_98OH.B.B.B' has 1 message(s)\r\n  subject 'PLAIN_98HU' has 1 message(s)\r\n  subject 'STAR_98V4.1' has 2 message(s)\r\n  subject 'STAR_98V4.2' has 1 message(s)\r\n"]
-[2.807278, "o", "Filtering the subject returns only matching entries ['GT_98OH.>']"]
-[2.807314, "o", "\r\n  subject 'GT_98OH.A' has 2 message(s)\r\n  subject 'GT_98OH.A.B' has 2 message(s)\r\n"]
-[2.807395, "o", "  subject 'GT_98OH.A.B.C' has 1 message(s)\r\n  subject 'GT_98OH.B.B.B' has 1 message(s)\r\n"]
-[2.808083, "o", "Filtering the subject returns only matching entries ['GT_98OH.A>']\r\n  subject 'GT_98OH.A.B' has 2 message(s)\r\n  subject 'GT_98OH.A.B.C' has 1 message(s)\r\n"]
