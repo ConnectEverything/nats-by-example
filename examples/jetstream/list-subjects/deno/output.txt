@@ -1,0 +1,20 @@
+Stream: EVENTS_991R has these subjects: 'PLAIN_98HU,GT_98OH.>,STAR_98V4.*'
+Before publishing any messages, there should be 0 subjects in the state: 0
+After publishing a message to a subject, it appears in state:
+  subject 'PLAIN_98HU' has 1 message(s)
+Wildcard subjects show the actual subject, not the template.
+  subject 'GT_98OH.A' has 2 message(s)
+  subject 'GT_98OH.A.B' has 2 message(s)
+  subject 'GT_98OH.A.B.C' has 1 message(s)
+  subject 'GT_98OH.B.B.B' has 1 message(s)
+  subject 'PLAIN_98HU' has 1 message(s)
+  subject 'STAR_98V4.1' has 2 message(s)
+  subject 'STAR_98V4.2' has 1 message(s)
+Filtering the subject returns only matching entries ['GT_98OH.>']
+  subject 'GT_98OH.A' has 2 message(s)
+  subject 'GT_98OH.A.B' has 2 message(s)
+  subject 'GT_98OH.A.B.C' has 1 message(s)
+  subject 'GT_98OH.B.B.B' has 1 message(s)
+Filtering the subject returns only matching entries ['GT_98OH.A>']
+  subject 'GT_98OH.A.B' has 2 message(s)
+  subject 'GT_98OH.A.B.C' has 1 message(s)
