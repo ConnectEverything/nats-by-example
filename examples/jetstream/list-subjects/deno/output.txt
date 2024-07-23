@@ -1,0 +1,20 @@
+Stream: EVENTS_7Q3G has these subjects: 'PLAIN_7PKV,GT_7PR2.>,STAR_7PX9.*'
+Before publishing any messages, there should be 0 subjects in the state: 0
+After publishing a message to a subject, it appears in state:
+  subject 'PLAIN_7PKV' has 1 message(s)
+Wildcard subjects show the actual subject, not the template.
+  subject 'GT_7PR2.A' has 2 message(s)
+  subject 'GT_7PR2.A.B' has 2 message(s)
+  subject 'GT_7PR2.A.B.C' has 1 message(s)
+  subject 'GT_7PR2.B.B.B' has 1 message(s)
+  subject 'PLAIN_7PKV' has 1 message(s)
+  subject 'STAR_7PX9.1' has 2 message(s)
+  subject 'STAR_7PX9.2' has 1 message(s)
+Filtering the subject returns only matching entries ['GT_7PR2.>']
+  subject 'GT_7PR2.A' has 2 message(s)
+  subject 'GT_7PR2.A.B' has 2 message(s)
+  subject 'GT_7PR2.A.B.C' has 1 message(s)
+  subject 'GT_7PR2.B.B.B' has 1 message(s)
+Filtering the subject returns only matching entries ['GT_7PR2.A>']
+  subject 'GT_7PR2.A.B' has 2 message(s)
+  subject 'GT_7PR2.A.B.C' has 1 message(s)

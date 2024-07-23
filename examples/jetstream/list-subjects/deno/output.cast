@@ -1,0 +1,9 @@
+{"version": 2, "width": 0, "height": 0, "timestamp": 1721772649, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/list-subjects/deno"}
+[6.839086, "o", "Stream: EVENTS_7Q3G has these subjects: 'PLAIN_7PKV,GT_7PR2.>,STAR_7PX9.*'\r\n"]
+[6.839933, "o", "Before publishing any messages, there should be 0 subjects in the state: 0\r\n"]
+[6.841087, "o", "After publishing a message to a subject, it appears in state:\r\n  subject 'PLAIN_7PKV' has 1 message(s)\r\n"]
+[6.844795, "o", "Wildcard subjects show the actual subject, not the template.\r\n  subject 'GT_7PR2.A' has 2 message(s)\r\n  subject 'GT_7PR2.A.B' has 2 message(s)\r\n  subject 'GT_7PR2.A.B.C' has 1 message(s)\r\n  subject 'GT_7PR2.B.B.B' has 1 message(s)\r\n"]
+[6.845805, "o", "  subject 'PLAIN_7PKV' has 1 message(s)\r\n  subject 'STAR_7PX9.1' has 2 message(s)\r\n  subject 'STAR_7PX9.2' has 1 message(s)\r\n"]
+[6.846214, "o", "Filtering the subject returns only matching entries ['GT_7PR2.>']\r\n  subject 'GT_7PR2.A' has 2 message(s)\r\n  subject 'GT_7PR2.A.B' has 2 message(s)\r\n  subject 'GT_7PR2.A.B.C' has 1 message(s)\r\n  subject 'GT_7PR2.B.B.B' has 1 message(s)\r\n"]
+[6.846889, "o", "Filtering the subject returns only matching entries ['GT_7PR2.A>']"]
+[6.846987, "o", "\r\n  subject 'GT_7PR2.A.B' has 2 message(s)\r\n  subject 'GT_7PR2.A.B.C' has 1 message(s)\r\n"]
