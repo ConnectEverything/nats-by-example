@@ -47,10 +47,8 @@ si = await jsm.streams.info(name, {subjects_filter: ">"});
 console.log("After publishing a message to a subject, it appears in state:")
 
 if (si.state.subjects) {
-    let subjects = {};
-    subjects = Object.assign(subjects, si.state.subjects);
-    for (const key of Object.keys(subjects)) {
-        console.log(`  subject '${key}' has ${si.state.subjects[key]} message(s)`)
+    for (const [key, value] of Object.entries(si.state.subjects)) {
+        console.log(`  subject '${key}' has ${value} message(s)`)
     }
 }
 
@@ -70,10 +68,8 @@ si = await jsm.streams.info(name, {subjects_filter: ">"});
 console.log("Wildcard subjects show the actual subject, not the template.");
 
 if (si.state.subjects) {
-    let subjects = {};
-    subjects = Object.assign(subjects, si.state.subjects);
-    for (const key of Object.keys(subjects)) {
-        console.log(`  subject '${key}' has ${si.state.subjects[key]} message(s)`)
+    for (const [key, value] of Object.entries(si.state.subjects)) {
+        console.log(`  subject '${key}' has ${value} message(s)`)
     }
 }
 
@@ -83,10 +79,8 @@ si = await jsm.streams.info(name, {subjects_filter: `${gtSubj}.>`});
 console.log(`Filtering the subject returns only matching entries ['${gtSubj}.>']`);
 
 if (si.state.subjects) {
-    let subjects = {};
-    subjects = Object.assign(subjects, si.state.subjects);
-    for (const key of Object.keys(subjects)) {
-        console.log(`  subject '${key}' has ${si.state.subjects[key]} message(s)`)
+    for (const [key, value] of Object.entries(si.state.subjects)) {
+        console.log(`  subject '${key}' has ${value} message(s)`)
     }
 }
 
@@ -94,10 +88,8 @@ si = await jsm.streams.info(name, {subjects_filter: `${gtSubj}.A.>`});
 console.log(`Filtering the subject returns only matching entries ['${gtSubj}.A>']`);
 
 if (si.state.subjects) {
-    let subjects = {};
-    subjects = Object.assign(subjects, si.state.subjects);
-    for (const key of Object.keys(subjects)) {
-        console.log(`  subject '${key}' has ${si.state.subjects[key]} message(s)`)
+    for (const [key, value] of Object.entries(si.state.subjects)) {
+        console.log(`  subject '${key}' has ${value} message(s)`)
     }
 }
 
