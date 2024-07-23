@@ -1,6 +1,6 @@
 import {
   AckPolicy,
-  StorageType,
+  nuid,
   connect
 } from "https://deno.land/x/nats@v1.28.0/src/mod.ts";
 
@@ -8,41 +8,29 @@ const servers = Deno.env.get("NATS_URL")?.split(",");
 
 const nc = await connect({ servers });
 
-// create a stream with a random name with some messages and a consumer
-const stream = "confirmAckStream";
-const subject = "confirmAckSubject";
-
 const jsm = await nc.jetstreamManager();
 const js = nc.jetstream();
 
-// Create a stream
-// (remove the stream first so we have a clean starting point)
-try {
-  await jsm.streams.delete(stream);
-} catch (err) {
-  if (err.code != 404) {
-    console.error(err.message);
-  }
-}
-
+// Create the stream
+const subj = nuid.next();
+const name = `EVENTS_${subj}`;
 await jsm.streams.add({
-  name: stream,
-  subjects: [subject],
-  storage: StorageType.Memory,
+  name,
+  subjects: [subj]
 });
 
 // Publish a couple messages so we can look at the state
-await js.publish(subject)
-await js.publish(subject)
+await js.publish(subj)
+await js.publish(subj)
 
 // Consume a message with 2 different consumers
 // The first consumer will (regular) ack without confirmation
 // The second consumer will ackSync which confirms that ack was handled.
 
 // Consumer 1 will use ack()
-const ci1 = await jsm.consumers.add(stream, {
+const ci1 = await jsm.consumers.add(name, {
   name: "consumer1",
-  filter_subject: subject,
+  filter_subject: subj,
   ack_policy: AckPolicy.Explicit
 });
 console.log("Consumer 1");
@@ -50,7 +38,7 @@ console.log("  Start");
 console.log(`    pending messages: ${ci1.num_pending}`);
 console.log(`    messages with ack pending: ${ci1.num_ack_pending}`);
 
-const consumer1 = await js.consumers.get(stream, "consumer1");
+const consumer1 = await js.consumers.get(name, "consumer1");
 
 try {
   const m = await consumer1.next();
@@ -72,9 +60,9 @@ try {
 
 
 // Consumer 2 will use ackAck()
-const ci2 = await jsm.consumers.add(stream, {
+const ci2 = await jsm.consumers.add(name, {
   name: "consumer2",
-  filter_subject: subject,
+  filter_subject: subj,
   ack_policy: AckPolicy.Explicit
 });
 console.log("Consumer 2");
@@ -82,7 +70,7 @@ console.log("  Start");
 console.log(`    pending messages: ${ci2.num_pending}`);
 console.log(`    messages with ack pending: ${ci2.num_ack_pending}`);
 
-const consumer2 = await js.consumers.get(stream, "consumer2");
+const consumer2 = await js.consumers.get(name, "consumer2");
 
 try {
   const m = await consumer2.next();

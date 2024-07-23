@@ -1,9 +1,0 @@
-{"version": 2, "width": 0, "height": 0, "timestamp": 1721759000, "env": {"SHELL": null, "TERM": null}, "title": "NATS by Example: jetstream/ack-ack/deno"}
-[1.671434, "o", "Consumer 1\r\n  Start\r\n    pending messages: 2\r\n    messages with ack pending: 0\r\n"]
-[1.674714, "o", "  After received but before ack\r\n    pending messages: 1\r\n    messages with ack pending: 1\r\n"]
-[1.675647, "o", "  After ack\r\n    pending messages: 1"]
-[1.675684, "o", "\r\n    messages with ack pending: 1\r\n"]
-[1.676394, "o", "Consumer 2\r\n  Start\r\n    pending messages: 2\r\n    messages with ack pending: 0\r\n"]
-[1.677886, "o", "  After received but before ack\r\n    pending messages: 1\r\n"]
-[1.677927, "o", "    messages with ack pending: 1\r\n"]
-[1.678835, "o", "  After ack\r\n    pending messages: 1\r\n    messages with ack pending: 0\r\n"]
