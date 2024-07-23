@@ -10,15 +10,11 @@ const nc = await connect({ servers });
 const jsm = await nc.jetstreamManager();
 const js = nc.jetstream();
 
-const randomName: () => string = function (): string {
-    return nuid.next().substring(18)
-};
-
 // Create a stream with a few random subjects
-const plainSubj = `PLAIN_${randomName()}`;
-const gtSubj = `GT_${randomName()}`;
-const starSubj = `STAR_${randomName()}`;
-const name = `EVENTS_${randomName()}`;
+const plainSubj = `PLAIN_${nuid.next().substring(18)}`;
+const gtSubj = `GT_${nuid.next().substring(18)}`;
+const starSubj = `STAR_${nuid.next().substring(18)}`;
+const name = `EVENTS_${nuid.next().substring(18)}`;
 
 let si = await jsm.streams.add({
     name,
