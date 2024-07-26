@@ -1,5 +1,4 @@
 use std::{env};
-
 use async_nats::jetstream;
 use futures::StreamExt;
 
