@@ -54,7 +54,7 @@ public class Main {
       // There are multiple ways to "put" an object into the store.
       // This examples shows putting an input stream like you might get from a file
       // It also shows how to customize how it's put into the store,
-      // in this case in chunks of 32K instead of teh default 128K
+      // in this case in chunks of 32K instead of the default 128K
       // Setting chunk size is important to consider for instance
       // if you know you are on a connection with limited bandwidth or
       // your server has been configured to only accept smaller messages.
@@ -63,19 +63,14 @@ public class Main {
           .chunkSize(32 * 1024)
           .build();
       ObjectInfo oInfo = os.put(objectMeta, in);
-      System.out.println("Object '" + oInfo.getObjectName() + "' ('" + oInfo.getDescription() + "')"
-          + " was successfully put in bucket '" + oInfo.getBucket() + "'.");
+      System.out.println("ObjectInfo from put(...) " + Helper.toString(oInfo)
+          + "\nwas successfully put in bucket '" + oInfo.getBucket() + "'.");
 
       objectStoreStatus = os.getStatus();
       System.out.println("After put, the object store has " + objectStoreStatus.getSize() + " bytes of data and meta-data stored.");
 
       oInfo = os.getInfo("my-object");
-      String digest = oInfo.getDigest();
-      System.out.println("Object '" + oInfo.getObjectName()
-          + "'\n  has " + oInfo.getSize() + " bytes"
-          + "'\n  has a digest of '" + digest + "'"
-          + "\n  and is stored in " + oInfo.getChunks() + " chunks (messages)."
-      );
+      System.out.println("ObjectInfo from get(...) " + oInfo);
 
       // ### GET
       // When we "get" an object, we will need an output stream
@@ -104,8 +99,10 @@ public class Main {
       String outDigest = d.getDigestEntry();
       System.out.println("The received bytes has a digest of: '" + outDigest + "'");
 
-      // ### Watch the store
-      // We can watch the store for changes or even just to see all the objects in the store
+      // ### Watching for changes
+      // Although one could subscribe to the stream directly, it is more convenient
+      // to use an `ObjectStoreWatcher` which provides a deliberate API and types for tracking
+      // changes over time.
       ObjectStoreWatcher uoWatcher = new ObjectStoreIntroWatcher("UPDATES_ONLY");
       System.out.println("About to watch [UPDATES_ONLY]");
       os.watch(uoWatcher, ObjectStoreWatchOption.UPDATES_ONLY);
@@ -119,6 +116,7 @@ public class Main {
       System.out.println("About to watch [INCLUDE_HISTORY]");
       os.watch(ihWatcher, ObjectStoreWatchOption.INCLUDE_HISTORY);
 
+      System.out.println("About to delete...");
       os.delete("simple object");
       os.delete("my-object");
 
@@ -150,11 +148,21 @@ public class Main {
 
     @Override
     public void watch(ObjectInfo objectInfo) {
-      System.out.println("Watcher [" + name + "] The object store has an object named: " + objectInfo.getObjectName());
+      System.out.println("Watcher [" + name + "] received watch" + Helper.toString(objectInfo));
     }
 
     @Override
     public void endOfData() {
+    }
+  }
+
+  static class Helper {
+    public static String toString(ObjectInfo oi) {
+      return "\n  name=" + oi.getObjectName() +
+          ", size=" + oi.getSize() +
+          ", chunks=" + oi.getChunks() +
+          ", deleted=" + oi.isDeleted() +
+          ", digest=" + oi.getDigest();
     }
   }
 
@@ -164,6 +172,7 @@ public class Main {
   // messages, there may be some flow control warnings. These are just warnings.
   // In custom error listeners you can turn of printing or logging of that warning.
   static class ObjectStoreIntroErrorListener extends ErrorListenerConsoleImpl {
+
     @Override
     public void flowControlProcessed(Connection conn, JetStreamSubscription sub, String id, FlowControlSource source) {
       // do nothing, just a warning
