@@ -2,10 +2,14 @@ package example;
 
 import io.nats.client.*;
 import io.nats.client.api.*;
-import io.nats.client.impl.Headers;
+import io.nats.client.impl.ErrorListenerConsoleImpl;
+import io.nats.client.support.Digester;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.List;
+import java.security.NoSuchAlgorithmException;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
   public static void main(String[] args) {
