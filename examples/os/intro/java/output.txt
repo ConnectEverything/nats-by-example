@@ -1,0 +1,29 @@
+The server max payload is configured as 1048576 bytes.
+Before put, the object store has 0 bytes of data and meta-data stored.
+ObjectInfo from put(...) 
+  name=my-object, size=10000000, chunks=306, deleted=false, digest=SHA-256=U_40yxhKLPMn3kHxhYzHqhcJf9FhxYfSj4flpC8b8Fk=
+was successfully put in bucket 'my-bucket'.
+After put, the object store has 10016545 bytes of data and meta-data stored.
+ObjectInfo from get(...) ObjectInfo{bucket='my-bucket', nuid='Kun9uZ59WYGZRwOq4xyzvC', size=10000000, modified=2024-07-29T20:18:24.232963594Z[GMT], chunks=306, digest='SHA-256=U_40yxhKLPMn3kHxhYzHqhcJf9FhxYfSj4flpC8b8Fk=', deleted=false, objectMeta=ObjectMeta{objectName='my-object', description='My Object Description', headers?0, objectMetaOptions=ObjectMetaOptions{link=null, chunkSize=32768}}}
+We received 10000000 bytes.
+We received exactly the same bytes we put in!
+The received bytes has a digest of: 'SHA-256=U_40yxhKLPMn3kHxhYzHqhcJf9FhxYfSj4flpC8b8Fk='
+About to watch [UPDATES_ONLY]
+Simple object has been put.
+About to watch [INCLUDE_HISTORY]
+Watcher [UPDATES_ONLY] received watch
+  name=simple object, size=100000, chunks=1, deleted=false, digest=SHA-256=qJDoaGJda-o-1GdOr6hcWt-HiCM5IqtF936CYLbeuc4=
+Watcher [INCLUDE_HISTORY] received watch
+  name=my-object, size=10000000, chunks=306, deleted=false, digest=SHA-256=U_40yxhKLPMn3kHxhYzHqhcJf9FhxYfSj4flpC8b8Fk=
+Watcher [INCLUDE_HISTORY] received watch
+  name=simple object, size=100000, chunks=1, deleted=false, digest=SHA-256=qJDoaGJda-o-1GdOr6hcWt-HiCM5IqtF936CYLbeuc4=
+About to delete...
+Watcher [INCLUDE_HISTORY] received watch
+  name=simple object, size=0, chunks=0, deleted=true, digest=null
+Watcher [UPDATES_ONLY] received watch
+  name=simple object, size=0, chunks=0, deleted=true, digest=null
+Watcher [INCLUDE_HISTORY] received watch
+  name=my-object, size=0, chunks=0, deleted=true, digest=null
+Watcher [UPDATES_ONLY] received watch
+  name=my-object, size=0, chunks=0, deleted=true, digest=null
+After deletes, the object store has 481 bytes of data and meta-data stored.
