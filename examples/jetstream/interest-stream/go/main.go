@@ -63,10 +63,11 @@ func main() {
 	fmt.Println("# Stream info without any consumers")
 	printStreamState(ctx, stream)
 
-	// ### Adding a consumer Now let's add a pull consumer and publish a few
+	// ### Adding a consumer
+	// Now let's add a pull consumer and publish a few
 	// more messages. Also note that we are _only_ creating the consumer and
 	// have not yet started consuming the messages. This is only to point out
-	// that a it is not _required_ to be actively consuming messages to show
+	// that it is not _required_ to be actively consuming messages to show
 	// _interest_, but it is the presence of a consumer which the stream cares
 	// about to determine retention of messages. [pull]:
 	// /examples/jetstream/pull-consumer/go
