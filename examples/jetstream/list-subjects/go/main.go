@@ -36,7 +36,7 @@ func main() {
 	// A stream can bind one or more subjects which almost always include
 	// wildcards. In addition, no two streams can have overlapping subjects
 	// otherwise the primary messages would be persisted twice. There
-	// are option to replicate messages in various ways, but that will
+	// are options to replicate messages in various ways, but that will
 	// be explained in later examples.
 	cfg := jetstream.StreamConfig{
 		Name:     "SUBJECTS",
