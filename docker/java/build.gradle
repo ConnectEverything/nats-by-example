@@ -17,6 +17,9 @@ dependencies {
     implementation 'io.nats:jnats-json:2.0.0'
     implementation 'io.nats:jwt-java:2.0.0'
     implementation 'io.nats:jnats:2.19.2-SNAPSHOT'
+
+    // JSON serialization/deserialization
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
 }
 
 apply plugin: 'java'
