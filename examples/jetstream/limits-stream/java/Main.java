@@ -75,7 +75,7 @@ public class Main {
             futures.add(js.publishAsync("events.input_changed", null));
             futures.add(js.publishAsync("events.input_blurred", null));
 
-            CompletableFuture<Void> publishCompleted = CompletableFuture.allOf(futures.toArray(new CompletableFuture<?>[0]));
+            CompletableFuture<Void> publishCompleted = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
             try {
                 publishCompleted.join();
                 System.out.println("Published 6 messages.");
