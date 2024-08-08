@@ -84,7 +84,7 @@ public class Main {
 
             // Checking out the stream info, we can see how many messages we
             // have.
-            printStreamState(jsm, streamName);
+            printStreamState(jsm, streamName, "initial state");
 
             // Stream configuration can be dynamically changed. For example,
             // we can set the max messages limit to 10 and it will truncate the
@@ -98,7 +98,7 @@ public class Main {
 
             // Checking out the info, we see there are now 10 messages and the
             // first sequence and timestamp are based on the third message.
-            printStreamState(jsm, streamName);
+            printStreamState(jsm, streamName, "after setting max messages to 10");
 
             // Limits can be combined and whichever one is reached, it will
             // be applied to truncate the stream. For example, let's set a
@@ -109,7 +109,7 @@ public class Main {
 
             // Inspecting the stream info we now see more messages have been
             // truncated to ensure the size is not exceeded.
-            printStreamState(jsm, streamName);
+            printStreamState(jsm, streamName, "after setting max bytes to 300");
 
             // Finally, for the last primary limit, we can set the max age.
             streamConfigBuilder.maxAge(Duration.ofSeconds(1));
@@ -117,21 +117,20 @@ public class Main {
             System.out.println("Set max age to one second.");
 
             // Looking at the stream info, we still see all the messages..
-            printStreamState(jsm, streamName);
+            printStreamState(jsm, streamName, "before max age removes messages");
 
             // until a second passes.
             System.out.println("Sleeping one second...");
             Thread.sleep(1000);
 
-            printStreamState(jsm, streamName);
+            printStreamState(jsm, streamName, "after max age has removed messages");
         } catch (InterruptedException | IOException | JetStreamApiException e) {
             e.printStackTrace();
         }
     }
 
-    private static void printStreamState(JetStreamManagement jsm, String streamName) throws IOException, JetStreamApiException {
+    private static void printStreamState(JetStreamManagement jsm, String streamName, String label) throws IOException, JetStreamApiException {
         StreamInfo streamInfo = jsm.getStreamInfo(streamName);
-        System.out.println("Inspecting stream info:");
-        System.out.println(streamInfo.getStreamState());
+        System.out.printf("Inspecting stream info, %s:\n%s\n\n", label, streamInfo.getStreamState());
     }
 }
