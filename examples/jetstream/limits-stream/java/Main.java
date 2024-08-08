@@ -64,9 +64,8 @@ public class Main {
             js.publish("events.input_focused", null);
             System.out.println("Published 6 messages.");
 
-            // There is also an async form in which the client batches the
-            // messages to the server and then asynchronously receives
-            // the acknowledgements.
+            // There is also an async form in which the client can send multiple
+            // messages to the server and then asynchronously receives the acknowledgements.
             List<CompletableFuture<PublishAck>> futures = new ArrayList<>();
             futures.add(js.publishAsync("events.input_changed", null));
             futures.add(js.publishAsync("events.input_blurred", null));
@@ -90,6 +89,9 @@ public class Main {
             // Stream configuration can be dynamically changed. For example,
             // we can set the max messages limit to 10 and it will truncate the
             // two initial events in the stream.
+            //
+            // Most fields can be edited, but some are not allowed to be changed.
+            // See also: https://docs.nats.io/nats-concepts/jetstream/streams#configuration.
             streamConfigBuilder.maxMessages(10);
             jsm.updateStream(streamConfigBuilder.build());
             System.out.println("Set max messages to 10.");
