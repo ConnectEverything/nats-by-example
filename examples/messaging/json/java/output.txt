@@ -1,0 +1,2 @@
+received valid JSON payload: Payload{foo='bar', bar=27}
+received invalid JSON payload: not json
