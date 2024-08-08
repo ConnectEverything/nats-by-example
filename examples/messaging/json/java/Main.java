@@ -23,7 +23,9 @@ public class Main {
         // on exit.
         try (Connection nc = Nats.connect(natsURL)) {
 
-            // Construct a payload and serialize it (using Jackson).
+            // Construct a payload and serialize it.
+            // Using Jackson in this example, but any other JSON library can be used as well
+            // (and even any other message format since the payload is just bytes).
             ObjectMapper objectMapper = new ObjectMapper();
             Payload payload = new Payload("bar", 27);
             byte[] messageBytes = objectMapper.writeValueAsBytes(payload);
