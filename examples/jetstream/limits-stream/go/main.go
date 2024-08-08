@@ -71,8 +71,8 @@ func main() {
 	js.Publish(ctx, "events.input_focused", nil)
 	fmt.Println(ctx, "published 6 messages")
 
-	// There is also is an async form in which the client batches the
-	// messages to the server and then asynchronously receives the
+	// There is also an async form in which the client batches the
+	// messages to the server and then asynchronously receives
 	// the acknowledgements.
 	js.PublishAsync("events.input_changed", nil)
 	js.PublishAsync("events.input_blurred", nil)

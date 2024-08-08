@@ -64,8 +64,8 @@ public class Main {
             js.publish("events.input_focused", null);
             System.out.println("Published 6 messages.");
 
-            // There is also is an async form in which the client batches the
-            // messages to the server and then asynchronously receives the
+            // There is also an async form in which the client batches the
+            // messages to the server and then asynchronously receives
             // the acknowledgements.
             List<CompletableFuture<PublishAck>> futures = new ArrayList<>();
             futures.add(js.publishAsync("events.input_changed", null));
