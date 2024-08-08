@@ -1,0 +1,22 @@
+Created the stream.
+Published 6 messages.
+Published 6 messages.
+Inspecting stream info, initial state:
+StreamState{msgs=12, bytes=594, firstSeq=1, lastSeq=12, consumerCount=0, firstTime=2024-08-08T16:15:24.030760988Z[GMT], lastTime=2024-08-08T16:15:24.035359095Z[GMT], subjectCount=6, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
+Set max messages to 10.
+Inspecting stream info, after setting max messages to 10:
+StreamState{msgs=10, bytes=496, firstSeq=3, lastSeq=12, consumerCount=0, firstTime=2024-08-08T16:15:24.032156468Z[GMT], lastTime=2024-08-08T16:15:24.035359095Z[GMT], subjectCount=6, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
+Set max bytes to 300.
+Inspecting stream info, after setting max bytes to 300:
+StreamState{msgs=6, bytes=298, firstSeq=7, lastSeq=12, consumerCount=0, firstTime=2024-08-08T16:15:24.034013677Z[GMT], lastTime=2024-08-08T16:15:24.035359095Z[GMT], subjectCount=4, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
+Set max age to one second.
+Inspecting stream info, before max age removes messages:
+StreamState{msgs=6, bytes=298, firstSeq=7, lastSeq=12, consumerCount=0, firstTime=2024-08-08T16:15:24.034013677Z[GMT], lastTime=2024-08-08T16:15:24.035359095Z[GMT], subjectCount=4, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
+Sleeping one second...
+Inspecting stream info, after max age has removed messages:
+StreamState{msgs=0, bytes=0, firstSeq=13, lastSeq=12, consumerCount=0, firstTime=1970-01-01T00:00Z[GMT], lastTime=2024-08-08T16:15:24.035359095Z[GMT], subjectCount=0, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
