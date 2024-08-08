@@ -1,0 +1,21 @@
+Created the stream.
+Published 3 messages.
+Last message seq: 3
+# Stream info without any consumers
+StreamState{msgs=0, bytes=0, firstSeq=4, lastSeq=3, consumerCount=0, firstTime=2024-08-08T16:17:56.289297131Z[GMT], lastTime=2024-08-08T16:17:56.289297131Z[GMT], subjectCount=0, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
+# Stream info with one consumer
+StreamState{msgs=2, bytes=100, firstSeq=4, lastSeq=5, consumerCount=1, firstTime=2024-08-08T16:17:56.308357264Z[GMT], lastTime=2024-08-08T16:17:56.308743644Z[GMT], subjectCount=2, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
+# Stream info with one consumer and acked messages
+StreamState{msgs=0, bytes=0, firstSeq=6, lastSeq=5, consumerCount=1, firstTime=1970-01-01T00:00Z[GMT], lastTime=2024-08-08T16:17:56.308743644Z[GMT], subjectCount=0, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+Msg seqs 6 and 7
+
+# Stream info with two consumers, but only one set of acked messages
+StreamState{msgs=2, bytes=100, firstSeq=6, lastSeq=7, consumerCount=2, firstTime=2024-08-08T16:17:56.327166506Z[GMT], lastTime=2024-08-08T16:17:56.327501754Z[GMT], subjectCount=2, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
+# Stream info with two consumers having both acked
+StreamState{msgs=0, bytes=0, firstSeq=8, lastSeq=7, consumerCount=2, firstTime=1970-01-01T00:00Z[GMT], lastTime=2024-08-08T16:17:56.327501754Z[GMT], subjectCount=0, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
+
+# Stream info with three consumers with interest from two
+StreamState{msgs=0, bytes=0, firstSeq=9, lastSeq=8, consumerCount=3, firstTime=1970-01-01T00:00Z[GMT], lastTime=2024-08-08T16:17:56.337861905Z[GMT], subjectCount=0, subjects=[], deletedCount=0, deleteds=[], lostStreamData=null}
