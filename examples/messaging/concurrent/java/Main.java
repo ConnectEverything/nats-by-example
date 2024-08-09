@@ -16,35 +16,30 @@ public class Main {
             natsURL = "nats://127.0.0.1:4222";
         }
 
-        // Setup options using a Dispatcher with executor.
-        // A custom executor can be specified if desired, using `.executor(..)`.
-        Options options = Options.builder()
-                .server(natsURL)
-                .useDispatcherWithExecutor()
-                .build();
-
         // Initialize a connection to the server. The connection is AutoCloseable
         // on exit.
-        try (Connection nc = Nats.connect(options)) {
+        try (Connection nc = Nats.connect(natsURL)) {
 
             int total = 50;
             CountDownLatch latch = new CountDownLatch(total);
 
-            // Create a message dispatcher for handling messages in
+            // Create message dispatchers with queue groups for handling messages in
             // separate threads.
-            Dispatcher dispatcher = nc.createDispatcher((msg) -> {
-                System.out.printf("Received %s\n",
-                        new String(msg.getData(), StandardCharsets.UTF_8));
-                latch.countDown();
-            });
+            for (int i = 0; i < 4; i++) {
+                Dispatcher dispatcher = nc.createDispatcher((msg) -> {
+                    System.out.printf("Received %s\n",
+                            new String(msg.getData(), StandardCharsets.UTF_8));
+                    latch.countDown();
+                });
 
-            dispatcher.subscribe("greet");
+                dispatcher.subscribe("greet", "queue");
+            }
 
             for (int i = 0; i < total; i++) {
                 nc.publish("greet", String.format("hello %s", i).getBytes(StandardCharsets.UTF_8));
             }
 
-            // Await the dispatcher thread to have received all the messages before the program quits.
+            // Await the dispatcher threads to have received all the messages before the program quits.
             latch.await();
 
         } catch (InterruptedException | IOException e) {
