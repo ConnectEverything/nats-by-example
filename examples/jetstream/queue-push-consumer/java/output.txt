@@ -1,0 +1,17 @@
+# Durable (implicit)
+Deliver group: 'event-processor'
+Deliver subject: '_INBOX.UG16KTAeW94CBpUY0Fdin1'
+sub1: received message 'events.1'
+sub2: receive timeout
+sub3: received message 'events.3'
+
+# Durable (explicit)
+sub1: received message 'events.1'
+sub1: received message 'events.2'
+sub1: received message 'events.3'
+sub3: received message 'events.4'
+sub3: received message 'events.5'
+sub2: received message 'events.6'
+sub3: received message 'events.7'
+sub1: received message 'events.8'
+sub2: received message 'events.9'
