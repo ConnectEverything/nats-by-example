@@ -24,9 +24,7 @@ func main() {
 	// as well as for publishing and subscription convenience methods.
 	js, _ := nc.JetStream()
 
-	// Declare a simple [limits-based stream][1] and populate the stream
-	// with a few messages.
-	// [1]: /examples/jetstream/limits-stream/go/
+	// Declare a simple stream.
 	streamName := "EVENTS"
 
 	js.AddStream(&nats.StreamConfig{
