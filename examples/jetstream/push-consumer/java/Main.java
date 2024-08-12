@@ -6,7 +6,6 @@ import io.nats.client.impl.NatsJetStreamMetaData;
 
 import java.io.IOException;
 import java.time.Duration;
-import java.util.concurrent.CountDownLatch;
 
 public class Main {
     public static void main(String[] args) {
@@ -25,9 +24,7 @@ public class Main {
             JetStream js = nc.jetStream();
             JetStreamManagement jsm = nc.jetStreamManagement();
 
-            // Declare a simple [limits-based stream][1] and populate the stream
-            // with a few messages.
-            // [1]: /examples/jetstream/limits-stream/java/
+            // Declare a simple stream and populate it with a few messages.
             String streamName = "EVENTS";
             StreamConfiguration config = StreamConfiguration.builder()
                     .name(streamName)
@@ -46,9 +43,9 @@ public class Main {
             // bound subjects on the stream and this helper method will do the
             // stream look-up automatically and create the consumer.
             System.out.println("# Ephemeral");
-            Subscription sub = js.subscribe("events.>");
+            JetStreamSubscription sub = js.subscribe("events.>");
 
-            // An ephemeral consumer has a name generated on the server-side.
+            // An ephemeral consumer has a name generated on the server-side if not provided.
             // Since there is only one consumer so far, let's just get the first
             // one.
             String ephemeralName = jsm.getConsumerNames(streamName).get(0);
@@ -105,8 +102,6 @@ public class Main {
             // For push consumers, we must provide a `DeliverSubject` which is the
             // subject messages will be published to (pushed) for a subscription to
             // receive them.
-            //
-            // Important: such a short AckWait should not be used, it's simply for demonstration purposes in this example.
             System.out.println("\n# Durable (AddConsumer)");
 
             String consumerName = "handler-1";
@@ -114,25 +109,25 @@ public class Main {
                     .durable(consumerName)
                     .deliverSubject(consumerName)
                     .ackPolicy(AckPolicy.Explicit)
-                    .ackWait(Duration.ofSeconds(1))
                     .build();
             jsm.addOrUpdateConsumer(streamName, cc);
 
             // Now that the consumer is created, we need to bind a client subscription
             // to it which will receive and process the messages. This can be done
             // using the `PushSubscribeOptions.bind` option which requires the consumer
-            // to have been pre-created. The subject can be omitted since that was
+            // to have been pre-created. The subscribe subject can be omitted since that was
             // already defined on the consumer. Subscriptions to consumers cannot
-            // independently define their own subject to filter on.
+            // independently define their own subject to filter on. If a subscription subject
+            // is provided, it must exactly match the filter subject of the consumer.
             PushSubscribeOptions so = PushSubscribeOptions.bind(streamName, consumerName);
             sub = js.subscribe(null, so);
 
             // The next step is to receive a message which can be done using
             // the `nextMessage` method. The passed duration is the amount of time
             // to wait before until a message is received. This is received because
-            // `SubscribeSync` is the _synchronous_ form of a push consumer
-            // subscription. There is also the `Subscribe` variant which takes
-            // a `nats.MsgHandler` function to receive and process messages
+            // `subscribe` is the _synchronous_ form of a push consumer
+            // subscription. There is also the `subscribe` variant which takes
+            // a `MessageHandler` interface implementation to receive and process messages
             // asynchronously, but that will be described in a different example.
             msg = sub.nextMessage(Duration.ofSeconds(1));
             System.out.printf("Received '%s'\n", msg.getSubject());
@@ -179,7 +174,7 @@ public class Main {
 
             // Let's try again and wait a bit longer beyond the AckWait. We
             // can also see that the delivery attempt on the message is now 2.
-            msg = sub.nextMessage(Duration.ofSeconds(1));
+            msg = sub.nextMessage(Duration.ofSeconds(30));
             NatsJetStreamMetaData md = msg.metaData();
             System.out.printf("Received '%s' (delivery #%d)\n", msg.getSubject(), md.deliveredCount());
             msg.ack();

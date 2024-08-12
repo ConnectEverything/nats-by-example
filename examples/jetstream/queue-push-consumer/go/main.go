@@ -59,7 +59,7 @@ func main() {
 
 	// As noted above, a queue push consumer relies on a core NATS
 	// queue group for distributing messages to active members. As
-	// a result, we can bind a subsription by using the `DeliverSubject`
+	// a result, we can bind a subscription by using the `DeliverSubject`
 	// and the `DeliverGroup`
 	// Since messages are publishing to a dedicated subject and is
 	// part of a group, we can also create a core NATS subscription
