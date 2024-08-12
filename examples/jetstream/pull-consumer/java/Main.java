@@ -26,7 +26,7 @@ public class Main {
             JetStream js = nc.jetStream();
             JetStreamManagement jsm = nc.jetStreamManagement();
 
-            // Declare a simple [limits-based stream](/examples/jetstream/limits-stream/java/).
+            // Declare a simple stream and populate it with a few messages.
             String streamName = "EVENTS";
             StreamConfiguration config = StreamConfiguration.builder()
                     .name(streamName)
@@ -35,7 +35,6 @@ public class Main {
 
             StreamInfo stream = jsm.addStream(config);
 
-            // Publish a few messages for the example.
             js.publish("events.1", null);
             js.publish("events.2", null);
             js.publish("events.3", null);
@@ -51,7 +50,7 @@ public class Main {
 
             // Messages can be _consumed_  continuously in callback using `consume`
             // method. `consume` can be supplied with various options, but for this
-            // example we will use the default ones. WaitGroup is used as part of this
+            // example we will use the default ones. `CountDownLatch` is used as part of this
             // example to make sure to stop processing  after we process 3 messages (so
             // that it does not interfere with other examples).
             CountDownLatch latch = new CountDownLatch(3);
@@ -65,8 +64,8 @@ public class Main {
                 latch.await();
 
                 // Consume can be stopped by calling `stop` on the returned MessageConsumer.
-                // This will stop the callback from being called and stop retrieving the
-                // messages.
+                // This will stop the MessageConsumer from asking for any more messages from the server.
+                // The consumer will finish all pull request already in progress, but will not start any new ones.
                 messageConsumer.stop();
             } catch (Exception e) {
                 e.printStackTrace();
