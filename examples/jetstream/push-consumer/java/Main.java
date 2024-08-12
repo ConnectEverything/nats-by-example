@@ -39,7 +39,7 @@ public class Main {
 
             // ### Ephemeral
             // The JetStream context provides a simple way to create an ephemeral
-            // push consumer, simply provide a subject that overlaps with the
+            // push consumer, simply provide a subject that matches with one of the
             // bound subjects on the stream and this helper method will do the
             // stream look-up automatically and create the consumer.
             System.out.println("# Ephemeral");
