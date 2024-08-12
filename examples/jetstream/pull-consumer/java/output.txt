@@ -1,0 +1,8 @@
+Received msg on events.1
+Received msg on events.2
+Received msg on events.3
+Got 2 messages
+Got 1 messages
+Got 0 messages in PT1S
+Received 'events.1' from durable consumer
+Consumer deleted: consumer not found [10014]
