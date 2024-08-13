@@ -60,8 +60,8 @@ func main() {
 	queuedMsgs, _, _ := sub.Pending()
 	fmt.Printf("%d messages queued\n", queuedMsgs)
 
-	// The maxinum number of messages that will be queued is defined by the
-	// `MaxAckPending` option set on a consumer. The default is 65,536.
+	// The maximum number of messages that will be queued is defined by the
+	// `MaxAckPending` option set on a consumer. The default is 1,000.
 	// Let's observe this by publishing a few more events and then check
 	// the pending status again.
 	js.Publish("events.4", nil)
@@ -79,7 +79,7 @@ func main() {
 	msg, _ := sub.NextMsg(time.Second)
 	fmt.Printf("received %q\n", msg.Subject)
 
-	// By default, the underlying consumer requires explicit acknowlegements,
+	// By default, the underlying consumer requires explicit acknowledgements,
 	// otherwise messages will get redelivered.
 	msg.Ack()
 
@@ -103,7 +103,7 @@ func main() {
 	// We can use the same `SubscribeSync` method to create a durable
 	// consumer as well by passing `nats.Durable()`. This will implicitly
 	// create the durable if it does not exist, otherwise it will bind to
-	// an existing one if it exist.
+	// an existing one if it exists.
 	fmt.Println("\n# Durable (Helper)")
 
 	sub, _ = js.SubscribeSync("events.>", nats.Durable("handler-1"), nats.AckExplicit())
