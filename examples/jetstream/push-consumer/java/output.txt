@@ -1,0 +1,21 @@
+# Ephemeral
+Ephemeral name is 'puewS9qj9u'
+3 messages queued
+6 messages queued
+Received 'events.1'
+Received 'events.2'
+4 messages queued
+
+# Durable (AddConsumer)
+Received 'events.1'
+5 messages queued
+Max stream sequence delivered: 6
+Max consumer sequence delivered: 6
+Num ack pending: 5
+Num redelivered: 0
+Received timeout? true
+Received 'events.2' (delivery #2)
+Max stream sequence delivered: 6
+Max consumer sequence delivered: 11
+Num ack pending: 4
+Num redelivered: 4
