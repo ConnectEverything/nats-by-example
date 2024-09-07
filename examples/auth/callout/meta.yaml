@@ -9,4 +9,4 @@ description: |-
   by the NATS server.
 
   [docs]: https://docs.nats.io/running-a-nats-service/configuration/securing_nats/auth_callout
-  [service]: https://github.com/ConnectEverything/nats-by-example/blob/main/examples/auth/callout/java/service/main.go
+  [service]: https://github.com/ConnectEverything/nats-by-example/blob/main/examples/auth/callout/java/Main.java
