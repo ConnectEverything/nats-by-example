@@ -1,8 +1,0 @@
-{"version": 2, "width": 104, "height": 51, "timestamp": 1700974792, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: services/intro/dotnet2"}
-[2.709669, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Try to connect NATS nats://nats:4222\r\n"]
-[2.747896, "o", "info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]\r\n      Received server info: ServerInfo { Id = NBNKAKMI2JMCWMZGM53FPYI2VYTYKXRKICP6BA37JEKXHKVQPJPKDLYV, Name = NBNKAKMI2JMCWMZGM53FPYI2VYTYKXRKICP6BA37JEKXHKVQPJPKDLYV, Version = 2.10.4, Proto"]
-[2.748109, "o", "colVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 192.168.240.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }\r\n"]
-[2.766606, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Connect succeed NATS-by-Example, NATS nats://nats:4222\r\n"]
-[2.809869, "o", "info: NATS-by-Example[0]\r\n      Requested min value, got -2000\r\n"]
-[2.812844, "o", "info: NATS-by-Example[0]\r\n      Requested max value, got 100\r\ninfo: NATS-by-Example[0]\r\n      Bye!\r\n"]
-[2.813616, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Disposing connection NATS-by-Example\r\n"]

@@ -22,7 +22,7 @@ const (
 	Rust      = "rust"
 	Java      = "java"
 	DotNet    = "dotnet"
-	DotNet2   = "dotnet2"
+	CSharp    = "csharp"
 	Deno      = "deno"
 	WebSocket = "websocket"
 	C         = "c"
@@ -40,8 +40,8 @@ var (
 		Go:        "Go",
 		Rust:      "Rust",
 		Java:      "Java",
-		DotNet:    "C#",
-		DotNet2:   "C# .NET V2",
+		DotNet:    "C#1",
+		CSharp:    "C#",
 		Deno:      "JavaScript",
 		WebSocket: "WebSocket",
 		C:         "C",
@@ -63,7 +63,7 @@ var (
 		Java:      "Main.java",
 		Crystal:   "main.cr",
 		DotNet:    "Main.cs",
-		DotNet2:   "Main.cs",
+		CSharp:    "Main.cs",
 		Elixir:    "main.exs",
 		C:         "main.c",
 	}
@@ -74,7 +74,7 @@ var (
 		// https://www.oracle.com/java/technologies/javase/codeconventions-comments.html
 		Java:      {"/*", "*/"},
 		DotNet:    {"/**", "**/"},
-		DotNet2:   {"/**", "**/"},
+		CSharp:    {"/**", "**/"},
 		Deno:      {"/*", "*/"},
 		WebSocket: {"/*", "*/"},
 		C:         {"/*", "*/"},
@@ -87,7 +87,7 @@ var (
 		Rust:      "//",
 		Java:      "//",
 		DotNet:    "//",
-		DotNet2:   "//",
+		CSharp:    "//",
 		Deno:      "//",
 		WebSocket: "//",
 		C:         "//",
@@ -198,7 +198,7 @@ func parseLineType(lang, line string) LineType {
 		}
 		return NormalLine
 
-	case Go, DotNet, DotNet2, Java, Rust, C, Deno:
+	case Go, DotNet, CSharp, Java, Rust, C, Deno:
 		if cStyleSingleCommentLineRe.MatchString(line) {
 			return SingleCommentLine
 		}
