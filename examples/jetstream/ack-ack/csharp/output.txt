@@ -1,0 +1,22 @@
+info: NATS.Client.Core.NatsConnection[1001]
+      Try to connect NATS nats://nats:4222
+info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
+      Received server info: ServerInfo { Id = NA4I74EZCLUSA4FD7XDAPHXW4P2CLLUHRM4LO5WXG4LN3QE46LK2EYWE, Name = NA4I74EZCLUSA4FD7XDAPHXW4P2CLLUHRM4LO5WXG4LN3QE46LK2EYWE, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 172.18.0.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+info: NATS.Client.Core.NatsConnection[1001]
+      Connect succeed NATS-by-Example, NATS nats://nats:4222
+info: NATS-by-Example[0]
+      Consumer 1, Start # pending messages: 2, messages with ack pending: 0
+info: NATS-by-Example[0]
+      Consumer 1, After received but before ack # pending messages: 1, messages with ack pending: 1
+info: NATS-by-Example[0]
+      Consumer 1, After ack # pending messages: 1, messages with ack pending: 0
+info: NATS-by-Example[0]
+      Consumer 2, Start # pending messages: 2, messages with ack pending: 0
+info: NATS-by-Example[0]
+      Consumer 2, After received but before ack # pending messages: 1, messages with ack pending: 1
+info: NATS-by-Example[0]
+      Consumer 2, After ack # pending messages: 1, messages with ack pending: 0
+info: NATS-by-Example[0]
+      Bye!
+info: NATS.Client.Core.NatsConnection[1001]
+      Disposing connection NATS-by-Example

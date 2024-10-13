@@ -1,0 +1,34 @@
+info: NATS.Client.Core.NatsConnection[1001]
+      Try to connect NATS nats://nats:4222
+info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
+      Received server info: ServerInfo { Id = NA5KDEZVXJXTIYMQAXRROBZL3WMLCO63YO2Z5QJOABXIFQZDN3AKTBF2, Name = NA5KDEZVXJXTIYMQAXRROBZL3WMLCO63YO2Z5QJOABXIFQZDN3AKTBF2, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 172.18.0.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+info: NATS.Client.Core.NatsConnection[1001]
+      Connect succeed NATS-by-Example, NATS nats://nats:4222
+info: NATS-by-Example[0]
+      Waiting for messages...
+info: NATS-by-Example[0]
+      Publishing order 0...
+info: NATS-by-Example[0]
+      Subscriber received orders.new.0: Order { OrderId = 0 }
+info: NATS-by-Example[0]
+      Publishing order 1...
+info: NATS-by-Example[0]
+      Subscriber received orders.new.1: Order { OrderId = 1 }
+info: NATS-by-Example[0]
+      Publishing order 2...
+info: NATS-by-Example[0]
+      Subscriber received orders.new.2: Order { OrderId = 2 }
+info: NATS-by-Example[0]
+      Publishing order 3...
+info: NATS-by-Example[0]
+      Subscriber received orders.new.3: Order { OrderId = 3 }
+info: NATS-by-Example[0]
+      Publishing order 4...
+info: NATS-by-Example[0]
+      Subscriber received orders.new.4: Order { OrderId = 4 }
+info: NATS-by-Example[0]
+      Unsubscribed
+info: NATS-by-Example[0]
+      Bye!
+info: NATS.Client.Core.NatsConnection[1001]
+      Disposing connection NATS-by-Example

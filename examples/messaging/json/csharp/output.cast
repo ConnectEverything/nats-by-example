@@ -1,0 +1,12 @@
+{"version": 2, "width": 104, "height": 51, "timestamp": 1700974992, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/json/csharp"}
+[2.792935, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Try to connect NATS nats://nats:4222\r\n"]
+[2.832408, "o", "info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]\r\n      Received server info: ServerInfo { Id = NCGBX2DWLQ6UCLYUSRL7CE4C5U4OIFNM3XPHG3IEVLHT7BN6AFOPAEBP, Name = NCGBX2DWLQ6UCLYUSRL7CE4C5U4OIFNM3XPHG3IEVLHT7BN6AFOPAEBP, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 172.20.0.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }\r\n"]
+[2.851455, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Connect succeed NATS-by-Example, NATS nats://nats:4222\r\n"]
+[2.862472, "o", "info: NATS-by-Example[0]\r\n      Waiting for messages...\r\n"]
+[2.865272, "o", "info: NATS-by-Example[0]\r\n      Waiting for messages...\r\n"]
+[2.876427, "o", "info: NATS-by-Example[0]\r\n      Received deserialized object MyData { Id = 1, Name = Bob }\r\n"]
+[2.877626, "o", "info: NATS-by-Example[0]\r\n      Received deserialized object MyData { Id = 2, Name = Joe }\r\ninfo: NATS-by-Example[0]\r\n      Received deserialized object MyData { Id = 3, Name = Alice }\r\ninfo: NATS-by-Example[0]\r\n      Received empty payload: End of messages\r\n"]
+[2.878258, "o", "info: NATS-by-Example[0]\r\n      Received raw JSON {\"id\":1,\"name\":\"Bob\"}\r\ninfo: NATS-by-Example[0]\r\n      Received raw JSON {\"id\":2,\"name\":\"Joe\"}\r\n"]
+[2.878401, "o", "info: NATS-by-Example[0]\r\n      Received raw JSON {\"id\":3,\"name\":\"Alice\"}\r\ninfo: NATS-by-Example[0]\r\n      Received empty payload: End of messages\r\n"]
+[2.87861, "o", "info: NATS-by-Example[0]\r\n      Bye!\r\n"]
+[2.879416, "o", "info: NATS.Client.Core.NatsConnection[1001]\r\n      Disposing connection NATS-by-Example\r\n"]

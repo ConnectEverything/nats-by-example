@@ -1,0 +1,26 @@
+info: NATS.Client.Core.NatsConnection[1001]
+      Try to connect NATS nats://nats:4222
+info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
+      Received server info: ServerInfo { Id = NCOG3JTGFJ2TBMN7ONAKUXU6L7NSHWOPW2A3NMA265XE22C4QEXWJ545, Name = NCOG3JTGFJ2TBMN7ONAKUXU6L7NSHWOPW2A3NMA265XE22C4QEXWJ545, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 192.168.176.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+info: NATS.Client.Core.NatsConnection[1001]
+      Connect succeed NATS-by-Example, NATS nats://nats:4222
+info: NATS-by-Example[0]
+      received msg on events.1 with data event-data-1
+info: NATS-by-Example[0]
+      received msg on events.2 with data event-data-2
+info: NATS-by-Example[0]
+      received msg on events.3 with data event-data-3
+info: NATS-by-Example[0]
+      Got 2 messages
+info: NATS-by-Example[0]
+      Got 1 messages
+info: NATS-by-Example[0]
+      Got 0 messages in 00:00:01.0016194
+info: NATS-by-Example[0]
+      Received events.1 from durable consumer
+info: NATS-by-Example[0]
+      Consumer is gone
+info: NATS-by-Example[0]
+      Bye!
+info: NATS.Client.Core.NatsConnection[1001]
+      Disposing connection NATS-by-Example

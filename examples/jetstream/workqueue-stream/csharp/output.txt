@@ -1,0 +1,38 @@
+info: NATS.Client.Core.NatsConnection[1001]
+      Try to connect NATS nats://nats:4222
+info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
+      Received server info: ServerInfo { Id = NBRUEGKDSZN4IWXND263LPPDW32QPCB56M7GVBSXKOO42CLAWJAYFXNW, Name = NBRUEGKDSZN4IWXND263LPPDW32QPCB56M7GVBSXKOO42CLAWJAYFXNW, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 192.168.160.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
+info: NATS.Client.Core.NatsConnection[1001]
+      Connect succeed NATS-by-Example, NATS nats://nats:4222
+info: NATS-by-Example[0]
+      published 3 messages
+info: NATS-by-Example[0]
+      # Stream info without any consumers
+info: NATS-by-Example[0]
+      Stream has messages:3 first:1 last:3 consumer_count:0 num_subjects:3
+info: NATS-by-Example[0]
+      # Stream info with one consumer
+info: NATS-by-Example[0]
+      Stream has messages:0 first:4 last:3 consumer_count:1 num_subjects:0
+info: NATS-by-Example[0]
+      # Create an overlapping consumer
+info: NATS-by-Example[0]
+      Error: ApiError { Code = 400, Description = multiple non-filtered consumers not allowed on workqueue stream, ErrCode = 10099 }
+info: NATS-by-Example[0]
+      Created the new consumer
+info: NATS-by-Example[0]
+      # Create non-overlapping consumers
+info: NATS-by-Example[0]
+      Published 4 messages
+info: NATS-by-Example[0]
+      us sub got: events.us.page_loaded
+info: NATS-by-Example[0]
+      us sub got: events.us.input_focused
+info: NATS-by-Example[0]
+      eu sub got: events.eu.mouse_clicked
+info: NATS-by-Example[0]
+      eu sub got: events.eu.page_loaded
+info: NATS-by-Example[0]
+      Bye!
+info: NATS.Client.Core.NatsConnection[1001]
+      Disposing connection NATS-by-Example
