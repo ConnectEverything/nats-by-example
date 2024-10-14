@@ -61,11 +61,11 @@ await responder;
 try
 {
     reply = await nats.RequestAsync<int, string>("greet.joe", 0, replyOpts: replyOpts);
-    Log($"[REQ] {reply.Data} - This will timeout. We should not see this message.");
+    Log($"[REQ] {reply.Data} - We should not see this message.");
 }
-catch (NatsNoReplyException)
+catch (NatsNoRespondersException)
 {
-    Log("[REQ] timed out!");
+    Log("[REQ] no responders!");
 }
 
 // That's it! We saw how we can create a responder and request data from it. We also set

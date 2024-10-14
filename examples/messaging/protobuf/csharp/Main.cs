@@ -80,6 +80,11 @@ public class MyProtoBufSerializer<T> : INatsSerializer<T>
 
     public T? Deserialize(in ReadOnlySequence<byte> buffer)
     {
+        if (buffer.Length == 0)
+        {
+            return default;
+        }
+        
         if (typeof(T) == typeof(GreetRequest))
         {
             return (T)(object)GreetRequest.Parser.ParseFrom(buffer);
