@@ -1,5 +1,4 @@
-// Install NuGet packages `NATS.Net`, `Google.Protobuf` and `Microsoft.Extensions.Logging.Console`.
-
+// Install NuGet packages `NATS.Net` and `Google.Protobuf`
 using System;
 using System.Buffers;
 using System.Threading.Tasks;
@@ -8,18 +7,14 @@ using Google.Protobuf.Reflection;
 using Microsoft.Extensions.Logging;
 using NATS.Client.Core;
 
-using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-var logger = loggerFactory.CreateLogger("NATS-by-Example");
-
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
-var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "127.0.0.1:4222";
+var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
 // Connect to NATS server. Since connection is disposable at the end of our scope we should flush
 // our buffers and close connection cleanly. Notice the use of custom serializer registry.
 var opts = new NatsOpts
 {
     Url = url,
-    LoggerFactory = loggerFactory,
     SerializerRegistry = new MyProtoBufSerializerRegistry(),
     Name = "NATS-by-Example",
 };
@@ -29,12 +24,12 @@ await using var nats = new NatsConnection(opts);
 // Notice that we are using a custom serializer for the subscription.
 var sub = Task.Run(async () =>
 {
-    logger.LogInformation("Waiting for messages...");
+    Console.WriteLine("Waiting for messages...");
     await foreach (var msg in nats.SubscribeAsync<GreetRequest>(subject: "greet", serializer: MyProtoBufSerializer<GreetRequest>.Default))
     {
         if (msg.Data is null)
         {
-            logger.LogInformation("Received empty payload: End of messages");
+            Console.WriteLine("Received empty payload: End of messages");
             break;
         }
         var request = msg.Data;
@@ -46,7 +41,7 @@ var sub = Task.Run(async () =>
 // This request uses the default serializer for the connection assigned to connection options above.
 // Alternatively we could've passed the individual serializer to the request method.
 var reply = await nats.RequestAsync<GreetRequest, GreetReply>(subject: "greet", new GreetRequest { Name = "bob" });
-logger.LogInformation("Response = {Response}...", reply.Data.Text);
+Console.WriteLine($"Response = {reply.Data.Text}...");
 
 // Send an empty message to indicate we are done.
 await nats.PublishAsync("greet");
@@ -56,7 +51,7 @@ await nats.PublishAsync("greet");
 await sub;
 
 // That's it!
-logger.LogInformation("Bye!");
+Console.WriteLine("Bye!");
 
 // ## Serializer Registry
 public class MyProtoBufSerializerRegistry : INatsSerializerRegistry
@@ -96,6 +91,11 @@ public class MyProtoBufSerializer<T> : INatsSerializer<T>
         }
 
         throw new NatsException($"Can't deserialize {typeof(T)}");
+    }
+
+    public INatsSerializer<T> CombineWith(INatsSerializer<T> next)
+    {
+        throw new NotImplementedException();
     }
 }
 

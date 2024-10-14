@@ -1,28 +1,18 @@
-// Install NuGet packages `NATS.Net`, `NATS.Client.Serializers.Json` and `Microsoft.Extensions.Logging.Console`.
-
+// Install NuGet package `NATS.Net`
 using System;
 using Microsoft.Extensions.Logging;
 using NATS.Client.Core;
 using NATS.Client.Serializers.Json;
 using NATS.Client.Services;
-
-using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-var logger = loggerFactory.CreateLogger("NATS-by-Example");
+using NATS.Net;
 
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
-var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "127.0.0.1:4222";
+var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
 // Connect to NATS server. Since connection is disposable at the end of our scope we should flush
 // our buffers and close connection cleanly.
-var opts = new NatsOpts
-{
-    Url = url,
-    LoggerFactory = loggerFactory,
-    SerializerRegistry = NatsJsonSerializerRegistry.Default,
-    Name = "NATS-by-Example",
-};
-await using var nats = new NatsConnection(opts);
-var svc = new NatsSvcContext(nats);
+await using var nc = new NatsClient(url);
+var svc = nc.CreateServicesContext();
 
 // ### Defining a Service
 //
@@ -60,25 +50,19 @@ await root.AddEndpointAsync(HandleMax, "max", serializer: NatsJsonSerializer<int
 // Make a request of the `min` endpoint of the `minmax` service, within the `minmax` group.
 // Note that there's nothing special about this request, it's just a regular NATS
 // request.
-var min = await nats.RequestAsync<int[], int>("minmax.min", new[]
-{
-    -1, 2, 100, -2000
-}, requestSerializer: NatsJsonSerializer<int[]>.Default);
-logger.LogInformation("Requested min value, got {Min}", min.Data);
+var min = await nc.RequestAsync<int[], int>(subject: "minmax.min", data: [-1, 2, 100, -2000]);
+Console.WriteLine($"Requested min value, got {min.Data}");
 
 // Make a request of the `max` endpoint of the `minmax` service, within the `minmax` group.
-var max = await nats.RequestAsync<int[], int>("minmax.max", new[]
-{
-    -1, 2, 100, -2000
-}, requestSerializer: NatsJsonSerializer<int[]>.Default);
-logger.LogInformation("Requested max value, got {Max}", max.Data);
+var max = await nc.RequestAsync<int[], int>(subject: "minmax.max", data: [-1, 2, 100, -2000]);
+Console.WriteLine($"Requested max value, got {max.Data}");
 
 // The statistics being managed by micro should now reflect the call made
 // to each endpoint, and we didn't have to write any code to manage that.
 // TODO: service.Stats
 
 // That's it!
-logger.LogInformation("Bye!");
+Console.WriteLine("Bye!");
 
 ValueTask HandleMin(NatsSvcMsg<int[]> msg)
 {

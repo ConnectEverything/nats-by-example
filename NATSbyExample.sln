@@ -5,12 +5,6 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "messaging-pub-sub", "examples\messaging\pub-sub\csharp\messaging-pub-sub.csproj", "{B8E154A8-79C7-403B-949B-83E084ED4B9D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "files", "files", "{738E884F-DB8E-4F45-8B7E-D018C1384A0C}"
-	ProjectSection(SolutionItems) = preProject
-		docker\csharp\Dockerfile = docker\csharp\Dockerfile
-		docker\csharp\README.md = docker\csharp\README.md
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "messaging-protobuf", "examples\messaging\protobuf\csharp\messaging-protobuf.csproj", "{C94CC882-87D1-4155-A03A-82CE03FB4B36}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "messaging-concurrent", "examples\messaging\concurrent\csharp\messaging-concurrent.csproj", "{18393E5C-2816-42AF-9EEF-C9B761D20A53}"
@@ -38,6 +32,9 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "services-intro", "examples\services\intro\csharp\services-intro.csproj", "{88CDA1EE-8CFF-4123-86F7-6FAE12CF01F9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp", "csharp", "{D138F0CC-8132-4267-B8E0-DC8B3D375716}"
+	ProjectSection(SolutionItems) = preProject
+		docker\csharp\README.md = docker\csharp\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,7 +103,6 @@ Global
 		{88CDA1EE-8CFF-4123-86F7-6FAE12CF01F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{738E884F-DB8E-4F45-8B7E-D018C1384A0C} = {D138F0CC-8132-4267-B8E0-DC8B3D375716}
 		{D93AE1C6-8AC0-48A3-A023-EDB3A7E6055D} = {D138F0CC-8132-4267-B8E0-DC8B3D375716}
 		{EDDBAF02-74D2-463A-9A9D-2F570D7EDAD0} = {D138F0CC-8132-4267-B8E0-DC8B3D375716}
 		{7671C02D-9D21-4124-97DE-80EB55879377} = {D138F0CC-8132-4267-B8E0-DC8B3D375716}

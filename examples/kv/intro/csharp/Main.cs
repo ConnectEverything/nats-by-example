@@ -1,28 +1,15 @@
-// Install NuGet packages `NATS.Net` and `Microsoft.Extensions.Logging.Console`.
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Configuration;
-using NATS.Client.Core;
-using NATS.Client.JetStream;
+// Install NuGet package `NATS.Net`
 using NATS.Client.JetStream.Models;
 using NATS.Client.KeyValueStore;
-
-using var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-var logger = loggerFactory.CreateLogger("NATS-by-Example");
+using NATS.Net;
 
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
-var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "127.0.0.1:4222";
+var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
 // Connect to NATS server. Since connection is disposable at the end of our scope we should flush
 // our buffers and close connection cleanly.
-var opts = new NatsOpts
-{
-    Url = url,
-    LoggerFactory = loggerFactory,
-    Name = "NATS-by-Example",
-};
-await using var nats = new NatsConnection(opts);
-var js = new NatsJSContext(nats);
-var kv = new NatsKVContext(js);
+await using var nc = new NatsClient(url);
+var kv = nc.CreateKeyValueStoreContext();
 
 // ### Bucket basics
 // A key-value (KV) bucket is created by specifying a bucket name.
@@ -33,11 +20,11 @@ var profiles = await kv.CreateStoreAsync(new NatsKVConfig("profiles"));
 // stores, a revision number of the entry is tracked.
 await profiles.PutAsync("sue.color", "blue");
 var entry =  await profiles.GetEntryAsync<string>("sue.color");
-logger.LogInformation("{Key} @ {Revision} ->{Value}\n", entry.Key, entry.Revision, entry.Value);
+Console.WriteLine($"{entry.Key} @ {entry.Revision} ->{entry.Value}\n");
 
 await profiles.PutAsync("sue.color", "green");
 entry =  await profiles.GetEntryAsync<string>("sue.color");
-logger.LogInformation("{Key} @ {Revision} ->{Value}\n", entry.Key, entry.Revision, entry.Value);
+Console.WriteLine($"{entry.Key} @ {entry.Revision} ->{entry.Value}\n");
 
 // A revision number is useful when you need to enforce [optimistic
 // concurrency control][occ] on a specific key-value entry. In short,
@@ -53,12 +40,12 @@ try
 }
 catch (NatsKVWrongLastRevisionException e)
 {
-    logger.LogInformation("Expected error: {Error}", e.Message);
+    Console.WriteLine($"Expected error: {e.Message}");
 }
 
 await profiles.UpdateAsync("sue.color", "red", 2);
 entry =  await profiles.GetEntryAsync<string>("sue.color");
-logger.LogInformation("{Key} @ {Revision} ->{Value}\n", entry.Key, entry.Revision, entry.Value);
+Console.WriteLine($"{entry.Key} @ {entry.Revision} ->{entry.Value}\n");
 
 // ### Stream abstraction
 // Before moving on, it is important to understand that a KV bucket is
@@ -70,9 +57,10 @@ logger.LogInformation("{Key} @ {Revision} ->{Value}\n", entry.Key, entry.Revisio
 // prefix as convention. Appropriate stream configuration are used that
 // are optimized for the KV access patterns, so you can ignore the
 // details.
+var js = nc.CreateJetStreamContext();
 await foreach (var name in js.ListStreamNamesAsync())
 {
-    logger.LogInformation("KV stream name: {Name}", name);
+    Console.WriteLine($"KV stream name: {name}");
 }
 
 // Since it is a normal stream, we can create a consumer and
@@ -92,7 +80,7 @@ var consumer = await js.CreateConsumerAsync("KV_profiles", new ConsumerConfig
     var next = await consumer.NextAsync<string>();
     if (next is { Metadata: { } metadata } msg)
     {
-        logger.LogInformation("{Subject} @ {Sequence} -> {Data}", msg.Subject, metadata.Sequence.Stream, msg.Data);
+        Console.WriteLine($"{msg.Subject} @ {metadata.Sequence.Stream} -> {msg.Data}");
     }
 }
 
@@ -102,7 +90,7 @@ await profiles.PutAsync("sue.color", "yellow");
     var next = await consumer.NextAsync<string>();
     if (next is { Metadata: { } metadata } msg)
     {
-        logger.LogInformation("{Subject} @ {Sequence} -> {Data}", msg.Subject, metadata.Sequence.Stream, msg.Data);
+        Console.WriteLine($"{msg.Subject} @ {metadata.Sequence.Stream} -> {msg.Data}");
     }
 }
 
@@ -114,7 +102,7 @@ await profiles.DeleteAsync("sue.color");
     var next = await consumer.NextAsync<string>();
     if (next is { Metadata: { } metadata } msg)
     {
-        logger.LogInformation("{Subject} @ {Sequence} -> {Data}", msg.Subject, metadata.Sequence.Stream, msg.Data);
+        Console.WriteLine($"{msg.Subject} @ {metadata.Sequence.Stream} -> {msg.Data}");
 
         // 🤔 That is useful to get a message that something happened to that key,
         // and that this is considered a new revision.
@@ -122,7 +110,7 @@ await profiles.DeleteAsync("sue.color");
         // was deleted?
         // To differentiate, delete-based messages contain a header. Notice the `KV-Operation: DEL`
         // header.
-        logger.LogInformation("Headers: {Headers}", msg.Headers);
+        Console.WriteLine($"Headers: {msg.Headers}");
     }
 }
 
@@ -133,7 +121,7 @@ await profiles.DeleteAsync("sue.color");
 var watcher = Task.Run(async () => {
     await foreach (var kve in profiles.WatchAsync<string>())
     {
-        logger.LogInformation("{Key} @ {Revision} -> {Value} (op: {Op})", kve.Key, kve.Revision, kve.Value, kve.Operation);
+        Console.WriteLine($"{kve.Key} @ {kve.Revision} -> {kve.Value} (op: {kve.Operation})");
         if (kve.Key == "sue.food")
             break;
     }
@@ -153,4 +141,4 @@ await profiles.PutAsync("sue.food", "pizza");
 await watcher;
 
 // That's it!
-logger.LogInformation("Bye!");
+Console.WriteLine("Bye!");
