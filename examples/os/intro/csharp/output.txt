@@ -1,26 +1,11 @@
-info: NATS.Client.Core.NatsConnection[1001]
-      Try to connect NATS nats://nats:4222
-info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
-      Received server info: ServerInfo { Id = NAQ5RG6LC5UEKIQUEUJF7ZEODY33CYLHKAJEAP2GNYWLBVSJDCAQOACP, Name = NAQ5RG6LC5UEKIQUEUJF7ZEODY33CYLHKAJEAP2GNYWLBVSJDCAQOACP, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 192.168.224.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
-info: NATS.Client.Core.NatsConnection[1001]
-      Connect succeed NATS-by-Example, NATS nats://nats:4222
-info: NATS-by-Example[0]
-      The object store has 0 bytes
-info: NATS-by-Example[0]
-      Added entry a (10000000 bytes)- '(null)'
-info: NATS-by-Example[0]
-      Entry a (10000000 bytes)- '(null)'
-info: NATS-by-Example[0]
-      The object store contains 1 entries
-info: NATS-by-Example[0]
-      Data has 10000000 bytes
-info: NATS-by-Example[0]
-      >>>>>>>> Watch: configs changed 'a' was updated
-info: NATS-by-Example[0]
-      Added entry b (10000000 bytes)- 'set with a stream'
-info: NATS-by-Example[0]
-      Got entry b (10000000 bytes)- 'set with a stream'
-info: NATS-by-Example[0]
-      Bye!
-info: NATS.Client.Core.NatsConnection[1001]
-      Disposing connection NATS-by-Example
+The object store has 0 bytes
+Added entry a (10000000 bytes)- ''
+Entry a (10000000 bytes)- ''
+The object store contains 1 entries
+Data has 10000000 bytes
+>>>>>>>> Watch: configs changed 'a' was updated
+>>>>>>>> Watch: configs changed 'a' was deleted
+Added entry b (10000000 bytes)- 'set with a stream'
+>>>>>>>> Watch: configs changed 'b' was updated
+Got entry b (10000000 bytes)- 'set with a stream'
+Bye!

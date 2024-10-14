@@ -1,12 +1,12 @@
-00:00:00.0008194 [CON] Connecting to nats://nats:4222...
-00:00:00.1225386 [REQ] From joe
-00:00:00.1374172 [REP] Received greet.joe
-00:00:00.6489792 [REQ] Hello joe!
-00:00:00.6490418 [REQ] From sue
-00:00:00.6498312 [REP] Received greet.sue
-00:00:01.1512245 [REQ] Hello sue!
-00:00:01.1512731 [REQ] From bob
-00:00:01.1518886 [REP] Received greet.bob
-00:00:01.6531626 [REQ] Hello bob!
-00:00:03.6546766 [REQ] timed out!
-00:00:03.6547387 Bye!
+00:00:00.0009193 [CON] Connecting to nats://nats:4222...
+00:00:00.1329401 [REQ] From joe
+00:00:00.1484244 [REP] Received greet.joe
+00:00:00.6631445 [REQ] Hello joe!
+00:00:00.6632015 [REQ] From sue
+00:00:00.6638724 [REP] Received greet.sue
+00:00:01.1653601 [REQ] Hello sue!
+00:00:01.1654078 [REQ] From bob
+00:00:01.1660230 [REP] Received greet.bob
+00:00:01.6672148 [REQ] Hello bob!
+00:00:01.6713054 [REQ] no responders!
+00:00:01.6713654 Bye!

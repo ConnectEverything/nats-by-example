@@ -1,42 +1,17 @@
-info: NATS.Client.Core.NatsConnection[1001]
-      Try to connect NATS nats://nats:4222
-info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
-      Received server info: ServerInfo { Id = NBACXYPZZOMGMAHOMI6SSNE6UXXYY23YUQV5E7CRYWFM7EP777OFIIVV, Name = NBACXYPZZOMGMAHOMI6SSNE6UXXYY23YUQV5E7CRYWFM7EP777OFIIVV, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 192.168.192.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
-info: NATS.Client.Core.NatsConnection[1001]
-      Connect succeed NATS-by-Example, NATS nats://nats:4222
-info: NATS-by-Example[0]
-      --- max in-flight messages (n=1) ---
-info: NATS-by-Example[0]
-      Requested 3, got 1
-info: NATS-by-Example[0]
-      Requested 1, got 0
-info: NATS-by-Example[0]
-      Requested 1, got 1
-info: NATS-by-Example[0]
-      --- max fetch batch size (n=2) ---
-warn: NATS.Client.JetStream.Internal.NatsJSFetch[2005]
-      Unhandled protocol message: 409 Exceeded MaxRequestBatch of 2
-info: NATS-by-Example[0]
-      Received hello
-info: NATS-by-Example[0]
-      Received world
-info: NATS-by-Example[0]
-      Requested 2, got 2
-info: NATS-by-Example[0]
-      --- max waiting requests (n=1) ---
-info: NATS-by-Example[0]
-      --- max fetch timeout (d=1s) ---
-info: NATS-by-Example[0]
-      Got 0 messages in 00:00:01.0012871
-warn: NATS.Client.JetStream.Internal.NatsJSFetch[2005]
-      Unhandled protocol message: 409 Exceeded MaxRequestExpires of 1s
-info: NATS-by-Example[0]
-      Got 0 messages in 00:00:04.9971654
-info: NATS-by-Example[0]
-      --- max total bytes per fetch (n=4) ---
-warn: NATS.Client.JetStream.Internal.NatsJSFetch[2005]
-      Unhandled protocol message: 409 Exceeded MaxRequestMaxBytes of 3
-info: NATS-by-Example[0]
-      Bye!
-info: NATS.Client.Core.NatsConnection[1001]
-      Disposing connection NATS-by-Example
+--- max in-flight messages (n=1) ---
+Requested 3, got 1
+Requested 1, got 0
+Requested 1, got 1
+--- max fetch batch size (n=2) ---
+Exceeded MaxRequestBatch of 2 (409)
+Received hello
+Received world
+Requested 2, got 2
+--- max waiting requests (n=1) ---
+--- max fetch timeout (d=1s) ---
+Got 0 messages in 00:00:01.0016045
+Exceeded MaxRequestExpires of 1s (409)
+Got 0 messages in 00:00:00.0009834
+--- max total bytes per fetch (n=4) ---
+Exceeded MaxRequestMaxBytes of 3 (409)
+Bye!

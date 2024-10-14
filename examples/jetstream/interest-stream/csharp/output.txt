@@ -1,40 +1,16 @@
-info: NATS.Client.Core.NatsConnection[1001]
-      Try to connect NATS nats://nats:4222
-info: NATS.Client.Core.Internal.NatsReadProtocolProcessor[1005]
-      Received server info: ServerInfo { Id = NDMT742URUINNER4MQPYJSWSTLJCQ2DYTPPGNBTX4JPLUM3K4D3XVTZL, Name = NDMT742URUINNER4MQPYJSWSTLJCQ2DYTPPGNBTX4JPLUM3K4D3XVTZL, Version = 2.10.4, ProtocolVersion = 1, GitCommit = abc47f7, GoVersion = go1.21.3, Host = 0.0.0.0, Port = 4222, HeadersSupported = True, AuthRequired = False, TlsRequired = False, TlsVerify = False, TlsAvailable = False, MaxPayload = 1048576, JetStreamAvailable = True, ClientId = 5, ClientIp = 192.168.144.3, Nonce = , Cluster = , ClusterDynamic = False, ClientConnectUrls = , WebSocketConnectUrls = , LameDuckMode = False }
-info: NATS.Client.Core.NatsConnection[1001]
-      Connect succeed NATS-by-Example, NATS nats://nats:4222
-info: NATS-by-Example[0]
-      Published 3 messages
-info: NATS-by-Example[0]
-      Last message seq: 3
-info: NATS-by-Example[0]
-      # Stream info without any consumers
-info: NATS-by-Example[0]
-      Stream has messages:0 first:4 last:3 consumer_count:0 num_subjects:0
-info: NATS-by-Example[0]
-      # Stream info with one consumer
-info: NATS-by-Example[0]
-      Stream has messages:2 first:4 last:5 consumer_count:1 num_subjects:2
-info: NATS-by-Example[0]
-      # Stream info with one consumer and acked messages
-info: NATS-by-Example[0]
-      Stream has messages:0 first:6 last:5 consumer_count:1 num_subjects:0
-info: NATS-by-Example[0]
-      msg seqs 6 and 7
-info: NATS-by-Example[0]
-      # Stream info with two consumers, but only one set of acked messages
-info: NATS-by-Example[0]
-      Stream has messages:2 first:6 last:7 consumer_count:2 num_subjects:2
-info: NATS-by-Example[0]
-      # Stream info with two consumers having both acked
-info: NATS-by-Example[0]
-      Stream has messages:0 first:8 last:7 consumer_count:2 num_subjects:0
-info: NATS-by-Example[0]
-      # Stream info with three consumers with interest from two
-info: NATS-by-Example[0]
-      Stream has messages:0 first:9 last:8 consumer_count:3 num_subjects:0
-info: NATS-by-Example[0]
-      Bye!
-info: NATS.Client.Core.NatsConnection[1001]
-      Disposing connection NATS-by-Example
+Published 3 messages
+Last message seq: 3
+# Stream info without any consumers
+Stream has messages:0 first:4 last:3 consumer_count:0 num_subjects:0
+# Stream info with one consumer
+Stream has messages:2 first:4 last:5 consumer_count:1 num_subjects:2
+# Stream info with one consumer and acked messages
+Stream has messages:0 first:6 last:5 consumer_count:1 num_subjects:0
+msg seqs 6 and 7
+# Stream info with two consumers, but only one set of acked messages
+Stream has messages:2 first:6 last:7 consumer_count:2 num_subjects:2
+# Stream info with two consumers having both acked
+Stream has messages:0 first:8 last:7 consumer_count:2 num_subjects:0
+# Stream info with three consumers with interest from two
+Stream has messages:0 first:9 last:8 consumer_count:3 num_subjects:0
+Bye!
