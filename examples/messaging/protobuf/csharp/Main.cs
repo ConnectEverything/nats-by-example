@@ -82,6 +82,7 @@ public class MyProtoBufSerializer<T> : INatsSerializer<T>
     {
         if (buffer.Length == 0)
         {
+            /* serizlizers define what to do with empty payloads. */
             return default;
         }
         
