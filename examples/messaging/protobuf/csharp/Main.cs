@@ -41,7 +41,7 @@ var sub = Task.Run(async () =>
 // This request uses the default serializer for the connection assigned to connection options above.
 // Alternatively we could've passed the individual serializer to the request method.
 var reply = await nats.RequestAsync<GreetRequest, GreetReply>(subject: "greet", new GreetRequest { Name = "bob" });
-Console.WriteLine($"Response = {reply.Data.Text}...");
+Console.WriteLine($"Response = {reply.Data?.Text}...");
 
 // Send an empty message to indicate we are done.
 await nats.PublishAsync("greet");
@@ -115,7 +115,7 @@ public class GreetRequest : IMessage<GreetRequest>, IBufferMessage
 {
     public static readonly MessageParser<GreetRequest> Parser = new(() => new GreetRequest());
     
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public void MergeFrom(GreetRequest message) => Name = message.Name;
 
@@ -138,7 +138,7 @@ public class GreetRequest : IMessage<GreetRequest>, IBufferMessage
 
     public MessageDescriptor Descriptor => null!;
 
-    public bool Equals(GreetRequest other) => string.Equals(other?.Name, Name);
+    public bool Equals(GreetRequest? other) => string.Equals(other?.Name, Name);
 
     public GreetRequest Clone() => new() { Name = Name };
 
@@ -162,7 +162,7 @@ public class GreetReply : IMessage<GreetReply>, IBufferMessage
 {
     public static readonly MessageParser<GreetReply> Parser = new(() => new GreetReply());
     
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     public void MergeFrom(GreetReply message) => Text = message.Text;
 
@@ -185,7 +185,7 @@ public class GreetReply : IMessage<GreetReply>, IBufferMessage
 
     public MessageDescriptor Descriptor => null!;
 
-    public bool Equals(GreetReply other) => string.Equals(other?.Text, Text);
+    public bool Equals(GreetReply? other) => string.Equals(other?.Text, Text);
 
     public GreetReply Clone() => new() { Text = Text };
     

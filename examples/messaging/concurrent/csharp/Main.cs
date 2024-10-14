@@ -14,9 +14,10 @@ using var cts = new CancellationTokenSource();
 // start processing messages in parallel.
 var subscription = Task.Run(async () =>
 {
-    await Parallel.ForEachAsync(nc.SubscribeAsync<string>("greet", cancellationToken: cts.Token), async (msg, _) =>
+    await Parallel.ForEachAsync(nc.SubscribeAsync<string>("greet", cancellationToken: cts.Token), (msg, _) =>
     {
         Console.WriteLine($"Received {msg.Data}");
+        return ValueTask.CompletedTask;
     });
 });
 
