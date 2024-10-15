@@ -77,7 +77,7 @@ await foreach (var msg in consumer.FetchAsync<string>(opts: new NatsJSFetchOpts 
 // What do we expect in the stream?
 // No messages and the `first_seq` have been set to
 // the _next_ sequence number like in the base case.
-// ☝️ As quick aside on that second ack, We are using `AckSync` here for this
+// ☝️ As a quick aside on that second ack, we are using `AckSync` here for this
 // example to ensure the stream state has been synced up for this subsequent
 // retrieval.
 Console.WriteLine("# Stream info with one consumer and acked messages");
