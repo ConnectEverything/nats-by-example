@@ -96,7 +96,7 @@ await js.PublishAsync<object>(subject: "events.page_loaded", data: null);
 await js.PublishAsync<object>(subject: "events.mouse_clicked", data: null);
 
 // Here we fetch 2 messages for `processor-2`. There are two observations to
-// make here. The first the fetched messages are the latest two messages that
+// make here. First, the fetched messages are the latest two messages that
 // were published just above and not any prior messages since these were
 // already deleted from the stream. This should be clear now, but this
 // reinforces that a _late_ consumer cannot retroactively show interest. The
