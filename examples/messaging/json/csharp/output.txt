@@ -1,0 +1,11 @@
+Waiting for messages...
+Waiting for messages...
+Received raw JSON {"id":1,"name":"Bob"}
+Received raw JSON {"id":2,"name":"Joe"}
+Received raw JSON {"id":3,"name":"Alice"}
+Received empty payload: End of messages
+Received deserialized object MyData { Id = 1, Name = Bob }
+Received deserialized object MyData { Id = 2, Name = Joe }
+Received deserialized object MyData { Id = 3, Name = Alice }
+Received empty payload: End of messages
+Bye!

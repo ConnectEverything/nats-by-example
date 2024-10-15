@@ -1,0 +1,11 @@
+{"version": 2, "width": 146, "height": 37, "timestamp": 1728914364, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: jetstream/workqueue-stream/csharp"}
+[4.209886, "o", "published 3 messages\r\n# Stream info without any consumers\r\n"]
+[4.215676, "o", "Stream has messages:3 first:1 last:3 consumer_count:0 num_subjects:3\r\n"]
+[4.274584, "o", "# Stream info with one consumer\r\n"]
+[4.275433, "o", "Stream has messages:0 first:4 last:3 consumer_count:1 num_subjects:0\r\n# Create an overlapping consumer\r\n"]
+[4.278266, "o", "Error: ApiError { Code = 400, Description = multiple non-filtered consumers not allowed on workqueue stream, ErrCode = 10099 }\r\n"]
+[4.282272, "o", "Created the new consumer\r\n"]
+[4.283002, "o", "# Create non-overlapping consumers\r\n"]
+[4.287491, "o", "Published 4 messages\r\n"]
+[4.28821, "o", "us sub got: events.us.page_loaded\r\nus sub got: events.us.input_focused\r\n"]
+[4.289101, "o", "eu sub got: events.eu.mouse_clicked\r\neu sub got: events.eu.page_loaded\r\nBye!\r\n"]

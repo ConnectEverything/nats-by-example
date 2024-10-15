@@ -1,0 +1,9 @@
+{"version": 2, "width": 146, "height": 37, "timestamp": 1728914409, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: jetstream/ack-ack/csharp"}
+[4.250619, "o", "Consumer 1\r\n"]
+[4.290268, "o", "  Start\r\n"]
+[4.290527, "o", "    pending messages: 2\r\n    messages with ack pending: 0\r\n"]
+[4.307992, "o", "  After received but before ack\r\n    pending messages: 1\r\n    messages with ack pending: 1\r\n"]
+[4.311806, "o", "  After ack\r\n    pending messages: 1\r\n    messages with ack pending: 0\r\n"]
+[4.312656, "o", "Consumer 2\r\n  Start\r\n    pending messages: 1\r\n    messages with ack pending: 0\r\n"]
+[4.314033, "o", "  After received but before ack\r\n    pending messages: 1\r\n    messages with ack pending: 1\r\n"]
+[4.322168, "o", "  After ack\r\n    pending messages: 1\r\n    messages with ack pending: 0\r\n"]

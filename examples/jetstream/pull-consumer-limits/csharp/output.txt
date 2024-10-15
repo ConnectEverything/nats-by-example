@@ -1,0 +1,17 @@
+--- max in-flight messages (n=1) ---
+Requested 3, got 1
+Requested 1, got 0
+Requested 1, got 1
+--- max fetch batch size (n=2) ---
+Exceeded MaxRequestBatch of 2 (409)
+Received hello
+Received world
+Requested 2, got 2
+--- max waiting requests (n=1) ---
+--- max fetch timeout (d=1s) ---
+Got 0 messages in 00:00:01.0016045
+Exceeded MaxRequestExpires of 1s (409)
+Got 0 messages in 00:00:00.0009834
+--- max total bytes per fetch (n=4) ---
+Exceeded MaxRequestMaxBytes of 3 (409)
+Bye!

@@ -1,0 +1,16 @@
+Published 3 messages
+Last message seq: 3
+# Stream info without any consumers
+Stream has messages:0 first:4 last:3 consumer_count:0 num_subjects:0
+# Stream info with one consumer
+Stream has messages:2 first:4 last:5 consumer_count:1 num_subjects:2
+# Stream info with one consumer and acked messages
+Stream has messages:0 first:6 last:5 consumer_count:1 num_subjects:0
+msg seqs 6 and 7
+# Stream info with two consumers, but only one set of acked messages
+Stream has messages:2 first:6 last:7 consumer_count:2 num_subjects:2
+# Stream info with two consumers having both acked
+Stream has messages:0 first:8 last:7 consumer_count:2 num_subjects:0
+# Stream info with three consumers with interest from two
+Stream has messages:0 first:9 last:8 consumer_count:3 num_subjects:0
+Bye!

@@ -1,0 +1,12 @@
+{"version": 2, "width": 146, "height": 37, "timestamp": 1728914418, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: kv/intro/csharp"}
+[4.382287, "o", "sue.color @ 1 ->blue\r\n\r\n"]
+[4.383571, "o", "sue.color @ 2 ->green\r\n\r\n"]
+[4.389729, "o", "Expected error: Wrong last revision\r\n"]
+[4.390839, "o", "sue.color @ 3 ->red\r\n\r\n"]
+[4.395345, "o", "KV stream name: KV_profiles\r\n"]
+[4.452301, "o", "$KV.profiles.sue.color @ 3 -> red\r\n"]
+[4.453543, "o", "$KV.profiles.sue.color @ 4 -> yellow\r\n"]
+[4.456332, "o", "$KV.profiles.sue.color @ 5 -> \r\n"]
+[4.456538, "o", "Headers: NATS.Client.Core.NatsHeaders\r\n"]
+[4.477522, "o", "sue.color @ 6 -> purple (op: Put)\r\nsue.food @ 7 -> pizza (op: Put)\r\n"]
+[4.479965, "o", "Bye!\r\n"]

@@ -1,0 +1,11 @@
+{"version": 2, "width": 146, "height": 37, "timestamp": 1728914346, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: jetstream/limits-stream/csharp"}
+[5.25381, "o", "Published 6 messages\r\n"]
+[5.256199, "o", "Published 6 messages\r\n"]
+[5.261868, "o", "Stream has 12 messages using 592 bytes\r\n"]
+[5.266254, "o", "set max messages to 10\r\n"]
+[5.267681, "o", "Stream has 10 messages using 494 bytes\r\n"]
+[5.26864, "o", "set max bytes to 300\r\n"]
+[5.269355, "o", "Stream has 6 messages using 296 bytes\r\n"]
+[5.270232, "o", "set max age to one second\r\n"]
+[5.270878, "o", "Stream has 6 messages using 296 bytes\r\nsleeping one second...\r\n"]
+[6.273221, "o", "Stream has 0 messages using 0 bytes\r\nBye!\r\n"]

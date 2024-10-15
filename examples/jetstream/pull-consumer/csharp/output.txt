@@ -1,0 +1,9 @@
+received msg on events.1 with data event-data-1
+received msg on events.2 with data event-data-2
+received msg on events.3 with data event-data-3
+Got 2 messages
+Got 1 messages
+Got 0 messages in 00:00:01.0032504
+Received events.1 from durable consumer
+Consumer is gone
+Bye!

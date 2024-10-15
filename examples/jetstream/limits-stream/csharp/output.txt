@@ -1,0 +1,12 @@
+Published 6 messages
+Published 6 messages
+Stream has 12 messages using 592 bytes
+set max messages to 10
+Stream has 10 messages using 494 bytes
+set max bytes to 300
+Stream has 6 messages using 296 bytes
+set max age to one second
+Stream has 6 messages using 296 bytes
+sleeping one second...
+Stream has 0 messages using 0 bytes
+Bye!

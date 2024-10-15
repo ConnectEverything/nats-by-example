@@ -1,0 +1,20 @@
+Consumer 1
+  Start
+    pending messages: 2
+    messages with ack pending: 0
+  After received but before ack
+    pending messages: 1
+    messages with ack pending: 1
+  After ack
+    pending messages: 1
+    messages with ack pending: 0
+Consumer 2
+  Start
+    pending messages: 1
+    messages with ack pending: 0
+  After received but before ack
+    pending messages: 1
+    messages with ack pending: 1
+  After ack
+    pending messages: 1
+    messages with ack pending: 0

@@ -1,0 +1,10 @@
+{"version": 2, "width": 146, "height": 37, "timestamp": 1728914279, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/request-reply/csharp"}
+[3.375005, "o", "00:00:00.0009193 [CON] Connecting to nats://nats:4222...\r\n"]
+[3.502137, "o", "00:00:00.1329401 [REQ] From joe\r\n"]
+[3.51755, "o", "00:00:00.1484244 [REP] Received greet.joe\r\n"]
+[4.032329, "o", "00:00:00.6631445 [REQ] Hello joe!\r\n00:00:00.6632015 [REQ] From sue\r\n"]
+[4.03294, "o", "00:00:00.6638724 [REP] Received greet.sue\r\n"]
+[4.534496, "o", "00:00:01.1653601 [REQ] Hello sue!\r\n00:00:01.1654078 [REQ] From bob\r\n"]
+[4.53507, "o", "00:00:01.1660230 [REP] Received greet.bob\r\n"]
+[5.036304, "o", "00:00:01.6672148 [REQ] Hello bob!\r\n"]
+[5.040386, "o", "00:00:01.6713054 [REQ] no responders!\r\n00:00:01.6713654 Bye!\r\n"]

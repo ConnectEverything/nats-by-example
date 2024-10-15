@@ -1,0 +1,6 @@
+{"version": 2, "width": 146, "height": 37, "timestamp": 1728914296, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/json/csharp"}
+[4.238245, "o", "Waiting for messages...\r\nWaiting for messages...\r\n"]
+[5.248706, "o", "Received raw JSON {\"id\":1,\"name\":\"Bob\"}\r\n"]
+[5.250039, "o", "Received raw JSON {\"id\":2,\"name\":\"Joe\"}\r\nReceived raw JSON {\"id\":3,\"name\":\"Alice\"}\r\nReceived empty payload: End of messages\r\n"]
+[5.25107, "o", "Received deserialized object MyData { Id = 1, Name = Bob }\r\nReceived deserialized object MyData { Id = 2, Name = Joe }\r\nReceived deserialized object MyData { Id = 3, Name = Alice }\r\nReceived empty payload: End of messages\r\n"]
+[5.253076, "o", "Bye!\r\n"]

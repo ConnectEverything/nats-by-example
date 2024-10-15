@@ -1,0 +1,11 @@
+The object store has 0 bytes
+Added entry a (10000000 bytes)- ''
+Entry a (10000000 bytes)- ''
+The object store contains 1 entries
+Data has 10000000 bytes
+>>>>>>>> Watch: configs changed 'a' was updated
+>>>>>>>> Watch: configs changed 'a' was deleted
+Added entry b (10000000 bytes)- 'set with a stream'
+>>>>>>>> Watch: configs changed 'b' was updated
+Got entry b (10000000 bytes)- 'set with a stream'
+Bye!

@@ -1,0 +1,15 @@
+published 3 messages
+# Stream info without any consumers
+Stream has messages:3 first:1 last:3 consumer_count:0 num_subjects:3
+# Stream info with one consumer
+Stream has messages:0 first:4 last:3 consumer_count:1 num_subjects:0
+# Create an overlapping consumer
+Error: ApiError { Code = 400, Description = multiple non-filtered consumers not allowed on workqueue stream, ErrCode = 10099 }
+Created the new consumer
+# Create non-overlapping consumers
+Published 4 messages
+us sub got: events.us.page_loaded
+us sub got: events.us.input_focused
+eu sub got: events.eu.mouse_clicked
+eu sub got: events.eu.page_loaded
+Bye!

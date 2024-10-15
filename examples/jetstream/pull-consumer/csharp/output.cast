@@ -1,0 +1,8 @@
+{"version": 2, "width": 146, "height": 37, "timestamp": 1728914371, "env": {"SHELL": "/usr/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: jetstream/pull-consumer/csharp"}
+[4.459592, "o", "received msg on events.1 with data event-data-1\r\n"]
+[4.460637, "o", "received msg on events.2 with data event-data-2\r\nreceived msg on events.3 with data event-data-3\r\n"]
+[4.472004, "o", "Got 2 messages\r\n"]
+[4.480493, "o", "Got 1 messages\r\n"]
+[4.757675, "o", "Got 0 messages in 00:00:01.0032504\r\n"]
+[4.761024, "o", "Received events.1 from durable consumer\r\n"]
+[4.768084, "o", "Consumer is gone\r\nBye!\r\n"]
