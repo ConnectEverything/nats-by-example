@@ -6,8 +6,9 @@ using NATS.Net;
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly.
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
 await using var nc = new NatsClient(url);
 
 // Access JetStream for managing streams and consumers as well as for
@@ -67,7 +68,7 @@ catch (NatsJSApiException e)
     Console.WriteLine($"Error: {e.Error}");
 }
 
-// However if we delete the first one, we can then add the new one.
+// However, if we delete the first one, we can then add the new one.
 await stream.DeleteConsumerAsync("processor-1");
 await stream.CreateOrUpdateConsumerAsync(new ConsumerConfig("processor-2"));
 Console.WriteLine("Created the new consumer");

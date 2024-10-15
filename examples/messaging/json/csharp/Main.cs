@@ -7,15 +7,16 @@ using NATS.Net;
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly.
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
 await using var nc = new NatsClient(url);
 
 await nc.ConnectAsync();
 
-// When subscribing or publishing you can use the generated JSON serializer to deserialize the JSON payload.
-// We can also demonstrate how to use the raw JSON payload and how to use a binary data.
-// For more information about the serializers see see our [documentation](https://nats-io.github.io/nats.net/serializers/).
+// When subscribing or publishing, you can use the generated JSON serializer to deserialize the JSON payload.
+// We can also demonstrate how to use the raw JSON payload and how to use binary data.
+// For more information about the serializers see our [documentation](https://nats-io.github.io/nats.net/serializers/).
 var mySerializer = new NatsJsonContextSerializer<MyData>(MyJsonContext.Default);
 
 var subTask1 = Task.Run(async () =>

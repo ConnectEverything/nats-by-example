@@ -1,7 +1,4 @@
 // Install NuGet package `NATS.Net`
-using System;
-using Microsoft.Extensions.Logging;
-using NATS.Client.Core;
 using NATS.Client.Serializers.Json;
 using NATS.Client.Services;
 using NATS.Net;
@@ -9,8 +6,9 @@ using NATS.Net;
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly.
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
 await using var nc = new NatsClient(url);
 var svc = nc.CreateServicesContext();
 
@@ -20,7 +18,7 @@ var svc = nc.CreateServicesContext();
 // the service name (which can't have things like whitespace in it), a version,
 // and a description. Even with no running endpoints, this service is discoverable
 // via the micro protocol and by service discovery tools like `nats micro`.
-// All of the default background handlers for discovery, PING, and stats are
+// All the default background handlers for discovery, PING, and stats are
 // started at this point.
 var service = await svc.AddServiceAsync(new NatsSvcConfig("minmax", "0.0.1")
 {

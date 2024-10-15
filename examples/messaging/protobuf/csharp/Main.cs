@@ -1,17 +1,16 @@
 // Install NuGet packages `NATS.Net` and `Google.Protobuf`
-using System;
 using System.Buffers;
-using System.Threading.Tasks;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
-using Microsoft.Extensions.Logging;
 using NATS.Client.Core;
 
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly. Notice the use of custom serializer registry.
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
+// Notice the use of custom serializer registry.
 var opts = new NatsOpts
 {
     Url = url,
@@ -39,7 +38,7 @@ var sub = Task.Run(async () =>
 });
 
 // This request uses the default serializer for the connection assigned to connection options above.
-// Alternatively we could've passed the individual serializer to the request method.
+// Alternatively, we could've passed the individual serializer to the request method.
 var reply = await nats.RequestAsync<GreetRequest, GreetReply>(subject: "greet", new GreetRequest { Name = "bob" });
 Console.WriteLine($"Response = {reply.Data?.Text}...");
 
@@ -82,7 +81,7 @@ public class MyProtoBufSerializer<T> : INatsSerializer<T>
     {
         if (buffer.Length == 0)
         {
-            /* serizlizers define what to do with empty payloads. */
+            /* serializers define what to do with empty payloads. */
             return default;
         }
         
@@ -106,9 +105,10 @@ public class MyProtoBufSerializer<T> : INatsSerializer<T>
 }
 
 // ## Protobuf Messages
-// The following messages would normally be generated using `protoc`. For the sake of example
+// The following messages would normally be generated using `protoc`.
+// For the sake of example,
 // we defined simplified versions here. Usually you would use `.proto` files to define your
-// messages and generate the code using `Grpc.Tools` NuGet package to generate them in separate
+// messages and generate the code using `Grpc.Tools` NuGet package to generate them in a separate
 // project. See [gRPC documentation](https://grpc.io/docs/languages/csharp/basics/) and
 // [ASP.NET Core Tooling Support](https://learn.microsoft.com/en-us/aspnet/core/grpc/basics?view=aspnetcore-8.0#c-tooling-support-for-proto-files)
 // for more details.

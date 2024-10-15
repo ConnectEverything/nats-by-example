@@ -6,11 +6,12 @@ using NATS.Net;
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly.
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
 await using var nc = new NatsClient(url);
 
-// Create `JetStream Context` which provides methods to create
+// Create `JetStream Context`, which provides methods to create
 // streams and consumers as well as convenience methods for publishing
 // to streams and consuming messages from the streams.
 var js = nc.CreateJetStreamContext();
@@ -38,9 +39,10 @@ Console.WriteLine($"Last message seq: {ack.Seq}");
 
 // Checking out the stream info, notice how zero messages are present in
 // the stream, but the `last_seq` is 3 which matches the last ACKed
-// publish sequence above. Also notice that the `first_seq` is one greater
-// which behaves as a sentinel value indicating the stream is empty. This
-// sequence has not been assigned to a message yet, but can be interpreted
+// publish-sequence above.
+// Also notice that the `first_seq` is one greater
+// that behaves as a sentinel value indicating the stream is empty.
+// This sequence has not been assigned to a message yet, but can be interpreted
 // as _no messages available_ in this context.
 Console.WriteLine("# Stream info without any consumers");
 await PrintStreamStateAsync(stream);
@@ -72,9 +74,10 @@ await foreach (var msg in consumer.FetchAsync<string>(opts: new NatsJSFetchOpts 
     await msg.AckAsync(new AckOpts { DoubleAck = true });
 }
 
-// What do we expect in the stream? No messages and the `first_seq` has been set to
+// What do we expect in the stream?
+// No messages and the `first_seq` have been set to
 // the _next_ sequence number like in the base case.
-// ☝️ As a quick aside on that second ack, We are using `AckSync` here for this
+// ☝️ As quick aside on that second ack, We are using `AckSync` here for this
 // example to ensure the stream state has been synced up for this subsequent
 // retrieval.
 Console.WriteLine("# Stream info with one consumer and acked messages");
@@ -93,9 +96,9 @@ await js.PublishAsync<object>(subject: "events.page_loaded", data: null);
 await js.PublishAsync<object>(subject: "events.mouse_clicked", data: null);
 
 // Here we fetch 2 messages for `processor-2`. There are two observations to
-// make here. First the fetched messages are the latest two messages that
+// make here. The first the fetched messages are the latest two messages that
 // were published just above and not any prior messages since these were
-// already deleted from the stream. This should be apparent now, but this
+// already deleted from the stream. This should be clear now, but this
 // reinforces that a _late_ consumer cannot retroactively show interest. The
 // second point is that the stream info shows that the latest two messages
 // are still present in the stream. This is also expected since the first
@@ -110,12 +113,12 @@ await foreach (var msg in consumer2.FetchAsync<string>(opts: new NatsJSFetchOpts
     }
 }
 
-Console.WriteLine($"msg seqs {msgMetas[0].Sequence.Stream} and {msgMetas[1].Sequence.Stream}");
+Console.WriteLine($"msg sequences {msgMetas[0].Sequence.Stream} and {msgMetas[1].Sequence.Stream}");
 
 Console.WriteLine("# Stream info with two consumers, but only one set of acked messages");
 await PrintStreamStateAsync(stream);
 
-// Fetching and ack'ing from the first consumer subscription will result in the messages
+// Fetching and acknowledging from the first consumer subscription will result in the messages
 // being deleted.
 await foreach (var msg in consumer.FetchAsync<string>(opts: new NatsJSFetchOpts { MaxMsgs = 2 }))
 {

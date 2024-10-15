@@ -6,14 +6,15 @@ using NATS.Net;
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly.
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
 await using var nc = new NatsClient(url);
 var obj = nc.CreateObjectStoreContext();
 
 // ### Object store basics
 // An object-store (OS) bucket is created by specifying a bucket name.
-// Here we try to access a store called "configs", if it doesn't exist
+// Here we try to access a store called "configs", if it doesn't exist,
 // the API will create it:
 var store = await obj.CreateObjectStoreAsync("configs");
 
@@ -45,7 +46,7 @@ await foreach (var entry in store.ListAsync())
 }
 Console.WriteLine($"The object store contains {count} entries");
 
-// Now lets retrieve the item we added
+// Now let's retrieve the item we added
 var data1 = await store.GetBytesAsync("a");
 Console.WriteLine($"Data has {data1.Length} bytes");
 

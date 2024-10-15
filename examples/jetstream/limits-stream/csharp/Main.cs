@@ -1,6 +1,4 @@
 // Install NuGet package `NATS.Net`
-using Microsoft.Extensions.Logging;
-using NATS.Client.Core;
 using NATS.Client.JetStream;
 using NATS.Client.JetStream.Models;
 using NATS.Net;
@@ -53,12 +51,10 @@ for (var i = 0; i < 2; i++)
 // have.
 await PrintStreamStateAsync(stream);
 
-var configUpdate = config with { Storage = config.Storage };
-
 // Stream configuration can be dynamically changed. For example,
 // we can set the max messages limit to 10 and it will truncate the
 // two initial events in the stream.
-configUpdate.MaxMsgs = 10;
+var configUpdate = config with { MaxMsgs = 10 };
 await js.UpdateStreamAsync(configUpdate);
 Console.WriteLine("set max messages to 10");
 

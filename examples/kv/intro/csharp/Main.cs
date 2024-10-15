@@ -6,8 +6,9 @@ using NATS.Net;
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly.
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
 await using var nc = new NatsClient(url);
 var kv = nc.CreateKeyValueStoreContext();
 
@@ -50,11 +51,11 @@ Console.WriteLine($"{entry.Key} @ {entry.Revision} ->{entry.Value}\n");
 // ### Stream abstraction
 // Before moving on, it is important to understand that a KV bucket is
 // light abstraction over a standard stream. This is by design since it
-// enables some powerful features which we will observe in a minute.
+// enables some powerful features that we will observe in a minute.
 //
 // **How exactly is a KV bucket modeled as a stream?**
 // When one is created, internally, a stream is created using the `KV_`
-// prefix as convention. Appropriate stream configuration are used that
+// prefix as convention. Appropriate stream configuration is used that
 // are optimized for the KV access patterns, so you can ignore the
 // details.
 var js = nc.CreateJetStreamContext();
@@ -65,10 +66,11 @@ await foreach (var name in js.ListStreamNamesAsync())
 
 // Since it is a normal stream, we can create a consumer and
 // fetch messages.
-// If we look at the subject, we will notice that first token is a
+// If we look at the subject, we will notice that the first token is a
 // special reserved prefix, the second token is the bucket name, and
-// remaining suffix is the actually key. The bucket name is inherently
-// a namespace for all keys and thus there is no concern for conflict
+// the remaining suffix is the actually key.
+// The bucket name is inherently
+// a namespace for all keys, and thus there is no concern for conflict
 // across buckets. This is different from what we need to do for a stream
 // which is to bind a set of _public_ subjects to a stream.
 var consumer = await js.CreateConsumerAsync("KV_profiles", new ConsumerConfig
@@ -95,7 +97,7 @@ await profiles.PutAsync("sue.color", "yellow");
 }
 
 // Unsurprisingly, we get the new updated value as a message.
-// Since it's KV interface, we should be able to delete a key as well.
+// Since it's a KV interface, we should be able to delete a key as well.
 // Does this result in a new message?
 await profiles.DeleteAsync("sue.color");
 {
@@ -117,7 +119,8 @@ await profiles.DeleteAsync("sue.color");
 // ### Watching for changes
 // Although one could subscribe to the stream directly, it is more convenient
 // to use a `KeyWatcher` which provides a deliberate API and types for tracking
-// changes over time. Notice that we can use a wildcard which we will come back to..
+// changes over time.
+// Notice that we can use a wildcard which we will come back to.
 var watcher = Task.Run(async () => {
     await foreach (var kve in profiles.WatchAsync<string>())
     {
@@ -133,7 +136,7 @@ await profiles.PutAsync("sue.color", "purple");
 // To finish this short intro, since we know that keys are subjects under the covers, if we
 // put another key, we can observe the change through the watcher. One other detail to call out
 // is notice the revision for this *new* key is not `1`. It relies on the underlying stream's
-// message sequence number to indicate the _revision_. The guarantee being that it is always
+// message sequence number to indicate the _revision_. The guarantee is that it is always
 // monotonically increasing, but numbers will be shared across keys (like subjects) rather
 // than sequence numbers relative to each key.
 await profiles.PutAsync("sue.food", "pizza");

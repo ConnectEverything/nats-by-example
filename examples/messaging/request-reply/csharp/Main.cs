@@ -1,9 +1,7 @@
 // Install `NATS.Net` from NuGet.
-
-using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using NATS.Client.Core;
+using NATS.Net;
 
 var stopwatch = Stopwatch.StartNew();
 
@@ -11,10 +9,10 @@ var stopwatch = Stopwatch.StartNew();
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "127.0.0.1:4222";
 Log($"[CON] Connecting to {url}...");
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly.
-var opts = NatsOpts.Default with { Url = url };
-await using var nats = new NatsConnection(opts);
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
+await using var nc = new NatsClient(url);
 
 // Create a message event handler and then subscribe to the target
 // subject which leverages a wildcard `greet.*`.
@@ -22,12 +20,10 @@ await using var nats = new NatsConnection(opts);
 // the reply-to field and then listens (subscribes) to that
 // as a subject.
 // The responder simply publishes a message to that reply-to.
- await using var sub = await nats.SubscribeCoreAsync<int>("greet.*");
-
- var reader = sub.Msgs;
+var cts = new CancellationTokenSource();
  var responder = Task.Run(async () =>
  {
-     await foreach (var msg in reader.ReadAllAsync())
+     await foreach (var msg in nc.SubscribeAsync<int>("greet.*").WithCancellation(cts.Token))
      {
          var name = msg.Subject.Split('.')[1];
          Log($"[REP] Received {msg.Subject}");
@@ -40,27 +36,27 @@ await using var nats = new NatsConnection(opts);
 var replyOpts = new NatsSubOpts { Timeout = TimeSpan.FromSeconds(2) };
 
 Log("[REQ] From joe");
-var reply = await nats.RequestAsync<int, string>("greet.joe", 0, replyOpts: replyOpts);
+var reply = await nc.RequestAsync<int, string>("greet.joe", 0, replyOpts: replyOpts);
 Log($"[REQ] {reply.Data}");
 
 Log("[REQ] From sue");
-reply = await nats.RequestAsync<int, string>("greet.sue", 0, replyOpts: replyOpts);
+reply = await nc.RequestAsync<int, string>("greet.sue", 0, replyOpts: replyOpts);
 Log($"[REQ] {reply.Data}");
 
 Log("[REQ] From bob");
-reply = await nats.RequestAsync<int, string>("greet.bob", 0, replyOpts: replyOpts);
+reply = await nc.RequestAsync<int, string>("greet.bob", 0, replyOpts: replyOpts);
 Log($"[REQ] {reply.Data}");
 
-// Once we unsubscribe there will be no subscriptions to reply.
-await sub.UnsubscribeAsync();
+// Once we unsubscribe, there will be no subscriptions to reply.
+await cts.CancelAsync();
 
 await responder;
 
-// Now there is no responder our request will timeout.
+// Now there is no responder our request will time out.
 
 try
 {
-    reply = await nats.RequestAsync<int, string>("greet.joe", 0, replyOpts: replyOpts);
+    reply = await nc.RequestAsync<int, string>("greet.joe", 0, replyOpts: replyOpts);
     Log($"[REQ] {reply.Data} - We should not see this message.");
 }
 catch (NatsNoRespondersException)
