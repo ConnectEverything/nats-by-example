@@ -39,12 +39,12 @@ var stream = await js.CreateStreamAsync(config);
 // acknowledgement.
 for (var i = 0; i < 2; i++)
 {
-    await js.PublishAsync<object>(subject: "events.page_loaded", data: null);
-    await js.PublishAsync<object>(subject: "events.mouse_clicked", data: null);
-    await js.PublishAsync<object>(subject: "events.mouse_clicked", data: null);
-    await js.PublishAsync<object>(subject: "events.page_loaded", data: null);
-    await js.PublishAsync<object>(subject: "events.mouse_clicked", data: null);
-    await js.PublishAsync<object>(subject: "events.input_focused", data: null);
+    await js.PublishAsync<int>(subject: "events.page_loaded", data: 1);
+    await js.PublishAsync<int>(subject: "events.mouse_clicked", data: 1);
+    await js.PublishAsync<int>(subject: "events.mouse_clicked", data: 1);
+    await js.PublishAsync<int>(subject: "events.page_loaded", data: 2);
+    await js.PublishAsync<int>(subject: "events.mouse_clicked", data: 2);
+    await js.PublishAsync<int>(subject: "events.input_focused", data: 1);
     Console.WriteLine("Published 6 messages");
 }
 
