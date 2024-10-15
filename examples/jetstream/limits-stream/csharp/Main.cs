@@ -6,11 +6,12 @@ using NATS.Net;
 // `NATS_URL` environment variable can be used to pass the locations of the NATS servers.
 var url = Environment.GetEnvironmentVariable("NATS_URL") ?? "nats://127.0.0.1:4222";
 
-// Connect to NATS server. Since connection is disposable at the end of our scope we should flush
-// our buffers and close connection cleanly.
+// Connect to NATS server.
+// Since connection is disposable at the end of our scope, we should flush
+// our buffers and close the connection cleanly.
 await using var nc = new NatsClient(url);
 
-// Create `JetStream Context` which provides methods to create
+// Create `JetStream Context`, which provides methods to create
 // streams and consumers as well as convenience methods for publishing
 // to streams and consuming messages from the streams.
 var js = nc.CreateJetStreamContext();
@@ -19,7 +20,7 @@ var js = nc.CreateJetStreamContext();
 // the name and subjects. Stream names are commonly uppercase to
 // visually differentiate them from subjects, but this is not required.
 // A stream can bind one or more subjects which almost always include
-// wildcards. In addition, no two streams can have overlapping subjects
+// wildcards. In addition, no two streams can have overlapping subjects,
 // otherwise the primary messages would be persisted twice.
 var config = new StreamConfig(name: "EVENTS", subjects: ["events.>"]);
 
@@ -52,7 +53,7 @@ for (var i = 0; i < 2; i++)
 await PrintStreamStateAsync(stream);
 
 // Stream configuration can be dynamically changed. For example,
-// we can set the max messages limit to 10 and it will truncate the
+// we can set the max messages limit to 10, and it will truncate the
 // two initial events in the stream.
 var configUpdate = config with { MaxMsgs = 10 };
 await js.UpdateStreamAsync(configUpdate);
@@ -62,14 +63,14 @@ Console.WriteLine("set max messages to 10");
 // first sequence and timestamp are based on the third message.
 await PrintStreamStateAsync(stream);
 
-// Limits can be combined and whichever one is reached, it will
+// Limits can be combined, and whichever one is reached, it will
 // be applied to truncate the stream. For example, let's set a
 // maximum number of bytes for the stream.
 configUpdate.MaxBytes = 300;
 await js.UpdateStreamAsync(configUpdate);
 Console.WriteLine("set max bytes to 300");
 
-// Inspecting the stream info we now see more messages have been
+// Inspecting the stream info, we now see more messages have been
 // truncated to ensure the size is not exceeded.
 await PrintStreamStateAsync(stream);
 
@@ -78,7 +79,7 @@ configUpdate.MaxAge = TimeSpan.FromSeconds(1);
 await js.UpdateStreamAsync(configUpdate);
 Console.WriteLine("set max age to one second");
 
-// Looking at the stream info, we still see all the messages..
+// Looking at the stream info, we still see all the messages.
 await PrintStreamStateAsync(stream);
 
 // until a second passes.
