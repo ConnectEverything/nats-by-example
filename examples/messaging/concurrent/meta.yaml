@@ -2,7 +2,7 @@ title: Concurrent Message Processing
 description: |-
   By default, when a subscription is created, each message that is
   received it process sequentially. There can be multiple subscriptions
-  setup in a [queue group][queue] in which case the NATS server will
+  setup in a [queue group][1] in which case the NATS server will
   distribute messages to each member of the group.
 
   However, even within a subscription, it may be desirable to handle
