@@ -30,6 +30,7 @@ const (
 	Ruby      = "ruby"
 	Elixir    = "elixir"
 	Crystal   = "crystal"
+	Julia     = "julia"
 )
 
 var (
@@ -49,6 +50,7 @@ var (
 		Ruby:      "Ruby",
 		Elixir:    "Elixir",
 		Crystal:   "Crystal",
+		Julia:     "Julia",
 	}
 
 	// TODO: add more as they become supported..
@@ -66,6 +68,7 @@ var (
 		CSharp:    "Main.cs",
 		Elixir:    "main.exs",
 		C:         "main.c",
+		Julia:     "main.jl",
 	}
 
 	languageMultiCommentDelims = map[string][2]string{
@@ -78,6 +81,7 @@ var (
 		Deno:      {"/*", "*/"},
 		WebSocket: {"/*", "*/"},
 		C:         {"/*", "*/"},
+		Julia:     {"#=", "=#"},
 	}
 
 	languageLineCommentDelim = map[string]string{
@@ -95,6 +99,7 @@ var (
 		Ruby:      "#",
 		Elixir:    "#",
 		Crystal:   "#",
+		Julia:     "#",
 	}
 )
 
@@ -214,7 +219,7 @@ func parseLineType(lang, line string) LineType {
 		}
 		return NormalLine
 
-	case Python, Ruby, Elixir, Crystal:
+	case Python, Ruby, Elixir, Crystal, Julia:
 		if hashLineCommentRe.MatchString(line) {
 			return SingleCommentLine
 		}

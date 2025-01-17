@@ -1,0 +1,14 @@
+[ Info: NATS server url is nats://nats:4222
+┌ Info: Received json from typed subscription: {
+│    "foo": "bar",
+│    "bar": 27
+└ }
+┌ Error: 2 handler errors on "foo" in last 5.0 s.
+│   err =
+│    ArgumentError: invalid JSON at byte position 1 while parsing type Any: InvalidChar
+│    also not a json
+│    
+│   msg =
+│    MSG foo 1 15
+│    also not a json
+└ @ NATS ~/.julia/packages/NATS/pozkW/src/pubsub/subscribe.jl:295

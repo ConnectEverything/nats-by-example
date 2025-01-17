@@ -1,0 +1,4 @@
+{"version": 2, "width": 101, "height": 16, "timestamp": 1737146722, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/json/julia"}
+[2.454214, "o", "[ Info: NATS server url is nats://nats:4222\r\n"]
+[7.298188, "o", "┌ Info: Received json from typed subscription: {\r\n│    \"foo\": \"bar\",\r\n│    \"bar\": 27\r\n└ }\r\n"]
+[11.112913, "o", "┌ Error: 2 handler errors on \"foo\" in last 5.0 s.\r\n│   err =\r\n│    ArgumentError: invalid JSON at byte position 1 while parsing type Any: InvalidChar\r\n│    also not a json\r\n│    \r\n│   msg =\r\n│    MSG foo 1 15\r\r\n│    also not a json\r\n└ @ NATS ~/.julia/packages/NATS/pozkW/src/pubsub/subscribe.jl:295\r\n"]
