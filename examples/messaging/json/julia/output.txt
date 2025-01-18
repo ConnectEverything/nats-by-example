@@ -1,11 +1,8 @@
 [ Info: NATS server url is nats://nats:4222
-┌ Info: Received json from typed subscription: {
-│    "foo": "bar",
-│    "bar": 27
-└ }
+[ Info: Received object: Payload("bar", 27)
 ┌ Error: 2 handler errors on "foo" in last 5.0 s.
 │   err =
-│    ArgumentError: invalid JSON at byte position 1 while parsing type Any: InvalidChar
+│    ArgumentError: invalid JSON at byte position 1 while parsing type Payload: ExpectedOpeningObjectChar
 │    also not a json
 │    
 │   msg =

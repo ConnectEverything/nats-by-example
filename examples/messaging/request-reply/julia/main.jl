@@ -20,19 +20,14 @@ sub = reply(nc, "greet.*") do msg
 end
 
 # Now we can use the built-in `request` method to do the service request.
-# A payload is optional, and we skip setting it right now. In addition,
-# you can specify an optional timeout, but we'll use the default for now.
+# A payload is optional, and we skip setting it right now.
 rep = request(nc, "greet.joe");
 @info payload(rep)
 
-# here put a payload
+# Let's try with some payload.
 rep = request(nc, "greet.sue", "hello!");
 @info payload(rep)
-# console.log(rep.string());
 
-# and here we set a timeout of 3 seconds
-# rep = request(nc, "greet.bob");
-# console.log(rep.string());
 
 # What happens if the service is _unavailable_? We can simulate this by
 # unsubscribing our handler from above. Now if we make a request, we will

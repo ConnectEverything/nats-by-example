@@ -1,5 +1,5 @@
-{"version": 2, "width": 115, "height": 13, "timestamp": 1737200444, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/request-reply/julia"}
-[2.304707, "o", "[ Info: NATS server url is nats://nats:4222\r\n"]
-[7.009279, "o", "[ Info: hello, joe\r\n"]
-[7.080875, "o", "[ Info: hello, sue\r\n"]
-[7.096715, "o", "┌ Error: No responders are listening\r\n└ @ Main /main.jl:46\r\n"]
+{"version": 2, "width": 115, "height": 17, "timestamp": 1737221868, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/request-reply/julia"}
+[2.470457, "o", "[ Info: NATS server url is nats://nats:4222\r\n"]
+[7.1727, "o", "[ Info: hello, joe\r\n"]
+[7.229092, "o", "[ Info: hello, sue\r\n"]
+[7.255654, "o", "┌ Error: No responders are listening\r\n└ @ Main /main.jl:41\r\n"]

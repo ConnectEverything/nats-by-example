@@ -1,4 +1,4 @@
-# Import NATS.jl package.
+# Import NATS.jl and JSON3 packages.
 using NATS
 using JSON3
 
@@ -7,6 +7,7 @@ using JSON3
 url = get(ENV, "NATS_URL", NATS.DEFAULT_CONNECT_URL)
 @info "NATS server url is $url"
 
+# Define a struct that will be serialized and deserialized from JSON.
 struct Payload
     foo::String
     bar::Int64
@@ -19,16 +20,14 @@ nc = NATS.connect(url)
 data_object = Payload("bar", 27)
 data_json = JSON3.write(data_object)
 
-# Create a subscription that receives typed argument. For message
-# that contain invalid payload error will be reported in a separate
-# monitoring task. Alternatively untyped parameter can be used with
-# user provided deserialization to allow handle invalid data in a
-# prefered way.
-sub = subscribe(nc, "foo") do msg::JSON3.Object
-    @info "Received json from typed subscription: $msg"
+# Create a subscription. For messages that contain invalid payload error
+# will be reported in a separate monitoring task.
+sub = subscribe(nc, "foo") do msg
+    obj = JSON3.read(payload(msg), Payload)
+    @info "Received object: $obj"
 end
 
-# Publish the serialized payload.
+# Publish the serialized payload and also some payloads that are not valid.
 publish(nc, "foo", data_json)
 publish(nc, "foo", "not a json")
 publish(nc, "foo", "also not a json")

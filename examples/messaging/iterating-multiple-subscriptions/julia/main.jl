@@ -53,6 +53,6 @@ end
 close(ch)
 
 # At this moment both spawned tasks should be completed.
-# Ensure it true, dangling tasks might cause resource leak.
+# Let's make sure it is true, dangling tasks might cause resource leak.
 @show istaskdone(publish_task)
 @show istaskdone(subscribe_task)
