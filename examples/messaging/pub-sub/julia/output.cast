@@ -1,0 +1,4 @@
+{"version": 2, "width": 115, "height": 13, "timestamp": 1737200403, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/pub-sub/julia"}
+[2.363921, "o", "[ Info: NATS server url is nats://nats:4222\r\n"]
+[6.673075, "o", "[ Info: hello on subject greet.joe\r\n"]
+[6.677201, "o", "[ Info: hello on subject greet.pam\r\n[ Info: hello on subject greet.sue\r\n"]

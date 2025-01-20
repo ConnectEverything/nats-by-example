@@ -1,0 +1,23 @@
+[ Info: NATS server url is nats://nats:4222
+[ Info: Received 1 from subject s4
+[ Info: Received 1 from subject s2
+[ Info: Received 1 from subject s3
+[ Info: Received 1 from subject s1
+[ Info: Received 2 from subject s4
+[ Info: Received 2 from subject s2
+[ Info: Received 2 from subject s3
+[ Info: Received 2 from subject s1
+[ Info: Received 3 from subject s4
+[ Info: Received 3 from subject s2
+[ Info: Received 3 from subject s3
+[ Info: Received 3 from subject s1
+[ Info: Received 4 from subject s4
+[ Info: Received 4 from subject s2
+[ Info: Received 4 from subject s3
+[ Info: Received 4 from subject s1
+[ Info: Received 5 from subject s4
+[ Info: Received 5 from subject s2
+[ Info: Received 5 from subject s3
+[ Info: Received 5 from subject s1
+istaskdone(publish_task) = true
+istaskdone(subscribe_task) = true
