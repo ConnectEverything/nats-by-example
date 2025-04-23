@@ -34,6 +34,11 @@ func TestParseLineType(t *testing.T) {
 	// Whitespace-sensitive
 	checkEqual(t, parseLineType(Python, `		#  ba`), SingleCommentLine)
 	checkEqual(t, parseLineType(Python, `##ba`), SingleCommentLine)
+
+	// HTML
+	checkEqual(t, parseLineType(Web, `  <!-- hello`), OpenMultiCommentLine)
+	checkEqual(t, parseLineType(Web, `  world -->`), CloseMultiCommentLine)
+	checkEqual(t, parseLineType(Web, `<div> foo <!-- comment --> </div>`), NormalLine)
 }
 
 func TestParseReader(t *testing.T) {

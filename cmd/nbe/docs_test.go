@@ -32,26 +32,58 @@ and more //`
 }
 
 func TestCleanMultiCommentLines(t *testing.T) {
-	input := `
+	for _, test := range []struct {
+		name     string
+		input    string
+		expected string
+		delim    string
+		open     string
+		close    string
+	}{
+		{
+			name: "cStyle",
+			input: `
 				/*
 				Hello world
 				This is a comment
 				with some indents
 				and more //
 				*/
-`
-
-	expected := `Hello world
+`,
+			expected: `Hello world
 This is a comment
 with some indents
-and more //`
+and more //`,
+			open:  "/*",
+			close: "*/",
+		},
+		{
+			name: "web",
+			input: `
+				<!--
+				Hello world
+				This is a comment
+				with some indents
+				and more //
+				-->
+`,
+			expected: `Hello world
+This is a comment
+with some indents
+and more //`,
+			open:  "<!--",
+			close: "-->",
+		},
+	} {
+		t.Run(test.name, func(t *testing.T) {
+			lines := strings.Split(test.input, "\n")
+			output, prefix := cleanMultiCommentLines(lines, test.open, test.close)
 
-	lines := strings.Split(input, "\n")
-	output, prefix := cleanMultiCommentLines(lines)
+			t.Logf("%v", []byte(prefix))
 
-	t.Logf("%v", []byte(prefix))
-
-	if diff := cmp.Diff(expected, output); diff != "" {
-		t.Error(diff)
+			if diff := cmp.Diff(test.expected, output); diff != "" {
+				t.Error(diff)
+			}
+		})
 	}
 }

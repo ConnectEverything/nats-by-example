@@ -33,6 +33,7 @@ var (
 		Elixir,
 		Crystal,
 		C,
+		Web,
 	}
 )
 
@@ -340,6 +341,12 @@ func commonPrefixForLines(lines []string, delim string) (string, int) {
 			continue
 		}
 
+		// If the delim is empty, find the index of the first non-whitespace char.
+		if delim == "" {
+			idx := len(l) - len(strings.TrimSpace(l))
+			return l[:idx], i
+		}
+
 		// Get the leading whitespace for the first comment line. Assume all are
 		// indented at the same level.
 		idx := strings.Index(l, delim)
@@ -371,15 +378,15 @@ func cleanSingleCommentLines(lines []string, delim string) (string, string) {
 
 // Dedent relative to the smallest indent for all lines. Also remove
 // the comment syntax.
-func cleanMultiCommentLines(lines []string) (string, string) {
-	prefix, first := commonPrefixForLines(lines, "/*")
+func cleanMultiCommentLines(lines []string, open, close string) (string, string) {
+	prefix, first := commonPrefixForLines(lines, open)
 
 	var cleaned []string
 	var lastIdx int
 	for i, l := range lines[first:] {
 		l = strings.TrimPrefix(l, prefix)
 		if i == 0 {
-			l = strings.TrimPrefix(l, "/*")
+			l = strings.TrimPrefix(l, open)
 		}
 		cleaned = append(cleaned, l)
 		if strings.TrimSpace(l) != "" {
@@ -388,7 +395,7 @@ func cleanMultiCommentLines(lines []string) (string, string) {
 	}
 
 	last := cleaned[lastIdx]
-	cleaned[lastIdx] = strings.TrimSuffix(last, "*/")
+	cleaned[lastIdx] = strings.TrimSuffix(last, close)
 
 	return strings.TrimSpace(strings.Join(cleaned, "\n")), prefix
 }
@@ -450,7 +457,14 @@ func renderBlock(lang string, block *Block) (*RenderedBlock, error) {
 		r.Prefix = indent
 
 	case MultiLineCommentBlock:
-		text, indent := cleanMultiCommentLines(block.Lines)
+		delims, ok := languageMultiCommentDelims[lang]
+		if !ok {
+			break
+		}
+		open := delims[0]
+		close := delims[1]
+
+		text, indent := cleanMultiCommentLines(block.Lines, open, close)
 		r.Type = "comment"
 		r.HTML = template.HTML(blackfriday.Run([]byte(text)))
 		r.Prefix = indent

@@ -30,6 +30,7 @@ const (
 	Ruby      = "ruby"
 	Elixir    = "elixir"
 	Crystal   = "crystal"
+	Web       = "web"
 )
 
 var (
@@ -49,6 +50,7 @@ var (
 		Ruby:      "Ruby",
 		Elixir:    "Elixir",
 		Crystal:   "Crystal",
+		Web:       "Web",
 	}
 
 	// TODO: add more as they become supported..
@@ -66,6 +68,7 @@ var (
 		CSharp:    "Main.cs",
 		Elixir:    "main.exs",
 		C:         "main.c",
+		Web:       "main.html",
 	}
 
 	languageMultiCommentDelims = map[string][2]string{
@@ -78,6 +81,7 @@ var (
 		Deno:      {"/*", "*/"},
 		WebSocket: {"/*", "*/"},
 		C:         {"/*", "*/"},
+		Web:       {"<!--", "-->"},
 	}
 
 	languageLineCommentDelim = map[string]string{
@@ -95,6 +99,7 @@ var (
 		Ruby:      "#",
 		Elixir:    "#",
 		Crystal:   "#",
+		Web:       "//", // this is actually JavaScript, but useful for <script> blocks
 	}
 )
 
@@ -162,6 +167,8 @@ var (
 	cStyleSingleCommentLineRe     = regexp.MustCompile(`^\s*\/\/`)
 	cStyleOpenMultiCommentLineRe  = regexp.MustCompile(`^\s*\/\*`)
 	cStyleCloseMultiCommentLineRe = regexp.MustCompile(`\*\/`)
+	htmlOpenMultiCommentLineRe    = regexp.MustCompile(`^\s*<!--`)
+	htmlCloseMultiCommentLineRe   = regexp.MustCompile(`-->\s*$`)
 	blockBreakRe                  = regexp.MustCompile(`<!break>\s*$`)
 )
 
@@ -210,6 +217,22 @@ func parseLineType(lang, line string) LineType {
 			return OpenMultiCommentLine
 		}
 		if cStyleCloseMultiCommentLineRe.MatchString(line) {
+			return CloseMultiCommentLine
+		}
+		return NormalLine
+
+	case Web:
+		if cStyleSingleCommentLineRe.MatchString(line) {
+			return SingleCommentLine
+		}
+		if htmlOpenMultiCommentLineRe.MatchString(line) {
+			// Inline multi-line comment, e.g. `<div> foo <!-- comment --> </div>`
+			if htmlCloseMultiCommentLineRe.MatchString(line) {
+				return NormalLine
+			}
+			return OpenMultiCommentLine
+		}
+		if htmlCloseMultiCommentLineRe.MatchString(line) {
 			return CloseMultiCommentLine
 		}
 		return NormalLine

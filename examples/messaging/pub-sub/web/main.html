@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pub/Sub</title>
+</head>
+
+<body>
+  <script type="module">
+    // A number of free CDNs are available that make it possible to reference libraries distributed via NPM accessible as ESM modules by a simple URL. One such CDN is jsdelivr:
+    import { wsconnect } from 'https://cdn.jsdelivr.net/npm/@nats-io/nats-core@3.0.2/+esm'
+    
+    const nc = await wsconnect({ servers: "demo.nats.io:8443", debug: true });
+    nc.publish("greet.joe", "hello")
+
+    // TODO(joeriddles): finish porting example
+  </script>
+</body>
+
+</html>
