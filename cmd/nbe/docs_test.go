@@ -58,7 +58,7 @@ and more //`,
 			close: "*/",
 		},
 		{
-			name: "web",
+			name: "websocket",
 			input: `
 				<!--
 				Hello world

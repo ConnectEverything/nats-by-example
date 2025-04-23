@@ -36,9 +36,9 @@ func TestParseLineType(t *testing.T) {
 	checkEqual(t, parseLineType(Python, `##ba`), SingleCommentLine)
 
 	// HTML
-	checkEqual(t, parseLineType(Web, `  <!-- hello`), OpenMultiCommentLine)
-	checkEqual(t, parseLineType(Web, `  world -->`), CloseMultiCommentLine)
-	checkEqual(t, parseLineType(Web, `<div> foo <!-- comment --> </div>`), NormalLine)
+	checkEqual(t, parseLineType(WebSocket, `  <!-- hello`), OpenMultiCommentLine)
+	checkEqual(t, parseLineType(WebSocket, `  world -->`), CloseMultiCommentLine)
+	checkEqual(t, parseLineType(WebSocket, `<div> foo <!-- comment --> </div>`), NormalLine)
 }
 
 func TestParseReader(t *testing.T) {

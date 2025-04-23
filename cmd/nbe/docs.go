@@ -25,6 +25,7 @@ var (
 		Go,
 		Python,
 		Deno,
+		WebSocket,
 		Rust,
 		//DotNet,
 		CSharp,
@@ -33,7 +34,6 @@ var (
 		Elixir,
 		Crystal,
 		C,
-		Web,
 	}
 )
 

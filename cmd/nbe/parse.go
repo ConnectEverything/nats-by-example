@@ -30,7 +30,6 @@ const (
 	Ruby      = "ruby"
 	Elixir    = "elixir"
 	Crystal   = "crystal"
-	Web       = "web"
 )
 
 var (
@@ -50,7 +49,6 @@ var (
 		Ruby:      "Ruby",
 		Elixir:    "Elixir",
 		Crystal:   "Crystal",
-		Web:       "Web",
 	}
 
 	// TODO: add more as they become supported..
@@ -61,14 +59,13 @@ var (
 		Shell:     "main.sh",
 		Rust:      "main.rs",
 		Deno:      "main.js",
-		WebSocket: "main.js",
+		WebSocket: "main.html",
 		Java:      "Main.java",
 		Crystal:   "main.cr",
 		DotNet:    "Main.cs",
 		CSharp:    "Main.cs",
 		Elixir:    "main.exs",
 		C:         "main.c",
-		Web:       "main.html",
 	}
 
 	languageMultiCommentDelims = map[string][2]string{
@@ -79,9 +76,8 @@ var (
 		DotNet:    {"/**", "**/"},
 		CSharp:    {"/**", "**/"},
 		Deno:      {"/*", "*/"},
-		WebSocket: {"/*", "*/"},
+		WebSocket: {"<!--", "-->"},
 		C:         {"/*", "*/"},
-		Web:       {"<!--", "-->"},
 	}
 
 	languageLineCommentDelim = map[string]string{
@@ -99,7 +95,6 @@ var (
 		Ruby:      "#",
 		Elixir:    "#",
 		Crystal:   "#",
-		Web:       "//", // this is actually JavaScript, but useful for <script> blocks
 	}
 )
 
@@ -221,7 +216,7 @@ func parseLineType(lang, line string) LineType {
 		}
 		return NormalLine
 
-	case Web:
+	case WebSocket:
 		if cStyleSingleCommentLineRe.MatchString(line) {
 			return SingleCommentLine
 		}
