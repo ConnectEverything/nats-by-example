@@ -9,13 +9,49 @@
 
 <body>
   <script type="module">
-    // A number of free CDNs are available that make it possible to reference libraries distributed via NPM accessible as ESM modules by a simple URL. One such CDN is jsdelivr:
+    // A number of free CDNs are available that make it possible to reference libraries distributed via NPM accessible as ESM modules by a simple URL. One such CDN is `jsdelivr`.
     import { wsconnect } from 'https://cdn.jsdelivr.net/npm/@nats-io/nats-core@3.0.2/+esm'
-    
-    const nc = await wsconnect({ servers: "demo.nats.io:8443", debug: true });
-    nc.publish("greet.joe", "hello")
 
-    // TODO(joeriddles): finish porting example
+    // This can be a comma-separated string.
+    const servers = "nats://localhost:4222"
+
+    const nc = await wsconnect({
+      servers: servers.split(","),
+      debug: true
+    });
+
+    // To publish a message, simply provide the _subject_ of the message
+    // and encode the message payload. NATS subjects are hierarchical using
+    // periods as token delimiters. `greet` and `joe` are two distinct tokens.
+    nc.publish("greet.bob", "hello");
+
+    // Now we are going to create a subscription and utilize a wildcard on
+    // the second token. The effect is that this subscription shows _interest_
+    // in all messages published to a subject with two tokens where the first
+    // is `greet`.
+    let sub = nc.subscribe("greet.*", { max: 3 });
+    const done = (async () => {
+      for await (const msg of sub) {
+        console.log(`${sc.decode(msg.data)} on subject ${msg.subject}`);
+      }
+    })()
+
+    // Let's publish three more messages which will result in the messages
+    // being forwarded to the local subscription we have.
+    nc.publish("greet.joe", sc.encode("hello"));
+    nc.publish("greet.pam", sc.encode("hello"));
+    nc.publish("greet.sue", sc.encode("hello"));
+
+    // This will wait until the above async subscription handler finishes
+    // processing the three messages. Note that the first message to
+    // `greet.bob` was not printed. This is because the subscription was
+    // created _after_ the publish. Core NATS provides at-most-once quality
+    // of service (QoS) for active subscriptions.
+    await done;
+
+    // Finally we drain the connection which waits for any pending
+    // messages (published or in a subscription) to be flushed.
+    await nc.drain();
   </script>
 </body>
 
