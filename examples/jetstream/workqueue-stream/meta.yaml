@@ -5,7 +5,7 @@ description: |-
   once**.
 
   This retention policy supports queuing up messages from publishers
-  independent of consummption. Since each message is intended to be
+  independent of consumption. Since each message is intended to be
   processed only once, this retention type allows for a set of consumers
   that have **non-overlapping** interest on subjects. In other words, if
   multiple consumers are bound to a work-queue stream, they must have
