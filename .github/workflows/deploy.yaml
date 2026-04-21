@@ -64,7 +64,7 @@ jobs:
           nbe build
 
       - name: Vercel preview deploy
-        uses: amondnet/vercel-action@v42
+        uses: amondnet/vercel-action@v42.2.0
         if: ${{ github.ref_name != 'main' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
           working-directory: ./html
 
       - name: Vercel production deploy
-        uses: amondnet/vercel-action@v42
+        uses: amondnet/vercel-action@v42.2.0
         if: ${{ github.ref_name == 'main' }}
         with:
           vercel-args: "--prod"
