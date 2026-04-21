@@ -6,9 +6,9 @@ shards:
 
   nats:
     git: https://github.com/jgaskins/nats.git
-    version: 1.4.0
+    version: 1.6.0
 
   openssl_ext:
     git: https://github.com/spider-gazelle/openssl_ext.git
-    version: 2.4.4
+    version: 2.8.5
 
