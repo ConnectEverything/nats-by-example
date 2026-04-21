@@ -20,12 +20,12 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v6
         with:
           python-version: "3.x"
 
@@ -34,7 +34,7 @@ jobs:
           python3 -m pip install asciinema
 
       - name: Setup Go
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v6
         with:
           go-version: "1.21"
           cache-dependency-path: cmd/nbe/go.sum
@@ -53,7 +53,7 @@ jobs:
           nbe generate recording --exit-on-error
 
       - name: Auto-commit generated recordings
-        uses: stefanzweifel/git-auto-commit-action@v5
+        uses: stefanzweifel/git-auto-commit-action@v7
         if: ${{ github.ref_name == 'main' }}
         with:
           commit_message: Auto-commit recording
@@ -64,7 +64,7 @@ jobs:
           nbe build
 
       - name: Vercel preview deploy
-        uses: amondnet/vercel-action@v25
+        uses: amondnet/vercel-action@v42
         if: ${{ github.ref_name != 'main' }}
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -75,7 +75,7 @@ jobs:
           working-directory: ./html
 
       - name: Vercel production deploy
-        uses: amondnet/vercel-action@v25
+        uses: amondnet/vercel-action@v42
         if: ${{ github.ref_name == 'main' }}
         with:
           vercel-args: "--prod"
