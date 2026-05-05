@@ -581,7 +581,7 @@ func runMatrix(workers int, path string, repo string, examples []string) error {
 
 			tw := tablewriter.NewWriter(os.Stdout)
 			head := append([]string{""}, clientVersions...)
-			tw.SetHeader(head)
+			tw.Header(head)
 
 			// Each version is a row.
 			for _, s := range m.Server {
