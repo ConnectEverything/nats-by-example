@@ -63,25 +63,25 @@ jobs:
         run: |
           nbe build
 
-      - name: Vercel preview deploy
-        uses: amondnet/vercel-action@v25
-        if: ${{ github.ref_name != 'main' }}
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_TEAM_SCOPE }}
-          working-directory: ./html
+      - name: Vercel deploy
+        id: vercel
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            DEPLOY_URL=$(npx vercel deploy ./html --token="$VERCEL_TOKEN" --prod --yes)
+          else
+            DEPLOY_URL=$(npx vercel deploy ./html --token="$VERCEL_TOKEN" --yes)
+          fi
+          echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
 
-      - name: Vercel production deploy
-        uses: amondnet/vercel-action@v25
-        if: ${{ github.ref_name == 'main' }}
-        with:
-          vercel-args: "--prod"
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          scope: ${{ secrets.VERCEL_TEAM_SCOPE }}
-          working-directory: ./html
+      - name: Comment preview URL on PR
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "**Vercel Preview:** ${{ steps.vercel.outputs.url }}" \
+            --repo ${{ github.repository }}
