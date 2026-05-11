@@ -1,0 +1,10 @@
+{"version": 2, "width": 115, "height": 17, "timestamp": 1737222971, "env": {"SHELL": "/bin/zsh", "TERM": "xterm-256color"}, "title": "NATS by Example: messaging/iterating-multiple-subscriptions/julia"}
+[2.385072, "o", "[ Info: NATS server url is nats://nats:4222\r\n"]
+[6.66447, "o", "[ Info: Received 1 from subject s4\r\n"]
+[6.668972, "o", "[ Info: Received 1 from subject s2\r\n[ Info: Received 1 from subject s3\r\n[ Info: Received 1 from subject s1\r\n[ Info: Received 2 from subject s4\r\n[ Info: Received 2 from subject s2\r\n[ Info: Received 2 from subject s3\r\n[ Info: Received 2 from subject s1\r\n"]
+[7.177356, "o", "[ Info: Received 3 from subject s4\r\n[ Info: Received 3 from subject s2\r\n[ Info: Received 3 from subject s3\r\n[ Info: Received 3 from subject s1\r\n"]
+[7.684415, "o", "[ Info: Received 4 from subject s4\r\n[ Info: Received 4 from subject s2\r\n[ Info: Received 4 from subject s3\r\n[ Info: Received 4 from subject s1\r\n"]
+[8.185909, "o", "[ Info: Received 5 from subject s4\r\n[ Info: Received 5 from subject s2\r\n[ Info: Received 5 from subject s3\r\n[ Info: Received 5 from subject s1\r\n"]
+[9.573481, "o", "istaskdone(publish_task) = "]
+[9.573668, "o", "true\r\n"]
+[9.574009, "o", "istaskdone(subscribe_task) = true\r\n"]

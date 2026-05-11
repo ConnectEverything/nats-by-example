@@ -33,6 +33,7 @@ var (
 		Elixir,
 		Crystal,
 		C,
+		Julia,
 	}
 )
 
@@ -403,6 +404,8 @@ func chromaFormat(code, lang string) (string, error) {
 		lang = "js"
 	case DotNet, CSharp:
 		lang = "cs"
+	case Julia:
+		lang = "jl"
 	}
 
 	lexer := lexers.Get(lang)

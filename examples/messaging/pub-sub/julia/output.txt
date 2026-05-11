@@ -1,0 +1,4 @@
+[ Info: NATS server url is nats://nats:4222
+[ Info: hello on subject greet.joe
+[ Info: hello on subject greet.pam
+[ Info: hello on subject greet.sue

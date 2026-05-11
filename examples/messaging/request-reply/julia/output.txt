@@ -1,0 +1,5 @@
+[ Info: NATS server url is nats://nats:4222
+[ Info: hello, joe
+[ Info: hello, sue
+┌ Error: No responders are listening
+└ @ Main /main.jl:41

@@ -1,0 +1,11 @@
+[ Info: NATS server url is nats://nats:4222
+[ Info: Received object: Payload("bar", 27)
+┌ Error: 2 handler errors on "foo" in last 5.0 s.
+│   err =
+│    ArgumentError: invalid JSON at byte position 1 while parsing type Payload: ExpectedOpeningObjectChar
+│    also not a json
+│    
+│   msg =
+│    MSG foo 1 15
+│    also not a json
+└ @ NATS ~/.julia/packages/NATS/pozkW/src/pubsub/subscribe.jl:295
