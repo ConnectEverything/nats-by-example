@@ -1,4 +1,4 @@
-FROM golang:1.21-alpine3.18 AS build
+FROM golang:1.27-alpine3.23 AS build
 
 RUN apk update && apk add git
 
@@ -10,7 +10,7 @@ COPY ./generate-stan-data ./generate-stan-data
 
 RUN cd ./generate-stan-data && go install .
 
-FROM alpine:3.18
+FROM alpine:3.23
 
 RUN apk add bash curl
 

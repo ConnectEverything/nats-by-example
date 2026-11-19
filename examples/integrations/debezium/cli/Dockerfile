@@ -1,11 +1,11 @@
-FROM golang:1.21-alpine3.18 AS build
+FROM golang:1.27-alpine3.23 AS build
 
 RUN apk update && apk add git
 
 RUN go install github.com/nats-io/nats-server/v2@v2.10.5
 RUN go install github.com/nats-io/natscli/nats@v0.1.1
 
-FROM alpine:3.18
+FROM alpine:3.23
 
 RUN apk add bash curl postgresql-client jq
 

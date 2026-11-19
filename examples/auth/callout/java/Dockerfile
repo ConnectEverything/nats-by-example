@@ -5,7 +5,7 @@ RUN mkdir -p src/main/java/example
 RUN mv *.java src/main/java/example/
 RUN gradle clean uberJar --no-daemon 
 
-FROM golang:1.21-alpine3.17
+FROM golang:1.27-alpine3.23
 
 RUN apk update && apk add git bash curl openjdk8
 
