@@ -42,7 +42,7 @@ jobs:
       matrix: ${{ steps.plan.outputs.matrix }}
       empty: ${{ steps.plan.outputs.empty }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -77,9 +77,9 @@ jobs:
       matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
     name: verify (${{ matrix.name }})
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v7
         with:
           go-version-file: cmd/nbe/go.mod
           cache-dependency-path: cmd/nbe/go.sum
@@ -100,7 +100,7 @@ jobs:
             $TARGETS
           echo "exit=$?" >> "$GITHUB_OUTPUT"
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: verify-${{ matrix.name }}
@@ -121,16 +121,16 @@ jobs:
       contents: read
       issues: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v7
         with:
           go-version-file: cmd/nbe/go.mod
           cache-dependency-path: cmd/nbe/go.sum
 
       - run: go install ./cmd/nbe
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           pattern: verify-*
           path: artifacts
