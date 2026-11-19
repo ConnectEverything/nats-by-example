@@ -157,10 +157,16 @@ func (r *ImageBuilder) Run() (string, error) {
 		}
 	}
 
+	if err := injectCABundle(buildDir); err != nil {
+		return "", fmt.Errorf("inject CA bundle: %w", err)
+	}
+
 	// Build the temporary image relative to the build directory.
 	c := exec.Command(
 		"docker",
 		"build",
+		// Don't leave containers of failed steps behind (legacy builder).
+		"--force-rm",
 		// "--progress=plain", // Use plain output for debuggig
 		"--tag", imageTag,
 		buildDir,
@@ -200,6 +206,8 @@ type ComposeRunner struct {
 	Verbose bool
 	// If true, do not use ansi control characters.
 	NoAnsi bool
+	// Maximum time the example may run. Defaults to one minute.
+	Timeout time.Duration
 	// Version overrides.
 	Versions *Versions
 	// Defaults to os.Stdout and os.Stderr. Set if these streams need to be
@@ -379,7 +387,10 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		done <- cmd.Wait()
 	}()
 
-	dur := time.Minute
+	dur := r.Timeout
+	if dur <= 0 {
+		dur = time.Minute
+	}
 
 	select {
 	case err := <-done:
@@ -387,6 +398,12 @@ func (r *ComposeRunner) Run(imageTag string) error {
 	case <-time.After(dur):
 		if err := cmd.Process.Signal(os.Interrupt); err != nil {
 			return fmt.Errorf("timeout (%s): %w", dur, err)
+		}
+		// Give compose a moment to stop the container before moving on.
+		select {
+		case <-done:
+		case <-time.After(10 * time.Second):
+			cmd.Process.Kill()
 		}
 		return fmt.Errorf("timeout (%s)", dur)
 	}

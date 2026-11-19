@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/urfave/cli/v2"
 )
@@ -33,6 +34,8 @@ var (
 			&generateCmd,
 			&ejectCmd,
 			&setVersionsCmd,
+			&verifyCmd,
+			&reportCmd,
 		},
 	}
 
@@ -192,6 +195,7 @@ the runtime.`,
 			}
 
 			for _, example := range examples {
+				image := image
 				if image == "" {
 					b := ImageBuilder{
 						Name:    name,
@@ -398,6 +402,138 @@ the runtime.`,
 			}
 
 			return generateDocs(root, output)
+		},
+	}
+
+	verifyCmd = cli.Command{
+		Name:      "verify",
+		Usage:     "Build and run examples and check that they still work.",
+		ArgsUsage: "[all | <language> | <glob>]...",
+		Description: `Builds and runs each matching example client like "nbe run" and
+reports each one as:
+
+  fail  the image did not build, or the run exited non-zero or timed out
+  warn  it ran, but the output is empty, contains new error markers (panics,
+        tracebacks, ...), or drifted from the committed output.txt
+  pass  everything else
+
+Arguments may be "all" (default), a language directory name such as "go",
+or a glob such as "messaging/*/rust". The exit code is non-zero if any
+example failed (or warned, with --strict).`,
+		Flags: []cli.Flag{
+			&cli.IntFlag{
+				Name:  "concurrency",
+				Usage: "Number of examples to build and run concurrently.",
+				Value: 2,
+			},
+			&cli.DurationFlag{
+				Name:  "timeout",
+				Usage: "Maximum run time of a single example.",
+				Value: time.Minute,
+			},
+			&cli.Float64Flag{
+				Name:  "min-similarity",
+				Usage: "Warn if the normalized output is less similar than this to the committed output.txt (0-1).",
+				Value: 0.5,
+			},
+			&cli.StringFlag{
+				Name:  "out",
+				Usage: "Directory to write each example's new output (and build log on failure) to.",
+			},
+			&cli.StringFlag{
+				Name:  "json",
+				Usage: "Write the results as JSON to this file.",
+			},
+			&cli.StringFlag{
+				Name:  "report",
+				Usage: "Write a Markdown report to this file.",
+			},
+			&cli.BoolFlag{
+				Name:  "record",
+				Usage: "Re-record output.cast and output.txt for examples that did not fail and whose output changed (requires asciinema and nbe on PATH).",
+			},
+			&cli.BoolFlag{
+				Name:  "record-all",
+				Usage: "With --record, re-record even when the output is unchanged.",
+			},
+			&cli.BoolFlag{
+				Name:  "strict",
+				Usage: "Exit non-zero on warnings too.",
+			},
+		},
+		Action: func(c *cli.Context) error {
+			repo, err := os.Getwd()
+			if err != nil {
+				return err
+			}
+
+			examples, err := resolveVerifyTargets(repo, c.Args().Slice())
+			if err != nil {
+				return err
+			}
+
+			v := Verifier{
+				Repo:          repo,
+				Concurrency:   c.Int("concurrency"),
+				Timeout:       c.Duration("timeout"),
+				MinSimilarity: c.Float64("min-similarity"),
+				OutDir:        c.String("out"),
+				Record:        c.Bool("record") || c.Bool("record-all"),
+				RecordAll:     c.Bool("record-all"),
+				Log: func(format string, args ...any) {
+					log.Printf(format, args...)
+				},
+			}
+
+			log.Printf("verifying %d examples", len(examples))
+			results := v.Run(examples)
+
+			if p := c.String("json"); p != "" {
+				if err := writeVerifyJSON(p, results); err != nil {
+					return err
+				}
+			}
+			if p := c.String("report"); p != "" {
+				if err := os.WriteFile(p, []byte(verifyMarkdown(results, "Example verification")), 0644); err != nil {
+					return err
+				}
+			}
+
+			var fails, warns int
+			for _, r := range results {
+				switch r.Status {
+				case VerifyFail:
+					fails++
+				case VerifyWarn:
+					warns++
+				}
+			}
+			log.Printf("%d pass, %d warn, %d fail", len(results)-fails-warns, warns, fails)
+			if fails > 0 || (c.Bool("strict") && warns > 0) {
+				return cli.Exit(fmt.Sprintf("%d failed, %d warned", fails, warns), 1)
+			}
+			return nil
+		},
+	}
+
+	reportCmd = cli.Command{
+		Name:      "report",
+		Usage:     "Merge JSON results from \"nbe verify --json\" into one Markdown report.",
+		ArgsUsage: "<results.json>...",
+		Flags: []cli.Flag{
+			&cli.StringFlag{
+				Name:  "title",
+				Usage: "Report heading.",
+				Value: "Example verification",
+			},
+		},
+		Action: func(c *cli.Context) error {
+			results, err := readVerifyJSON(c.Args().Slice())
+			if err != nil {
+				return err
+			}
+			fmt.Print(verifyMarkdown(results, c.String("title")))
+			return nil
 		},
 	}
 
