@@ -1,6 +1,9 @@
-# Monthly dependency update PRs for every ecosystem the examples use. Each PR
+# Weekly dependency update PRs for every ecosystem the examples use. Each PR
 # triggers the verify-examples workflow for the affected languages, so a bump
-# that breaks an example fails its check instead of landing silently.
+# that breaks an example fails its check instead of landing silently. This is
+# independent of the workflow's monthly full run, which catches drift in
+# dependencies Dependabot can't see. Security updates are not scheduled: when
+# enabled in the repository settings they are opened as advisories appear.
 #
 # Minor/patch bumps are grouped into one PR per ecosystem. Major bumps arrive
 # as individual PRs because they usually need example code changes (see
@@ -16,7 +19,7 @@ version: 2
 updates:
   - package-ecosystem: github-actions
     directory: /
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
     groups:
       actions: { patterns: ["*"] }
 
@@ -28,7 +31,7 @@ updates:
       - /examples/**/cli/service
       - /examples/**/cli/client
       - /examples/**/cli/generate-stan-data
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
     groups:
       go: { update-types: [minor, patch] }
 
@@ -36,35 +39,35 @@ updates:
     directories:
       - /docker/*
       - /examples/**
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
     groups:
       docker-images: { update-types: [minor, patch] }
 
   - package-ecosystem: docker-compose
     directory: /docker
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
 
   - package-ecosystem: npm
     directory: /docker/node
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
     groups:
       node: { update-types: [minor, patch] }
 
   - package-ecosystem: pip
     directory: /docker/python
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
     groups:
       python: { update-types: [minor, patch] }
 
   - package-ecosystem: cargo
     directory: /docker/rust
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
     groups:
       rust: { update-types: [minor, patch] }
 
   - package-ecosystem: gradle
     directory: /docker/java
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
     groups:
       java: { update-types: [minor, patch] }
 
@@ -72,6 +75,6 @@ updates:
     directories:
       - /docker/dotnet
       - /examples/**/csharp
-    schedule: { interval: monthly }
+    schedule: { interval: weekly }
     groups:
       dotnet: { update-types: [minor, patch] }
