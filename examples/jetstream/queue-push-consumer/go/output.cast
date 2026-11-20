@@ -1,7 +1,7 @@
-{"version": 2, "width": 111, "height": 29, "timestamp": 1695466444, "env": {"SHELL": "/bin/zsh", "TERM": "screen-256color"}, "title": "NATS by Example: jetstream/queue-push-consumer/go"}
-[0.990343, "o", "# Durable (implicit)\r\n"]
-[0.991434, "o", "deliver group: \"event-processor\"\r\ndeliver subject: \"_INBOX.kP51owQxv7lYEj35j0Bss8\"\r\n"]
-[0.991817, "o", "sub1: received message \"events.1\"\r\n"]
-[1.993985, "o", "sub2: receive timeout\r\nsub3: received message \"events.6\"\r\n"]
-[1.996329, "o", "\r\n# Durable (explicit)\r\n"]
-[1.999379, "o", "sub3: received message \"events.4\"\r\nsub3: received message \"events.5\"\r\nsub3: received message \"events.6\"\r\nsub1: received message \"events.1\"\r\nsub1: received message \"events.2\"\r\nsub2: received message \"events.3\"\r\n"]
+{"version": 2, "width": 80, "height": 24, "timestamp": 1795131794, "env": {"SHELL": "/bin/bash", "TERM": "linux"}, "title": "NATS by Example: jetstream/queue-push-consumer/go"}
+[1.889001, "o", "# Durable (implicit)\r\n"]
+[1.892698, "o", "deliver group: \"event-processor\"\r\ndeliver subject: \"_INBOX.ni4BDcVidZVDt99b4LWvUR\"\r\n"]
+[1.893944, "o", "sub1: received message \"events.2\"\r\n"]
+[2.894618, "o", "sub2: receive timeout\r\nsub3: received message \"events.1\"\r\n"]
+[2.898887, "o", "\r\n# Durable (explicit)\r\n"]
+[2.900839, "o", "sub3: received message \"events.3\"\r\nsub3: received message \"events.4\"\r\nsub3: received message \"events.5\"\r\nsub2: received message \"events.1\"\r\nsub2: received message \"events.2\"\r\nsub2: received message \"events.6\"\r\n"]
