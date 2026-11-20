@@ -2,7 +2,8 @@ package example;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.json.JsonMapper;
 import io.nats.client.Connection;
 import io.nats.client.Nats;
 import io.nats.client.Dispatcher;
@@ -26,7 +27,7 @@ public class Main {
             // Construct a payload and serialize it.
             // Using Jackson in this example, but any other JSON library can be used as well
             // (and even any other message format since the payload is just bytes).
-            ObjectMapper objectMapper = new ObjectMapper();
+            JsonMapper objectMapper = new JsonMapper();
             Payload payload = new Payload("bar", 27);
             byte[] messageBytes = objectMapper.writeValueAsBytes(payload);
 
@@ -42,7 +43,7 @@ public class Main {
                     Payload deserializedPayload = objectMapper.readValue(msg.getData(), Payload.class);
 
                     System.out.printf("received valid JSON payload: %s\n", deserializedPayload);
-                } catch (IOException e) {
+                } catch (JacksonException e) {
                     System.out.printf("received invalid JSON payload: %s\n",
                             new String(msg.getData(), StandardCharsets.UTF_8));
                 } finally {

@@ -1,9 +1,4 @@
-[1A[1B[0G[?25l
 
-
-
-[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                         
-[?25h
 A. Legacy Push Subscription with Ephemeral Consumer
   Async
       Received events.1
@@ -20,11 +15,11 @@ B. Legacy Bind Subscription to Named Consumer.
    Received events.3
 
 C. Legacy Pull Subscription then Iterate
-   The call to `iterate(10, 2000)` returned in 2ms.
-   Processing events.1 2ms after start.
-   Processing events.2 3ms after start.
-   Processing events.3 3ms after start.
-   The iterate completed in 2004ms.
+   The call to `iterate(10, 2000)` returned in 1ms.
+   Processing events.1 3ms after start.
+   Processing events.2 6ms after start.
+   Processing events.3 7ms after start.
+   The iterate completed in 2006ms.
        Time reflects waiting for the entire batch, which isn't available.
 
 D. Simplification StreamContext
@@ -33,14 +28,14 @@ D. Simplification StreamContext
 
 E. Simplification, Create a Consumer
    A consumer was created on stream "migration"
-   The consumer name is "vDwA32dwL9".
+   The consumer name is "mHbe0R2ms5sNReLlMBajyD".
    The consumer has 3 messages available.
-   The ConsumerContext for "vDwA32dwL9" was loaded from the StreamContext for "migration"
-   The ConsumerContext for "vDwA32dwL9" was loaded from the Connection on the stream "migration"
+   The ConsumerContext for "mHbe0R2ms5sNReLlMBajyD" was loaded from the StreamContext for "migration"
+   The ConsumerContext for "mHbe0R2ms5sNReLlMBajyD" was loaded from the Connection on the stream "migration"
 
 F. MessageConsumer (endless consumer with handler)
    A consumer was created on stream "migration"
-   The consumer name is "vDwA32dwPN".
+   The consumer name is "mHbe0R2ms5sNReLlMBak14".
    The consumer has 3 messages available.
    Received events.1
    Received events.2
@@ -49,7 +44,7 @@ F. MessageConsumer (endless consumer with handler)
 
 G. IterableConsumer (endless consumer manually calling next)
    A consumer was created on stream "migration"
-   The consumer name is "vDwA32dwTb".
+   The consumer name is "mHbe0R2ms5sNReLlMBak3v".
    The consumer has 3 messages available.
    Received events.1
    Received events.2
@@ -58,12 +53,12 @@ G. IterableConsumer (endless consumer manually calling next)
 
 H. FetchConsumer (bounded consumer)
    A consumer was created on stream "migration"
-   The consumer name is "vDwA32dwXp".
+   The consumer name is "mHbe0R2ms5sNReLlMBak6m".
    The consumer has 3 messages available.
-   'fetch' returned in 3ms.
-   Processing events.1 4ms after start.
-   Processing events.2 4ms after start.
-   Fetch complete in 5ms.
+   'fetch' returned in 2ms.
+   Processing events.1 2ms after start.
+   Processing events.2 3ms after start.
+   Fetch complete in 3ms.
 
 I. next (1 message)
    Received events.3

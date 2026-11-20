@@ -4,22 +4,16 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://oss.sonatype.org/content/repositories/releases/"
-    }
-    maven {
-        url "https://oss.sonatype.org/content/repositories/snapshots/"
-    }
 }
 
 dependencies {
-    implementation 'io.nats:nkeys-java:2.0.1'
-    implementation 'io.nats:jnats-json:2.0.0'
-    implementation 'io.nats:jwt-java:2.0.0'
-    implementation 'io.nats:jnats:2.19.2-SNAPSHOT'
+    implementation 'io.nats.nkeys:lts-jdk25:3.0.6'
+    implementation 'io.nats:jnats-json-jdk25:3.1.1'
+    implementation 'io.nats:jwt-utils-jdk25:3.0.4'
+    implementation 'io.nats:jnats:2.27.0'
 
     // JSON serialization/deserialization
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.17.2'
+    implementation 'tools.jackson.core:jackson-databind:3.3.0'
 }
 
 apply plugin: 'java'
@@ -35,4 +29,8 @@ task (uberJar, type:Jar) {
     }
 
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    // Signatures of signed dependency jars don't match the merged jar and
+    // make the JVM refuse to start it.
+    exclude 'META-INF/*.SF', 'META-INF/*.DSA', 'META-INF/*.RSA', 'META-INF/*.EC'
 }
