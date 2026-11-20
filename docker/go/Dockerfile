@@ -8,7 +8,7 @@ RUN go mod download && go mod verify
 COPY . ./
 RUN go build -v -o /app ./...
 
-FROM alpine:3.23
+FROM alpine:3.24
 
 COPY --from=build /app /app
 
