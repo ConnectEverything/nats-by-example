@@ -11,7 +11,7 @@ COPY . .
 RUN dotnet publish -c Release -o /app --use-current-runtime --self-contained false --no-restore
 
 # final stage/image
-FROM mcr.microsoft.com/dotnet/runtime:10.0
+FROM mcr.microsoft.com/dotnet/runtime:11.0
 WORKDIR /app
 COPY --from=build /app .
 ENTRYPOINT ["dotnet", "example.dll"]
