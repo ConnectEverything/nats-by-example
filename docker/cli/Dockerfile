@@ -6,7 +6,7 @@ RUN go install github.com/nats-io/nats-server/v2@v2.15.3
 RUN go install github.com/nats-io/natscli/nats@v0.5.2
 RUN go install github.com/nats-io/nsc/v2@v2.15.0
 
-FROM alpine:3.23
+FROM alpine:3.24
 
 RUN apk add bash curl
 
