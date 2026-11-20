@@ -1,0 +1,9 @@
+# Shell scripts run inside Linux containers, so they must keep LF line
+# endings even in a Windows checkout (core.autocrlf=true would otherwise
+# give "bash: $'\r': command not found").
+*.sh    text eol=lf
+gradlew text eol=lf
+
+# Recorded output is compared byte-for-byte-ish by `nbe verify`.
+output.txt  text eol=lf
+output.cast text eol=lf

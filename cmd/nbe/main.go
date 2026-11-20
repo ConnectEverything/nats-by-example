@@ -43,12 +43,11 @@ var (
 		Name:  "image",
 		Usage: "Build the container image for the example.",
 		Action: func(c *cli.Context) error {
-			example := c.Args().First()
-
-			repo, err := os.Getwd()
+			repo, cwd, err := currentRepo()
 			if err != nil {
 				return err
 			}
+			example := resolveExample(repo, cwd, c.Args().First())
 
 			b := ImageBuilder{
 				Repo:    repo,
@@ -81,10 +80,11 @@ var (
 				return errors.New("output directory must be specified")
 			}
 
-			repo, err := os.Getwd()
+			repo, cwd, err := currentRepo()
 			if err != nil {
 				return err
 			}
+			example = resolveExample(repo, cwd, example)
 
 			b := Ejecter{
 				Repo:    repo,
@@ -101,7 +101,8 @@ var (
 		Name:  "run",
 		Usage: "Run an example using containers.",
 		Description: `To run an example, the current requirement is to clone the
-repo and run the command in the root the repo.
+repo and run the command anywhere inside it. Example paths are relative to
+the examples/ directory (messaging/pub-sub/go), or to the current directory.
 
 Future versions may leverage pre-built images hosted in a registry to reduce
 the runtime.`,
@@ -171,7 +172,7 @@ the runtime.`,
 
 			target := c.Args().First()
 
-			repo, err := os.Getwd()
+			repo, cwd, err := currentRepo()
 			if err != nil {
 				return err
 			}
@@ -179,11 +180,22 @@ the runtime.`,
 			var examples []string
 			// If a client is specified, run all examples for that client.
 			if _, ok := availableLanguages[target]; ok {
-				examples, _ = filepath.Glob(fmt.Sprintf("examples/*/*/%s", target))
+				examples, _ = filepath.Glob(filepath.Join(repo, "examples", "*", "*", target))
 			} else if target == "all" {
-				examples, _ = filepath.Glob("examples/*/*/*")
+				examples, _ = filepath.Glob(filepath.Join(repo, "examples", "*", "*", "*"))
 			} else {
-				examples = c.Args().Slice()
+				for _, a := range c.Args().Slice() {
+					examples = append(examples, resolveExample(repo, cwd, a))
+				}
+			}
+			for i, e := range examples {
+				if filepath.IsAbs(e) {
+					rel, err := filepath.Rel(repo, e)
+					if err != nil {
+						return err
+					}
+					examples[i] = filepath.ToSlash(rel)
+				}
 			}
 
 			if len(examples) == 0 {
@@ -462,7 +474,7 @@ example failed (or warned, with --strict).`,
 			},
 		},
 		Action: func(c *cli.Context) error {
-			repo, err := os.Getwd()
+			repo, _, err := currentRepo()
 			if err != nil {
 				return err
 			}

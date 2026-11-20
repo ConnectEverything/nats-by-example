@@ -6,7 +6,6 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"strings"
 )
 
 type Ejecter struct {
@@ -37,13 +36,13 @@ func (r *Ejecter) Run() error {
 		stderr = os.Stderr
 	}
 
-	example := r.Example
-	if !strings.HasPrefix(example, "examples/") {
-		example = filepath.Join("examples", example)
+	example := examplePath(r.Example)
+	if err := checkExampleDirs(r.Repo, example); err != nil {
+		return err
 	}
 
-	exampleDir := filepath.Join(r.Repo, example)
-	lang := filepath.Base(example)
+	exampleDir := filepath.Join(r.Repo, filepath.FromSlash(example))
+	lang := filepath.Base(exampleDir)
 
 	defaultDir := filepath.Join(r.Repo, "docker", lang)
 
