@@ -2,8 +2,8 @@
 # declared in your `mix.exs` file.
 Mix.install([
   # For documentation on the Gnat library, see https://hexdocs.pm/gnat/readme.html
-  {:gnat, "~> 1.7.1"},
-  {:jason, "~> 1.0"}
+  {:gnat, "~> 1.20"},
+  {:jason, "~> 1.4"}
 ])
 
 url = System.get_env("NATS_URL", "nats://0.0.0.0:4222")

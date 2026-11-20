@@ -101,7 +101,8 @@ using (IConnection conn = cf.CreateConnection(opts))
         .Build();
 
     ConsumerInfo consumerInfo = jsm.AddOrUpdateConsumer(streamName, consumerConfiguration);
-    asub = js.PushSubscribeAsync("events.>",
+    // When binding, the subject comes from the consumer, so none is given.
+    asub = js.PushSubscribeAsync(null,
         (s, e) =>
         {
             Console.WriteLine($"   Received {e.Message.Subject}");
@@ -140,7 +141,7 @@ using (IConnection conn = cf.CreateConnection(opts))
     // The `StreamContext` can be created from the `Connection` similar to
     // the legacy API.
     Console.WriteLine("\nD. Simplification StreamContext");
-    IStreamContext streamContext = conn.CreateStreamContext(streamName);
+    IStreamContext streamContext = conn.GetStreamContext(streamName);
     StreamInfo streamInfo = streamContext.GetStreamInfo(StreamInfoOptions.Builder().WithAllSubjects().Build());
 
     Console.WriteLine($"   Stream Name: {streamInfo.Config.Name}");
@@ -164,11 +165,11 @@ using (IConnection conn = cf.CreateConnection(opts))
     // If your consumer already exists as a durable, you can create a
     // `ConsumerContext` for that consumer from the stream context or directly
     // from the connection by providing the stream and consumer name.
-    consumerContext = streamContext.CreateConsumerContext(consumerName);
+    consumerContext = streamContext.GetConsumerContext(consumerName);
     consumerInfo = consumerContext.GetCachedConsumerInfo();
     Console.WriteLine($"   The ConsumerContext for \"{consumerInfo.Name}\" was loaded from the StreamContext for \"{consumerInfo.Stream}\"");
 
-    consumerContext = conn.CreateConsumerContext(streamName, consumerName);
+    consumerContext = conn.GetConsumerContext(streamName, consumerName);
     consumerInfo = consumerContext.GetCachedConsumerInfo();
     Console.WriteLine($"   The ConsumerContext for \"{consumerInfo.Name}\" was loaded from the Connection on the stream \"{consumerInfo.Stream}\"");
 
@@ -214,12 +215,12 @@ using (IConnection conn = cf.CreateConnection(opts))
     // delete the consumer.
     // However, the consumer will be automatically deleted by the server when the
     // `inactiveThreshold` is reached.
-    messageConsumer.Stop(100);
+    messageConsumer.Stop();
     Console.WriteLine("   stop was called.");
 
     // #### IterableConsumer
-    // An `IterableConsumer` is returned when you call the `consume` method on
-    // the `ConsumerContext` *without* supplying a message handler.
+    // An `IterableConsumer` is returned when you call the `Iterate` method on
+    // the `ConsumerContext`.
     Console.WriteLine("\nG. IterableConsumer (endless consumer manually calling next)");
     consumerConfiguration = ConsumerConfiguration.Builder().Build();
     consumerContext = streamContext.CreateOrUpdateConsumer(consumerConfiguration);
@@ -235,13 +236,13 @@ using (IConnection conn = cf.CreateConnection(opts))
     // operations. For instance, it is possible, but unlikely, that the consumer
     // could be deleted by another application in your ecosystem and if that happens
     // in the middle of the consumer, the exception would be thrown.
-    IIterableConsumer iterableConsumer = consumerContext.Consume();
+    IIterableConsumer iterableConsumer = consumerContext.Iterate();
     for (int x = 0; x < 3; x++) {
         Msg msg1 = iterableConsumer.NextMessage(100);
         Console.WriteLine($"   Received {msg1.Subject}");
         msg1.Ack();
     }
-    iterableConsumer.Stop(100);
+    iterableConsumer.Stop();
     Console.WriteLine("   stop was called.");
 
     // ### Retrieving messages on demand with `fetch` and `next`

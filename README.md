@@ -115,6 +115,19 @@ Each client may include a custom `Dockerfile` to be able to build and run the ex
 
 Most examples require a NATS server, so there are two `docker-compose.yaml` files available in `docker/` which will be used by default. If there is a need for a customer file for an example, it can be added to the example directory to override the default.
 
+### Verifying examples
+
+`nbe verify` builds and runs examples and checks that they still work: an example **fails** if it doesn't build, exits non-zero or times out, and **warns** if its output is empty, shows new errors, or drifted from the committed `output.txt`.
+
+```
+$ nbe verify go                      # every Go example
+$ nbe verify 'messaging/*/rust'      # a glob
+$ nbe verify --out /tmp/out all      # everything, keeping new outputs
+$ nbe verify --record kv/intro/go    # re-record output.cast/output.txt
+```
+
+The [verify-examples](.github/workflows/verify-examples.yaml) workflow runs this monthly for all examples (tracked in an issue labelled `example-health`) and on pull requests for the examples they touch. Dependency updates come from Dependabot; see [the upgrade guide](.claude/skills/upgrade-examples/SKILL.md) for upgrading by hand.
+
 ## Contributing
 
 There are several ways to contribute!

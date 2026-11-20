@@ -2,7 +2,7 @@ import {
   AckPolicy,
   nuid,
   connect
-} from "https://deno.land/x/nats@v1.28.0/src/mod.ts";
+} from "https://deno.land/x/nats@v1.29.3/src/mod.ts";
 
 const servers = Deno.env.get("NATS_URL")?.split(",");
 

@@ -375,27 +375,35 @@ done
 # Wait until the servers up and healthy.
 echo 'Cluster 1 healthy?'
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8222/healthz; echo
 
 echo 'Cluster 2 healthy?'
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8223/healthz; echo
 
 echo 'Cluster 3 healthy?'
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8224/healthz; echo
 
 echo 'Cluster 4 healthy?'
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8225/healthz; echo
+
+# A healthy server doesn't mean every server has joined JetStream yet.
+# Stream placement needs servers in each region, so wait until all 12
+# servers are part of the JetStream meta group.
+until nats --user sys --password sys server check meta \
+    --expect 12 --seen-critical 5s --lag-critical 1000 > /dev/null; do
+  sleep 1
+done
 
 # Show the server lit and JetStream report.
 nats --user sys --password sys server info rg2-az1

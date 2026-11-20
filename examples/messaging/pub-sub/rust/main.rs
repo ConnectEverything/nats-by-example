@@ -31,9 +31,9 @@ async fn main() -> Result<(), async_nats::Error> {
     // relay the message to the client.
     while let Some(message) = subscription.next().await {
         println!(
-            "{:?} received on {:?}",
+            "{:?} received on {}",
             from_utf8(&message.payload),
-            &message.subject
+            message.subject
         );
     }
 

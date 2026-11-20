@@ -1,81 +1,86 @@
 Obtaining Stream stats
 
-╭──────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                        Stream Report                                         │
-├──────────┬─────────┬───────────┬───────────┬──────────┬───────┬──────┬─────────┬─────────────┤
-│ Stream   │ Storage │ Placement │ Consumers │ Messages │ Bytes │ Lost │ Deleted │ Replicas    │
-├──────────┼─────────┼───────────┼───────────┼──────────┼───────┼──────┼─────────┼─────────────┤
-│ events-0 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ n1*, n2, n3 │
-│ events-1 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ n1, n2*, n3 │
-│ events-2 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ n1, n2*, n3 │
-│ events-3 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ n1*, n2, n3 │
-│ events-4 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ n1*, n2, n3 │
-╰──────────┴─────────┴───────────┴───────────┴──────────┴───────┴──────┴─────────┴─────────────╯
+╭──────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                               Stream Report                                              │
+├──────────┬─────────┬───────────┬───────────┬──────────┬───────┬──────┬─────────┬───────────┬─────────────┤
+│ Stream   │ Storage │ Placement │ Consumers │ Messages │ Bytes │ Lost │ Deleted │ API Level │ Replicas    │
+├──────────┼─────────┼───────────┼───────────┼──────────┼───────┼──────┼─────────┼───────────┼─────────────┤
+│ events-0 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ 0         │ n1, n2, n3* │
+│ events-1 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ 0         │ n1, n2, n3* │
+│ events-2 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ 0         │ n1*, n2, n3 │
+│ events-3 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ 0         │ n1*, n2, n3 │
+│ events-4 │ File    │           │ 0         │ 0        │ 0 B   │ 0    │ 0       │ 0         │ n1, n2, n3* │
+╰──────────┴─────────┴───────────┴───────────┴──────────┴───────┴──────┴─────────┴───────────┴─────────────╯
 
-13:38:28 Starting JetStream benchmark [subject=events.*,  multisubject=true, multisubjectmax=0, js=true, msgs=200,000, msgsize=128 B, pubs=1, subs=0, stream=events-0, maxbytes=1.0 GiB, syncpub=true, pubbatch=100, jstimeout=30s, pull=false, consumerbatch=100, push=false, consumername=natscli-bench, purge=false, pubsleep=0s, subsleep=0s, deduplication=%!c(bool=false), dedupwindow=2m0s]
-13:38:28 Starting publisher, publishing 200,000 messages
+00:05:51 Starting JetStream synchronous publisher benchmark [batch=0, clients=1, msg-size=128 B, msgs=50,000, multi-subject=true, multi-subject-max=100,000, multi-subject-randomize=false, purge=false, sleep=0s, stream=events-0, subject=events.*]
+00:05:51 Using stream: events-0
+00:05:51 [1] Starting JetStream synchronous publisher, publishing 50,000 messages
 
-Pub stats: 7,152 msgs/sec ~ 894.05 KB/sec
-
-Obtaining Stream stats
-
-╭────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                         Stream Report                                          │
-├──────────┬─────────┬───────────┬───────────┬──────────┬─────────┬──────┬─────────┬─────────────┤
-│ Stream   │ Storage │ Placement │ Consumers │ Messages │ Bytes   │ Lost │ Deleted │ Replicas    │
-├──────────┼─────────┼───────────┼───────────┼──────────┼─────────┼──────┼─────────┼─────────────┤
-│ events-2 │ File    │           │ 0         │ 39,960   │ 6.6 MiB │ 0    │ 0       │ n1, n2*, n3 │
-│ events-1 │ File    │           │ 0         │ 39,968   │ 6.6 MiB │ 0    │ 0       │ n1, n2*, n3 │
-│ events-0 │ File    │           │ 0         │ 39,973   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-│ events-4 │ File    │           │ 0         │ 40,045   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-│ events-3 │ File    │           │ 0         │ 40,054   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-╰──────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴─────────────╯
-
-13:38:56 Starting JetStream benchmark [subject=events.*,  multisubject=true, multisubjectmax=0, js=true, msgs=200,000, msgsize=128 B, pubs=1, subs=0, stream=events-0, maxbytes=1.0 GiB, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, consumerbatch=100, push=false, consumername=natscli-bench, purge=false, pubsleep=0s, subsleep=0s, deduplication=%!c(bool=false), dedupwindow=2m0s]
-13:38:56 Starting publisher, publishing 200,000 messages
-
-Pub stats: 74,794 msgs/sec ~ 9.13 MB/sec
+NATS JetStream synchronous publisher stats: 2,196 msgs/sec ~ 275 KiB/sec ~ min: 84.40us ~ avg: 452.22us ~ max: 18,225.26us ~ P50: 426.34us ~ P90: 587.65us ~ P99: 1,148.67us ~ P99.9: 3,682.09us
 
 Obtaining Stream stats
 
-╭────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                         Stream Report                                          │
-├──────────┬─────────┬───────────┬───────────┬──────────┬─────────┬──────┬─────────┬─────────────┤
-│ Stream   │ Storage │ Placement │ Consumers │ Messages │ Bytes   │ Lost │ Deleted │ Replicas    │
-├──────────┼─────────┼───────────┼───────────┼──────────┼─────────┼──────┼─────────┼─────────────┤
-│ events-2 │ File    │           │ 0         │ 39,960   │ 6.6 MiB │ 0    │ 0       │ n1, n2*, n3 │
-│ events-1 │ File    │           │ 0         │ 39,968   │ 6.6 MiB │ 0    │ 0       │ n1, n2*, n3 │
-│ events-0 │ File    │           │ 0         │ 39,973   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-│ events-4 │ File    │           │ 0         │ 40,045   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-│ events-3 │ File    │           │ 0         │ 40,054   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-╰──────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴─────────────╯
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                Stream Report                                               │
+├──────────┬─────────┬───────────┬───────────┬──────────┬─────────┬──────┬─────────┬───────────┬─────────────┤
+│ Stream   │ Storage │ Placement │ Consumers │ Messages │ Bytes   │ Lost │ Deleted │ API Level │ Replicas    │
+├──────────┼─────────┼───────────┼───────────┼──────────┼─────────┼──────┼─────────┼───────────┼─────────────┤
+│ events-1 │ File    │           │ 0         │ 9,979    │ 1.6 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+│ events-2 │ File    │           │ 0         │ 9,982    │ 1.6 MiB │ 0    │ 0       │ 0         │ n1*, n2, n3 │
+│ events-3 │ File    │           │ 0         │ 9,988    │ 1.6 MiB │ 0    │ 0       │ 0         │ n1*, n2, n3 │
+│ events-4 │ File    │           │ 0         │ 10,024   │ 1.7 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+│ events-0 │ File    │           │ 0         │ 10,027   │ 1.7 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+╰──────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴───────────┴─────────────╯
 
-13:38:59 Starting JetStream benchmark [subject=events.*,  multisubject=true, multisubjectmax=0, js=true, msgs=200,000, msgsize=128 B, pubs=5, subs=0, stream=events-0, maxbytes=1.0 GiB, syncpub=false, pubbatch=100, jstimeout=30s, pull=false, consumerbatch=100, push=false, consumername=natscli-bench, purge=false, pubsleep=0s, subsleep=0s, deduplication=%!c(bool=false), dedupwindow=2m0s]
-13:38:59 Starting publisher, publishing 40,000 messages
-13:38:59 Starting publisher, publishing 40,000 messages
-13:38:59 Starting publisher, publishing 40,000 messages
-13:38:59 Starting publisher, publishing 40,000 messages
-13:38:59 Starting publisher, publishing 40,000 messages
+00:06:14 Starting JetStream asynchronous publisher benchmark [batch=100, clients=1, msg-size=128 B, msgs=200,000, multi-subject=true, multi-subject-max=100,000, multi-subject-randomize=false, purge=false, sleep=0s, stream=events-0, subject=events.*]
+00:06:14 Using stream: events-0
+00:06:14 [1] Starting JetStream asynchronous publisher, publishing 200,000 messages
 
-Pub stats: 92,590 msgs/sec ~ 11.30 MB/sec
- [1] 22,279 msgs/sec ~ 2.72 MB/sec (40000 msgs)
- [2] 18,853 msgs/sec ~ 2.30 MB/sec (40000 msgs)
- [3] 18,660 msgs/sec ~ 2.28 MB/sec (40000 msgs)
- [4] 18,546 msgs/sec ~ 2.26 MB/sec (40000 msgs)
- [5] 18,518 msgs/sec ~ 2.26 MB/sec (40000 msgs)
- min 18,518 | avg 19,371 | max 22,279 | stddev 1,458 msgs
+NATS JetStream asynchronous publisher stats: 43,025 msgs/sec ~ 5.3 MiB/sec ~ min: 1,026.09us ~ avg: 2,322.40us ~ max: 33,437.34us ~ P50: 2,049.52us ~ P90: 3,185.34us ~ P99: 6,806.60us ~ P99.9: 22,252.94us
 
 Obtaining Stream stats
 
-╭────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                         Stream Report                                          │
-├──────────┬─────────┬───────────┬───────────┬──────────┬─────────┬──────┬─────────┬─────────────┤
-│ Stream   │ Storage │ Placement │ Consumers │ Messages │ Bytes   │ Lost │ Deleted │ Replicas    │
-├──────────┼─────────┼───────────┼───────────┼──────────┼─────────┼──────┼─────────┼─────────────┤
-│ events-2 │ File    │           │ 0         │ 39,960   │ 6.6 MiB │ 0    │ 0       │ n1, n2*, n3 │
-│ events-1 │ File    │           │ 0         │ 39,968   │ 6.6 MiB │ 0    │ 0       │ n1, n2*, n3 │
-│ events-0 │ File    │           │ 0         │ 39,973   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-│ events-4 │ File    │           │ 0         │ 40,045   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-│ events-3 │ File    │           │ 0         │ 40,054   │ 6.6 MiB │ 0    │ 0       │ n1*, n2, n3 │
-╰──────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴─────────────╯
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                Stream Report                                               │
+├──────────┬─────────┬───────────┬───────────┬──────────┬─────────┬──────┬─────────┬───────────┬─────────────┤
+│ Stream   │ Storage │ Placement │ Consumers │ Messages │ Bytes   │ Lost │ Deleted │ API Level │ Replicas    │
+├──────────┼─────────┼───────────┼───────────┼──────────┼─────────┼──────┼─────────┼───────────┼─────────────┤
+│ events-3 │ File    │           │ 0         │ 39,924   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1*, n2, n3 │
+│ events-2 │ File    │           │ 0         │ 39,940   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1*, n2, n3 │
+│ events-1 │ File    │           │ 0         │ 39,946   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+│ events-4 │ File    │           │ 0         │ 40,062   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+│ events-0 │ File    │           │ 0         │ 40,128   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+╰──────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴───────────┴─────────────╯
+
+00:06:19 Starting JetStream asynchronous publisher benchmark [batch=100, clients=5, msg-size=128 B, msgs=200,000, multi-subject=true, multi-subject-max=100,000, multi-subject-randomize=false, purge=false, sleep=0s, stream=events-0, subject=events.*]
+00:06:19 Using stream: events-0
+00:06:19 [1] Starting JetStream asynchronous publisher, publishing 40,000 messages
+00:06:19 [2] Starting JetStream asynchronous publisher, publishing 40,000 messages
+00:06:19 [3] Starting JetStream asynchronous publisher, publishing 40,000 messages
+00:06:19 [4] Starting JetStream asynchronous publisher, publishing 40,000 messages
+00:06:19 [5] Starting JetStream asynchronous publisher, publishing 40,000 messages
+
+  [1] 17,167 msgs/sec ~ 2.1 MiB/sec ~ min: 2,168.51us ~ avg: 5,820.34us ~ max: 28,246.71us ~ P50: 5,292.20us ~ P90: 8,696.34us ~ P99: 15,462.58us ~ P99.9: 28,246.71us (40,000 msgs)
+  [2] 17,037 msgs/sec ~ 2.1 MiB/sec ~ min: 2,138.99us ~ avg: 5,866.28us ~ max: 28,544.85us ~ P50: 5,304.95us ~ P90: 8,701.83us ~ P99: 18,697.89us ~ P99.9: 28,544.85us (40,000 msgs)
+  [3] 16,467 msgs/sec ~ 2.0 MiB/sec ~ min: 1,927.49us ~ avg: 6,068.43us ~ max: 27,226.52us ~ P50: 5,404.62us ~ P90: 9,243.71us ~ P99: 19,099.96us ~ P99.9: 27,226.52us (40,000 msgs)
+  [4] 16,315 msgs/sec ~ 2.0 MiB/sec ~ min: 2,205.27us ~ avg: 6,124.22us ~ max: 30,750.94us ~ P50: 5,441.19us ~ P90: 8,928.33us ~ P99: 16,275.71us ~ P99.9: 30,750.94us (40,000 msgs)
+  [5] 16,305 msgs/sec ~ 2.0 MiB/sec ~ min: 2,054.35us ~ avg: 6,128.51us ~ max: 30,944.23us ~ P50: 5,544.36us ~ P90: 8,940.42us ~ P99: 15,964.03us ~ P99.9: 30,944.23us (40,000 msgs)
+
+ NATS JetStream asynchronous publisher aggregated stats: 81,527 msgs/sec ~ 10 MiB/sec
+ message rates min 16,305 | avg 16,658 | max 17,167 | stddev 369 msgs
+ latencies per operation min 1,927.49us | avg 6,001.55us | max 30,944.23us | stddev 6,710.33us | P50 5,376.16us | P90 8,928.77us | P99 19,099.96us | P99.9: 30,750.94us
+
+Obtaining Stream stats
+
+╭────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                                Stream Report                                               │
+├──────────┬─────────┬───────────┬───────────┬──────────┬─────────┬──────┬─────────┬───────────┬─────────────┤
+│ Stream   │ Storage │ Placement │ Consumers │ Messages │ Bytes   │ Lost │ Deleted │ API Level │ Replicas    │
+├──────────┼─────────┼───────────┼───────────┼──────────┼─────────┼──────┼─────────┼───────────┼─────────────┤
+│ events-3 │ File    │           │ 0         │ 39,924   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1*, n2, n3 │
+│ events-2 │ File    │           │ 0         │ 39,940   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1*, n2, n3 │
+│ events-1 │ File    │           │ 0         │ 39,946   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+│ events-4 │ File    │           │ 0         │ 40,062   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+│ events-0 │ File    │           │ 0         │ 40,128   │ 6.6 MiB │ 0    │ 0       │ 0         │ n1, n2, n3* │
+╰──────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴───────────┴─────────────╯
 

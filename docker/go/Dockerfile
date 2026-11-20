@@ -1,4 +1,4 @@
-FROM golang:1.21.4-alpine3.18 AS build
+FROM golang:1.27-alpine3.23 AS build
 
 WORKDIR /opt/app
 
@@ -8,7 +8,7 @@ RUN go mod download && go mod verify
 COPY . ./
 RUN go build -v -o /app ./...
 
-FROM alpine
+FROM alpine:3.23
 
 COPY --from=build /app /app
 

@@ -1,0 +1,188 @@
+name: verify-examples
+
+# Builds and runs the examples with `nbe verify` to catch breakage from
+# dependency, image and server upgrades.
+#
+# - Monthly (and on demand): verify everything, and keep one GitHub issue
+#   labelled `example-health` up to date with the failures and warnings. The
+#   issue is closed automatically once everything passes again.
+# - Pull requests (including Dependabot's): verify only what the PR touches,
+#   and fail the check if an example fails. The report is in the job summary.
+
+on:
+  schedule:
+    # 04:17 UTC on the 1st of every month.
+    - cron: "17 4 1 * *"
+  workflow_dispatch:
+    inputs:
+      targets:
+        description: 'Languages (e.g. "go rust") or "all"'
+        required: false
+        default: all
+  pull_request:
+    paths:
+      - "docker/**"
+      - "examples/**"
+      - "cmd/nbe/**"
+      - "scripts/verify-plan.sh"
+      - "scripts/check-go-versions.sh"
+      - ".github/workflows/verify-examples.yaml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-examples-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.plan.outputs.matrix }}
+      empty: ${{ steps.plan.outputs.empty }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Check go.mod versions against Docker images
+        run: scripts/check-go-versions.sh
+
+      - id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          TARGETS: ${{ inputs.targets }}
+        run: |
+          if [ "$EVENT" = "pull_request" ]; then
+            matrix="$(scripts/verify-plan.sh --changed "$BASE")"
+          else
+            # shellcheck disable=SC2086
+            matrix="$(scripts/verify-plan.sh ${TARGETS:-all})"
+          fi
+          echo "$matrix"
+          echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
+          if [ "$(echo "$matrix" | jq '.include | length')" = "0" ]; then
+            echo "empty=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  verify:
+    needs: plan
+    if: needs.plan.outputs.empty != 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.plan.outputs.matrix) }}
+    name: verify (${{ matrix.name }})
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: cmd/nbe/go.mod
+          cache-dependency-path: cmd/nbe/go.sum
+
+      - name: Install nbe
+        run: go install ./cmd/nbe
+
+      - name: Verify
+        id: verify
+        env:
+          TARGETS: ${{ matrix.targets }}
+        run: |
+          set +e
+          # shellcheck disable=SC2086
+          nbe verify --concurrency 2 \
+            --json "results-${{ matrix.name }}.json" \
+            --out out \
+            $TARGETS
+          echo "exit=$?" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: verify-${{ matrix.name }}
+          path: |
+            results-${{ matrix.name }}.json
+            out/
+          retention-days: 30
+
+      - name: Fail on broken examples
+        if: steps.verify.outputs.exit != '0'
+        run: exit 1
+
+  report:
+    needs: [plan, verify]
+    if: always() && needs.plan.outputs.empty != 'true'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-go@v7
+        with:
+          go-version-file: cmd/nbe/go.mod
+          cache-dependency-path: cmd/nbe/go.sum
+
+      - run: go install ./cmd/nbe
+
+      - uses: actions/download-artifact@v8
+        with:
+          pattern: verify-*
+          path: artifacts
+
+      - name: Build report
+        id: report
+        run: |
+          shopt -s nullglob
+          files=(artifacts/*/results-*.json)
+          if [ "${#files[@]}" -eq 0 ]; then
+            echo "No results were produced; see the verify job logs." > report.md
+            echo "unhealthy=true" >> "$GITHUB_OUTPUT"
+          else
+            nbe report --title "Example verification" "${files[@]}" > report.md
+            if jq -s -e 'add | any(.status != "pass")' "${files[@]}" > /dev/null; then
+              echo "unhealthy=true" >> "$GITHUB_OUTPUT"
+            fi
+          fi
+          run_url="${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          printf '\n---\nRun: %s (new outputs and build logs are in the run artifacts)\n' "$run_url" >> report.md
+          cat report.md >> "$GITHUB_STEP_SUMMARY"
+
+      # Only a full run may open/close the issue; a partial manual run would
+      # otherwise close it while other languages are still broken.
+      - name: Update example-health issue
+        if: github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.targets == 'all')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          UNHEALTHY: ${{ steps.report.outputs.unhealthy }}
+        run: |
+          # Issue bodies are limited to 65536 characters.
+          if [ "$(wc -c < report.md)" -gt 60000 ]; then
+            head -c 60000 report.md > body.md
+            printf '\n\n…truncated, see the run summary for the full report.\n' >> body.md
+          else
+            cp report.md body.md
+          fi
+
+          gh label create example-health --color D93F0B \
+            --description "Automated example verification" 2>/dev/null || true
+
+          issue="$(gh issue list --label example-health --state open --json number --jq '.[0].number')"
+
+          if [ "$UNHEALTHY" = "true" ]; then
+            if [ -n "$issue" ]; then
+              gh issue edit "$issue" --body-file body.md
+              gh issue comment "$issue" --body "Updated by ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            else
+              gh issue create --label example-health \
+                --title "Examples need attention" --body-file body.md
+            fi
+          elif [ -n "$issue" ]; then
+            gh issue comment "$issue" --body-file body.md
+            gh issue close "$issue" --reason completed
+          fi

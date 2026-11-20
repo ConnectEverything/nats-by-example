@@ -1,7 +1,6 @@
-Error 5 - Connection Closed on connection [5]
-Created service: Name:'MinMax', ID:'ZP4DX317JKAA5ZASV1UQXT'
+Created service: Name:'MinMax', ID:'FRK512LKYKGNM0KFAO15OU'
 min response: {"min":1}
 max response: {"max":10}
 average response: {"average":5.500000}
-STATS response: {"id":"ZP4DX317JKAA5ZASV1UQXT","name":"MinMax","type":"io.nats.micro.v1.stats_response","started":"2024-06-04T13:00:40.199Z","endpoints":[{"name":"min","subject":"func.min","num_requests":1,"num_errors":1,"average_processing_time":"12.493µs","last_error":"null"},{"name":"max","subject":"func.max","num_requests":1,"num_errors":1,"average_processing_time":"12.583µs","last_error":"null"},{"name":"average","subject":"func.average","num_requests":1,"num_errors":1,"average_processing_time":"13.205µs","last_error":"null"}],"version":"0.0.1"}
-INFO response: {"description":"Returns the min/max number in a request","endpoints":[{"name":"min","subject":"func.min"},{"name":"max","subject":"func.max"},{"name":"average","subject":"func.average"}],"id":"ZP4DX317JKAA5ZASV1UQXT","name":"MinMax","type":"io.nats.micro.v1.info_response","version":"0.0.1"}
+STATS response: {"id":"FRK512LKYKGNM0KFAO15OU","name":"MinMax","type":"io.nats.micro.v1.stats_response","started":"2026-11-20T00:56:58.484Z","endpoints":[{"name":"average","subject":"func.average","queue_group":"q","num_requests":1,"num_errors":0,"average_processing_time":18286,"last_error":""},{"name":"max","subject":"func.max","queue_group":"q","num_requests":1,"num_errors":0,"average_processing_time":34752,"last_error":""},{"name":"min","subject":"func.min","queue_group":"q","num_requests":1,"num_errors":0,"average_processing_time":33546,"last_error":""}],"version":"0.0.1"}
+INFO response: {"description":"Returns the min/max number in a request","endpoints":[{"name":"average","queue_group":"q","subject":"func.average"},{"name":"max","queue_group":"q","subject":"func.max"},{"name":"min","queue_group":"q","subject":"func.min"}],"id":"FRK512LKYKGNM0KFAO15OU","name":"MinMax","type":"io.nats.micro.v1.info_response","version":"0.0.1"}

@@ -1,10 +1,10 @@
 Test alice
-19:30:25 Published 16 bytes to "test"
+23:48:10 Published 16 bytes to "test"
 Test bob on denied subject
-19:30:25 Unexpected NATS error: nats: Permissions Violation for Publish to "test"
-nats: error: nats: Permissions Violation for Publish to "test"
+23:48:10 >>> Unexpected NATS error: nats: permissions violation: Permissions Violation for Publish to "test"
+nats: error: nats: permissions violation: Permissions Violation for Publish to "test"
 Test bob on allowed subject
-19:30:25 Published 14 bytes to "bob.test"
+23:48:11 Published 14 bytes to "bob.test"
 Test unknown user
 nats: error: nats: Authorization Violation
 Test system account user
@@ -13,7 +13,7 @@ Test system account user
 ├──────────────────────────────────────────────────────────┬─────────┬──────┬─────────┬────┬───────┬──────┬────────┬─────┬────────┬───────┬───────┬──────┬────────┬─────┤
 │ Name                                                     │ Cluster │ Host │ Version │ JS │ Conns │ Subs │ Routes │ GWs │ Mem    │ CPU % │ Cores │ Slow │ Uptime │ RTT │
 ├──────────────────────────────────────────────────────────┼─────────┼──────┼─────────┼────┼───────┼──────┼────────┼─────┼────────┼───────┼───────┼──────┼────────┼─────┤
-│ NATGJ6PRBRYSRRFA6UXDHXNM4Q72YKQZOF4IJP2UWX52QKXIOHB2KSRV │         │ 0    │ 2.10.1  │ no │ 2     │ 73   │      0 │   0 │ 11 MiB │ 0     │     8 │    0 │ 2.34s  │ 6ms │
+│ NB4K7SXLGV7A4JRFCCZJGTDUEFFYIEHXME3AE77QSRUNTIMC5BPTE4KC │         │ 0    │ 2.15.3  │ no │ 2     │ 79   │      0 │   0 │ 16 MiB │ 0     │     4 │ 0    │ 2.11s  │ 1ms │
 ├──────────────────────────────────────────────────────────┼─────────┼──────┼─────────┼────┼───────┼──────┼────────┼─────┼────────┼───────┼───────┼──────┼────────┼─────┤
-│                                                          │ 0       │ 1    │         │ 0  │ 2     │ 73   │        │     │ 11 MIB │       │       │    0 │        │     │
+│                                                          │ 0       │ 1    │         │ 0  │ 2     │ 79   │        │     │ 16 MiB │       │       │ 0    │        │     │
 ╰──────────────────────────────────────────────────────────┴─────────┴──────┴─────────┴────┴───────┴──────┴────────┴─────┴────────┴───────┴───────┴──────┴────────┴─────╯

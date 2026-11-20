@@ -2,7 +2,9 @@ package example;
 
 import io.nats.client.*;
 import io.nats.jwt.*;
+import io.nats.nkey.LtsNKeyProvider;
 import io.nats.nkey.NKey;
+import io.nats.nkey.NKeyProvider;
 import io.nats.service.*;
 import io.nats.client.Connection;
 import io.nats.client.impl.Headers;
@@ -25,6 +27,12 @@ public class Main {
   // The real work for the example is in the AuthCalloutHandler
   // ----------------------------------------------------------------------------------------------------
   public static void main(String[] args) throws Exception {
+    // The JWT library creates NKeys through a pluggable provider, chosen by
+    // the `nkey.provider.class` system property (or the NKEY_PROVIDER_CLASS
+    // environment variable). The LTS provider uses the same Bouncy Castle
+    // build as jnats.
+    System.setProperty("nkey.provider.class", LtsNKeyProvider.class.getName());
+
     String natsURL = System.getenv("NATS_URL");
     if (natsURL == null) {
       natsURL = "nats://127.0.0.1:4222";
@@ -89,9 +97,10 @@ public class Main {
     static final String USER_SIGNING_PUBLIC_KEY;
 
     static {
-      // Set up the relevant NKey and public key
+      // Set up the relevant NKey and public key, using the provider
+      // configured at the start of `main`.
       try {
-        USER_SIGNING_NKEY = NKey.fromSeed(ISSUER_NSEED.toCharArray());
+        USER_SIGNING_NKEY = NKeyProvider.getProvider().fromSeed(ISSUER_NSEED.toCharArray());
         USER_SIGNING_PUBLIC_KEY = new String(USER_SIGNING_NKEY.getPublicKey());
       }
       catch (Exception e) {

@@ -69,7 +69,7 @@ async fn main() -> Result<(), async_nats::Error> {
     // Receive the messages from both subjects.
     while let Some(message) = messages.next().await {
         println!(
-            "received message on subject {} with paylaod {}",
+            "received message on subject {} with payload {}",
             message.subject,
             from_utf8(&message.payload)?
         );

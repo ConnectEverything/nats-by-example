@@ -1,4 +1,4 @@
-FROM rust:1.67-slim AS build
+FROM rust:1.100-slim-trixie AS build
 
 WORKDIR /opt/app
 
@@ -11,9 +11,11 @@ RUN echo "fn main(){}" > main.rs && cargo build && rm main.rs && rm /opt/app/tar
 COPY . .
 
 RUN cargo update
-RUN cargo build
+# Touch main.rs: it is older than the dummy build above, so cargo would
+# otherwise consider the binary up to date and relink the empty main().
+RUN touch main.rs && cargo build
 
-FROM debian:bullseye-slim
+FROM debian:trixie-slim
 
 COPY --from=build /opt/app/target/debug/app /app
 

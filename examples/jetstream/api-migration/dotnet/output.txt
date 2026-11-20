@@ -1,6 +1,4 @@
-[1A[1B[0G[?25l
-[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                         
-[?25h
+
 A. Legacy Push Subscription with Ephemeral Consumer
   Async
       Received events.1
@@ -17,7 +15,7 @@ B. Legacy Bind Subscription to Named Consumer.
    Received events.3
 
 C. Legacy Pull Subscription then Iterate
-   The call to `Fetch(10, 2000)` returned in 1996ms.
+   The call to `Fetch(10, 2000)` returned in 1997ms.
    Processing events.1.
    Processing events.2.
    Processing events.3.
@@ -28,14 +26,14 @@ D. Simplification StreamContext
 
 E. Simplification, Create a Consumer
    A consumer was created on stream "migration"
-   The consumer name is "o7DvG0Py0v".
+   The consumer name is "vBC6s1M8rc".
    The consumer has 3 messages available.
-   The ConsumerContext for "o7DvG0Py0v" was loaded from the StreamContext for "migration"
-   The ConsumerContext for "o7DvG0Py0v" was loaded from the Connection on the stream "migration"
+   The ConsumerContext for "vBC6s1M8rc" was loaded from the StreamContext for "migration"
+   The ConsumerContext for "vBC6s1M8rc" was loaded from the Connection on the stream "migration"
 
 F. MessageConsumer (endless consumer with handler)
    A consumer was created on stream "migration"
-   The consumer name is "o7DvG0Py23".
+   The consumer name is "vBC6s1M8sg".
    The consumer has 3 messages available.
    Received events.1
    Received events.2
@@ -44,7 +42,7 @@ F. MessageConsumer (endless consumer with handler)
 
 G. IterableConsumer (endless consumer manually calling next)
    A consumer was created on stream "migration"
-   The consumer name is "o7DvG0Py4_".
+   The consumer name is "vBC6s1M8tk".
    The consumer has 3 messages available.
    Received events.1
    Received events.2
@@ -53,14 +51,14 @@ G. IterableConsumer (endless consumer manually calling next)
 
 H. FetchConsumer (bounded consumer)
    A consumer was created on stream "migration"
-   The consumer name is "o7DvG0Py7H".
+   The consumer name is "vBC6s1M8uo".
    The consumer has 3 messages available.
-   'Fetch' returned in 2ms.
+   'Fetch' returned in 1ms.
    Processing events.1 43ms after start.
-   Processing events.2 43ms after start.
-   Fetch complete in 45ms.
+   Processing events.2 44ms after start.
+   Fetch complete in 44ms.
 
 I. next (1 message)
    Received events.3
-DisconnectedEvent, Connection: 4
-ClosedEvent, Connection: 4
+DisconnectedEvent, Connection: 5
+ClosedEvent, Connection: 5

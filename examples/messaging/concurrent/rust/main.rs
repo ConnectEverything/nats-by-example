@@ -1,5 +1,5 @@
 use futures::stream::StreamExt;
-use rand::Rng;
+use rand::RngExt;
 use std::{env, str::from_utf8, time::Duration};
 
 #[tokio::main]
@@ -30,7 +30,7 @@ async fn main() -> Result<(), async_nats::Error> {
     subscription
         .for_each_concurrent(25, |message| async move {
             // Let's simulate expensive operation.
-            let num = rand::thread_rng().gen_range(0..500);
+            let num = rand::rng().random_range(0..500);
             tokio::time::sleep(Duration::from_millis(num)).await;
             // Print the result after sleep.
             println!(

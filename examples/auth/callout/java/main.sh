@@ -71,7 +71,7 @@ sleep 1
 
 # Start the auth callout service providing the auth credentials
 # to connect and the issuer seed.
-java -cp /app/example.jar example.Main &
+java --enable-native-access=ALL-UNNAMED -cp /app/example.jar example.Main &
 
 sleep 2
 

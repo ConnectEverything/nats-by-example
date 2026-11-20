@@ -97,13 +97,19 @@ echo 'Report the streams...'
 nats --context nats stream report
 
 echo 'View 3 messages from FOO...'
-nats --context nats stream view FOO 3
+for seq in 1 2 3; do
+  nats --context nats stream get FOO $seq
+done
 
 echo 'View 3 messages from BAR...'
-nats --context nats stream view BAR 3
+for seq in 1 2 3; do
+  nats --context nats stream get BAR $seq
+done
 
 echo 'View 3 messages from BAZ...'
-nats --context nats stream view BAZ 3
+for seq in 1 2 3; do
+  nats --context nats stream get BAZ $seq
+done
 
 echo 'Report the consumers...'
 nats --context nats consumer report FOO

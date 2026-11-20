@@ -72,7 +72,7 @@ nsc add user --account AUTH --name auth
 USER_PUB=$(nsc describe user --account AUTH --name auth --field sub | jq -r)
 
 # Generate an Xkey for auth callout.
-nsc generate nkey --curve 2> auth.xk
+nsc generate nkey --curve > auth.xk
 XKEY_SEED=$(sed -n "1,1p" auth.xk)
 XKEY_KEY=$(sed -n "2,1p" auth.xk)
 

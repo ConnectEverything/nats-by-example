@@ -124,17 +124,17 @@ sleep 3
 
 # Wait until the servers are healthy.
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8222/healthz > /dev/null
 
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8223/healthz > /dev/null
 
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8224/healthz > /dev/null
 

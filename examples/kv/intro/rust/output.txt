@@ -5,6 +5,6 @@ KV stream name: KV_profiles
 $KV.profiles.sue.color @ 3 -> red
 $KV.profiles.sue.color @ 4 -> yellow
 $KV.profiles.sue.color @ 5 -> 
-headers: HeaderMap { inner: {HeaderName { value: "KV-Operation" }: HeaderValue { value: ["DEL"] }} }
+headers: HeaderMap { inner: {HeaderName { inner: Custom(CustomHeader { bytes: b"KV-Operation" }) }: [HeaderValue { inner: "DEL" }]} }
 sue.color @ 6 -> purple (op: Put)
 sue.food @ 7 -> pizza (op: Put)

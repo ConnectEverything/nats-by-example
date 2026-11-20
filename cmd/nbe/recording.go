@@ -34,41 +34,61 @@ func generateRecording(repo, example string, recreate bool) error {
 		if err != nil {
 			return fmt.Errorf("build image: %w", err)
 		}
+		defer removeImage(image)
 
-		name := strings.TrimPrefix(example, "examples/")
-
-		tempFile, _ := os.CreateTemp("", "")
-		tempName := tempFile.Name()
-		tempFile.Close()
-		defer os.Remove(tempName)
-
-		// Generate the recording using the pre-built image.
-		c := exec.Command(
-			"asciinema", "rec",
-			"--overwrite",
-			"--command", fmt.Sprintf("nbe run --no-ansi=true --quiet --image=%s %s", image, name),
-			"--title", fmt.Sprintf("NATS by Example: %s", name),
-			tempName,
-		)
-
-		c.Stdout = os.Stdout
-		c.Stderr = os.Stderr
-
-		err = c.Run()
-		if err != nil {
-			return fmt.Errorf("asciinema rec: %w", err)
-		}
-
-		contents, err := os.ReadFile(tempName)
-		if err != nil {
-			return err
-		}
-
-		contents = removeComposeLines(contents)
-
-		os.WriteFile(castFile, contents, 0644)
+		return recordWithImage(repo, example, image)
 	}
 
+	return writeOutputText(castFile, outputFile)
+}
+
+// recordWithImage records an asciinema cast of the example using a pre-built
+// image and writes output.cast and output.txt next to the example.
+func recordWithImage(repo, example, image string) error {
+	castFile := filepath.Join(repo, example, "output.cast")
+	outputFile := filepath.Join(repo, example, "output.txt")
+
+	name := strings.TrimPrefix(example, "examples/")
+
+	tempFile, err := os.CreateTemp("", "")
+	if err != nil {
+		return err
+	}
+	tempName := tempFile.Name()
+	tempFile.Close()
+	defer os.Remove(tempName)
+
+	// Generate the recording using the pre-built image.
+	c := exec.Command(
+		"asciinema", "rec",
+		"--overwrite",
+		"--command", fmt.Sprintf("nbe run --no-ansi=true --quiet --image=%s %s", image, name),
+		"--title", fmt.Sprintf("NATS by Example: %s", name),
+		tempName,
+	)
+
+	c.Stdout = os.Stdout
+	c.Stderr = os.Stderr
+
+	if err := c.Run(); err != nil {
+		return fmt.Errorf("asciinema rec: %w", err)
+	}
+
+	contents, err := os.ReadFile(tempName)
+	if err != nil {
+		return err
+	}
+
+	contents = removeComposeLines(contents)
+
+	if err := os.WriteFile(castFile, contents, 0644); err != nil {
+		return err
+	}
+
+	return writeOutputText(castFile, outputFile)
+}
+
+func writeOutputText(castFile, outputFile string) error {
 	c := exec.Command(
 		"asciinema", "cat",
 		castFile,

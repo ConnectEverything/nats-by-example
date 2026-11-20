@@ -1,6 +1,6 @@
 sue.color @ 1 -> "blue"
 sue.color @ 2 -> "green"
-expected error: nats: wrong last sequence: 2
+expected error: nats: nats: API error: code=400 err_code=10071 description=wrong last sequence: 2: nats: key revision mismatch
 sue.color @ 3 -> "red"
 KV stream name: KV_profiles
 $KV.profiles.sue.color @ 3 -> "red"

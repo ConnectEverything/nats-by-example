@@ -1,4 +1,4 @@
-FROM node:19.1.0-slim
+FROM node:26-slim
 
 WORKDIR /opt/app
 

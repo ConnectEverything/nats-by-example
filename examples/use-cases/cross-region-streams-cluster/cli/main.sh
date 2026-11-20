@@ -184,9 +184,17 @@ done
 # Wait until the servers up and healthy.
 echo 'Healthy?'
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8222/healthz; echo
+
+# A healthy server doesn't mean every server has joined JetStream yet.
+# Stream placement needs servers in each region, so wait until all 9
+# servers are part of the JetStream meta group.
+until nats --user sys --password sys server check meta \
+    --expect 9 --seen-critical 5s --lag-critical 1000 > /dev/null; do
+  sleep 1
+done
 
 # Show the server lit and JetStream report.
 nats --user sys --password sys server list

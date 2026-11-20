@@ -1,6 +1,6 @@
 // import the library - in node.js `import {connect, etc} from "nats";`
 // or if not doing a module, `const {connect, etc} = require("nats");`
-import { connect } from "https://deno.land/x/nats@v1.16.0/src/mod.ts";
+import { connect } from "https://deno.land/x/nats@v1.29.3/src/mod.ts";
 
 // Get the passed NATS_URL or fallback to the default. This can be
 // a comma-separated string.
