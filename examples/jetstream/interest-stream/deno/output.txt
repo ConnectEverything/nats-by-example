@@ -1,6 +1,4 @@
-[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
-[?25h[1A[1B[0G[?25l[+] Building 0.0s (0/0)                                                                                                                                                                                                             
-[?25hcreated the stream
+created the stream
 published 3 messages
 last message seq:  3
 # Stream info without any consumers
@@ -8,9 +6,9 @@ last message seq:  3
   messages: 0,
   bytes: 0,
   first_seq: 4,
-  first_ts: "2023-08-24T22:02:32.622546225Z",
+  first_ts: "0001-01-01T00:00:00Z",
   last_seq: 3,
-  last_ts: "2023-08-24T22:02:32.622546225Z",
+  last_ts: "2026-11-20T00:31:58.593100079Z",
   consumer_count: 0
 }
 # Stream info with one consumer
@@ -18,21 +16,20 @@ last message seq:  3
   messages: 2,
   bytes: 100,
   first_seq: 4,
-  first_ts: "2023-08-24T22:02:32.626834616Z",
+  first_ts: "2026-11-20T00:31:58.60037274Z",
   last_seq: 5,
-  last_ts: "2023-08-24T22:02:32.627634468Z",
+  last_ts: "2026-11-20T00:31:58.600797903Z",
   num_subjects: 2,
   consumer_count: 1
 }
 # Stream info with one consumer and acked messages
 {
-  messages: 1,
-  bytes: 50,
-  first_seq: 5,
-  first_ts: "2023-08-24T22:02:32.627634468Z",
+  messages: 0,
+  bytes: 0,
+  first_seq: 6,
+  first_ts: "0001-01-01T00:00:00Z",
   last_seq: 5,
-  last_ts: "2023-08-24T22:02:32.627634468Z",
-  num_subjects: 1,
+  last_ts: "2026-11-20T00:31:58.600797903Z",
   consumer_count: 1
 }
 msg stream seq: 6
@@ -42,9 +39,9 @@ msg stream seq: 7
   messages: 2,
   bytes: 100,
   first_seq: 6,
-  first_ts: "2023-08-24T22:02:32.677448443Z",
+  first_ts: "2026-11-20T00:31:58.694679634Z",
   last_seq: 7,
-  last_ts: "2023-08-24T22:02:32.677936731Z",
+  last_ts: "2026-11-20T00:31:58.695077273Z",
   num_subjects: 2,
   consumer_count: 2
 }
@@ -53,9 +50,9 @@ msg stream seq: 7
   messages: 1,
   bytes: 50,
   first_seq: 7,
-  first_ts: "2023-08-24T22:02:32.677936731Z",
+  first_ts: "2026-11-20T00:31:58.695077273Z",
   last_seq: 7,
-  last_ts: "2023-08-24T22:02:32.677936731Z",
+  last_ts: "2026-11-20T00:31:58.695077273Z",
   num_subjects: 1,
   consumer_count: 2
 }
@@ -64,9 +61,9 @@ msg stream seq: 7
   messages: 1,
   bytes: 50,
   first_seq: 8,
-  first_ts: "2023-08-24T22:02:32.765346449Z",
+  first_ts: "2026-11-20T00:31:58.887141202Z",
   last_seq: 8,
-  last_ts: "2023-08-24T22:02:32.765346449Z",
+  last_ts: "2026-11-20T00:31:58.887141202Z",
   num_subjects: 1,
   consumer_count: 3
 }

@@ -1,6 +1,6 @@
 // import the library - in node.js `import {connect, etc} from "nats";`
 // or if not doing a module, `const {connect, etc} = require("nats");`
-import { connect, Empty } from "https://deno.land/x/nats@v1.16.0/src/mod.ts";
+import { connect, Empty } from "https://deno.land/x/nats@v1.29.3/src/mod.ts";
 
 
 const servers = Deno.env.get("NATS_URL") || "nats://localhost:4222";

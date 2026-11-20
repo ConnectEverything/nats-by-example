@@ -1,4 +1,3 @@
-
 legacy push subscriber received events.0
 legacy push subscriber received events.1
 legacy push subscriber received events.2
@@ -39,7 +38,6 @@ legacy pull subscriber received events.16
 legacy pull subscriber received events.17
 legacy pull subscriber received events.18
 legacy pull subscriber received events.19
-[33m >> consumers framework is beta functionality [0m
 consume received events.0
 consume received events.1
 consume received events.2

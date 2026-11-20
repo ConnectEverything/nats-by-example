@@ -1,4 +1,3 @@
-[33m >> jetstream's materialized views object store functionality in nats.deno is beta functionality [0m
 the object store has 0 bytes
 added entry a (10000000 bytes)- 'large data'
 the object store contains 1 entries
