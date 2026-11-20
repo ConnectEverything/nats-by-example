@@ -1,44 +1,70 @@
-* creating /root/.mix/archives/hex-2.0.6
+* creating /root/.mix/archives/hex-2.7.0
 Resolving Hex dependencies...
-Resolution completed in 0.051s
+Resolution completed in 0.239s
 New:
-  cowlib 2.12.1
-  ed25519 1.4.1
-  gnat 1.7.1
-  jason 1.4.1
-  nimble_parsec 1.4.0
-  nkeys 0.2.2
-  telemetry 1.2.1
+  chacha20 1.0.4
+  curve25519 1.0.6
+  ed25519 1.5.2
+  equivalex 1.0.3
+  gnat 1.20.0
+  jason 1.4.5
+  kcl 1.5.2
+  nimble_parsec 1.4.2
+  nkeys 0.3.1
+  poly1305 1.0.4
+  salsa20 1.0.4
+  telemetry 1.4.3
 * Getting gnat (Hex package)
 * Getting jason (Hex package)
-* Getting cowlib (Hex package)
-* creating /root/.mix/elixir/1-15/rebar3
 * Getting nimble_parsec (Hex package)
 * Getting nkeys (Hex package)
 * Getting telemetry (Hex package)
+* creating /root/.mix/elixir/1-19-otp-28/rebar3
 * Getting ed25519 (Hex package)
-You have added/upgraded packages you could sponsor, run `mix hex.sponsor` to learn more
+* Getting kcl (Hex package)
+* Getting curve25519 (Hex package)
+* Getting poly1305 (Hex package)
+* Getting salsa20 (Hex package)
+* Getting chacha20 (Hex package)
+* Getting equivalex (Hex package)
+==> salsa20
+Compiling 1 file (.ex)
+Generated salsa20 app
 ==> ed25519
 Compiling 2 files (.ex)
 Generated ed25519 app
-==> nkeys
-Compiling 2 files (.ex)
-Generated nkeys app
-==> nimble_parsec
-Compiling 4 files (.ex)
-Generated nimble_parsec app
-===> Analyzing applications...
-===> Compiling telemetry
+==> equivalex
+Compiling 1 file (.ex)
+Generated equivalex app
 ==> jason
 Compiling 10 files (.ex)
 Generated jason app
+==> chacha20
+Compiling 1 file (.ex)
+Generated chacha20 app
+==> curve25519
+Compiling 1 file (.ex)
+Generated curve25519 app
+==> poly1305
+Compiling 1 file (.ex)
+Generated poly1305 app
+==> nimble_parsec
+Compiling 4 files (.ex)
+Generated nimble_parsec app
+==> mix_install
 ===> Analyzing applications...
-===> Compiling cowlib
+===> Compiling telemetry
+==> kcl
+Compiling 2 files (.ex)
+Generated kcl app
+==> nkeys
+Compiling 4 files (.ex)
+Generated nkeys app
 ==> gnat
-Compiling 11 files (.ex)
+Compiling 28 files (.ex)
 Generated gnat app
 
-18:23:21.015 [debug] connecting to %{port: 4222, host: "nats"}
+00:35:09.776 [debug] connecting to %{port: 4222, host: "nats"}
 Demo request received message: "input data"
 First result: This is a demo
 Demo request received message: "more data"
