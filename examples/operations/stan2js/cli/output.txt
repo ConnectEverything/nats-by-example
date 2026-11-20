@@ -1,14 +1,14 @@
 Saving contexts...
 NATS Configuration Context "stan"
 
-      Server URLs: nats://stan:4222
-             Path: /root/.config/nats/context/stan.json
+  Server URLs: nats://stan:4222
+         Path: /root/.config/nats/context/stan.json
 
 WARNING: Shell environment overrides in place using NATS_URL
 NATS Configuration Context "nats"
 
-      Server URLs: nats://nats:4222
-             Path: /root/.config/nats/context/nats.json
+  Server URLs: nats://nats:4222
+         Path: /root/.config/nats/context/nats.json
 
 WARNING: Shell environment overrides in place using NATS_URL
 Generating STAN data...
@@ -35,113 +35,131 @@ Running migration...
 Report the streams...
 Obtaining Stream stats
 
-╭───────────────────────────────────────────────────────────────────────────────────────────╮
-│                                       Stream Report                                       │
-├────────┬─────────┬───────────┬───────────┬──────────┬─────────┬──────┬─────────┬──────────┤
-│ Stream │ Storage │ Placement │ Consumers │ Messages │ Bytes   │ Lost │ Deleted │ Replicas │
-├────────┼─────────┼───────────┼───────────┼──────────┼─────────┼──────┼─────────┼──────────┤
-│ FOO    │ File    │           │ 1         │ 500      │ 85 KiB  │ 0    │ 0       │          │
-│ BAR    │ File    │           │ 2         │ 700      │ 119 KiB │ 0    │ 0       │          │
-│ BAZ    │ File    │           │ 0         │ 1,000    │ 170 KiB │ 0    │ 0       │          │
-╰────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴──────────╯
+╭───────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                             Stream Report                                             │
+├────────┬─────────┬───────────┬───────────┬──────────┬─────────┬──────┬─────────┬───────────┬──────────┤
+│ Stream │ Storage │ Placement │ Consumers │ Messages │ Bytes   │ Lost │ Deleted │ API Level │ Replicas │
+├────────┼─────────┼───────────┼───────────┼──────────┼─────────┼──────┼─────────┼───────────┼──────────┤
+│ FOO    │ File    │           │ 1         │ 500      │ 85 KiB  │ 0    │ 0       │ 0         │          │
+│ BAR    │ File    │           │ 2         │ 700      │ 119 KiB │ 0    │ 0       │ 0         │          │
+│ BAZ    │ File    │           │ 0         │ 1,000    │ 170 KiB │ 0    │ 0       │ 0         │          │
+╰────────┴─────────┴───────────┴───────────┴──────────┴─────────┴──────┴─────────┴───────────┴──────────╯
 
 View 3 messages from FOO...
-[1] Subject: foo Received: 2023-10-24T10:50:07Z
+Item: FOO#1 received 2026-11-20 00:05:55.536573138 +0000 UTC (419ms) on Subject foo
 
+Headers:
   Nats-Streaming-Channel: foo
   Nats-Streaming-Sequence: 501
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.980419925Z
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.317431914Z
 
 foo: 500
 
-[2] Subject: foo Received: 2023-10-24T10:50:07Z
 
+Item: FOO#2 received 2026-11-20 00:05:55.537010252 +0000 UTC (453ms) on Subject foo
+
+Headers:
   Nats-Streaming-Channel: foo
   Nats-Streaming-Sequence: 502
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.980773425Z
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.318082485Z
 
 foo: 501
 
-[3] Subject: foo Received: 2023-10-24T10:50:07Z
 
+Item: FOO#3 received 2026-11-20 00:05:55.537178101 +0000 UTC (486ms) on Subject foo
+
+Headers:
   Nats-Streaming-Channel: foo
   Nats-Streaming-Sequence: 503
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.981072175Z
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.318658296Z
 
 foo: 502
 
-View 3 messages from BAR...
-[1] Subject: bar Received: 2023-10-24T10:50:07Z
 
+View 3 messages from BAR...
+Item: BAR#1 received 2026-11-20 00:05:55.627158518 +0000 UTC (429ms) on Subject bar
+
+Headers:
   Nats-Streaming-Sequence: 301
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.886964217Z
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.245137174Z
   Nats-Streaming-Channel: bar
 
 bar: 300
 
-[2] Subject: bar Received: 2023-10-24T10:50:07Z
 
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.887295217Z
+Item: BAR#2 received 2026-11-20 00:05:55.628090239 +0000 UTC (491ms) on Subject bar
+
+Headers:
   Nats-Streaming-Channel: bar
   Nats-Streaming-Sequence: 302
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.245531804Z
 
 bar: 301
 
-[3] Subject: bar Received: 2023-10-24T10:50:07Z
 
+Item: BAR#3 received 2026-11-20 00:05:55.628288107 +0000 UTC (530ms) on Subject bar
+
+Headers:
   Nats-Streaming-Channel: bar
   Nats-Streaming-Sequence: 303
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.887588425Z
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.245781633Z
 
 bar: 302
 
-View 3 messages from BAZ...
-[1] Subject: baz Received: 2023-10-24T10:50:07Z
 
+View 3 messages from BAZ...
+Item: BAZ#1 received 2026-11-20 00:05:55.726244134 +0000 UTC (469ms) on Subject baz
+
+Headers:
   Nats-Streaming-Channel: baz
   Nats-Streaming-Sequence: 1
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.692320384Z
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.137514171Z
 
 baz: 0
 
-[2] Subject: baz Received: 2023-10-24T10:50:07Z
 
-  Nats-Streaming-Sequence: 2
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.693268425Z
+Item: BAZ#2 received 2026-11-20 00:05:55.726489623 +0000 UTC (502ms) on Subject baz
+
+Headers:
   Nats-Streaming-Channel: baz
+  Nats-Streaming-Sequence: 2
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.138042713Z
 
 baz: 1
 
-[3] Subject: baz Received: 2023-10-24T10:50:07Z
 
-  Nats-Streaming-Channel: baz
+Item: BAZ#3 received 2026-11-20 00:05:55.726771583 +0000 UTC (543ms) on Subject baz
+
+Headers:
   Nats-Streaming-Sequence: 3
-  Nats-Streaming-Timestamp: 2023-10-24T10:50:06.694051675Z
+  Nats-Streaming-Timestamp: 2026-11-20T00:05:55.138572786Z
+  Nats-Streaming-Channel: baz
 
 baz: 2
 
+
 Report the consumers...
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                Consumer report for FOO with 1 consumers                                 │
-├──────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬─────────┤
-│ Consumer │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ Cluster │
-├──────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼─────────┤
-│ foo      │ Pull │ Explicit   │ 30.00s   │ 0           │ 0           │ 400 / 80%   │ 0         │         │
-╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                       Consumer report for FOO with 1 consumers                                      │
+├──────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬───────────┬─────────┤
+│ Consumer │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ API Level │ Cluster │
+├──────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼───────────┼─────────┤
+│ foo      │ Pull │ Explicit   │ 30.00s   │ 0           │ 0           │ 400 / 80%   │ 100       │ 0         │         │
+╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴───────────┴─────────╯
 
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                  Consumer report for BAR with 2 consumers                                   │
-├──────────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬─────────┤
-│ Consumer     │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ Cluster │
-├──────────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼─────────┤
-│ bar-consumer │ Push │ Explicit   │ 30.00s   │ 0           │ 0           │ 300 / 42%   │ 0         │         │
-│ bar-queue    │ Push │ Explicit   │ 30.00s   │ 0           │ 0           │ 650 / 92%   │ 0         │         │
-╰──────────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                         Consumer report for BAR with 2 consumers                                        │
+├──────────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬───────────┬─────────┤
+│ Consumer     │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ API Level │ Cluster │
+├──────────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼───────────┼─────────┤
+│ bar-consumer │ Push │ Explicit   │ 30.00s   │ 0           │ 0           │ 300 / 42%   │ 400       │ 0         │         │
+│ bar-queue    │ Push │ Explicit   │ 30.00s   │ 0           │ 0           │ 650 / 92%   │ 50        │ 0         │         │
+╰──────────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴───────────┴─────────╯
 
-╭─────────────────────────────────────────────────────────────────────────────────────────────────────────╮
-│                                Consumer report for BAZ with 0 consumers                                 │
-├──────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬─────────┤
-│ Consumer │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ Cluster │
-├──────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼─────────┤
-╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴─────────╯
+╭─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+│                                       Consumer report for BAZ with 0 consumers                                      │
+├──────────┬──────┬────────────┬──────────┬─────────────┬─────────────┬─────────────┬───────────┬───────────┬─────────┤
+│ Consumer │ Mode │ Ack Policy │ Ack Wait │ Ack Pending │ Redelivered │ Unprocessed │ Ack Floor │ API Level │ Cluster │
+├──────────┼──────┼────────────┼──────────┼─────────────┼─────────────┼─────────────┼───────────┼───────────┼─────────┤
+╰──────────┴──────┴────────────┴──────────┴─────────────┴─────────────┴─────────────┴───────────┴───────────┴─────────╯
 

@@ -1,15 +1,25 @@
-13:57:13 Published 5 bytes to "greet.joe"
-13:57:13 Subscribing on greet.* 
-13:57:13 Published 5 bytes to "greet.joe"
+[7] 2026/11/20 00:05:23.437539 [INF] Starting nats-server
+[7] 2026/11/20 00:05:23.437636 [INF]   Version:  2.15.3
+[7] 2026/11/20 00:05:23.437639 [INF]   Git:      [not set]
+[7] 2026/11/20 00:05:23.437640 [INF]   Name:     NAAZZX2NJLTO3YBKZ6VKNTXUWZ725GVYEK5RKJJHESILUVWL35VR6X7X
+[7] 2026/11/20 00:05:23.437651 [INF]   ID:       NAAZZX2NJLTO3YBKZ6VKNTXUWZ725GVYEK5RKJJHESILUVWL35VR6X7X
+[7] 2026/11/20 00:05:23.440641 [INF] Listening for client connections on 0.0.0.0:4222
+[7] 2026/11/20 00:05:23.441251 [INF] Server is ready
+00:05:23 Published 5 bytes to "greet.joe"
+00:05:23 Subscribing on greet.* 
+00:05:23 Published 5 bytes to "greet.joe"
 [#1] Received on "greet.joe"
 hello
 
-13:57:13 Published 5 bytes to "greet.pam"
+
 [#2] Received on "greet.pam"
 hello
 
-13:57:13 Published 5 bytes to "greet.bob"
+
+00:05:23 Published 5 bytes to "greet.pam"
 [#3] Received on "greet.bob"
 hello
 
-13:57:13 Published 5 bytes to "greet.bob"
+
+00:05:24 Published 5 bytes to "greet.bob"
+00:05:24 Published 5 bytes to "greet.bob"

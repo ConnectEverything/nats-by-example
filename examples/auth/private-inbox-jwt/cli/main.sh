@@ -71,15 +71,13 @@ nsc edit user --account APP pam \
 # to each other's subjects, however, what about `_INBOX.>`? Let's observe
 # the current behavior and then see how we can address this.
 
-# First, let's save a few contexts for easier reference.
-nats context save greeter \
-  --nsc nsc://local/APP/greeter
-
-nats context save joe \
-  --nsc nsc://local/APP/joe
-
-nats context save pam \
-  --nsc nsc://local/APP/pam
+# First, let's save a few contexts for easier reference. Each one points
+# at the credentials file `nsc` keeps for the user, which `nsc` rewrites
+# whenever the user is edited, so the contexts pick up permission changes.
+NSC_CREDS="$HOME/.local/share/nats/nsc/keys/creds/local/APP"
+for u in greeter joe pam; do
+  nats context save $u --creds "$NSC_CREDS/$u.creds"
+done
 
 # Then we startup the greeter service that simply returns a unique reply ID.
 nats --context greeter \

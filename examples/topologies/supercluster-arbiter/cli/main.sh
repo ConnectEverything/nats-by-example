@@ -175,42 +175,43 @@ gateway {
 }
 EOF
 
-# Start all of the servers.
+# Start all of the servers. Each JetStream-enabled server needs its own
+# storage directory since they all run on the same host.
 echo 'Starting the servers...'
 nats-server -c arbiter.conf > /dev/null 2>&1 &
 sleep 1
 
-nats-server -c east-az1.conf > /dev/null 2>&1 &
+nats-server -c east-az1.conf --store_dir /tmp/nats/east-az1 > /dev/null 2>&1 &
 sleep 1
 
-nats-server -c east-az2.conf > /dev/null 2>&1 &
+nats-server -c east-az2.conf --store_dir /tmp/nats/east-az2 > /dev/null 2>&1 &
 sleep 1
 
-nats-server -c east-az3.conf > /dev/null 2>&1 &
+nats-server -c east-az3.conf --store_dir /tmp/nats/east-az3 > /dev/null 2>&1 &
 sleep 1
 
-nats-server -c west-az1.conf > /dev/null 2>&1 &
+nats-server -c west-az1.conf --store_dir /tmp/nats/west-az1 > /dev/null 2>&1 &
 sleep 1
 
-nats-server -c west-az2.conf > /dev/null 2>&1 &
+nats-server -c west-az2.conf --store_dir /tmp/nats/west-az2 > /dev/null 2>&1 &
 sleep 1
 
-nats-server -c west-az3.conf > /dev/null 2>&1 &
+nats-server -c west-az3.conf --store_dir /tmp/nats/west-az3 > /dev/null 2>&1 &
 sleep 3
 
 # Wait until the servers up and healthy.
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8222/healthz > /dev/null
 
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8223/healthz > /dev/null
 
 curl --fail --silent \
-  --retry 5 \
+  --retry 30 \
   --retry-delay 1 \
   http://localhost:8224/healthz > /dev/null
 

@@ -153,13 +153,13 @@ nats stream report
 # The `--multisubject` option the sequence number as a token
 # to the base subject `events` in this case. The `--stream`
 # option is simply an override to using the default stream
-# but does not impact behavior.
-nats bench \
-  --js \
+# but does not impact behavior. Synchronous publishing is slow, so this
+# run uses fewer messages than the asynchronous runs below; compare the
+# msgs/sec figures rather than the totals.
+nats bench js pub sync \
   --multisubject \
-  --pub 1 \
-  --msgs 200000 \
-  --syncpub \
+  --clients 1 \
+  --msgs 50000 \
   --no-progress \
   --stream "events-0" \
   "events"
@@ -176,11 +176,10 @@ for i in $(seq 0 4); do
   nats stream purge -f "events-$i" > /dev/null
 done
 
-nats bench \
-  --js \
+nats bench js pub async \
   --multisubject \
-  --pub 1 \
-  --pubbatch 100 \
+  --clients 1 \
+  --batch 100 \
   --msgs 200000 \
   --no-progress \
   --stream "events-0" \
@@ -195,11 +194,10 @@ for i in $(seq 0 4); do
   nats stream purge -f "events-$i" > /dev/null
 done
 
-nats bench \
-  --js \
+nats bench js pub async \
   --multisubject \
-  --pub 5 \
-  --pubbatch 100 \
+  --clients 5 \
+  --batch 100 \
   --msgs 200000 \
   --no-progress \
   --stream "events-0" \

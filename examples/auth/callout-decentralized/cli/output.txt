@@ -1,73 +1,73 @@
-[ OK ] generated and stored operator key "OAVKZTG7ST62YCPUJYJ6LBQDMKLAUD4NRBPZ4GXUXNUJW2ATCFKKYGHV"
+[ OK ] generated and stored operator key "OAZDNYKZ53H7PHP7AWA72PAFWVVPW4MSA2RKIQY4TEG32OUCUUMU4NBX"
 [ OK ] added operator "local"
 [ OK ] When running your own nats-server, make sure they run at least version 2.2.0
-[ OK ] created operator signing key: OB6J6M7MHZGVNMGU5HW4DTAXYEQSDUTUJ66IT3WC45PLFSI5BRGG3SY6
-[ OK ] created system_account: name:SYS id:ADCYIGJX26H2UBH3MHHYQXNFBXDC7M566RQ2TWR7S6MV6RKMFAOLREV3
-[ OK ] created system account user: name:sys id:UD3BM3IUIHJ2KPWLVNIMKBRPETZODNSGKW3LREBJ5BIZMQ45WQLIMY6O
+[ OK ] created operator signing key: OCUOUWI2PLTTGXS2JD7QACCP2MOG3JT2XDJ42WOLO7AXGQWBMPXD5WG4
+[ OK ] created system_account: name:SYS id:AACKGXPKL4RRW46F3GDWWZHVBVSAXAE57PLUCGMFIZJAA25GAVNTBDE6
+[ OK ] created system account user: name:sys id:UDXRNWE5JVDDDOWRWFHCNIGACZ5WACWEIISMLOPSFW4A2UZ7CDZEI3JF
 [ OK ] system account user creds file stored in `~/.local/share/nats/nsc/keys/creds/local/SYS/sys.creds`
 [ OK ] strict signing key usage set to: true
 [ OK ] set account jwt server url to "nats://localhost:4222"
 [ OK ] edited operator "local"
-[ OK ] generated and stored account key "AACGHWR4ZJADWDP5R2WWSMCJCVW2U6C2EI46YE3ZUG5BS3LSGFOHUXKQ"
+[ OK ] generated and stored account key "ABVFXXWZWGXBHAU5K3EJUR4XFEQPKBXQS3WEVRUX7FP4WW23B2VT7RKP"
 [ OK ] added account "APP1"
-[ OK ] added signing key "AARAUQKKV4YR6Z7ZUVVAQ4556N3VUELZJYOK2AUUIAOTRKLFH6DGUSOB"
+[ OK ] added signing key "AB5XBTZ5M2ALV3TLC566G3ODUIS2DYU5PEUDDXRJXPWWJRLJPIABQ42S"
 [ OK ] edited account "APP1"
-[ OK ] generated and stored account key "ADW7J6ARMFQWXJLXVIKERQG6VU6VPANSPTCWS6OD25HCUGBYMO3JNOI6"
+[ OK ] generated and stored account key "ADKZULQSSVQDF27BW6ZXNRT2FSOA4IGJR5UISHLKNLHJERIWGU2SDKVH"
 [ OK ] added account "APP2"
-[ OK ] added signing key "AAFUFMWWJIT7MXQY2AJQ26Z2ER7ATUSXI4DRGAFXJNZ34DRWN4ZOQD6L"
+[ OK ] added signing key "ADJP3VWEMF3A4CKPHY7D7BMRP27ZD4ECU5YHEJGAVPGOVEJNMBZQNQL6"
 [ OK ] edited account "APP2"
 [ OK ] push to nats-server "nats://localhost:4222" using system account "SYS":
        [ OK ] push APP1 to nats-server with nats account resolver:
-              [ OK ] pushed "APP1" to nats-server NCQCZSICC22MKDYHNEDDISR6Q6YHZ23SQSSLO2RAUJ2XCTRKPKSXKTPX: jwt updated
+              [ OK ] pushed "APP1" to nats-server NBXNZSWBJWL2KM3PXU5LJOWJK7FX3HBFUS7XGNR75VTZZ33EHTE2HFDJ: jwt updated
               [ OK ] pushed to a total of 1 nats-server
        [ OK ] push APP2 to nats-server with nats account resolver:
-              [ OK ] pushed "APP2" to nats-server NCQCZSICC22MKDYHNEDDISR6Q6YHZ23SQSSLO2RAUJ2XCTRKPKSXKTPX: jwt updated
+              [ OK ] pushed "APP2" to nats-server NBXNZSWBJWL2KM3PXU5LJOWJK7FX3HBFUS7XGNR75VTZZ33EHTE2HFDJ: jwt updated
               [ OK ] pushed to a total of 1 nats-server
        [ OK ] push SYS to nats-server with nats account resolver:
-              [ OK ] pushed "SYS" to nats-server NCQCZSICC22MKDYHNEDDISR6Q6YHZ23SQSSLO2RAUJ2XCTRKPKSXKTPX: jwt updated
+              [ OK ] pushed "SYS" to nats-server NBXNZSWBJWL2KM3PXU5LJOWJK7FX3HBFUS7XGNR75VTZZ33EHTE2HFDJ: jwt updated
               [ OK ] pushed to a total of 1 nats-server
-[ OK ] generated and stored user key "UCNHFM2H35DES7UXTWMR2RW7CETNPFEZRUGNH2IALANAER7NRXZZHYXP"
+[ OK ] generated and stored user key "UAI4GEVML4D4EIZ4G2UTBURGLBFDZPVARLAX2NOCDB7PHJFBLO54MXRS"
 [ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/APP1/app1.creds`
 [ OK ] added user "app1" to account "APP1"
-[ OK ] generated and stored user key "UCLWPUUA2BTUVVM7XBUDJQZA4G52O7XJBZODPHLOVFQ6IXI6CYM2XJCN"
+[ OK ] generated and stored user key "UDHFJHSS6IZX4FRQFFC22O6SPJJB4XQC65465URV6LG4DHN2RLVMOK7H"
 [ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/APP2/app2.creds`
 [ OK ] added user "app2" to account "APP2"
-19:30:39 Published 15 bytes to "test"
-19:30:39 Published 15 bytes to "test"
-[ OK ] generated and stored account key "ADGHPZKVTHHU4E6WKC2SXVI7JUEHDOQHTRG3VEKPVSONYCCZ5SWIEQ47"
+23:48:35 Published 15 bytes to "test"
+23:48:35 Published 15 bytes to "test"
+[ OK ] generated and stored account key "ACDRUOHNAOZPFFEEARICY7JOQHDSA7IXKNDUFLBYDDAA4HNV7COA5AQ2"
 [ OK ] added account "AUTH"
-[ OK ] added signing key "ADKBJ7UDVMVTOPED7IXNYMTD6IASSD5UKSGDHYDBCSYBWIFRXG6OUBJ6"
+[ OK ] added signing key "AAFBJZUTVT67FPW6KMPTCME6BCBHUGOOZU6RBRTF547JVI67XXF2I74D"
 [ OK ] edited account "AUTH"
-[ OK ] generated and stored user key "UDZANJLUPZQBIHY6OBC7BDPDQLGGPBA2NFWCD5D4UHOLPRPWDV52CXHN"
+[ OK ] generated and stored user key "UDPB2E4WLWCVCPY35SZOB3NPDHEZHGQB5AO5JGWDOS5KOLQ4WBL72WM4"
 [ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/AUTH/auth.creds`
 [ OK ] added user "auth" to account "AUTH"
-[ OK ] added user "UDZANJLUPZQBIHY6OBC7BDPDQLGGPBA2NFWCD5D4UHOLPRPWDV52CXHN"
+[ OK ] added user "UDPB2E4WLWCVCPY35SZOB3NPDHEZHGQB5AO5JGWDOS5KOLQ4WBL72WM4"
 [ OK ] added account "*"
-[ OK ] set curve key XC6EEPFGEHLZZ2Q45G3XYUD7FBU5WTYQLU4BOUO2AYM2MDMUAD3RXL2C
+[ OK ] set curve key XB6NPIBJS3CRPUSC65SNPPPFKGK2ZHY47XG6JUN332MNRIJVVR4QTS6L
 [ OK ] push to nats-server "nats://localhost:4222" using system account "SYS":
        [ OK ] push APP1 to nats-server with nats account resolver:
-              [ OK ] pushed "APP1" to nats-server NCQCZSICC22MKDYHNEDDISR6Q6YHZ23SQSSLO2RAUJ2XCTRKPKSXKTPX: jwt updated
+              [ OK ] pushed "APP1" to nats-server NBXNZSWBJWL2KM3PXU5LJOWJK7FX3HBFUS7XGNR75VTZZ33EHTE2HFDJ: jwt updated
               [ OK ] pushed to a total of 1 nats-server
        [ OK ] push APP2 to nats-server with nats account resolver:
-              [ OK ] pushed "APP2" to nats-server NCQCZSICC22MKDYHNEDDISR6Q6YHZ23SQSSLO2RAUJ2XCTRKPKSXKTPX: jwt updated
+              [ OK ] pushed "APP2" to nats-server NBXNZSWBJWL2KM3PXU5LJOWJK7FX3HBFUS7XGNR75VTZZ33EHTE2HFDJ: jwt updated
               [ OK ] pushed to a total of 1 nats-server
        [ OK ] push AUTH to nats-server with nats account resolver:
-              [ OK ] pushed "AUTH" to nats-server NCQCZSICC22MKDYHNEDDISR6Q6YHZ23SQSSLO2RAUJ2XCTRKPKSXKTPX: jwt updated
+              [ OK ] pushed "AUTH" to nats-server NBXNZSWBJWL2KM3PXU5LJOWJK7FX3HBFUS7XGNR75VTZZ33EHTE2HFDJ: jwt updated
               [ OK ] pushed to a total of 1 nats-server
        [ OK ] push SYS to nats-server with nats account resolver:
-              [ OK ] pushed "SYS" to nats-server NCQCZSICC22MKDYHNEDDISR6Q6YHZ23SQSSLO2RAUJ2XCTRKPKSXKTPX: jwt updated
+              [ OK ] pushed "SYS" to nats-server NBXNZSWBJWL2KM3PXU5LJOWJK7FX3HBFUS7XGNR75VTZZ33EHTE2HFDJ: jwt updated
               [ OK ] pushed to a total of 1 nats-server
-19:30:46 Published 15 bytes to "test"
-19:30:46 Published 15 bytes to "test"
+23:48:41 Published 15 bytes to "test"
+23:48:41 Published 15 bytes to "test"
 Starting auth callout service...
 [ OK ] added deny pub ">"
 [ OK ] added deny sub ">"
-[ OK ] generated and stored user key "UCHW2DVE6TZ3XYBU435BEGLVLNGVMZGSXEARFXS7GAZTKDN6MO53OC7E"
+[ OK ] generated and stored user key "UCNHICOGI56RCKQ7QXQJCP6CFZ23OBGW35D7PKZYF7MCCKX4XSGZ3A42"
 [ OK ] generated user creds file `~/.local/share/nats/nsc/keys/creds/local/AUTH/sentinel.creds`
 [ OK ] added user "sentinel" to account "AUTH"
 Client request from alice...
+2026/11/19 23:48:43 responding to authorization request
+2026/11/19 23:48:43 alice connected to nats://127.0.0.1:4222
 Client request from bob...
-2023/10/23 19:30:48 responding to authorization request
-2023/10/23 19:30:48 alice connected to nats://127.0.0.1:4222
-2023/10/23 19:30:48 responding to authorization request
-2023/10/23 19:30:48 bob connected to nats://127.0.0.1:4222
+2026/11/19 23:48:43 responding to authorization request
+2026/11/19 23:48:43 bob connected to nats://127.0.0.1:4222

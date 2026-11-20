@@ -30,17 +30,19 @@ nsc add user --account APP user
 nsc env
 
 # The `nats` CLI provides a way to manage different _contexts_ by name.
-# Here we define the server and the credentials (via `nsc` integration)
+# Here we define the server and the credentials (the files `nsc` manages)
 # (notice the operator/account/user hierarchy).
 # We save two one for the main server and one for the leaf node. Note
 # how didn't provide credentials for the leaf node..
+NSC_CREDS="$HOME/.local/share/nats/nsc/keys/creds/local"
+
 nats context save main-user \
   --server "$NATS_MAIN_URL" \
-  --nsc nsc://local/APP/user 
+  --creds "$NSC_CREDS/APP/user.creds"
 
 nats context save main-sys \
   --server "$NATS_MAIN_URL" \
-  --nsc nsc://local/SYS/sys
+  --creds "$NSC_CREDS/SYS/sys.creds"
 
 nats context save leaf-user \
   --server "$NATS_LEAF_URL"
