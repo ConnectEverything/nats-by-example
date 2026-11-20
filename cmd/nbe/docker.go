@@ -9,7 +9,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"strings"
 	"time"
 
 	"github.com/google/uuid"
@@ -76,8 +75,13 @@ func copyDirContents(src, dst string) error {
 		if err != nil {
 			return err
 		}
-		_, err = io.Copy(df, sf)
-		return err
+		if _, err := io.Copy(df, sf); err != nil {
+			df.Close()
+			return err
+		}
+		// Close before the build context is used or removed: Windows
+		// cannot delete files that are still open.
+		return df.Close()
 	})
 }
 
@@ -110,13 +114,13 @@ func (r *ImageBuilder) Run() (string, error) {
 		stderr = os.Stderr
 	}
 
-	example := r.Example
-	if !strings.HasPrefix(example, "examples/") {
-		example = filepath.Join("examples", example)
+	example := examplePath(r.Example)
+	if err := checkExampleDirs(r.Repo, example); err != nil {
+		return "", err
 	}
 
-	clientDir := filepath.Join(r.Repo, example)
-	lang := filepath.Base(example)
+	clientDir := filepath.Join(r.Repo, filepath.FromSlash(example))
+	lang := filepath.Base(clientDir)
 
 	var uid string
 	if r.Name != "" {
@@ -125,8 +129,8 @@ func (r *ImageBuilder) Run() (string, error) {
 		uid = uuid.New().String()[:8]
 	}
 
-	imageTag := fmt.Sprintf("%s:%s", filepath.Join("nbe", r.Example), uid)
-	imageTag = strings.Replace(imageTag, "\\", "/", -1) // when running on windows filepath use backslash, but this is executing on docker in unix.
+	// Image names always use forward slashes, whatever the host OS.
+	imageTag := fmt.Sprintf("nbe/%s:%s", slashPath(r.Example), uid)
 
 	defaultDir := filepath.Join(r.Repo, "docker", lang)
 
@@ -230,14 +234,14 @@ func (r *ComposeRunner) Run(imageTag string) error {
 		stderr = os.Stderr
 	}
 
-	example := r.Example
-	if !strings.HasPrefix(example, "examples/") {
-		example = filepath.Join("examples", example)
+	example := examplePath(r.Example)
+	if err := checkExampleDirs(r.Repo, example); err != nil {
+		return err
 	}
 
-	clientDir := filepath.Join(r.Repo, example)
+	clientDir := filepath.Join(r.Repo, filepath.FromSlash(example))
 	exampleDir := filepath.Dir(clientDir)
-	lang := filepath.Base(example)
+	lang := filepath.Base(clientDir)
 
 	// Check client directory first, fallback to example directory, then
 	// the language directory, finally the defaults.
@@ -396,8 +400,10 @@ func (r *ComposeRunner) Run(imageTag string) error {
 	case err := <-done:
 		return err
 	case <-time.After(dur):
+		// Interrupt lets compose stop the containers; Windows does not
+		// support sending it, so kill the process there instead.
 		if err := cmd.Process.Signal(os.Interrupt); err != nil {
-			return fmt.Errorf("timeout (%s): %w", dur, err)
+			cmd.Process.Kill()
 		}
 		// Give compose a moment to stop the container before moving on.
 		select {

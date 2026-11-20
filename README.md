@@ -24,11 +24,12 @@ When you want to actually execute the example code, you need to:
 Install [Docker](https://docs.docker.com/) and [Compose](https://docs.docker.com/compose/) (if you do not have them installed).
 
 1. Clone this repository.
-2. Download the [nbe](https://github.com/ConnectEverything/nats-by-example/releases) CLI and extract the binary to the root of the cloned repository.
-3. Run the command with an example you want to try at the root of the repo:
+2. Download the [nbe](https://github.com/ConnectEverything/nats-by-example/releases) CLI (or `go install ./cmd/nbe`) and put it on your `PATH`.
+3. From anywhere inside the cloned repository, run the example you want to try:
 ```sh
 $ nbe run messaging/pub-sub/cli
 ```
+Example paths are relative to the `examples/` directory, or to your current directory when you are inside it. On Windows, either `/` or `\` works (`nbe run messaging\pub-sub\cli`).
 This will run the NATS CLI implementation of the [core publish-subscribe example](https://natsbyexample.com/examples/messaging/pub-sub/cli/) in a set of containers.
 
 If everything is ok, you will see this output in console (timestamp will be different):

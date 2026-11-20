@@ -79,6 +79,7 @@ func resolveVerifyTargets(repo string, args []string) ([]string, error) {
 	}
 	seen := map[string]struct{}{}
 	for _, a := range args {
+		a = slashPath(a)
 		var pattern string
 		switch {
 		case a == "all":
