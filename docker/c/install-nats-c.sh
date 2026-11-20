@@ -1,4 +1,8 @@
-rel=$(curl -s https://api.github.com/repos/nats-io/nats.c/releases/latest | jq -r '.tag_name')
+set -euo pipefail
+
+# Pinned so builds are reproducible and don't depend on the (rate-limited)
+# GitHub API. Bump deliberately and verify with `nbe verify c`.
+rel="${NATS_C_VERSION:-v3.15.0}"
 wget https://github.com/nats-io/nats.c/archive/refs/tags/${rel}.tar.gz
 tar -xzf ${rel}.tar.gz
 cd nats.c-${rel#v}
@@ -11,5 +15,3 @@ cmake \
     ..
 make
 make install
-
-

@@ -81,7 +81,10 @@ int main()
     // Groups serve as namespaces and are used as a subject prefix when endpoints
     // don't supply fixed subjects. In this case, all endpoints will be listening
     // on a subject that starts with `func.`.
-    if ((err = microService_AddGroup(&grp, svc, "func")) != NULL)
+    microGroupConfig grpConfig = {
+        .Prefix = "func",
+    };
+    if ((err = microService_AddGroup(&grp, svc, &grpConfig)) != NULL)
         goto _cleanup;
 
     // Add three endpoints to the service: `min`, `max`, and `average`. Each
@@ -193,7 +196,7 @@ static microError *handler(microRequest *req)
     }
     average /= line;
 
-    intptr_t mode = microRequest_GetEndpointState(req);
+    intptr_t mode = (intptr_t)microRequest_GetEndpointState(req);
     switch (mode)
     {
     case MODE_MIN:
